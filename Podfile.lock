@@ -1,0 +1,53 @@
+PODS:
+  - Alamofire (5.4.3)
+  - FSCalendar (2.8.2)
+  - IQKeyboardManager (6.5.6)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - Moya/RxSwift (14.0.0):
+    - Moya/Core
+    - RxSwift (~> 5.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.2)
+  - TwilioVideo (4.4.0)
+  - XLPagerTabStrip (9.0.0)
+
+DEPENDENCIES:
+  - FSCalendar
+  - IQKeyboardManager
+  - Moya/RxSwift (~> 14.0)
+  - RxCocoa (~> 5)
+  - RxSwift (~> 5)
+  - TwilioVideo
+  - XLPagerTabStrip
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - FSCalendar
+    - IQKeyboardManager
+    - Moya
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - TwilioVideo
+    - XLPagerTabStrip
+
+SPEC CHECKSUMS:
+  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  FSCalendar: e6a2eb9c571bf0719ed797ef807e08426753c241
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
+  TwilioVideo: fcf10b7460e582570887d194b73e75425685d813
+  XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
+
+PODFILE CHECKSUM: 7959beb0eeb8854dd4228d2ab1700e59cd279407
+
+COCOAPODS: 1.10.2
