@@ -18,6 +18,7 @@ pod 'XLPagerTabStrip'
 pod 'TwilioVideo'
 #pod 'TwilioVideo', '~> 4.4'
   # Pods for TLClientApp
+pod 'TwilioVoice', '~> 6.2.0'
 
   target 'TLClientAppTests' do
     inherit! :search_paths

@@ -8,7 +8,9 @@
 import Foundation
 import UIKit
 class LanguageVM {
+    
     var lanuageList = LanguageList()
+    
     func languageData(complitionBlock: @escaping(LanguageList?, Error?) -> ()){
         
         WebServices.get(url: APi.languagedata.url) { (response, _) in

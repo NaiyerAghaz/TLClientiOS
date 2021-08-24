@@ -14,6 +14,7 @@ PODS:
     - RxSwift (~> 5)
   - RxSwift (5.1.2)
   - TwilioVideo (4.4.0)
+  - TwilioVoice (6.2.2)
   - XLPagerTabStrip (9.0.0)
 
 DEPENDENCIES:
@@ -23,6 +24,7 @@ DEPENDENCIES:
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
   - TwilioVideo
+  - TwilioVoice (~> 6.2.0)
   - XLPagerTabStrip
 
 SPEC REPOS:
@@ -35,6 +37,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - TwilioVideo
+    - TwilioVoice
     - XLPagerTabStrip
 
 SPEC CHECKSUMS:
@@ -46,8 +49,9 @@ SPEC CHECKSUMS:
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
   TwilioVideo: fcf10b7460e582570887d194b73e75425685d813
+  TwilioVoice: f31bf7cd026fd0a72b102345d29d920be71a2290
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
-PODFILE CHECKSUM: 7959beb0eeb8854dd4228d2ab1700e59cd279407
+PODFILE CHECKSUM: e66513037c349781334de701c925c9df4264a465
 
 COCOAPODS: 1.10.2

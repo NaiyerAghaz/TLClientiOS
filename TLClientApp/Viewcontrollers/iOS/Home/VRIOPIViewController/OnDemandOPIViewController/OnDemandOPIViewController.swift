@@ -24,7 +24,6 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
         super.viewDidLoad()
         self.view.backgroundColor = .red
         uiUpdate()
-        // Do any additional setup after loading the view.
     }
     public func uiUpdate(){
         txtTargetlanguage.delegate = self
@@ -78,6 +77,9 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
         let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
+            let vc = OnDemandCallInfoController.instantiate(from: .Home)
+            vc.modalPresentationStyle = .overCurrentContext
+            self.PRESENT(vc, false)
             
         }
         else {

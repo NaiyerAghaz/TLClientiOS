@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		048007BD26D3B9FF00E9E2FB /* OPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */; };
+		04DCB7AE26D3A66F003A99E1 /* MyUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB78426D3A66E003A99E1 /* MyUtility.swift */; };
+		04DCB7B026D3A66F003A99E1 /* SKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB78826D3A66E003A99E1 /* SKButton.swift */; };
+		04DCB7B126D3A66F003A99E1 /* SKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB78A26D3A66E003A99E1 /* SKTextField.swift */; };
+		04DCB7B226D3A66F003A99E1 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB78C26D3A66E003A99E1 /* Spinner.swift */; };
+		04DCB7B326D3A66F003A99E1 /* SKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB78E26D3A66E003A99E1 /* SKView.swift */; };
+		04DCB7B426D3A66F003A99E1 /* SKTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79026D3A66E003A99E1 /* SKTextView.swift */; };
+		04DCB7B526D3A66F003A99E1 /* CollectioView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79326D3A66E003A99E1 /* CollectioView+Extension.swift */; };
+		04DCB7B626D3A66F003A99E1 /* DequeuableRegistrable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79426D3A66E003A99E1 /* DequeuableRegistrable.swift */; };
+		04DCB7B726D3A66F003A99E1 /* Controller+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79626D3A66E003A99E1 /* Controller+Ext.swift */; };
+		04DCB7B826D3A66F003A99E1 /* AppleCALayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79826D3A66E003A99E1 /* AppleCALayer.swift */; };
+		04DCB7B926D3A66F003A99E1 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79A26D3A66E003A99E1 /* Navigation+Extension.swift */; };
+		04DCB7BA26D3A66F003A99E1 /* Optional+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79C26D3A66E003A99E1 /* Optional+Ext.swift */; };
+		04DCB7BB26D3A66F003A99E1 /* Image+Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79E26D3A66E003A99E1 /* Image+Letters.swift */; };
+		04DCB7BC26D3A66F003A99E1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB79F26D3A66E003A99E1 /* UIImage+Extension.swift */; };
+		04DCB7BD26D3A66F003A99E1 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7A126D3A66E003A99E1 /* Date+Extension.swift */; };
+		04DCB7BE26D3A66F003A99E1 /* DataType+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7A326D3A66E003A99E1 /* DataType+Ext.swift */; };
+		04DCB7BF26D3A66F003A99E1 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7A526D3A66E003A99E1 /* String+Ext.swift */; };
+		04DCB7C026D3A66F003A99E1 /* NSUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7A726D3A66E003A99E1 /* NSUserDefaults.swift */; };
+		04DCB7C126D3A66F003A99E1 /* LogPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7A926D3A66E003A99E1 /* LogPrint.swift */; };
+		04DCB7C226D3A66F003A99E1 /* SKImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7AB26D3A66E003A99E1 /* SKImagePicker.swift */; };
+		04DCB7C326D3A66F003A99E1 /* SKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7AD26D3A66F003A99E1 /* SKLabel.swift */; };
+		04DCB7C526D3AE3C003A99E1 /* OnDemandCallInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCB7C426D3AE3C003A99E1 /* OnDemandCallInfoController.swift */; };
 		0734C230DD81E749DCB11388 /* Pods_TLClientAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */; };
 		0AD9728ACF99C695904AD46C /* Pods_TLClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7175F38E6A47EB062D2D2BDB /* Pods_TLClientApp.framework */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
@@ -78,6 +101,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPIViewController.swift; sourceTree = "<group>"; };
+		04DCB78426D3A66E003A99E1 /* MyUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtility.swift; sourceTree = "<group>"; };
+		04DCB78826D3A66E003A99E1 /* SKButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButton.swift; sourceTree = "<group>"; };
+		04DCB78A26D3A66E003A99E1 /* SKTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTextField.swift; sourceTree = "<group>"; };
+		04DCB78C26D3A66E003A99E1 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
+		04DCB78E26D3A66E003A99E1 /* SKView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKView.swift; sourceTree = "<group>"; };
+		04DCB79026D3A66E003A99E1 /* SKTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTextView.swift; sourceTree = "<group>"; };
+		04DCB79326D3A66E003A99E1 /* CollectioView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectioView+Extension.swift"; sourceTree = "<group>"; };
+		04DCB79426D3A66E003A99E1 /* DequeuableRegistrable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DequeuableRegistrable.swift; sourceTree = "<group>"; };
+		04DCB79626D3A66E003A99E1 /* Controller+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Controller+Ext.swift"; sourceTree = "<group>"; };
+		04DCB79826D3A66E003A99E1 /* AppleCALayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleCALayer.swift; sourceTree = "<group>"; };
+		04DCB79A26D3A66E003A99E1 /* Navigation+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
+		04DCB79C26D3A66E003A99E1 /* Optional+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+Ext.swift"; sourceTree = "<group>"; };
+		04DCB79E26D3A66E003A99E1 /* Image+Letters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Letters.swift"; sourceTree = "<group>"; };
+		04DCB79F26D3A66E003A99E1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		04DCB7A126D3A66E003A99E1 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		04DCB7A326D3A66E003A99E1 /* DataType+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataType+Ext.swift"; sourceTree = "<group>"; };
+		04DCB7A526D3A66E003A99E1 /* String+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		04DCB7A726D3A66E003A99E1 /* NSUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUserDefaults.swift; sourceTree = "<group>"; };
+		04DCB7A926D3A66E003A99E1 /* LogPrint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogPrint.swift; sourceTree = "<group>"; };
+		04DCB7AB26D3A66E003A99E1 /* SKImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKImagePicker.swift; sourceTree = "<group>"; };
+		04DCB7AD26D3A66F003A99E1 /* SKLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKLabel.swift; sourceTree = "<group>"; };
+		04DCB7C426D3AE3C003A99E1 /* OnDemandCallInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDemandCallInfoController.swift; sourceTree = "<group>"; };
 		3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientApp_TLClientAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50963BC388A4FE8B123C6D8B /* Pods-TLClientApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp.debug.xcconfig"; path = "Target Support Files/Pods-TLClientApp/Pods-TLClientApp.debug.xcconfig"; sourceTree = "<group>"; };
 		685003B7CBCB0EBE976CE665 /* Pods-TLClientApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp.release.xcconfig"; path = "Target Support Files/Pods-TLClientApp/Pods-TLClientApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +218,194 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04DCB78226D3A66E003A99E1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB78326D3A66E003A99E1 /* MyUtility */,
+				04DCB78726D3A66E003A99E1 /* SKButton */,
+				04DCB78926D3A66E003A99E1 /* SKTextField */,
+				04DCB78B26D3A66E003A99E1 /* Spinner */,
+				04DCB78D26D3A66E003A99E1 /* SKView */,
+				04DCB78F26D3A66E003A99E1 /* SKTextView */,
+				04DCB79126D3A66E003A99E1 /* Extensions */,
+				04DCB7A626D3A66E003A99E1 /* NSUserDefaults */,
+				04DCB7A826D3A66E003A99E1 /* LogPrint */,
+				04DCB7AA26D3A66E003A99E1 /* SKImagePicker */,
+				04DCB7AC26D3A66F003A99E1 /* SKLabel */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		04DCB78326D3A66E003A99E1 /* MyUtility */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB78426D3A66E003A99E1 /* MyUtility.swift */,
+			);
+			path = MyUtility;
+			sourceTree = "<group>";
+		};
+		04DCB78726D3A66E003A99E1 /* SKButton */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB78826D3A66E003A99E1 /* SKButton.swift */,
+			);
+			path = SKButton;
+			sourceTree = "<group>";
+		};
+		04DCB78926D3A66E003A99E1 /* SKTextField */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB78A26D3A66E003A99E1 /* SKTextField.swift */,
+			);
+			path = SKTextField;
+			sourceTree = "<group>";
+		};
+		04DCB78B26D3A66E003A99E1 /* Spinner */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB78C26D3A66E003A99E1 /* Spinner.swift */,
+			);
+			path = Spinner;
+			sourceTree = "<group>";
+		};
+		04DCB78D26D3A66E003A99E1 /* SKView */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB78E26D3A66E003A99E1 /* SKView.swift */,
+			);
+			path = SKView;
+			sourceTree = "<group>";
+		};
+		04DCB78F26D3A66E003A99E1 /* SKTextView */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79026D3A66E003A99E1 /* SKTextView.swift */,
+			);
+			path = SKTextView;
+			sourceTree = "<group>";
+		};
+		04DCB79126D3A66E003A99E1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79226D3A66E003A99E1 /* DequeableRegisterable */,
+				04DCB79526D3A66E003A99E1 /* Controller+Extension */,
+				04DCB79726D3A66E003A99E1 /* AppleCALayer */,
+				04DCB79926D3A66E003A99E1 /* Navigation */,
+				04DCB79B26D3A66E003A99E1 /* Optional+Ext */,
+				04DCB79D26D3A66E003A99E1 /* AppleImage */,
+				04DCB7A026D3A66E003A99E1 /* DateExtension */,
+				04DCB7A226D3A66E003A99E1 /* DataType+Extension */,
+				04DCB7A426D3A66E003A99E1 /* String+Extension */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		04DCB79226D3A66E003A99E1 /* DequeableRegisterable */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79326D3A66E003A99E1 /* CollectioView+Extension.swift */,
+				04DCB79426D3A66E003A99E1 /* DequeuableRegistrable.swift */,
+			);
+			path = DequeableRegisterable;
+			sourceTree = "<group>";
+		};
+		04DCB79526D3A66E003A99E1 /* Controller+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79626D3A66E003A99E1 /* Controller+Ext.swift */,
+			);
+			path = "Controller+Extension";
+			sourceTree = "<group>";
+		};
+		04DCB79726D3A66E003A99E1 /* AppleCALayer */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79826D3A66E003A99E1 /* AppleCALayer.swift */,
+			);
+			path = AppleCALayer;
+			sourceTree = "<group>";
+		};
+		04DCB79926D3A66E003A99E1 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79A26D3A66E003A99E1 /* Navigation+Extension.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		04DCB79B26D3A66E003A99E1 /* Optional+Ext */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79C26D3A66E003A99E1 /* Optional+Ext.swift */,
+			);
+			path = "Optional+Ext";
+			sourceTree = "<group>";
+		};
+		04DCB79D26D3A66E003A99E1 /* AppleImage */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB79E26D3A66E003A99E1 /* Image+Letters.swift */,
+				04DCB79F26D3A66E003A99E1 /* UIImage+Extension.swift */,
+			);
+			path = AppleImage;
+			sourceTree = "<group>";
+		};
+		04DCB7A026D3A66E003A99E1 /* DateExtension */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7A126D3A66E003A99E1 /* Date+Extension.swift */,
+			);
+			path = DateExtension;
+			sourceTree = "<group>";
+		};
+		04DCB7A226D3A66E003A99E1 /* DataType+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7A326D3A66E003A99E1 /* DataType+Ext.swift */,
+			);
+			path = "DataType+Extension";
+			sourceTree = "<group>";
+		};
+		04DCB7A426D3A66E003A99E1 /* String+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7A526D3A66E003A99E1 /* String+Ext.swift */,
+			);
+			path = "String+Extension";
+			sourceTree = "<group>";
+		};
+		04DCB7A626D3A66E003A99E1 /* NSUserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7A726D3A66E003A99E1 /* NSUserDefaults.swift */,
+			);
+			path = NSUserDefaults;
+			sourceTree = "<group>";
+		};
+		04DCB7A826D3A66E003A99E1 /* LogPrint */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7A926D3A66E003A99E1 /* LogPrint.swift */,
+			);
+			path = LogPrint;
+			sourceTree = "<group>";
+		};
+		04DCB7AA26D3A66E003A99E1 /* SKImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7AB26D3A66E003A99E1 /* SKImagePicker.swift */,
+			);
+			path = SKImagePicker;
+			sourceTree = "<group>";
+		};
+		04DCB7AC26D3A66F003A99E1 /* SKLabel */ = {
+			isa = PBXGroup;
+			children = (
+				04DCB7AD26D3A66F003A99E1 /* SKLabel.swift */,
+			);
+			path = SKLabel;
+			sourceTree = "<group>";
+		};
 		78D55CABACDA4EDE037C40F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +562,7 @@
 		CE74B2C526BE6A69008BBA8C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				04DCB78226D3A66E003A99E1 /* Utils */,
 				CE74B2D626BEFA1D008BBA8C /* ACFloatingTextfield.swift */,
 				CE74B2D826BEFA27008BBA8C /* Toast.swift */,
 				CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */,
@@ -405,6 +640,8 @@
 			isa = PBXGroup;
 			children = (
 				CE76024726CF778800550B68 /* OnDemandOPIViewController.swift */,
+				04DCB7C426D3AE3C003A99E1 /* OnDemandCallInfoController.swift */,
+				048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */,
 			);
 			path = OnDemandOPIViewController;
 			sourceTree = "<group>";
@@ -688,17 +925,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DCB7B526D3A66F003A99E1 /* CollectioView+Extension.swift in Sources */,
+				04DCB7C526D3AE3C003A99E1 /* OnDemandCallInfoController.swift in Sources */,
+				04DCB7B426D3A66F003A99E1 /* SKTextView.swift in Sources */,
 				CE74B2E126C0758D008BBA8C /* CommonClass.swift in Sources */,
 				CE2704B026BCE7BE00009E77 /* TLClientApp.xcdatamodeld in Sources */,
+				04DCB7C226D3A66F003A99E1 /* SKImagePicker.swift in Sources */,
 				CE3FE08D26C90210000BD19F /* CalendarTVCell.swift in Sources */,
 				CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */,
 				CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */,
+				04DCB7BF26D3A66F003A99E1 /* String+Ext.swift in Sources */,
+				04DCB7B726D3A66F003A99E1 /* Controller+Ext.swift in Sources */,
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
+				04DCB7B026D3A66F003A99E1 /* SKButton.swift in Sources */,
 				CE76024E26CF781500550B68 /* ScheduledOPIViewController.swift in Sources */,
 				CE74B2DB26C02520008BBA8C /* AuthServices.swift in Sources */,
+				04DCB7C326D3A66F003A99E1 /* SKLabel.swift in Sources */,
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
 				CEB2569426C23799007A951E /* APIServices.swift in Sources */,
 				CE0DDFFA26D15A34003D4FC7 /* StatusModel.swift in Sources */,
+				04DCB7B926D3A66F003A99E1 /* Navigation+Extension.swift in Sources */,
+				04DCB7BC26D3A66F003A99E1 /* UIImage+Extension.swift in Sources */,
 				CE74B2B426BE5590008BBA8C /* InitialLoginVC.swift in Sources */,
 				CE74B2D526BEFA0B008BBA8C /* SwiftLoader.swift in Sources */,
 				CE74B2C726BE6A87008BBA8C /* Constant.swift in Sources */,
@@ -707,22 +954,35 @@
 				CE3FE08626C80A6F000BD19F /* HomeViewController.swift in Sources */,
 				CE74B2D926BEFA27008BBA8C /* Toast.swift in Sources */,
 				CE2704AA26BCE7BE00009E77 /* ViewController.swift in Sources */,
+				04DCB7C126D3A66F003A99E1 /* LogPrint.swift in Sources */,
+				04DCB7BD26D3A66F003A99E1 /* Date+Extension.swift in Sources */,
+				04DCB7B626D3A66F003A99E1 /* DequeuableRegistrable.swift in Sources */,
 				CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */,
 				CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */,
 				CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */,
 				CE76024B26CF77D300550B68 /* ScheduledVRIVIewController.swift in Sources */,
 				CE76024526CF772300550B68 /* OnDemandVRIViewController.swift in Sources */,
+				04DCB7B126D3A66F003A99E1 /* SKTextField.swift in Sources */,
+				04DCB7C026D3A66F003A99E1 /* NSUserDefaults.swift in Sources */,
 				CE74B2D326BEEDC8008BBA8C /* LoginViewModel.swift in Sources */,
 				CE951DB626C6383500EC1BCA /* ForgotModel.swift in Sources */,
 				CE74B2CD26BE7DB5008BBA8C /* Storyboard+.swift in Sources */,
+				04DCB7BE26D3A66F003A99E1 /* DataType+Ext.swift in Sources */,
+				04DCB7B826D3A66F003A99E1 /* AppleCALayer.swift in Sources */,
 				CE74B2DF26C046FA008BBA8C /* LoginModel.swift in Sources */,
 				CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */,
 				CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */,
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
+				04DCB7AE26D3A66F003A99E1 /* MyUtility.swift in Sources */,
 				CE74B2DD26C026D1008BBA8C /* API.swift in Sources */,
+				04DCB7B326D3A66F003A99E1 /* SKView.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
+				04DCB7BB26D3A66F003A99E1 /* Image+Letters.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
+				048007BD26D3B9FF00E9E2FB /* OPIViewController.swift in Sources */,
+				04DCB7B226D3A66F003A99E1 /* Spinner.swift in Sources */,
+				04DCB7BA26D3A66F003A99E1 /* Optional+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
