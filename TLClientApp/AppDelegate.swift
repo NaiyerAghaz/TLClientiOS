@@ -8,15 +8,22 @@
 import UIKit
 import CoreData
 import IQKeyboardManager
+import FirebaseMessaging
+import UserNotifications
+import Messages
+import Firebase
 
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
+        FirebaseApp.configure()
+        
+        registerNotification(app: application)
         // Override point for customization after application launch.
         return true
     }
@@ -80,6 +87,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    // Register for FCM notification
+    
+    public func registerNotification(app: UIApplication){
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
 
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+          )
+        } else {
+          let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            app.registerUserNotificationSettings(settings)
+        }
+
+        app.registerForRemoteNotifications()
+    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().token { token, error in
+          if let error = error {
+            print("Error fetching FCM registration token: \(error)")
+          } else if let token = token {
+            print("FCM registration token: \(token)")
+          //  let fcmToken = Data("\(token)".utf8)
+            userDefaults.setValue(token, forKey: "fcmToken")
+            //keychainServices.save(key: "fcmtoken", data: fcmToken)
+          }
+        }
+        //or
+        /*
+         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+         print("dtoken=", deviceTokenString)
+     Messaging.messaging().apnsToken = deviceToken**/
+    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("userInfo------>",userInfo)
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("will not generate in simulator", error.localizedDescription)
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print(notification)
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print(completionHandler)
+    }
+   
 }
 

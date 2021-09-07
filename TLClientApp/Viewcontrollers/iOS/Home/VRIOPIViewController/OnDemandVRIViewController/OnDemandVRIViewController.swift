@@ -15,6 +15,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     var vriPickerView = UIPickerView()
     var sourceLang = true
     var languageViewModel = LanguageVM()
+    
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
     {
         
@@ -34,6 +35,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         languageViewModel.languageData { list, err in
             if err == nil {
                 self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
+                print("count-------->",self.languageViewModel.languageListArr.count, "-------->",self.languageViewModel.languageListArr[4].LanguageName)
                
             }
           }
@@ -78,7 +80,15 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
+            let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+            let vcontrol = callVC.instantiateViewController(identifier: "CallingPopupVC") as! CallingPopupVC
+            vcontrol.modalPresentationStyle = .overFullScreen
             
+            vcontrol.sourceID = languageViewModel.getSournceSelectedLID(stlanguage: txtSourceLanguage.text!)
+            vcontrol.sourceName = txtSourceLanguage.text!
+            vcontrol.targetID = languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!)
+            vcontrol.targetName = txtTargetlanguage.text!
+            self.present(vcontrol, animated: true, completion: nil)
         }
         else {
             self.view.makeToast(validate.error, duration: 1, position: .center)

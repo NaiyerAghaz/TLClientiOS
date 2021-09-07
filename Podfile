@@ -17,6 +17,10 @@ pod 'XLPagerTabStrip'
 #https://github.com/xmartlabs/XLPagerTabStrip
 pod 'TwilioVideo'
 #pod 'TwilioVideo', '~> 4.4'
+pod 'TwilioVoice'
+#pod 'TwilioVoice', '~> 6.3.0'
+pod 'Firebase/Core'
+pod 'Firebase/Messaging'
   # Pods for TLClientApp
 
   target 'TLClientAppTests' do

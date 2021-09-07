@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func checkLoginStatus(){
         var initialViewController : UIViewController?
         var navigation = UINavigationController()
-        if keychainServices.getKeychaindata(key: "username") != nil && keychainServices.getKeychaindata(key: "password") != nil {
+        if  userDefaults.value(forKey: "username") != nil &&  userDefaults.value(forKey: "password") != nil {
             let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
 
             initialViewController = storyboard.instantiateViewController(identifier: "HomeViewController")
