@@ -17,8 +17,8 @@ import Firebase
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-
-
+    var inHouseValue, inBoostlingoValue, isBoostlingoAccess: String?
+    var slangNameAppdel, slangIDAppdel, tlangIDAppdel, tlangNameAppdel, tokenAppdel, initalCallType, roomIDAppdel, callTypeAppdel, patientnameAppdel, patientnoAppdel, myIDAppdel: String?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
         FirebaseApp.configure()
@@ -126,17 +126,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
      Messaging.messaging().apnsToken = deviceToken**/
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("userInfo------>",userInfo)
+        print("userInfo-------------------->",userInfo.values, "Info:", userInfo )
+        handleNotification(userInfo: userInfo)
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("will not generate in simulator", error.localizedDescription)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print(notification)
+        print("userInfo22-------------------->",notification )
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print(completionHandler)
     }
-   
+    func handleNotification(userInfo:[AnyHashable:Any]){
+        let type =  userInfo[AnyHashable("type")] as? String
+        let payload = userInfo[AnyHashable("payload")] as? String
+        
+        if type != nil {
+           // let dict = convertToDictionary(text: payload!)
+            if type == TypeNotification.notavailable.rawValue {
+                print("mytype--->", type)
+                if let roomNo = userInfo[AnyHashable("gcm.notification.Roomno")]  as? String {
+                    print("roommmm---->",roomNo)
+                    if roomNo == roomIDAppdel {
+                        
+                    }
+                }
+                
+                // CommonMethods.playSounds(audioName: "cyanping")
+               // let timeDisDict = NotificationsTimeForDistance(dictionary: dict!)
+                // let assignedJob = ApiJobListIncomming.JobAssignedDetail(dictionary: dict! as NSDictionary)
+                
+               /* if timeDisDict.valjob == 1 {
+                    //   NotificationCenter.default.post(name: Notification.Name("notificationRegularJob"), object: nil)
+                    /* vc.isValidateStatus = true
+                     vc.jobAssignDic = jobAcceptData */
+                    CommonMethods.playSounds(audioName: "notification_driver")
+                    
+                    if let rootViewController = self.window!.rootViewController as? UINavigationController {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        
+                        if let vc = storyboard.instantiateViewController(withIdentifier: "RegularJobViewController") as? RegularJobViewController {
+                            let assignedJob = ApiJobListIncomming.JobAssignedDetail(dictionary: dict! as NSDictionary)
+                            print("assignedJob!!=",assignedJob)
+                            vc.jobAssignDriverDict = assignedJob
+                            vc.isFromNotification = true
+                            vc.jobId = assignedJob.id
+                            rootViewController.pushViewController(vc, animated: true)
+                        }
+                    }
+                }*/
+            
+            
+        }
+    }
+    }
 }
 

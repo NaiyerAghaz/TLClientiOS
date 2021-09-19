@@ -32,3 +32,7 @@ struct TokenUtils {
         return token
     }
 }
+enum TypeNotification: String {
+    
+    case notavailable = "notavailable"
+}

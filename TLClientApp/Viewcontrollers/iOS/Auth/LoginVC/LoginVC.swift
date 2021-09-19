@@ -83,16 +83,18 @@ class LoginVC: UIViewController {
                         if status == true {
                             userDefaults.set(self.userNameTF.text!, forKey:"username" )
                             userDefaults.set(self.passwordTF.text!, forKey: "password" )
+                            userDefaults.setValue(item.UserID, forKey: "userid")
+                            userDefaults.setValue(item.companyID, forKey: "companyID")
                             //keychainServices.save(key: "username", data: Data(self.userNameTF.text!.utf8))
                            // keychainServices.save(key: "password", data: Data(self.passwordTF.text!.utf8))
                             self.view.makeToast("You have logged in", duration: 1.0, position: .top)
                             if  keychainServices.getKeychaindata(key: "touchID") != nil {
                                 
-//                                self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
-//                                    if success == true {
-//
-//                                    }
-                               // }
+                                self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                    if success == true {
+
+                                    }
+                                }
                                 self.navigator.show(segue: .home(data: item), sender: self)
                                 
                             }
@@ -109,13 +111,13 @@ class LoginVC: UIViewController {
                                 let yes = UIAlertAction(title: "Yes", style: .destructive) { alert in
                                     self.btnFaceAndTouchID.isHidden = false
                                     userDefaults.set(true, forKey: "touchID" )
-                                    //keychainServices.save(key: "touchID", data: Data("true".utf8))
+                                    keychainServices.save(key: "touchID", data: Data("true".utf8))
                                     
-//                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
-//                                        if success == true {
-//                                           // self.navigator.show(segue: .home(data: item), sender: self)
-//                                        }
-//                                    }
+                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                        if success == true {
+                                           // self.navigator.show(segue: .home(data: item), sender: self)
+                                        }
+                                    }
                                     self.navigator.show(segue: .home(data: item), sender: self)
                                    
                                 }

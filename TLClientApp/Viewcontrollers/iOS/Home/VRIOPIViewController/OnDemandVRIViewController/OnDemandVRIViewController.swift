@@ -25,6 +25,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         super.viewDidLoad()
         self.view.backgroundColor = .red
         uiUpdate()
+        
         // Do any additional setup after loading the view.
     }
     public func uiUpdate(){
@@ -34,12 +35,15 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         txtSourceLanguage.inputView = vriPickerView
         languageViewModel.languageData { list, err in
             if err == nil {
-                self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
-                print("count-------->",self.languageViewModel.languageListArr.count, "-------->",self.languageViewModel.languageListArr[4].LanguageName)
+                self.txtSourceLanguage.text = "English"
+                //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
+//
                
             }
           }
     }
+    
+    //END------
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == txtSourceLanguage{
             sourceLang = true

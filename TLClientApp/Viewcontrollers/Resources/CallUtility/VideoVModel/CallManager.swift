@@ -52,29 +52,6 @@ class CallManagerVM {
             // Error handling
         }
         
-//        if  let url = URL(string: tokenURL) {
-//            WebServices.get(url: url) { json, response in
-//                print("json-->",json, "response------>",response)
-//            } failureHandler: { _, error in
-//                print("error.localizations")
-//            }
-
-//        if let url = URL(string: tokenURL) {
-//            let task = URLSession.shared.dataTask(with: url) {
-//                data, response, error in
-//                if error != nil {
-//                    Handler("", error)
-//                } else {
-//                    print("response-->",response)
-//                    if let responseString = String(data: data!, encoding: .utf8) {
-//                        Handler(responseString, nil)
-//                    }
-//                }
-//            }
-//            task.resume()
-//        }
-            
-       // }
     }
     
     func getTwilioWithCompletion(userID: String,deviceToken: Data,completionBlock: @escaping(Bool?) -> ()){
@@ -90,7 +67,47 @@ class CallManagerVM {
         
     }
     
+    func addAppCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
+        
+        ApiServices.shareInstace.getDataFromApi(url: APi.vricallstart.url, para: req) { response, err in
+            print("reponse---------->",response)
+            if response != nil {
+                completionHandler(true, nil)
+            }
+            else {
+                completionHandler(false, err)
+            }
+        }
+    }
     
+    func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String) -> [String: Any]{
+        var parameter:[String:Any] = [:]
+       /* if userDefaults.string(forKey: "companyID") == "38" {
+            parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":userDefaults.string(forKey: "userid") ?? "" ,"touserid":0,"statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":patientName,"patientno":patientNo,"Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","checkListFilters":"","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
+        }
+        else {*/
+            parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":userDefaults.string(forKey: "userid") ?? "" ,"touserid":0,"statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":"","patientno":"","Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
+        //}
+        
+        return parameter
+    }
+    func priorityReqAPI(LtargetId: String,Calltype:String,Slid: String) -> [String: Any] {
+        let parameter:[String:Any] = ["LId":LtargetId ,"UserId":userDefaults.string(forKey: "userid") ?? "","Calltype":Calltype ,"MembersType":"app" ,"Slid":Slid]
+        
+        return parameter
+    }
+    func priorityVideoCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
+        debugPrint("priorityPara--->", req)
+        ApiServices.shareInstace.getDataFromApi(url: APi.getVriVendorsbyLid.url, para: req) { response, err in
+            print("reponsegetVriVendorsbyLid:---------->",response)
+            if response != nil {
+                completionHandler(true, nil)
+            }
+            else {
+                completionHandler(false, err)
+            }
+        }
+    }
 }
 // MARK:- RemoteParticipantDelegate
 extension VideoCallViewController : RemoteParticipantDelegate {

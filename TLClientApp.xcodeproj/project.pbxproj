@@ -18,6 +18,10 @@
 		CE14E59926D4BBD8004E24AA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE14E59826D4BBD8004E24AA /* GoogleService-Info.plist */; };
 		CE1844AF26C38FA100E9E84E /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1844AE26C38FA100E9E84E /* Home.storyboard */; };
 		CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1844B026C3977100E9E84E /* TLCKeychain.swift */; };
+		CE1CA79326F70374007F6279 /* call.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE1CA79226F70374007F6279 /* call.gif */; };
+		CE1CA79526F716AC007F6279 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CA79426F716AC007F6279 /* iOSDevCenters+GIF.swift */; };
+		CE1CA79826F76396007F6279 /* MoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CA79726F76396007F6279 /* MoreCell.swift */; };
+		CE1CA79A26F7651A007F6279 /* MoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1CA79926F7651A007F6279 /* MoreCell.xib */; };
 		CE1D9C7426D603B500B4D8FE /* CallingPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1D9C7326D603B500B4D8FE /* CallingPopupVC.swift */; };
 		CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704A526BCE7BE00009E77 /* AppDelegate.swift */; };
 		CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704A726BCE7BE00009E77 /* SceneDelegate.swift */; };
@@ -102,6 +106,10 @@
 		CE14E59826D4BBD8004E24AA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE1844AE26C38FA100E9E84E /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CE1844B026C3977100E9E84E /* TLCKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLCKeychain.swift; sourceTree = "<group>"; };
+		CE1CA79226F70374007F6279 /* call.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = call.gif; sourceTree = "<group>"; };
+		CE1CA79426F716AC007F6279 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
+		CE1CA79726F76396007F6279 /* MoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCell.swift; sourceTree = "<group>"; };
+		CE1CA79926F7651A007F6279 /* MoreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreCell.xib; sourceTree = "<group>"; };
 		CE1D9C7326D603B500B4D8FE /* CallingPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingPopupVC.swift; sourceTree = "<group>"; };
 		CE2704A226BCE7BE00009E77 /* TLClientApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLClientApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2704A526BCE7BE00009E77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +239,23 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		CE1CA79126F70367007F6279 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CA79226F70374007F6279 /* call.gif */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		CE1CA79626F76362007F6279 /* TVCells */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CA79726F76396007F6279 /* MoreCell.swift */,
+				CE1CA79926F7651A007F6279 /* MoreCell.xib */,
+			);
+			path = TVCells;
+			sourceTree = "<group>";
+		};
 		CE27049926BCE7BE00009E77 = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +282,8 @@
 		CE2704A426BCE7BE00009E77 /* TLClientApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE1CA79626F76362007F6279 /* TVCells */,
+				CE1CA79126F70367007F6279 /* image */,
 				CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */,
 				CE0DDFF826D15A1A003D4FC7 /* Models */,
 				CE74B2D026BEED8E008BBA8C /* ViewModel */,
@@ -384,6 +411,7 @@
 		CE74B2C526BE6A69008BBA8C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				CE1CA79426F716AC007F6279 /* iOSDevCenters+GIF.swift */,
 				CE74B2D626BEFA1D008BBA8C /* ACFloatingTextfield.swift */,
 				CE74B2D826BEFA27008BBA8C /* Toast.swift */,
 				CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */,
@@ -609,6 +637,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1CA79326F70374007F6279 /* call.gif in Resources */,
+				CE1CA79A26F7651A007F6279 /* MoreCell.xib in Resources */,
 				CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */,
 				CE1844AF26C38FA100E9E84E /* Home.storyboard in Resources */,
 				CE74B2C026BE661A008BBA8C /* Neuton-ExtraBold.ttf in Resources */,
@@ -786,8 +816,10 @@
 				CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */,
 				CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */,
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
+				CE1CA79526F716AC007F6279 /* iOSDevCenters+GIF.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
 				CE74B2DD26C026D1008BBA8C /* API.swift in Sources */,
+				CE1CA79826F76396007F6279 /* MoreCell.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
 				CE2944E326DA5C8900D29730 /* VDOCallViewModel.swift in Sources */,

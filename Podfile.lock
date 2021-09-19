@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.3)
+  - DropDown (2.3.13)
   - Firebase/Core (8.4.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (~> 8.4.0)
@@ -107,6 +108,7 @@ PODS:
   - XLPagerTabStrip (9.0.0)
 
 DEPENDENCIES:
+  - DropDown
   - Firebase/Core
   - Firebase/Messaging
   - FSCalendar
@@ -121,6 +123,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DropDown
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -144,6 +147,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Firebase: 54cdc8bc9c9b3de54f43dab86e62f5a76b47034f
   FirebaseAnalytics: 4751d6a49598a2b58da678cc07df696bcd809ab9
   FirebaseCore: 31f389c37ac1ea52454a53d3081f2d7019485a4a
@@ -165,6 +169,6 @@ SPEC CHECKSUMS:
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
-PODFILE CHECKSUM: e4d610e94be18c05e73ceed9141dc2c91cf8d9f9
+PODFILE CHECKSUM: dc3c1232cf0f0bfb6da6a808dbafdf0ac53aadf2
 
 COCOAPODS: 1.10.2
