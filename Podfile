@@ -19,9 +19,13 @@ pod 'TwilioVideo'
 #pod 'TwilioVideo', '~> 4.4'
 pod 'TwilioVoice'
 #pod 'TwilioVoice', '~> 6.3.0'
+pod 'TwilioChatClient'
+#pod 'TwilioChatClient', '~> 5.0.1'https://www.twilio.com/docs/chat/ios/changelog
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
 pod 'DropDown'
+pod 'SwiftMessages'
+pod 'BottomPopup'
 
   # Pods for TLClientApp
 

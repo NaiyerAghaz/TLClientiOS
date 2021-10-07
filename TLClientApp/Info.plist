@@ -80,5 +80,9 @@
 	<string>Will you allow to access your camera for video call</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App will use your microphone for calling</string>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    </array>
 </dict>
 </plist>

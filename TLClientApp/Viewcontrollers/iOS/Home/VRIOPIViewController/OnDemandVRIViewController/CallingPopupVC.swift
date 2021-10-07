@@ -83,6 +83,7 @@ class CallingPopupVC: UIViewController {
     }
     func getCallPriorityVideoWithCompletion() {
         let reqpara = callManagerVM.priorityReqAPI(LtargetId: targetID ?? "", Calltype: "V", Slid: sourceID ?? "")
+        
         callManagerVM.priorityVideoCall(req: reqpara) { success, err in
             if success! {
                print("priority success------>",success)

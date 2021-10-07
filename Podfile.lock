@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.3)
+  - BottomPopup (0.7.0)
   - DropDown (2.3.13)
   - Firebase/Core (8.4.0):
     - Firebase/CoreOnly
@@ -103,11 +104,16 @@ PODS:
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.2)
+  - SwiftMessages (9.0.3):
+    - SwiftMessages/App (= 9.0.3)
+  - SwiftMessages/App (9.0.3)
+  - TwilioChatClient (5.0.1)
   - TwilioVideo (4.4.0)
   - TwilioVoice (6.3.0)
   - XLPagerTabStrip (9.0.0)
 
 DEPENDENCIES:
+  - BottomPopup
   - DropDown
   - Firebase/Core
   - Firebase/Messaging
@@ -116,6 +122,8 @@ DEPENDENCIES:
   - Moya/RxSwift (~> 14.0)
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
+  - SwiftMessages
+  - TwilioChatClient
   - TwilioVideo
   - TwilioVoice
   - XLPagerTabStrip
@@ -123,6 +131,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - BottomPopup
     - DropDown
     - Firebase
     - FirebaseAnalytics
@@ -141,12 +150,15 @@ SPEC REPOS:
     - RxCocoa
     - RxRelay
     - RxSwift
+    - SwiftMessages
+    - TwilioChatClient
     - TwilioVideo
     - TwilioVoice
     - XLPagerTabStrip
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
+  BottomPopup: fe3e284628532f99093ae68c592c6b9d392c972d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   Firebase: 54cdc8bc9c9b3de54f43dab86e62f5a76b47034f
   FirebaseAnalytics: 4751d6a49598a2b58da678cc07df696bcd809ab9
@@ -165,10 +177,12 @@ SPEC CHECKSUMS:
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
+  SwiftMessages: 077f19126c24033fe24042237ecc20261adb46e4
+  TwilioChatClient: 2a915858c972075108da2fd5fc382f237b1490cc
   TwilioVideo: fcf10b7460e582570887d194b73e75425685d813
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
-PODFILE CHECKSUM: dc3c1232cf0f0bfb6da6a808dbafdf0ac53aadf2
+PODFILE CHECKSUM: 985c58008ecbcee824aceb6bbe77449f972913cb
 
 COCOAPODS: 1.10.2
