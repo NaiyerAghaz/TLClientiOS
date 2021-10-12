@@ -10,6 +10,8 @@
 		0734C230DD81E749DCB11388 /* Pods_TLClientAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */; };
 		0AD9728ACF99C695904AD46C /* Pods_TLClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7175F38E6A47EB062D2D2BDB /* Pods_TLClientApp.framework */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
+		CE06D981270FF9CD0097A119 /* InviteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06D980270FF9CD0097A119 /* InviteModel.swift */; };
+		CE06D983270FF9E50097A119 /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06D982270FF9E50097A119 /* InviteViewModel.swift */; };
 		CE06EC712706CC5700CD0F71 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06EC702706CC5700CD0F71 /* InviteWithEmailVC.swift */; };
 		CE0A61D126D752A7009C86E5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A61D026D752A7009C86E5 /* CallManager.swift */; };
 		CE0A61D326D754FC009C86E5 /* CallingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A61D226D754FC009C86E5 /* CallingModel.swift */; };
@@ -106,6 +108,8 @@
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TLClientApp.entitlements; sourceTree = "<group>"; };
+		CE06D980270FF9CD0097A119 /* InviteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteModel.swift; sourceTree = "<group>"; };
+		CE06D982270FF9E50097A119 /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
 		CE06EC702706CC5700CD0F71 /* InviteWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithEmailVC.swift; sourceTree = "<group>"; };
 		CE0A61D026D752A7009C86E5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		CE0A61D226D754FC009C86E5 /* CallingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingModel.swift; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 				CE2B1F9F270898B200979EDD /* InviteWithDialVC.swift */,
 				CE2B1FA12708A89400979EDD /* BottomParticipantVC.swift */,
 				CE60250B270D55EE00C1D51D /* TotalParticipantVC.swift */,
+				CE06D980270FF9CD0097A119 /* InviteModel.swift */,
+				CE06D982270FF9E50097A119 /* InviteViewModel.swift */,
 			);
 			path = InviteParticipant;
 			sourceTree = "<group>";
@@ -824,6 +830,7 @@
 				CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */,
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
 				CE2B1FA22708A89500979EDD /* BottomParticipantVC.swift in Sources */,
+				CE06D981270FF9CD0097A119 /* InviteModel.swift in Sources */,
 				CE76024E26CF781500550B68 /* ScheduledOPIViewController.swift in Sources */,
 				CE74B2DB26C02520008BBA8C /* AuthServices.swift in Sources */,
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
@@ -856,6 +863,7 @@
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
 				CE1CA79526F716AC007F6279 /* iOSDevCenters+GIF.swift in Sources */,
 				CE0DE58B26FF7B3700F2692A /* VendorTVCell.swift in Sources */,
+				CE06D983270FF9E50097A119 /* InviteViewModel.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
 				CE74B2DD26C026D1008BBA8C /* API.swift in Sources */,
 				CE1CA79826F76396007F6279 /* MoreCell.swift in Sources */,

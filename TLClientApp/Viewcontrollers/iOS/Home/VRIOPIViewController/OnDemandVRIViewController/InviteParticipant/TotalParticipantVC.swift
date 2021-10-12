@@ -57,8 +57,15 @@ class TotalParticipantVC: BottomPopupViewController {
         vcontrol.dismissDuration = 0.5
         vcontrol.shouldDismissInteractivelty = true
         vcontrol.popupDismisAlphaVal = 0.4
-        // vcontrol.popupDelegate = self
-        present(vcontrol, animated: true, completion: nil)
+        let conferrenceItem = conferrenceInfoArr![0] as? ConferenceInfoModels
+        print("conferrenceItem-------->", conferrenceItem?.ACTUALROOM)
+        actualRoom = conferrenceItem?.ACTUALROOM
+        sID = conferrenceItem?.PARTSID
+        fromUserID = conferrenceItem?.FROMUSERID
+        
+       // InviteViewModel().conferenceModel = conferrenceItem
+       // print("Invite--->",InviteViewModel().conferenceModel?.ACTUALROOM)
+       present(vcontrol, animated: true, completion: nil)
     }
     @IBAction func btnCloseTapped(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -88,28 +95,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conferrenceInfoArr?.count ?? 0
     }
-    /* func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-     let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tblView.frame.width, height: 80))
-     headerView.backgroundColor = UIColor(displayP3Red: 36/255, green: 36/255, blue: 36/255, alpha: 1)
-     let lbLobby = UILabel()
-     lbLobby.frame = CGRect.init(x: 15, y: 0, width: headerView.frame.width-10, height: headerView.frame.height-10)
-     lbLobby.text = "View Lobby"
-     lbLobby.font = .systemFont(ofSize: 16)
-     lbLobby.textColor = .white
-     let lblPart = UILabel()
-     lblPart.frame = CGRect.init(x: 15, y: 30, width: headerView.frame.width-10, height: headerView.frame.height-10)
-     lblPart.text = "Participants List"
-     lblPart.font = .systemFont(ofSize: 16)
-     lblPart.textColor = .white
-     
-     headerView.addSubview(lbLobby)
-     headerView.addSubview(lblPart)
-     
-     return headerView
-     }
-     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-     return 80
-     }*/
+    
     @objc func audioPressed(_ sender: UIButton){
         SwiftLoader.show(animated: true)
         //  let indx = vendorTbl

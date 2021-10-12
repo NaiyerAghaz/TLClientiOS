@@ -32,6 +32,7 @@ enum APi{
     case vricallstart
     case getVriVendorsbyLid
     case getParticipantByRoom
+    case AddUpdateConferenceData
     
     var url: URL{
         switch self {
@@ -59,7 +60,9 @@ enum APi{
             return URL(string: baseUrl + "/chatBox/getVriVendorsbyLid")!
         case .getParticipantByRoom:
             return URL(string: baseUrl + "/GetParticipantsByRoom")!
-            
+        case .AddUpdateConferenceData:
+            return URL(string: baseUrl + "/AddUpdateConferenceData")!
+           
         }
     }
 }

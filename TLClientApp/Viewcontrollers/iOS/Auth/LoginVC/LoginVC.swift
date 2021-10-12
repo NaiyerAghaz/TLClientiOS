@@ -85,6 +85,7 @@ class LoginVC: UIViewController {
                             userDefaults.set(self.passwordTF.text!, forKey: "password" )
                             userDefaults.setValue(item.UserID, forKey: "userid")
                             userDefaults.setValue(item.companyID, forKey: "companyID")
+                            userDefaults.setValue(item.companyName, forKey: "companyName")
                             //keychainServices.save(key: "username", data: Data(self.userNameTF.text!.utf8))
                            // keychainServices.save(key: "password", data: Data(self.passwordTF.text!.utf8))
                             self.view.makeToast("You have logged in", duration: 1.0, position: .top)

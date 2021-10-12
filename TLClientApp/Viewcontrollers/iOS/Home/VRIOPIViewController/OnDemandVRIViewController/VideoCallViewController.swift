@@ -113,7 +113,8 @@ class VideoCallViewController: UIViewController, VideoViewDelegate, LocalPartici
     
     func ringingView(ishide: Bool){
         
-        
+        preview.contentMode = .scaleToFill
+        preview.clipsToBounds = true
         preview.isHidden = ishide
         muteView.isHidden = ishide
         stopVideoView.isHidden = ishide

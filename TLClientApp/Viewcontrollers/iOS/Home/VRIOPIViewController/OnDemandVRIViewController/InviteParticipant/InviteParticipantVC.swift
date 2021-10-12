@@ -13,7 +13,7 @@ class InviteParticipantVC: BottomPopupViewController {
     
     @IBOutlet weak var emailContainerView: UIView!
     @IBOutlet weak var inviteSegments: UISegmentedControl!
-    
+   
     var height: CGFloat?
     var topCornerRadius: CGFloat?
     var presentDuration: Double?

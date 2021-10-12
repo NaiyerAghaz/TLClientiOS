@@ -17,7 +17,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     var sourceLang = true
     var languageViewModel = LanguageVM()
     var isShownParti = false
-   
+    
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
     {
         
@@ -31,36 +31,23 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         
         // Do any additional setup after loading the view.
     }
+    
     public func uiUpdate(){
         txtTargetlanguage.delegate = self
         txtSourceLanguage.delegate = self
         txtTargetlanguage.inputView = vriPickerView
         txtSourceLanguage.inputView = vriPickerView
+        SwiftLoader.show(animated: true)
         languageViewModel.languageData { list, err in
             if err == nil {
+                SwiftLoader.hide()
                 self.txtSourceLanguage.text = "English"
                 //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
                 //
                 
-            }
-        }
-        //        DispatchQueue.main.async {
-        //
-        //            VDOCallViewModel().getParticipantList2(lid: "", roomID: "") { success, err in
-        //                print("getParticipant----------->", success)
-        //        }
-        
-        //  }
-        
-        
-       
-    }
-    //Dummy Tableview program-
+            }}
+     }
     
-
-    
-    
-    //END------
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == txtSourceLanguage{
             sourceLang = true
@@ -90,47 +77,33 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         
         
         if sourceLang {
-            
+            pickerView.updateConstraints()
             languageViewModel.titleToTxtField(row: row, txtField: txtSourceLanguage)
         }
         else {
+            pickerView.updateConstraints()
             languageViewModel.titleToTxtField(row: row, txtField: txtTargetlanguage)
         }
     }
     @IBAction func btnCallNowTapped(_ sender: Any) {
-        //Invite Participant view call
-       /* let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-           let vcontrol = callVC.instantiateViewController(identifier: "TotalParticipantVC") as! TotalParticipantVC
-        vcontrol.height = 500
-        vcontrol.topCornerRadius = 20
-        vcontrol.presentDuration = 0.5
-        vcontrol.dismissDuration = 0.5
-        vcontrol.shouldDismissInteractivelty = true
-        vcontrol.popupDismisAlphaVal = 0.4
-       // vcontrol.popupDelegate = self
-        present(vcontrol, animated: true, completion: nil)*/
-        
-        
         let request = TxtRequest(txt: txtTargetlanguage.text)
-         let validate = ValidationReq().validate(txtfield: request)
-         if validate.success {
-         let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+        let validate = ValidationReq().validate(txtfield: request)
+        if validate.success {
+            let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: viewIndentifier.CallingPopupVC.rawValue) as! CallingPopupVC
-         vcontrol.modalPresentationStyle = .overFullScreen
-         
-         vcontrol.sourceID = languageViewModel.getSournceSelectedLID(stlanguage: txtSourceLanguage.text!)
-         vcontrol.sourceName = txtSourceLanguage.text!
-         vcontrol.targetID = languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!)
-         vcontrol.targetName = txtTargetlanguage.text!
-         self.present(vcontrol, animated: true, completion: nil)
-         }
-         else {
-         self.view.makeToast(validate.error, duration: 1, position: .center)
-         }
+            vcontrol.modalPresentationStyle = .overFullScreen
+            
+            vcontrol.sourceID = languageViewModel.getSournceSelectedLID(stlanguage: txtSourceLanguage.text!)
+            vcontrol.sourceName = txtSourceLanguage.text!
+            vcontrol.targetID = languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!)
+            vcontrol.targetName = txtTargetlanguage.text!
+            self.present(vcontrol, animated: true, completion: nil)
+        }
+        else {
+            self.view.makeToast(validate.error, duration: 1, position: .center)
+        }
     }
-    
-    
-}
+    }
 
 
 
