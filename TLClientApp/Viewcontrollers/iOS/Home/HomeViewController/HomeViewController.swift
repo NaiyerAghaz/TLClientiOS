@@ -14,6 +14,8 @@ class HomeViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSour
     @IBOutlet weak var tblCalenderView: UITableView!
     var navigator = Navigator()
     var loginVM = DetailsModal()
+    
+    @IBOutlet weak var lblVRI: UILabel!
     static func createWith(navigator: Navigator, storyboard: UIStoryboard,userModel: DetailsModal) -> HomeViewController {
         return storyboard.instantiateViewController(ofType: HomeViewController.self).then { viewController in
             viewController.loginVM = userModel
@@ -41,6 +43,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,FSCalendarDataSour
         
     }
     private func updateUI(){
+        lblVRI.text = userDefaults.string(forKey: "companyName")
         tblCalenderView.register(UINib(nibName: nibNamed.calendarTVCell, bundle: nil), forCellReuseIdentifier: HomeCellIdentifier.calendarTVCell.rawValue)
         tblCalenderView.delegate = self
         tblCalenderView.dataSource = self

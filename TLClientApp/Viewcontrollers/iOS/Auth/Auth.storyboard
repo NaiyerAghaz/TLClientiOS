@@ -586,10 +586,10 @@
         <!--Home-->
         <scene sceneID="tQp-jD-9uc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3jZ-JB-BzV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewControllerPlaceholder storyboardName="Home" id="D6D-Xf-K9N" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="M0I-C7-Ok6"/>
                 </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3jZ-JB-BzV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1160" y="571"/>
         </scene>

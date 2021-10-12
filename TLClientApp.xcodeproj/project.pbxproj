@@ -10,11 +10,24 @@
 		0734C230DD81E749DCB11388 /* Pods_TLClientAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */; };
 		0AD9728ACF99C695904AD46C /* Pods_TLClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7175F38E6A47EB062D2D2BDB /* Pods_TLClientApp.framework */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
+		CE06D981270FF9CD0097A119 /* InviteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06D980270FF9CD0097A119 /* InviteModel.swift */; };
+		CE06D983270FF9E50097A119 /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06D982270FF9E50097A119 /* InviteViewModel.swift */; };
+		CE06EC712706CC5700CD0F71 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE06EC702706CC5700CD0F71 /* InviteWithEmailVC.swift */; };
+		CE0A61D126D752A7009C86E5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A61D026D752A7009C86E5 /* CallManager.swift */; };
+		CE0A61D326D754FC009C86E5 /* CallingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A61D226D754FC009C86E5 /* CallingModel.swift */; };
 		CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DDFF426D13AFC003D4FC7 /* LanguageModel.swift */; };
 		CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DDFF626D13B2F003D4FC7 /* LanguageVModel.swift */; };
 		CE0DDFFA26D15A34003D4FC7 /* StatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DDFF926D15A34003D4FC7 /* StatusModel.swift */; };
+		CE0DE58B26FF7B3700F2692A /* VendorTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DE58926FF7B3700F2692A /* VendorTVCell.swift */; };
+		CE0DE58C26FF7B3700F2692A /* VendorTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE0DE58A26FF7B3700F2692A /* VendorTVCell.xib */; };
+		CE14E59926D4BBD8004E24AA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE14E59826D4BBD8004E24AA /* GoogleService-Info.plist */; };
 		CE1844AF26C38FA100E9E84E /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE1844AE26C38FA100E9E84E /* Home.storyboard */; };
 		CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1844B026C3977100E9E84E /* TLCKeychain.swift */; };
+		CE1CA79326F70374007F6279 /* call.gif in Resources */ = {isa = PBXBuildFile; fileRef = CE1CA79226F70374007F6279 /* call.gif */; };
+		CE1CA79526F716AC007F6279 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CA79426F716AC007F6279 /* iOSDevCenters+GIF.swift */; };
+		CE1CA79826F76396007F6279 /* MoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1CA79726F76396007F6279 /* MoreCell.swift */; };
+		CE1CA79A26F7651A007F6279 /* MoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE1CA79926F7651A007F6279 /* MoreCell.xib */; };
+		CE1D9C7426D603B500B4D8FE /* CallingPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1D9C7326D603B500B4D8FE /* CallingPopupVC.swift */; };
 		CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704A526BCE7BE00009E77 /* AppDelegate.swift */; };
 		CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704A726BCE7BE00009E77 /* SceneDelegate.swift */; };
 		CE2704AA26BCE7BE00009E77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704A926BCE7BE00009E77 /* ViewController.swift */; };
@@ -25,10 +38,19 @@
 		CE2704C026BCE7C100009E77 /* TLClientAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704BF26BCE7C100009E77 /* TLClientAppTests.swift */; };
 		CE2704CB26BCE7C100009E77 /* TLClientAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2704CA26BCE7C100009E77 /* TLClientAppUITests.swift */; };
 		CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE2704DB26BCEDA300009E77 /* Auth.storyboard */; };
+		CE2944E026DA579F00D29730 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2944DF26DA579E00D29730 /* util.swift */; };
+		CE2944E326DA5C8900D29730 /* VDOCallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2944E226DA5C8900D29730 /* VDOCallViewModel.swift */; };
+		CE2944E526DA5CF900D29730 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2944E426DA5CF900D29730 /* Models.swift */; };
+		CE2944E926DA702700D29730 /* incoming.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE2944E826DA702700D29730 /* incoming.mp3 */; };
+		CE2A857926D8ACC9008E1293 /* VideoCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2A857826D8ACC8008E1293 /* VideoCallViewController.swift */; };
+		CE2B1F9E2708444300979EDD /* PHAlertBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B1F9D2708444200979EDD /* PHAlertBar.swift */; };
+		CE2B1FA0270898B200979EDD /* InviteWithDialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B1F9F270898B200979EDD /* InviteWithDialVC.swift */; };
+		CE2B1FA22708A89500979EDD /* BottomParticipantVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2B1FA12708A89400979EDD /* BottomParticipantVC.swift */; };
 		CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FE08326C7B8B6000BD19F /* UIAlertControllerExtensions.swift */; };
 		CE3FE08626C80A6F000BD19F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FE08526C80A6F000BD19F /* HomeViewController.swift */; };
 		CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE08726C8FF30000BD19F /* CalenderVCell.xib */; };
 		CE3FE08D26C90210000BD19F /* CalendarTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3FE08C26C90210000BD19F /* CalendarTVCell.swift */; };
+		CE60250C270D55EE00C1D51D /* TotalParticipantVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE60250B270D55EE00C1D51D /* TotalParticipantVC.swift */; };
 		CE74B2B426BE5590008BBA8C /* InitialLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2B326BE5590008BBA8C /* InitialLoginVC.swift */; };
 		CE74B2B626BE55A3008BBA8C /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2B526BE55A3008BBA8C /* LoginVC.swift */; };
 		CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2B826BE5A7C008BBA8C /* ForgotPasswordVC.swift */; };
@@ -58,6 +80,7 @@
 		CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE951DB726C6385700EC1BCA /* ForgotViewModel.swift */; };
 		CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */; };
 		CEB2569426C23799007A951E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2569326C23799007A951E /* APIServices.swift */; };
+		CEF76B0527056E6600577B41 /* InviteParticipantVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF76B0427056E6600577B41 /* InviteParticipantVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,11 +108,24 @@
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TLClientApp.entitlements; sourceTree = "<group>"; };
+		CE06D980270FF9CD0097A119 /* InviteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteModel.swift; sourceTree = "<group>"; };
+		CE06D982270FF9E50097A119 /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
+		CE06EC702706CC5700CD0F71 /* InviteWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithEmailVC.swift; sourceTree = "<group>"; };
+		CE0A61D026D752A7009C86E5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		CE0A61D226D754FC009C86E5 /* CallingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingModel.swift; sourceTree = "<group>"; };
 		CE0DDFF426D13AFC003D4FC7 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		CE0DDFF626D13B2F003D4FC7 /* LanguageVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageVModel.swift; sourceTree = "<group>"; };
 		CE0DDFF926D15A34003D4FC7 /* StatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusModel.swift; sourceTree = "<group>"; };
+		CE0DE58926FF7B3700F2692A /* VendorTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorTVCell.swift; sourceTree = "<group>"; };
+		CE0DE58A26FF7B3700F2692A /* VendorTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VendorTVCell.xib; sourceTree = "<group>"; };
+		CE14E59826D4BBD8004E24AA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CE1844AE26C38FA100E9E84E /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		CE1844B026C3977100E9E84E /* TLCKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLCKeychain.swift; sourceTree = "<group>"; };
+		CE1CA79226F70374007F6279 /* call.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = call.gif; sourceTree = "<group>"; };
+		CE1CA79426F716AC007F6279 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
+		CE1CA79726F76396007F6279 /* MoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreCell.swift; sourceTree = "<group>"; };
+		CE1CA79926F7651A007F6279 /* MoreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreCell.xib; sourceTree = "<group>"; };
+		CE1D9C7326D603B500B4D8FE /* CallingPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingPopupVC.swift; sourceTree = "<group>"; };
 		CE2704A226BCE7BE00009E77 /* TLClientApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLClientApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2704A526BCE7BE00009E77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE2704A726BCE7BE00009E77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,10 +142,19 @@
 		CE2704CA26BCE7C100009E77 /* TLClientAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLClientAppUITests.swift; sourceTree = "<group>"; };
 		CE2704CC26BCE7C100009E77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE2704DB26BCEDA300009E77 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
+		CE2944DF26DA579E00D29730 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
+		CE2944E226DA5C8900D29730 /* VDOCallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDOCallViewModel.swift; sourceTree = "<group>"; };
+		CE2944E426DA5CF900D29730 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		CE2944E826DA702700D29730 /* incoming.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = incoming.mp3; sourceTree = "<group>"; };
+		CE2A857826D8ACC8008E1293 /* VideoCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCallViewController.swift; sourceTree = "<group>"; };
+		CE2B1F9D2708444200979EDD /* PHAlertBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHAlertBar.swift; sourceTree = "<group>"; };
+		CE2B1F9F270898B200979EDD /* InviteWithDialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithDialVC.swift; sourceTree = "<group>"; };
+		CE2B1FA12708A89400979EDD /* BottomParticipantVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomParticipantVC.swift; sourceTree = "<group>"; };
 		CE3FE08326C7B8B6000BD19F /* UIAlertControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtensions.swift; sourceTree = "<group>"; };
 		CE3FE08526C80A6F000BD19F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CE3FE08726C8FF30000BD19F /* CalenderVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalenderVCell.xib; sourceTree = "<group>"; };
 		CE3FE08C26C90210000BD19F /* CalendarTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTVCell.swift; sourceTree = "<group>"; };
+		CE60250B270D55EE00C1D51D /* TotalParticipantVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalParticipantVC.swift; sourceTree = "<group>"; };
 		CE74B2B326BE5590008BBA8C /* InitialLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialLoginVC.swift; sourceTree = "<group>"; };
 		CE74B2B526BE55A3008BBA8C /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		CE74B2B826BE5A7C008BBA8C /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
@@ -139,6 +184,7 @@
 		CE951DB726C6385700EC1BCA /* ForgotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotViewModel.swift; sourceTree = "<group>"; };
 		CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServicesAlamoFire.swift; sourceTree = "<group>"; };
 		CEB2569326C23799007A951E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
+		CEF76B0427056E6600577B41 /* InviteParticipantVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteParticipantVC.swift; sourceTree = "<group>"; };
 		D2F3CFAD47F2C268F6BBDDFF /* Pods-TLClientAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.release.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		F2A5579F901C5EBCA627CEBD /* Pods-TLClientApp-TLClientAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp-TLClientAppUITests.release.xcconfig"; path = "Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FD14C819134C2F6D64FE518A /* Pods-TLClientApp-TLClientAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp-TLClientAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -195,6 +241,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CE06EC6F2706CC0200CD0F71 /* InviteParticipant */ = {
+			isa = PBXGroup;
+			children = (
+				CEF76B0427056E6600577B41 /* InviteParticipantVC.swift */,
+				CE06EC702706CC5700CD0F71 /* InviteWithEmailVC.swift */,
+				CE2B1F9F270898B200979EDD /* InviteWithDialVC.swift */,
+				CE2B1FA12708A89400979EDD /* BottomParticipantVC.swift */,
+				CE60250B270D55EE00C1D51D /* TotalParticipantVC.swift */,
+				CE06D980270FF9CD0097A119 /* InviteModel.swift */,
+				CE06D982270FF9E50097A119 /* InviteViewModel.swift */,
+			);
+			path = InviteParticipant;
+			sourceTree = "<group>";
+		};
 		CE0DDFF826D15A1A003D4FC7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,9 +273,29 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		CE1CA79126F70367007F6279 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CA79226F70374007F6279 /* call.gif */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		CE1CA79626F76362007F6279 /* TVCells */ = {
+			isa = PBXGroup;
+			children = (
+				CE1CA79726F76396007F6279 /* MoreCell.swift */,
+				CE1CA79926F7651A007F6279 /* MoreCell.xib */,
+				CE0DE58926FF7B3700F2692A /* VendorTVCell.swift */,
+				CE0DE58A26FF7B3700F2692A /* VendorTVCell.xib */,
+			);
+			path = TVCells;
+			sourceTree = "<group>";
+		};
 		CE27049926BCE7BE00009E77 = {
 			isa = PBXGroup;
 			children = (
+				CE14E59826D4BBD8004E24AA /* GoogleService-Info.plist */,
 				CE2704A426BCE7BE00009E77 /* TLClientApp */,
 				CE2704BE26BCE7C100009E77 /* TLClientAppTests */,
 				CE2704C926BCE7C100009E77 /* TLClientAppUITests */,
@@ -238,9 +318,12 @@
 		CE2704A426BCE7BE00009E77 /* TLClientApp */ = {
 			isa = PBXGroup;
 			children = (
+				CE1CA79626F76362007F6279 /* TVCells */,
+				CE1CA79126F70367007F6279 /* image */,
 				CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */,
 				CE0DDFF826D15A1A003D4FC7 /* Models */,
 				CE74B2D026BEED8E008BBA8C /* ViewModel */,
+				CE2944E726DA701000D29730 /* Audio */,
 				CE74B2BA26BE5E17008BBA8C /* Fonts */,
 				CE2704D826BCED1400009E77 /* Viewcontrollers */,
 				CE2704A526BCE7BE00009E77 /* AppDelegate.swift */,
@@ -303,6 +386,42 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		CE2944DE26DA577200D29730 /* CallUtility */ = {
+			isa = PBXGroup;
+			children = (
+				CE2944E626DA5D4D00D29730 /* Models */,
+				CE2944E126DA5C4A00D29730 /* VideoVModel */,
+				CE2944DF26DA579E00D29730 /* util.swift */,
+			);
+			path = CallUtility;
+			sourceTree = "<group>";
+		};
+		CE2944E126DA5C4A00D29730 /* VideoVModel */ = {
+			isa = PBXGroup;
+			children = (
+				CE0A61D026D752A7009C86E5 /* CallManager.swift */,
+				CE2944E226DA5C8900D29730 /* VDOCallViewModel.swift */,
+			);
+			path = VideoVModel;
+			sourceTree = "<group>";
+		};
+		CE2944E626DA5D4D00D29730 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CE2944E426DA5CF900D29730 /* Models.swift */,
+				CE0A61D226D754FC009C86E5 /* CallingModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CE2944E726DA701000D29730 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				CE2944E826DA702700D29730 /* incoming.mp3 */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		CE3FE08926C90196000BD19F /* HomeViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +447,7 @@
 		CE74B2C526BE6A69008BBA8C /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				CE1CA79426F716AC007F6279 /* iOSDevCenters+GIF.swift */,
 				CE74B2D626BEFA1D008BBA8C /* ACFloatingTextfield.swift */,
 				CE74B2D826BEFA27008BBA8C /* Toast.swift */,
 				CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */,
@@ -335,6 +455,7 @@
 				CE74B2C626BE6A87008BBA8C /* Constant.swift */,
 				CE74B2DC26C026D1008BBA8C /* API.swift */,
 				CE74B2E026C0758C008BBA8C /* CommonClass.swift */,
+				CE2B1F9D2708444200979EDD /* PHAlertBar.swift */,
 				CEB2569326C23799007A951E /* APIServices.swift */,
 				CE1844B026C3977100E9E84E /* TLCKeychain.swift */,
 			);
@@ -344,6 +465,7 @@
 		CE74B2CA26BE7D77008BBA8C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CE2944DE26DA577200D29730 /* CallUtility */,
 				CE74B2CB26BE7D91008BBA8C /* Extension */,
 				CE74B2C526BE6A69008BBA8C /* Utility */,
 			);
@@ -394,9 +516,12 @@
 		CE76024326CF76E700550B68 /* OnDemandVRIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CE06EC6F2706CC0200CD0F71 /* InviteParticipant */,
 				CE76024426CF772300550B68 /* OnDemandVRIViewController.swift */,
 				CE0DDFF426D13AFC003D4FC7 /* LanguageModel.swift */,
 				CE0DDFF626D13B2F003D4FC7 /* LanguageVModel.swift */,
+				CE1D9C7326D603B500B4D8FE /* CallingPopupVC.swift */,
+				CE2A857826D8ACC8008E1293 /* VideoCallViewController.swift */,
 			);
 			path = OnDemandVRIViewController;
 			sourceTree = "<group>";
@@ -550,11 +675,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE1CA79326F70374007F6279 /* call.gif in Resources */,
+				CE1CA79A26F7651A007F6279 /* MoreCell.xib in Resources */,
 				CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */,
 				CE1844AF26C38FA100E9E84E /* Home.storyboard in Resources */,
 				CE74B2C026BE661A008BBA8C /* Neuton-ExtraBold.ttf in Resources */,
 				CE2704B526BCE7C000009E77 /* LaunchScreen.storyboard in Resources */,
+				CE2944E926DA702700D29730 /* incoming.mp3 in Resources */,
 				CE74B2BE26BE6607008BBA8C /* Neuton-Bold.ttf in Resources */,
+				CE14E59926D4BBD8004E24AA /* GoogleService-Info.plist in Resources */,
+				CE0DE58C26FF7B3700F2692A /* VendorTVCell.xib in Resources */,
 				CE74B2C426BE6663008BBA8C /* Neuton-Light.ttf in Resources */,
 				CE74B2BC26BE5E26008BBA8C /* Neuton-Extralight.ttf in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
@@ -688,17 +818,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE06EC712706CC5700CD0F71 /* InviteWithEmailVC.swift in Sources */,
 				CE74B2E126C0758D008BBA8C /* CommonClass.swift in Sources */,
 				CE2704B026BCE7BE00009E77 /* TLClientApp.xcdatamodeld in Sources */,
+				CE2A857926D8ACC9008E1293 /* VideoCallViewController.swift in Sources */,
+				CE2944E026DA579F00D29730 /* util.swift in Sources */,
+				CE2B1FA0270898B200979EDD /* InviteWithDialVC.swift in Sources */,
 				CE3FE08D26C90210000BD19F /* CalendarTVCell.swift in Sources */,
+				CE0A61D126D752A7009C86E5 /* CallManager.swift in Sources */,
 				CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */,
 				CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */,
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
+				CE2B1FA22708A89500979EDD /* BottomParticipantVC.swift in Sources */,
+				CE06D981270FF9CD0097A119 /* InviteModel.swift in Sources */,
 				CE76024E26CF781500550B68 /* ScheduledOPIViewController.swift in Sources */,
 				CE74B2DB26C02520008BBA8C /* AuthServices.swift in Sources */,
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
+				CE0A61D326D754FC009C86E5 /* CallingModel.swift in Sources */,
 				CEB2569426C23799007A951E /* APIServices.swift in Sources */,
 				CE0DDFFA26D15A34003D4FC7 /* StatusModel.swift in Sources */,
+				CEF76B0527056E6600577B41 /* InviteParticipantVC.swift in Sources */,
 				CE74B2B426BE5590008BBA8C /* InitialLoginVC.swift in Sources */,
 				CE74B2D526BEFA0B008BBA8C /* SwiftLoader.swift in Sources */,
 				CE74B2C726BE6A87008BBA8C /* Constant.swift in Sources */,
@@ -711,18 +850,27 @@
 				CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */,
 				CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */,
 				CE76024B26CF77D300550B68 /* ScheduledVRIVIewController.swift in Sources */,
+				CE2944E526DA5CF900D29730 /* Models.swift in Sources */,
 				CE76024526CF772300550B68 /* OnDemandVRIViewController.swift in Sources */,
 				CE74B2D326BEEDC8008BBA8C /* LoginViewModel.swift in Sources */,
+				CE2B1F9E2708444300979EDD /* PHAlertBar.swift in Sources */,
 				CE951DB626C6383500EC1BCA /* ForgotModel.swift in Sources */,
+				CE1D9C7426D603B500B4D8FE /* CallingPopupVC.swift in Sources */,
 				CE74B2CD26BE7DB5008BBA8C /* Storyboard+.swift in Sources */,
 				CE74B2DF26C046FA008BBA8C /* LoginModel.swift in Sources */,
 				CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */,
 				CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */,
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
+				CE1CA79526F716AC007F6279 /* iOSDevCenters+GIF.swift in Sources */,
+				CE0DE58B26FF7B3700F2692A /* VendorTVCell.swift in Sources */,
+				CE06D983270FF9E50097A119 /* InviteViewModel.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
 				CE74B2DD26C026D1008BBA8C /* API.swift in Sources */,
+				CE1CA79826F76396007F6279 /* MoreCell.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
+				CE60250C270D55EE00C1D51D /* TotalParticipantVC.swift in Sources */,
+				CE2944E326DA5C8900D29730 /* VDOCallViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -900,7 +1048,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6Z22496273;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
@@ -923,7 +1071,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6Z22496273;
 				INFOPLIST_FILE = TLClientApp/Info.plist;

@@ -267,3 +267,66 @@ class DetailsModal: NSObject {
         return item
     }
 }
+
+class UpdatedUserDeviceToken: NSObject {
+    
+    var table: NSMutableArray?
+    
+    override init() {
+        
+        table = NSMutableArray()
+    }
+    class func getUserDetails(dicts: NSDictionary) -> UpdatedUserDeviceToken {
+        let itemModel = UpdatedUserDeviceToken()
+        
+        itemModel.table = NSMutableArray()
+        let arr:NSArray = dicts["Table"] as! NSArray
+        
+        for items in arr {
+            let dict = items as! NSDictionary
+            let rides:TableModel = TableModel.getUserDetailsData(dicts: dict)
+            itemModel.table?.add(rides)
+        }
+        return itemModel
+    }
+}
+/*
+ {
+     "Table": [
+         {
+             "success": 1,
+             "tokenid": "cJu0cEA9yhE:APA91bEY0aKpfgA2KytMWpVRI633DQqP1IsYjFP6bRttGjAw3aDyCcTmrAE7u9Fg6OMKQmE-LIFi-OdWkTefD8S_x76-D5mWYA5vWDfIIwR7Pjtwt3nMEGWeDgCYbvt4QD_mEzLo_LKn",
+             "devicetype": "I",
+             "Utype": "4",
+             "CurrentUserGuid": "86476413-E68F-4B1B-B34B-25F815FD73CC"
+         }
+     ]
+ }*/
+class TableModel: NSObject {
+   
+    var success, tokenid, devicetype, Utype, CurrentUserGuid: String
+    
+    
+    override init() {
+        success = ""
+        tokenid = ""
+        devicetype = ""
+        Utype = ""
+        
+        CurrentUserGuid = ""
+       
+        
+    }
+    class func getUserDetailsData(dicts: NSDictionary) -> TableModel {
+        let item = TableModel()
+        item.success = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "success") ?? "") as String
+        item.tokenid = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "tokenid") ?? "") as String
+        item.devicetype = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "devicetype") ?? "") as String
+        item.Utype = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Utype") ?? "") as String
+        
+        item.CurrentUserGuid = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CurrentUserGuid") ?? "") as String
+        
+       
+        return item
+    }
+}

@@ -7,12 +7,15 @@
 
 import Foundation
 import UIKit
+import AVFoundation
+var myAudio: AVAudioPlayer!
 class CEnumClass: NSObject {
+   
     static let share = CEnumClass()
     func convertToJSON(resulTDict:NSDictionary) -> NSDictionary {
         let theJSONData = try? JSONSerialization.data(withJSONObject: resulTDict ,options: JSONSerialization.WritingOptions(rawValue: 0))
         let jsonString = NSString(data: theJSONData!,encoding: String.Encoding.utf8.rawValue)
-        let returnDict = self.convertToDictionary(text:jsonString! as String)
+        let returnDict = self.convertStringToDictionary(text:jsonString! as String)
         let userData = returnDict as NSDictionary? as? [AnyHashable: Any] ?? [:]
         return userData as NSDictionary
     }
@@ -20,12 +23,12 @@ class CEnumClass: NSObject {
     func convertToJSONFromData(resulTDict:NSData) -> NSDictionary {
         let theJSONData = try? JSONSerialization.data(withJSONObject: resulTDict ,options: JSONSerialization.WritingOptions(rawValue: 0))
         let jsonString = NSString(data: theJSONData!,encoding: String.Encoding.utf8.rawValue)
-        let returnDict = self.convertToDictionary(text:jsonString! as String)
+        let returnDict = self.convertStringToDictionary(text:jsonString! as String)
         let userData = returnDict as NSDictionary? as? [AnyHashable: Any] ?? [:]
         return userData as NSDictionary
     }
     
-    func convertToDictionary(text: String) -> [String: Any]? {
+    func convertStringToDictionary(text: String) -> [String: Any]? {
         if let data = text.data(using: .utf8) {
             do {
                 let jsonDict =  try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: UInt(0)))
@@ -35,6 +38,15 @@ class CEnumClass: NSObject {
             }
         }
         return nil
+    }
+    // Convert from JSON to nsdata
+    func jsonToNSData(json: AnyObject) -> NSData?{
+        do {
+            return try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) as NSData
+        } catch let myJSONError {
+            print(myJSONError)
+        }
+        return nil;
     }
     
     
@@ -63,6 +75,36 @@ class CEnumClass: NSObject {
         nav?.navigationBar.shadowImage = UIImage()
         nav?.navigationBar.isTranslucent = true
         nav?.view.backgroundColor = .clear
+    }
+    
+
+         func playSounds(audioName: String) {
+            
+            let path = Bundle.main.path(forResource: audioName, ofType: "mp3")!
+            let url = URL(fileURLWithPath: path)
+            do {
+                let sound = try AVAudioPlayer(contentsOf: url)
+                myAudio = sound
+                sound.play()
+            } catch {
+                //
+            }
+            func changeThemeMethod(){
+                
+            }
+        }
+         func playSoundsWave(audioName: String) {
+            
+            let path = Bundle.main.path(forResource: audioName, ofType: "wav")!
+            let url = URL(fileURLWithPath: path)
+            do {
+                let sound = try AVAudioPlayer(contentsOf: url)
+                myAudio = sound
+                sound.play()
+            } catch {
+                //
+            }
+        
     }
 }
 extension String {

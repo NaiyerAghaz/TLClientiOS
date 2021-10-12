@@ -75,28 +75,78 @@ class LoginVC: UIViewController {
         loginVModel.userLogin(UserName: userNameTF.text!, Password: passwordTF.text!, Ip: "M", Latitude: "", Longitude: "") { resp, err in
             SwiftLoader.hide()
             if resp! {
+            
                 let item = self.loginVModel.user.userDetails![0] as! DetailsModal
-                keychainServices.save(key: "username", data: Data(self.userNameTF.text!.utf8))
-                keychainServices.save(key: "password", data: Data(self.passwordTF.text!.utf8))
-                self.view.makeToast("You have logged in", duration: 1.0, position: .top)
-                if  keychainServices.getKeychaindata(key: "touchID") != nil {
-                    self.navigator.show(segue: .home(data: item), sender: self)
+                if item.userTypeID == "4" || item.userTypeID == "7" || item.userTypeID == "8" {
+                    
+                    self.loginVModel.addUpdateUserDeviceToken(TokenID: userDefaults.string(forKey: "fcmToken")!, Status: "Y", UserID: item.UserID, DeviceType: "I", voipToken: "") { status, err in
+                        if status == true {
+                            userDefaults.set(self.userNameTF.text!, forKey:"username" )
+                            userDefaults.set(self.passwordTF.text!, forKey: "password" )
+                            userDefaults.setValue(item.UserID, forKey: "userid")
+                            userDefaults.setValue(item.companyID, forKey: "companyID")
+                            userDefaults.setValue(item.companyName, forKey: "companyName")
+                            //keychainServices.save(key: "username", data: Data(self.userNameTF.text!.utf8))
+                           // keychainServices.save(key: "password", data: Data(self.passwordTF.text!.utf8))
+                            self.view.makeToast("You have logged in", duration: 1.0, position: .top)
+                            if  keychainServices.getKeychaindata(key: "touchID") != nil {
+                                
+                                self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                    if success == true {
+
+                                    }
+                                }
+                                self.navigator.show(segue: .home(data: item), sender: self)
+                                
+                            }
+                            else {
+                                let alert = UIAlertController(title: "Do you want to save this login to use FACE ID/TOUCH ID", message: "", preferredStyle: .alert)
+                                let cancel = UIAlertAction(title: "Cancel", style: .cancel){ cancel  in
+                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                        if success == true {
+                                            self.navigator.show(segue: .home(data: item), sender: self)
+                                        }
+                                    }
+                                    
+                                }
+                                let yes = UIAlertAction(title: "Yes", style: .destructive) { alert in
+                                    self.btnFaceAndTouchID.isHidden = false
+                                    userDefaults.set(true, forKey: "touchID" )
+                                    keychainServices.save(key: "touchID", data: Data("true".utf8))
+                                    
+                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                        if success == true {
+                                           // self.navigator.show(segue: .home(data: item), sender: self)
+                                        }
+                                    }
+                                    self.navigator.show(segue: .home(data: item), sender: self)
+                                   
+                                }
+                                alert.addAction(cancel)
+                                alert.addAction(yes)
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        }
+                    }
+
                 }
                 else {
-                    let alert = UIAlertController(title: "Do you want to save this login to use FACE ID/TOUCH ID", message: "", preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "Cancel", style: .cancel){ cancel  in
-                        self.navigator.show(segue: .home(data: item), sender: self)
-                    }
                     
-                    let yes = UIAlertAction(title: "Yes", style: .destructive) { alert in
-                        self.btnFaceAndTouchID.isHidden = false
-                        keychainServices.save(key: "touchID", data: Data("true".utf8))
-                        self.navigator.show(segue: .home(data: item), sender: self)
-                    }
-                    alert.addAction(cancel)
-                    alert.addAction(yes)
-                    self.present(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: "These credentials not belongs to Client App. If you want redirect to Vendor app please click ok", message: "", preferredStyle: .alert)
+                        let cancel = UIAlertAction(title: "Cancel", style: .cancel){ cancel  in
+                          
+                        }
+                        
+                        let yes = UIAlertAction(title: "Okay", style: .destructive) { alert in
+                           
+                           
+                        }
+                        alert.addAction(cancel)
+                        alert.addAction(yes)
+                        self.present(alert, animated: true, completion: nil)
+                    
                 }
+                
             }
             else {
                 let userDict = self.loginVModel.user.userDetails![0] as! DetailsModal
@@ -105,6 +155,8 @@ class LoginVC: UIViewController {
         }
         
     }
+    
+    
     @IBAction func btnSeenPasswordTabbed(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
