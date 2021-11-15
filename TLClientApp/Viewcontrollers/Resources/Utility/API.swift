@@ -6,19 +6,11 @@
 //
 
 import Foundation
-
-
-
-
-
-
 let baseUrl = "https://lspservices.totallanguage.com/api"
 let baseOPI = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken"
 let nBaseUrl = "https://lsp.totallanguage.com"
-
 let twiliBaseURL = "https://sai1.smsionline.com"
-
-
+let chatURL = "https://vriservices.totallanguage.com"
 enum APi{
     case login
     case forgetPassword
@@ -33,6 +25,9 @@ enum APi{
     case getVriVendorsbyLid
     case getParticipantByRoom
     case AddUpdateConferenceData
+    case chattoken
+    case getMeetingClientStatus
+    
     
     var url: URL{
         switch self {
@@ -62,7 +57,11 @@ enum APi{
             return URL(string: baseUrl + "/GetParticipantsByRoom")!
         case .AddUpdateConferenceData:
             return URL(string: baseUrl + "/AddUpdateConferenceData")!
-           
+        case .chattoken:
+            return URL(string: chatURL + "/chattoken")!
+        case .getMeetingClientStatus:
+            return URL(string: baseUrl + "/getMeetingClientStatus")!
+       
         }
     }
 }

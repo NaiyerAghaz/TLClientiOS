@@ -27,7 +27,7 @@ class CallingPopupVC: UIViewController {
         callManagerVM.getRoomList { roolist, error in
             if error == nil {
                 self.roomId = roolist?[0].RoomNo ?? "0"
-                
+                print("roomID---------------",self.roomId)
                 self.app?.roomIDAppdel = self.roomId
             }
             
@@ -42,7 +42,7 @@ class CallingPopupVC: UIViewController {
     }
     @IBAction func btnSkipTapped(_ sender: Any){
        
-        
+        if roomId != nil {
             self.addAppCall()
           
         
@@ -67,7 +67,7 @@ class CallingPopupVC: UIViewController {
             
             self.present(vdoCall, animated: true, completion: nil)
         
-        
+        }
         
         /*var roomID,sourceLangID,targetLangID,sourceLangName,targetLangName,patientname,patientno: String?
          var isClientDetails,isScheduled : Bool?*/

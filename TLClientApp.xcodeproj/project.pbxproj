@@ -76,11 +76,13 @@
 		CE76024826CF778800550B68 /* OnDemandOPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76024726CF778800550B68 /* OnDemandOPIViewController.swift */; };
 		CE76024B26CF77D300550B68 /* ScheduledVRIVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76024A26CF77D300550B68 /* ScheduledVRIVIewController.swift */; };
 		CE76024E26CF781500550B68 /* ScheduledOPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76024D26CF781500550B68 /* ScheduledOPIViewController.swift */; };
+		CE7BB20F27212E870089F4F5 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7BB20E27212E870089F4F5 /* ChatManager.swift */; };
 		CE951DB626C6383500EC1BCA /* ForgotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE951DB526C6383500EC1BCA /* ForgotModel.swift */; };
 		CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE951DB726C6385700EC1BCA /* ForgotViewModel.swift */; };
 		CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */; };
 		CEB2569426C23799007A951E /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2569326C23799007A951E /* APIServices.swift */; };
 		CEF76B0527056E6600577B41 /* InviteParticipantVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF76B0427056E6600577B41 /* InviteParticipantVC.swift */; };
+		CEFFA70F2715540F009CA6E8 /* VDOCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFFA70E2715540E009CA6E8 /* VDOCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,11 +182,13 @@
 		CE76024726CF778800550B68 /* OnDemandOPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDemandOPIViewController.swift; sourceTree = "<group>"; };
 		CE76024A26CF77D300550B68 /* ScheduledVRIVIewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledVRIVIewController.swift; sourceTree = "<group>"; };
 		CE76024D26CF781500550B68 /* ScheduledOPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledOPIViewController.swift; sourceTree = "<group>"; };
+		CE7BB20E27212E870089F4F5 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
 		CE951DB526C6383500EC1BCA /* ForgotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotModel.swift; sourceTree = "<group>"; };
 		CE951DB726C6385700EC1BCA /* ForgotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotViewModel.swift; sourceTree = "<group>"; };
 		CEB2569126C236DE007A951E /* WebServicesAlamoFire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebServicesAlamoFire.swift; sourceTree = "<group>"; };
 		CEB2569326C23799007A951E /* APIServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		CEF76B0427056E6600577B41 /* InviteParticipantVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteParticipantVC.swift; sourceTree = "<group>"; };
+		CEFFA70E2715540E009CA6E8 /* VDOCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDOCollectionViewCell.swift; sourceTree = "<group>"; };
 		D2F3CFAD47F2C268F6BBDDFF /* Pods-TLClientAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.release.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		F2A5579F901C5EBCA627CEBD /* Pods-TLClientApp-TLClientAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp-TLClientAppUITests.release.xcconfig"; path = "Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FD14C819134C2F6D64FE518A /* Pods-TLClientApp-TLClientAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp-TLClientAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -401,6 +405,7 @@
 			children = (
 				CE0A61D026D752A7009C86E5 /* CallManager.swift */,
 				CE2944E226DA5C8900D29730 /* VDOCallViewModel.swift */,
+				CE7BB20E27212E870089F4F5 /* ChatManager.swift */,
 			);
 			path = VideoVModel;
 			sourceTree = "<group>";
@@ -522,6 +527,7 @@
 				CE0DDFF626D13B2F003D4FC7 /* LanguageVModel.swift */,
 				CE1D9C7326D603B500B4D8FE /* CallingPopupVC.swift */,
 				CE2A857826D8ACC8008E1293 /* VideoCallViewController.swift */,
+				CEFFA70E2715540E009CA6E8 /* VDOCollectionViewCell.swift */,
 			);
 			path = OnDemandVRIViewController;
 			sourceTree = "<group>";
@@ -853,6 +859,7 @@
 				CE2944E526DA5CF900D29730 /* Models.swift in Sources */,
 				CE76024526CF772300550B68 /* OnDemandVRIViewController.swift in Sources */,
 				CE74B2D326BEEDC8008BBA8C /* LoginViewModel.swift in Sources */,
+				CE7BB20F27212E870089F4F5 /* ChatManager.swift in Sources */,
 				CE2B1F9E2708444300979EDD /* PHAlertBar.swift in Sources */,
 				CE951DB626C6383500EC1BCA /* ForgotModel.swift in Sources */,
 				CE1D9C7426D603B500B4D8FE /* CallingPopupVC.swift in Sources */,
@@ -866,6 +873,7 @@
 				CE06D983270FF9E50097A119 /* InviteViewModel.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
 				CE74B2DD26C026D1008BBA8C /* API.swift in Sources */,
+				CEFFA70F2715540F009CA6E8 /* VDOCollectionViewCell.swift in Sources */,
 				CE1CA79826F76396007F6279 /* MoreCell.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,

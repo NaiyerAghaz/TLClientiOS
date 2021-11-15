@@ -13,6 +13,12 @@ class VendorTVCell: UITableViewCell {
     @IBOutlet weak var btnAudio: UIButton!
     @IBOutlet weak var btnVideo: UIButton!
     @IBOutlet weak var btnDisconnect: UIButton!
+    //LobbyCell
+
+    @IBOutlet weak var lobbyName: UILabel!
+    @IBOutlet weak var btnAccept: UIButton!
+    @IBOutlet weak var btnReject: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,8 +26,23 @@ class VendorTVCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+}
     
+    
+}
+enum VendorIdentityCell:String {
+    case lobbyCell  = "LobbyParicipantListCell"
+    case vendorCell = "VendorParticipantTVCell"
+}
+class VendorParticipantTVCell: UITableViewCell{
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var btnAudio: UIButton!
+    @IBOutlet weak var btnVideo: UIButton!
+    @IBOutlet weak var btnDisconnect: UIButton!
+    
+}
+class LobbyParicipantListCell: UITableViewCell {
+    @IBOutlet weak var lobbyName: UILabel!
+    @IBOutlet weak var btnAccept: UIButton!
+    @IBOutlet weak var btnReject: UIButton!
 }

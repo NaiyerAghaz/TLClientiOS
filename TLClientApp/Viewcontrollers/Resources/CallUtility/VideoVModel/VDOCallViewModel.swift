@@ -7,8 +7,10 @@
 
 import Foundation
 
+
 class VDOCallViewModel {
     var conferrenceDetail = ConferenceInfoResultModel()
+    
     func getTwilioToken(complitionBlock: @escaping(TwilioModel?, Error?) -> ()){
         
         WebServices.get(url: APi.apitoken.url) { (response, _) in
@@ -20,8 +22,7 @@ class VDOCallViewModel {
             complitionBlock(nil,nil)
             SwiftLoader.hide()
         }
-        
-    }
+      }
     func addAppCall( apiReq: [String: Any],completionBlock:@escaping(Bool?, Error?) ->()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.vriCallStart.url, para: apiReq) { response, error in
@@ -185,7 +186,7 @@ class VDOCallViewModel {
                     else {
                         completionHandler(false, nil)
                     }
-                    }
+                }
                 print("Data---->", data, response)
                 
             }
@@ -195,8 +196,66 @@ class VDOCallViewModel {
             print ("Oops something happened buddy")
         }
     }
+    func meetingClientReq(roomID: String) -> [String: Any]{
+        let para :[String:Any] = ["strSearchString":"<Info><ROOMNO>\(roomID)</ROOMNO></Info>"]
+        return para
+    }
+    func getMeetingClientStatusLobbyWithCompletion(parameter:[String:Any],completion:@escaping(Bool?, ClientStatusModel?) ->()){
+        WebServices.postJson(url: APi.getMeetingClientStatus.url, jsonObject: parameter) { response, err in
+            print("clientStatus----------->",response)
+            let res = response as! NSArray
+            let nresult = (res[0] as AnyObject).value(forKey: "ResultData") as! NSArray
+            let result: ClientStatusModel = ClientStatusModel.getData(dicts: nresult[0] as! NSDictionary)
+            completion(true, result)
+        } failureHandler: { resp, err in
+            print(err)
+        }
+        
+    }
+    func reqAccept( pid: String, roomid: String) -> [String: Any]{
+        let para :[String:Any] = ["strSearchString":"<Info><ACTION>P</ACTION><ID></ID><ACTUALROOM>\(roomid)</ACTUALROOM><PID>\(pid)</PID></Info>"]
+        return para
+    }
+    //Accept Invite call
+    func acceptInvitation(parameter:[String: Any],completionBlock:@escaping(Bool?) ->()) {
+        var request = URLRequest(url: APi.ConferenceParticipant.url)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
+        request.httpMethod = "POST"
+        
+        do {
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameter, options: .prettyPrinted)
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completionBlock(false)
+                }
+                guard let data = data else {return}
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        completionBlock(true)
+                    }
+                    else {
+                        completionBlock(false)
+                    }
+                }
+                print("DataAccept---->", response)
+                
+            }
+            .resume()
+        }
+        catch _ {
+            print ("Oops something happened buddy")
+        }
+    }
+    func rejectInvitation(parameter:[String: Any],completionBlock:@escaping(Bool?) ->()) {
+        
+    }
+    //Reject Invite call
     
-    // Convert from JSON to nsdata
+   // Convert from JSON to nsdata
     public func jsonToData(json: Any) -> Data? {
         do {
             return try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)

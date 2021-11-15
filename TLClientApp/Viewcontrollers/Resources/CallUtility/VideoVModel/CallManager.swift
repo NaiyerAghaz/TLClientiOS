@@ -135,13 +135,74 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         // The LocalParticipant is subscribed to the RemoteParticipant's video Track. Frames will begin to arrive now.
-        
-        
         self.view.makeToast("Subscribed to \(publication.trackName) video track for Participant \(participant.identity)")
-        
         if (self.remoteParticipant == nil) {
             _ = renderRemoteParticipant(participant: participant)
         }
+        if remoteParicipantDictionary?.count == 1 {
+           /* {
+                
+                if(self.isChatConnected){
+                    [self.chatBtn setHidden:NO];
+                    self.chatBGView.hidden = NO;
+                }
+                
+                TVILocalParticipant * participantLocal;
+                
+                participantLocal = [[self.localParticipantsDictionary valueForKey:@"0"] valueForKey:@"participant"];
+                
+                [self.localParticipantsDictionary setObject:@{
+                    @"participant" : participantLocal,
+                    @"videoTrak" : self.localVideoTrack
+                } forKey:@"0"];
+            }*/
+            let localParticipant = (self.localParicipantDictionary?.value(forKey: "0") as? NSObject)?.value(forKey: "participant") as? LocalParticipant
+            self.localParicipantDictionary?["0"] = ["participant":localParticipant, "videoTrak":videoTrack]
+            
+        }
+        /*
+         bool saveParticipant = false;
+         int index = 0;
+         for (int i= 0; i< self.remoteParticipantsList.count; i++) {
+             TVIRemoteParticipant * participant1 = [[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"participant"];
+             
+             if(participant1 == participant){
+                 saveParticipant = true;
+                 index = i;
+                 break;
+             }
+         }
+         if(saveParticipant){
+             [self.remoteParticipantsDictionary setObject:@{
+                 @"participant" : participant,
+                 @"videoTrak" : videoTrack
+             } forKey:[NSString stringWithFormat:@"%d",index]];
+         }
+         
+         dispatch_async(dispatch_get_main_queue(), ^(void){
+             [self.videoCollectionView reloadData];
+             [self.speakerVideoCollectionView reloadData];
+         });
+         */
+        var saveParticipant = false
+        var index = 0
+        for i in 0...remoteParticipantArr.count{
+            let nParticipant = (self.localParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "participant") as? RemoteParticipant
+            if nParticipant == participant {
+                saveParticipant = true
+                index = i
+            }
+            
+        }
+        if saveParticipant{
+            //remoteParicipantDictionary?["\(index)"] =
+            self.remoteParicipantDictionary?["\(index)"] = ["participant":participant, "videoTrak": videoTrack]
+        }
+        DispatchQueue.main.async {
+            self.vdoCollectionView.reloadData()
+        }
+        
+        
     }
     
     func didUnsubscribeFromVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
@@ -149,9 +210,6 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         // remote Participant's video.
         
         self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
-        
-        
-        
         if self.remoteParticipant == participant {
             cleanupRemoteParticipant()
             
