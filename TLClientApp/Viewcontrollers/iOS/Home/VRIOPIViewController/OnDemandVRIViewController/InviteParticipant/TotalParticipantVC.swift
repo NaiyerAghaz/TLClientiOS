@@ -10,12 +10,18 @@ import TwilioChatClient
 import BottomPopup
 import TwilioVideo
 
+
+protocol AcceptAndRejectDelegate{
+    func refresh(isaccept: Bool, pid: String)
+}
+
 class TotalParticipantVC: BottomPopupViewController {
     
     @IBOutlet weak var tblView: UITableView!
-    
+    var acceptAndRejectDelegate: AcceptAndRejectDelegate?
     @IBOutlet weak var lblParticipants: UILabel!
     var callChannel : TCHChannel?
+    var myChannel : TCHChannel?
     var vdoCallVM = VDOCallViewModel()
     var camera: CameraSource?
     var localVideoTrack: LocalVideoTrack?
@@ -28,17 +34,24 @@ class TotalParticipantVC: BottomPopupViewController {
     var dismissDuration: Double?
     var shouldDismissInteractivelty: Bool?
     var popupDismisAlphaVal : CGFloat?
+    var conferenceStatusModel: ClientStatusModel?
+    var pid: String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tblView.separatorStyle = .none
         tblView.layoutSubviews()
         tblView.tableFooterView = UIView(frame: .zero)
-        let cellNib = UINib(nibName: "VendorTVCell", bundle: nil)
-        tblView.register(cellNib, forCellReuseIdentifier: tableCellIndentifier.vendorTVCell.rawValue)
+       /// let cellNib = UINib(nibName: "VendorTVCell", bundle: nil)
+      //  tblView.register(cellNib, forCellReuseIdentifier: VendorIdentityCell.vendorCell.rawValue)
+       // tblView.register(cellNib, forCellReuseIdentifier: VendorIdentityCell.lobbyCell.rawValue)
         tblView.delegate = self
         tblView.dataSource = self
-        tblView.reloadData()
+        DispatchQueue.main.async {
+            self.tblView.reloadData()
+        }
+       
     }
     
     @IBAction func btnInviteTapped(_ sender: Any) {
@@ -79,28 +92,93 @@ class TotalParticipantVC: BottomPopupViewController {
 }
 extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if conferenceStatusModel != nil {
+            return 2
+        }
+        else {
+            return 1
+        }
+       
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tblView.dequeueReusableCell(withIdentifier: tableCellIndentifier.vendorTVCell.rawValue, for: indexPath) as? VendorTVCell else { return UITableViewCell() }
-        let obj = conferrenceInfoArr![indexPath.row] as! ConferenceInfoModels
-        cell.lblName.text = obj.UserName
-        cell.btnAudio.tag = indexPath.row
-        cell.btnAudio.addTarget(self, action: #selector(audioPressed), for: .touchUpInside)
-        cell.btnVideo.tag = indexPath.row
-        cell.btnVideo.addTarget(self, action: #selector(videoPressed), for: .touchUpInside)
-        cell.btnDisconnect.addTarget(self, action: #selector(participantCallEnded), for: .touchUpInside)
-        return cell
+        if indexPath.section == 0
+        {
+        guard let cell = tblView.dequeueReusableCell(withIdentifier: VendorIdentityCell.vendorCell.rawValue, for: indexPath) as? VendorParticipantTVCell else { return UITableViewCell() }
+        
+
+            let obj = conferrenceInfoArr![indexPath.row] as! ConferenceInfoModels
+            cell.lblName.text = obj.UserName
+            cell.btnAudio.tag = indexPath.row
+            cell.btnAudio.addTarget(self, action: #selector(audioPressed), for: .touchUpInside)
+            cell.btnVideo.tag = indexPath.row
+            cell.btnVideo.addTarget(self, action: #selector(videoPressed), for: .touchUpInside)
+            cell.btnDisconnect.addTarget(self, action: #selector(participantCallEnded), for: .touchUpInside)
+            return cell
+        }
+        else {
+            guard let cell = tblView.dequeueReusableCell(withIdentifier: VendorIdentityCell.lobbyCell.rawValue, for: indexPath) as? LobbyParicipantListCell else { return UITableViewCell() }
+            let obj = conferenceStatusModel?.INVITEDATA![indexPath.row] as! INVITEDATAMODEL
+                cell.lobbyName.text = obj.name
+               cell.btnAccept.tag = indexPath.row
+                cell.btnAccept.addTarget(self, action: #selector(acceptPressed), for: .touchUpInside)
+                cell.btnReject.tag = indexPath.row
+                cell.btnReject.addTarget(self, action: #selector(rejectPressed), for: .touchUpInside)
+//                cell.btnDisconnect.addTarget(self, action: #selector(participantCallEnded), for: .touchUpInside)
+            return cell
+        }
+       
+        return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if conferenceStatusModel != nil {
+            
+            return conferenceStatusModel?.INVITEDATA?.count ?? 0
+        }
         return conferrenceInfoArr?.count ?? 0
     }
+    // Accept and reject from invite user:
+    
+    @objc func acceptPressed(_ sender: UIButton){
+        DispatchQueue.main.async {
+            SwiftLoader.show(animated: true)}
+        let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
+        let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
+        let req = vdoCallVM.reqAccept(pid: conferrenceItem.pid!, roomid: (conferrence?.ACTUALROOM)!)
+        vdoCallVM.acceptInvitation(parameter: req) { success in
+            if success! {
+               
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                self.acceptAndRejectDelegate?.refresh(isaccept: true, pid: conferrenceItem.pid!)
+                let bodyMsz = "acceptfromclient:\(conferrenceItem.pid!)"
+                print("acceptmessagebody-------------------------->:",bodyMsz)
+                self.dismiss(animated: true, completion: nil)
+                }
+              
+            }
+        }
+    }
+//    func getMeetingClientStatusLobbyRefreshAccept(roomId: String){
+//        let req = vdoCallVM.meetingClientReq(roomID: roomId)
+//        vdoCallVM.getMeetingClientStatusLobbyWithCompletion(parameter: req) { success, result in
+//            if success  == true{
+//                print("meetingRefresh----------------------->:", success, "result2:", result?.ROOMNO)
+//            }
+//            
+//            
+//        }
+//    }
+//    
+    @objc func rejectPressed(_ sender: UIButton){
+        
+    }
+    //End:
     
     @objc func audioPressed(_ sender: UIButton){
         SwiftLoader.show(animated: true)
         //  let indx = vendorTbl
         // sender.isSelected = !sender.isSelected
-        let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorTVCell
+        let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
         let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
         var channelBody = ""
         if vdoIndex.MUTE == "1" {

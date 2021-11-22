@@ -16,8 +16,9 @@ struct nibNamed {
 }
 var userDefaults = UserDefaults.standard
 
-enum tableCellIndentifier: String {
+enum cellIndentifier: String {
     case vendorTVCell = "VendorTVCell"
+    case VDOCollectionViewCell = "VDOCollectionViewCell"
 }
 enum viewIndentifier: String {
     case CallingPopupVC  = "CallingPopupVC"

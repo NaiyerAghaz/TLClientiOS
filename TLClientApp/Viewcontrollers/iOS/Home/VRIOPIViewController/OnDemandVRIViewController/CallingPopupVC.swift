@@ -19,15 +19,14 @@ class CallingPopupVC: UIViewController {
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
         configureUI()
-        // Do any additional setup after loading the view.
+       
     }
     func configureUI(){
-        
-        //Create roomid
+        SwiftLoader.show(animated: true)
         callManagerVM.getRoomList { roolist, error in
             if error == nil {
                 self.roomId = roolist?[0].RoomNo ?? "0"
-                
+                SwiftLoader.hide()
                 self.app?.roomIDAppdel = self.roomId
             }
             
@@ -42,14 +41,11 @@ class CallingPopupVC: UIViewController {
     }
     @IBAction func btnSkipTapped(_ sender: Any){
        
-        
+        if roomId != nil {
             self.addAppCall()
           
         
             self.getCallPriorityVideoWithCompletion()
-            
-        
-        
             debugPrint("roomId:\(roomId),sourceID:\(sourceID),targetID:\(targetID),sourceName:\(sourceName),targetName:\(targetName)")
             let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
@@ -67,12 +63,7 @@ class CallingPopupVC: UIViewController {
             
             self.present(vdoCall, animated: true, completion: nil)
         
-        
-        
-        /*var roomID,sourceLangID,targetLangID,sourceLangName,targetLangName,patientname,patientno: String?
-         var isClientDetails,isScheduled : Bool?*/
-       
-        
+        }
         
     }
     func addAppCall(){
