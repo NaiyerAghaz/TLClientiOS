@@ -48,7 +48,10 @@ class TotalParticipantVC: BottomPopupViewController {
        // tblView.register(cellNib, forCellReuseIdentifier: VendorIdentityCell.lobbyCell.rawValue)
         tblView.delegate = self
         tblView.dataSource = self
-        tblView.reloadData()
+        DispatchQueue.main.async {
+            self.tblView.reloadData()
+        }
+       
     }
     
     @IBAction func btnInviteTapped(_ sender: Any) {
@@ -136,44 +139,36 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
     // Accept and reject from invite user:
     
     @objc func acceptPressed(_ sender: UIButton){
+        DispatchQueue.main.async {
+            SwiftLoader.show(animated: true)}
         let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
         let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
         let req = vdoCallVM.reqAccept(pid: conferrenceItem.pid!, roomid: (conferrence?.ACTUALROOM)!)
         vdoCallVM.acceptInvitation(parameter: req) { success in
             if success! {
+               
                 DispatchQueue.main.async {
+                    SwiftLoader.hide()
                 self.acceptAndRejectDelegate?.refresh(isaccept: true, pid: conferrenceItem.pid!)
                 let bodyMsz = "acceptfromclient:\(conferrenceItem.pid!)"
                 print("acceptmessagebody-------------------------->:",bodyMsz)
                 self.dismiss(animated: true, completion: nil)
                 }
-               /* let messageOption = TCHMessageOptions.init()
-                messageOption.withBody(bodyMsz)
-                self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
-                    if result.isSuccessful(){
-                        print("result.isSuccessful()------------------>:",result.isSuccessful())
-                        DispatchQueue.main.async {
-                            self.dismiss(animated: true, completion: nil)
-                        }
-                       
-                       // self.getMeetingClientStatusLobbyRefreshAccept(roomId: (conferrence?.ACTUALROOM)!)
-                    }
-                   
-                })*/
+              
             }
         }
     }
-    func getMeetingClientStatusLobbyRefreshAccept(roomId: String){
-        let req = vdoCallVM.meetingClientReq(roomID: roomId)
-        vdoCallVM.getMeetingClientStatusLobbyWithCompletion(parameter: req) { success, result in
-            if success  == true{
-                print("meetingRefresh----------------------->:", success, "result2:", result?.ROOMNO)
-            }
-            
-            
-        }
-    }
-    
+//    func getMeetingClientStatusLobbyRefreshAccept(roomId: String){
+//        let req = vdoCallVM.meetingClientReq(roomID: roomId)
+//        vdoCallVM.getMeetingClientStatusLobbyWithCompletion(parameter: req) { success, result in
+//            if success  == true{
+//                print("meetingRefresh----------------------->:", success, "result2:", result?.ROOMNO)
+//            }
+//            
+//            
+//        }
+//    }
+//    
     @objc func rejectPressed(_ sender: UIButton){
         
     }

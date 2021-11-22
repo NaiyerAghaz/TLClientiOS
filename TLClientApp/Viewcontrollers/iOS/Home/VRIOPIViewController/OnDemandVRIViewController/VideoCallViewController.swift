@@ -46,6 +46,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var twilioToken : String?
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
+    var ringToneTimer = Timer()
     var ringingTime = 80
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
@@ -90,7 +91,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         self.vdoCollectionView.dataSource = self
         self.vdoCollectionView.bounces = false
         genarateChatTokenCreate()
-        print("roomID------------>2:", self.roomID)
+       // print("roomID------------>2:", self.roomID)
         // Do any additional setup after loading the view.
     }
     
@@ -112,7 +113,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 self.doConnectTwilio(twilioToken: (model?.token)!)
             }
         }
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ringingCallStart), userInfo: nil, repeats: true)
+        CEnumClass.share.playSounds(audioName: "incoming")
+        self.ringToneTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { timer in
+            CEnumClass.share.playSounds(audioName: "incoming")
+        })
+        DispatchQueue.main.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.ringingCallStart), userInfo: nil, repeats: true)
+        }
+        
         
         vendorTbl.frame = CGRect(x: 0, y: 55, width: self.view.bounds.size.width, height: 200)
         vendorTbl.backgroundColor = UIColor.clear
@@ -407,6 +415,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
         }
     }
+    //MARK: Refresh accept the participant
     func refresh(isaccept: Bool, pid: String) {
         if isaccept{
             let bodyMsz = "acceptfromclient:\(pid)"
@@ -417,12 +426,34 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
                 if result.isSuccessful(){
                     print("result.isSuccessful()------------------>:",result.isSuccessful())
-                    // self.getMeetingClientStatusLobbyRefreshAccept(roomId: (conferrence?.ACTUALROOM)!)
+                    self.getMeetingClientStatusLobbyRefreshAccept(roomId: self.roomID!)
                 }
                
             })
         }
         
+    }
+    func getMeetingClientStatusLobbyRefreshAccept(roomId: String){
+        let req = vdoCallVM.meetingClientReq(roomID: roomId)
+        vdoCallVM.getMeetingClientStatusLobbyWithCompletion(parameter: req) { success, result in
+            if success  == true{
+                print("result?.INVITEDATA2----->",result?.INVITEDATA2)
+                if result?.INVITEDATA2 == "0"{
+                    self.clientStatusModel = nil
+                   
+                    print("clientStatusModel refresh----------->", success)
+                }
+                DispatchQueue.global(qos: .background).async { [self] in
+                    vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+                        print("getParticipant22222----------->", success)
+                    }
+                    
+                }
+                
+            }
+            
+            
+        }
     }
     // MARK:TwilioChatClientDelegate
     
@@ -456,6 +487,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         UIAlertController.showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Delete", distrutiveButton: "End Call", otherButtons: nil) { [self] index, _ in
             if index == 0 {
                 timer.invalidate()
+                ringToneTimer.invalidate()
                 if myAudio != nil{
                     myAudio.stop()
                 }
@@ -507,9 +539,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vcontrol.callChannel = callChannel
         vcontrol.roomlocalParticipantSIDrule = roomlocalParticipantSIDrule
         vcontrol.conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
-        if clientStatusModel != nil {
+       // if clientStatusModel != nil {
             vcontrol.conferenceStatusModel = clientStatusModel
-        }
+       // }
         vcontrol.acceptAndRejectDelegate = self
         // vcontrol.popupDelegate = self
         present(vcontrol, animated: true, completion: nil)
@@ -577,16 +609,16 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     //====================END=============================
     @objc  func ringingCallStart(){
-        DispatchQueue.main.async {
-            CEnumClass.share.playSounds(audioName: "incoming")
-        }
+       
+           // CEnumClass.share.playSounds(audioName: "incoming")
+        
        
         
         ringingTime -= 1
         if ringingTime <= 0 {
             myAudio.stop()
             timer.invalidate()
-            
+            ringToneTimer.invalidate()
             self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
             
         }
@@ -661,6 +693,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         print("renderParticipant Call:")
         ringingView(ishide: false)
         timer.invalidate()
+        ringToneTimer.invalidate()
         if myAudio != nil{
             myAudio.stop()
         }
@@ -821,7 +854,7 @@ extension VideoCallViewController:RoomDelegate{
     }
     
     func participantDidConnect(room: Room, participant: RemoteParticipant) {
-        print("participant added:",participant.remoteAudioTracks.count)
+        print("participant added times---------------:",participant.remoteAudioTracks.count)
         recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
         // let req = vdoCallVM.addParticipantReqApi(Lsid: roomlocalParticipantSIDrule!, roomID: roomID!)
         
@@ -895,12 +928,9 @@ extension VideoCallViewController:RoomDelegate{
 }
 extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if remoteParticipantArr.count > 1 {
-            return remoteParticipantArr.count + 1
-        }
-        else {
+        
             return remoteParticipantArr.count
-        }
+        
        
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -912,8 +942,9 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
         print("remoteParticipantArr:",remoteParticipantArr.count)
        //participant.remoteVideoTracks
        // print("videoPublications:",videoPublications.count)
+       
         
-        if remoteParticipantArr.count > 1 {
+       /* if remoteParticipantArr.count > 1 {
            /* if([[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"videoTrak"] != nil){
                 callCell.audioCallImg.hidden = YES;
                 callCell.pinBtn.hidden = NO;
@@ -923,13 +954,16 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
             }*/
             if indexPath.row == 0 {
                 let localParticipant = (self.localParicipantDictionary?.value(forKey: "0") as? NSObject)?.value(forKey: "videoTrak") as? LocalVideoTrack
-                localParticipant?.addRenderer(cell.remoteView)
+                if localParticipant != nil {
+                    localParticipant?.addRenderer(cell.remoteView)
+                }
+               
               //  startPreview(localView: cell.remoteView)
                 self.preview.isHidden = true
                
             }
            else {
-            let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
+           /* let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
                 for publication in videoPublications {
                     if let subscribedVideoTrack = publication.remoteTrack,
                        publication.isTrackSubscribed {
@@ -947,11 +981,29 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                         
                         
                     }
+                }*/
+            for i in 0...remoteParticipantArr.count {
+                if i+1 == indexPath.row {
+                    print("remote--------------->",i)
+                    
+                    if let vTrack = (self.remoteParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "videoTrak") as? RemoteVideoTrack {
+                        print("remote---------------2>",vTrack)
+//                        let remote = VideoView(frame: CGRect(x: 0, y: 0, width: self.vdoCollectionView.frame.size.width, height: self.vdoCollectionView.frame.size.height))
+//                        remote.contentMode = .scaleAspectFill
+//                        remote.clipsToBounds = false
+//                        cell.remoteView?.contentMode = .scaleAspectFill
+//                        cell.remoteView?.clipsToBounds = false
+                        vTrack.addRenderer(remote)
+                        cell.remoteView.addSubview(remote)
+                       // vTrack.addRenderer(cell.remoteView)
+                    }
+                   
                 }
+            }
             }
 
         }
-        else {
+        else {*/
             let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
 
             self.preview.isHidden = false
@@ -959,25 +1011,23 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                 if let subscribedVideoTrack = publication.remoteTrack,
                    publication.isTrackSubscribed {
                     print("videoPublications--->",publication.isTrackSubscribed)
-                    /// setupRemoteVideoView()
+                   
                     let remote = VideoView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
                     remote.contentMode = .scaleAspectFill
                     remote.clipsToBounds = false
                     cell.remoteView?.contentMode = .scaleAspectFill
+                    cell.remoteView.layer.cornerRadius = 10
+                    cell.remoteView.clipsToBounds = false
                     cell.remoteView?.clipsToBounds = false
                     subscribedVideoTrack.addRenderer(remote)
-                    //                let remote = VideoView(frame: CGRect(x: 0, y: 0, width:180, height: 220))
-                    //                cell.remoteView?.contentMode = UIView.ContentMode.scaleAspectFill
-                    //                cell.remoteView?.clipsToBounds = false
-                    //                cell.remoteView.addSubview(remote)
-                    // self.remoteParticipant = participant
-                    
-                    cell.remoteView.addSubview(remote)
-                    // videoPublications[0].remoteTrack?.addRenderer(remote)
+                     cell.remoteView.addSubview(remote)
+                   
                     
                 }
+        
+                
             }
-        }
+       // }
 
         
         
@@ -987,32 +1037,24 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                             UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == vdoCollectionView {
             
-            if(self.remoteParticipantArr.count == 0){
-                
-                return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height)
-            }
-            else if self.remoteParticipantArr.count == 1 {
+           
+            if self.remoteParticipantArr.count == 1 {
                 return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height)
             }
             else if self.remoteParticipantArr.count == 2 {
-                if indexPath.row == 2 {
+               
                     return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height/2-10)
-                }
-                else {
-                    return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/2-10)
-                }
+                
                 
             }
             else if self.remoteParticipantArr.count == 3 {
                 return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/2-10)
             }
             else if self.remoteParticipantArr.count == 4 {
-                if indexPath.row == 4 {
-                    return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height/3-10)
-                }
-                else {
+               
+               
                     return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/3-10)
-                }
+                
                 
             }
             else if self.remoteParticipantArr.count == 5 {
@@ -1036,7 +1078,7 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
            // Collection View size right?
         }
         else {
-            return CGSize(width: 374, height: 494)
+            return CGSize(width: 370, height: 490)
         }
         
     }
@@ -1059,10 +1101,7 @@ extension VideoCallViewController:VideoViewDelegate {
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         print("call-----------------------------101")
         print("message body:", message.body)
-//        if  message.body == "meetingfrominvitenotification" {
-//            showLobbyAlert()
-//
-//        }
+
         let messString = message.body!
         if messString.contains("meetingfrominvitenotification") {
             showLobbyAlert()

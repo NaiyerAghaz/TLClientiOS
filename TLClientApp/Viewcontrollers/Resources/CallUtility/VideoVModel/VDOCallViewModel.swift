@@ -84,6 +84,7 @@ class VDOCallViewModel {
                 guard let data = data else {return}
                 do {
                     let Json = try JSONSerialization.jsonObject(with: data, options: []) as? NSArray
+                    print("participant added json:------------------>",Json)
                     let newArrDict = Json![0] as! NSDictionary
                     let result = newArrDict.object(forKey: "result") as! String
                     print("resultresultresult->",result,newArrDict)

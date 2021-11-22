@@ -208,7 +208,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     func didUnsubscribeFromVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
         // remote Participant's video.
-        
+        print("cleanup remote participant----------------------:")
         self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
         if self.remoteParticipant == participant {
             cleanupRemoteParticipant()

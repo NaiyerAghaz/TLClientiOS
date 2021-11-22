@@ -68,6 +68,7 @@ class ClientStatusModel: NSObject {
     var INVITEDATA: NSMutableArray?
     var INVITESTATUS: String?
     var ROOMNO: String?
+    var INVITEDATA2: String?
    override init() {
     CLIENTSTATUS = ""
     DURATION = ""
@@ -75,6 +76,7 @@ class ClientStatusModel: NSObject {
     INVITEDATA = NSMutableArray()
     INVITESTATUS = ""
     ROOMNO = ""
+    INVITEDATA2 = ""
     
     }
     class func getData(dicts: NSDictionary) -> ClientStatusModel {
@@ -85,15 +87,19 @@ class ClientStatusModel: NSObject {
         item.INVITECOUNT = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "INVITECOUNT") ?? "") as String
         item.ROOMNO = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "ROOMNO") ?? "") as String
         item.INVITESTATUS = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "INVITESTATUS") ?? "") as String
-        item.INVITEDATA = NSMutableArray()
-        let arr = dicts["INVITEDATA"] as! NSArray
-        for nItem in arr {
-            let obj:INVITEDATAMODEL = INVITEDATAMODEL.getData(dicts: nItem as! NSDictionary)
-            item.INVITEDATA?.add(obj)
+        
+        if let invitedata =  dicts.value(forKey: "INVITEDATA") as? Int {
+            item.INVITEDATA2 = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "INVITEDATA") ?? "") as String
         }
-        
-        
-    return item
+        else {
+            item.INVITEDATA = NSMutableArray()
+            let arr = dicts["INVITEDATA"] as! NSArray
+            for nItem in arr {
+                let obj:INVITEDATAMODEL = INVITEDATAMODEL.getData(dicts: nItem as! NSDictionary)
+                item.INVITEDATA?.add(obj)
+            }
+        }
+       return item
     }
 
 }
