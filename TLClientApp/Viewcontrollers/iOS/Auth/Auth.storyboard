@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5sx-dj-Qcv">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -146,11 +147,12 @@
                             <constraint firstItem="ing-o5-2kh" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="Fv9-V8-KzL"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="rfE-22-fyk"/>
                     <nil key="simulatedTopBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="95.652173913043484" y="73.660714285714278"/>
+            <point key="canvasLocation" x="1910.144927536232" y="73.369565217391312"/>
         </scene>
         <!--LoginVC-->
         <scene sceneID="0wN-dq-LLR">
@@ -205,7 +207,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkw-cC-sRk">
                                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="60"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Naiyer_customer1" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G5L-sn-0pm">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Rajni1" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G5L-sn-0pm">
                                                                         <rect key="frame" x="38" y="4" width="326" height="52"/>
                                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -239,7 +241,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SlO-Qe-4lm">
                                                                 <rect key="frame" x="0.0" y="70" width="374" height="60"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Total@user2020" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="paX-on-8fV">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Total@user2021" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="paX-on-8fV">
                                                                         <rect key="frame" x="38" y="4" width="302" height="52"/>
                                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -288,7 +290,7 @@
                                                                 <rect key="frame" x="0.0" y="140" width="374" height="60"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcf-P3-CZq">
-                                                                        <rect key="frame" x="258" y="2" width="116" height="33"/>
+                                                                        <rect key="frame" x="243" y="2" width="131" height="31"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="Neuton-Bold" family="Neuton" pointSize="16"/>
                                                                         <state key="normal" title="Forgot Password?">
@@ -322,7 +324,7 @@
                                                                 <rect key="frame" x="0.0" y="280.00000000000006" width="374" height="60"/>
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KWN-hF-rb3">
-                                                                        <rect key="frame" x="0.0" y="2" width="143" height="33"/>
+                                                                        <rect key="frame" x="0.0" y="2" width="142" height="31"/>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="Neuton-Bold" family="Neuton" pointSize="16"/>
                                                                         <state key="normal" title="FACE ID/TOUCH ID">
@@ -398,7 +400,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jDZ-W8-gDE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="786.95652173913049" y="73.369565217391312"/>
+            <point key="canvasLocation" x="2601.449275362319" y="73.369565217391312"/>
         </scene>
         <!--Forgot PasswordVC-->
         <scene sceneID="pkF-cp-pwg">
@@ -581,17 +583,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5y-5U-6q0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470" y="74"/>
+            <point key="canvasLocation" x="3284.057971014493" y="73.369565217391312"/>
         </scene>
         <!--Home-->
         <scene sceneID="tQp-jD-9uc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3jZ-JB-BzV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewControllerPlaceholder storyboardName="Home" id="D6D-Xf-K9N" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="M0I-C7-Ok6"/>
                 </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3jZ-JB-BzV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1160" y="571"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4wy-Lz-SsS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="5sx-dj-Qcv" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="llG-Ug-DEj">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="xoJ-1H-atS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M4e-NW-7A9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1002.8985507246377" y="73.369565217391312"/>
         </scene>
     </scenes>
     <resources>

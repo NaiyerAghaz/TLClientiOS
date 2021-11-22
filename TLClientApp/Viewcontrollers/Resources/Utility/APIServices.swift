@@ -33,4 +33,12 @@ class ApiServices: NSObject {
         return req
         
     }
+    func deviceTokenReq(TokenID: String,Status: String,UserID: String,DeviceType: String,voipToken: String) -> [String: Any]{
+        let para:[String: Any] = ["TokenID":TokenID, "Status":Status, "UserID":UserID,"DeviceType":DeviceType,"voipToken":voipToken]
+        print("param for update device token \(para)")
+        return para
+    }
+    func getRoomId() {
+        
+    }
 }

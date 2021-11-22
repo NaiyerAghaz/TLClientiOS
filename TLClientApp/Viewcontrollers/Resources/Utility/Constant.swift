@@ -13,3 +13,5 @@ struct Storyboard_name {
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
 }
+
+var userDefaults = UserDefaults.standard

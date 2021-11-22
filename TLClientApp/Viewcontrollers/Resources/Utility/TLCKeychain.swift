@@ -12,7 +12,7 @@ import Security
 class keychainServices : NSObject {
     
     
-    
+    @discardableResult
     class func save(key: String, data: Data) -> OSStatus {
         //
         
@@ -35,6 +35,7 @@ class keychainServices : NSObject {
         // search for keychain item
         var dataTypeRef : AnyObject? = nil
         let status : OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
+        print("status for touch id \(status)")
         if status == noErr {
             return dataTypeRef as! Data?
         }

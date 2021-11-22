@@ -8,22 +8,85 @@
 import UIKit
 import CoreData
 import IQKeyboardManager
-
+import FirebaseMessaging
+import UserNotifications
+import Messages
+import Firebase
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+    var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
-        // Override point for customization after application launch.
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
+        registerNotification(app: application)
+        
+        let userId = userDefaults.string(forKey: "userId") ?? ""
+        if userId != "" {
+            let storyboard : UIStoryboard = UIStoryboard(name:Storyboard_name.home, bundle: nil)
+//                        let navigationController : UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "TestNav") as! TestNav
+//                        navigationController.viewControllers = [rootViewController]
+                                           //self.window = UIWindow(frame: UIScreen.main.bounds)
+                        self.window?.rootViewController = rootViewController
+                        self.window?.makeKeyAndVisible()
+        }else {
+            let storyboard : UIStoryboard = UIStoryboard(name:Storyboard_name.login, bundle: nil)
+                        let navigationController : UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                        navigationController.viewControllers = [rootViewController]
+                                           //self.window = UIWindow(frame: UIScreen.main.bounds)
+                        self.window?.rootViewController = navigationController
+                        self.window?.makeKeyAndVisible()
+        }
+        
+        
+        
+        
+        
+        if #available(iOS 13.0, *) {
+                         window?.overrideUserInterfaceStyle = .light
+                         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+        }
+        
+        let center = UNUserNotificationCenter.current()
+                 center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                     // Enable or disable features based on Screen Time authorization.
+                 }
+                 application.registerForRemoteNotifications()
+             
+             if #available(iOS 10.0, *) {
+               // For iOS 10 display notification (sent via APNS)
+               UNUserNotificationCenter.current().delegate = self
+
+               let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+               UNUserNotificationCenter.current().requestAuthorization(
+                 options: authOptions,
+                 completionHandler: { _, _ in }
+               )
+             } else {
+               let settings: UIUserNotificationSettings =
+                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+               application.registerUserNotificationSettings(settings)
+             }
+             if #available(iOS 13.0, *) {
+                         window?.overrideUserInterfaceStyle = .light
+                         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+                     }
+             
+             if #available(iOS 13.0, *) {
+                      window?.overrideUserInterfaceStyle = .light
+                      UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+                  }
+        
+        
         return true
     }
 
    
     // MARK: UISceneSession Lifecycle
-
+/*
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -34,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
+    }*/
 
     // MARK: - Core Data stack
 
@@ -80,6 +143,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    // Register for FCM notification
+    
+    public func registerNotification(app: UIApplication){
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
 
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+          )
+        } else {
+          let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            app.registerUserNotificationSettings(settings)
+        }
+
+        app.registerForRemoteNotifications()
+    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().token { token, error in
+            print("check FCM TOken ")
+          if let error = error {
+            print("Error fetching FCM registration token: \(error)")
+          } else if let token = token {
+            print("FCM registration token: \(token)")
+          //  let fcmToken = Data("\(token)".utf8)
+            userDefaults.setValue(token, forKey: "fcmToken")
+            //keychainServices.save(key: "fcmtoken", data: fcmToken)
+          }
+        }
+        //or
+        /*
+         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+         print("dtoken=", deviceTokenString)
+     Messaging.messaging().apnsToken = deviceToken**/
+    }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("userInfo------>",userInfo)
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("will not generate in simulator", error.localizedDescription)
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print(notification)
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print(completionHandler)
+    }
+   
 }
 

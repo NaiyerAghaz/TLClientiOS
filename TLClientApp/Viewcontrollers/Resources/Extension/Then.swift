@@ -68,3 +68,9 @@ extension CGVector: Then {}
   extension UIOffset: Then {}
   extension UIRectEdge: Then {}
 #endif
+
+extension UISlider {
+    func roundOffValue() -> Int {
+        return Int(self.value * 100)
+    }
+}

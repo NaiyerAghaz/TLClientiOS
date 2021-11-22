@@ -59,15 +59,12 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     
     func pickerView( _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        return languageViewModel.titleForList(row: row)
+        return languageViewModel.titleForList(row: row, tag: 0)
         
     }
     
     func pickerView( _ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-     
-       
         if sourceLang {
-            
             languageViewModel.titleToTxtField(row: row, txtField: txtSourceLanguage)
         }
         else {
