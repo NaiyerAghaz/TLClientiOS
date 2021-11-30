@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import AVFoundation
+var myAudio: AVAudioPlayer!
 class CEnumClass: NSObject {
     static let share = CEnumClass()
     func convertToJSON(resulTDict:NSDictionary) -> NSDictionary {
@@ -64,6 +66,38 @@ class CEnumClass: NSObject {
         nav?.navigationBar.isTranslucent = true
         nav?.view.backgroundColor = .clear
     }
+    func playSounds(audioName: String) {
+       
+       let path = Bundle.main.path(forResource: audioName, ofType: "mp3")!
+       let url = URL(fileURLWithPath: path)
+       do {
+           let sound = try AVAudioPlayer(contentsOf: url)
+           myAudio = sound
+           sound.play()
+       } catch {
+           //
+       }
+       func changeThemeMethod(){
+           
+       }
+   }
+    
+    func playSoundsWave(audioName: String) {
+       
+       let path = Bundle.main.path(forResource: audioName, ofType: "wav")!
+       let url = URL(fileURLWithPath: path)
+       do {
+           let sound = try AVAudioPlayer(contentsOf: url)
+           myAudio = sound
+           sound.play()
+       } catch {
+           //
+       }
+   
+}
+    
+    
+    
 }
 extension String {
     func isValidEmail() -> Bool {

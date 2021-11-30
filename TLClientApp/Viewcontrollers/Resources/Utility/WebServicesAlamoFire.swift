@@ -17,7 +17,8 @@ let configuration = URLSessionConfiguration.default
 class WebServices {
     static let sessionManager = Alamofire.Session(configuration: configuration)
     class func get(url: URL, completionHandler: CompletionBlock? = nil, failureHandler: FailureBlock? = nil) {
-        
+//        print("URLs......@ \(url)")
+        SwiftLoader.show(animated: true)
         sessionManager.request(url,
                                method: .get
             )

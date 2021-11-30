@@ -41,7 +41,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
     var apiUpdateDeviceTokenRespose : ApiUpdateDeviceTokenRespose?
     var apiLogoutResponseModel : ApiLogoutResponseModel?
     @IBOutlet var dashBoardTitleLbl: UILabel!
-    
+    var apiGetSpecialityDataModel :ApiGetSpecialityDataModel?
      var apiNotificationResponseModel:ApiNotificationResponseModel?
     
     @IBOutlet var notificationBtn: MIBadgeButton!
@@ -59,7 +59,8 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
         tblCalenderView.spr_setIndicatorHeader { [weak self] in
                         self?.action()
                     }
-        
+        getServiceType()
+        self.dashBoardTitleLbl.text = GetPublicData.sharedInstance.companyName
         GetPublicData.sharedInstance.getAllLanguage()
         NotificationCenter.default.addObserver(self, selector: #selector(self.moveToUploadImg(notification:)), name: Notification.Name("UpdateProfilePic"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.actionLogout(notification:)), name: Notification.Name("LogoutFunction"), object: nil)// LogoutFunction
@@ -351,7 +352,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
                                                             self.showAppointmentArr.append(appointmentData)
                                                         }
                                                     })
-                                                    
+                                                   
                                                     print("total appointment for \(selectedDate) are \(self.showAppointmentArr.count)")
 
                                                     tblCalenderView.reloadData()
@@ -366,6 +367,52 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
                                             }
                                     })
                          }
+    func getServiceType(){
+        SwiftLoader.show(animated: true)
+        
+        //Appointment/GetData?methodType=Speciality&CompanyId=55&SpType1=1
+             let userId = userDefaults.string(forKey: "userId") ?? ""
+              let companyId = userDefaults.string(forKey: "companyID") ?? ""
+            let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
+            let urlPostFix = "&CompanyId=\(companyId)&SpType1=1"
+              
+            let urlString = "\(APi.speciality.url)" + urlPostFix
+        print("url for service  \(urlString)")
+                AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
+                    .validate()
+                    .responseData(completionHandler: { [self] (response) in
+                        SwiftLoader.hide()
+                        switch(response.result){
+                        
+                        case .success(_):
+                            print("Respose Success ")
+                            guard let daata = response.data else { return }
+                            do {
+                                let jsonDecoder = JSONDecoder()
+                                self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata)
+                               print("Success")
+                                GetPublicData.sharedInstance.apiGetSpecialityDataModel = self.apiGetSpecialityDataModel
+                                
+                                
+                                
+                                GetPublicData.sharedInstance.apic.removeAll()
+                                self.apiGetSpecialityDataModel?.appointmentType?.forEach({ (abc) in
+                                    GetPublicData.sharedInstance.apic.append(abc)
+                                })
+                                print("count for appointment data \(GetPublicData.sharedInstance.apic.count)")
+                                
+                                
+                                
+                            } catch{
+                                
+                                print("error block forgot password " ,error)
+                            }
+                        case .failure(_):
+                            print("Respose Failure service ")
+                           
+                        }
+                })
+     }
     func convertDateAndTimeFormat(_ date: String) -> String
     {
             let dateFormatter = DateFormatter()
@@ -590,7 +637,7 @@ extension Date {
 
 
 
-struct ApiNotificationResponseModel : Codable {
+/*struct ApiNotificationResponseModel : Codable {
     let notificationsCounts : [ApiNotificationsCountsResponseData]?
 
     enum CodingKeys: String, CodingKey {
@@ -1129,5 +1176,5 @@ struct ApiNotificationsCountsResponseData : Codable {
         orientation = try values.decodeIfPresent(String.self, forKey: .orientation)
     }
 
-}
+}*/
 

@@ -16,19 +16,27 @@ pod 'FSCalendar'
 pod 'XLPagerTabStrip'
 #https://github.com/xmartlabs/XLPagerTabStrip
 pod 'TwilioVideo'
+#pod 'TwilioVideo', '~> 4.4'
+#pod 'TwilioVoice'
+#pod 'TwilioVoice', '~> 6.3.0'
+pod 'TwilioChatClient'
+#pod 'TwilioChatClient', '~> 5.0.1'https://www.twilio.com/docs/chat/ios/changelog
 pod 'Charts'
 pod 'SwiftPullToRefresh'
 pod 'iOSDropDown' 
 pod 'SDWebImage'
 #pod 'TwilioVideo', '~> 4.4'
   # Pods for TLClientApp
-pod 'TwilioVoice', '~> 6.3.0'
+#pod 'TwilioVoice', '~> 6.3.0'
+pod 'TwilioVoice'
 pod 'ReachabilitySwift'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'
 pod 'SideMenu'
 pod 'DropDown'
 pod 'DateTimePicker'
+pod 'SwiftMessages'
+pod 'BottomPopup'
   target 'TLClientAppTests' do
     inherit! :search_paths
     # Pods for testing

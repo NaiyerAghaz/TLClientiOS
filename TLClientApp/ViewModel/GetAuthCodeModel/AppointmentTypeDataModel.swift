@@ -12,7 +12,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct AppointmentTypeDataModel : Codable {
+class AppointmentTypeDataModel : Codable {
 	let id : Int?
 	let code : String?
 	let value : String?
@@ -34,7 +34,7 @@ struct AppointmentTypeDataModel : Codable {
 		case flag = "Flag"
 	}
 
-	init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		id = try values.decodeIfPresent(Int.self, forKey: .id)
 		code = try values.decodeIfPresent(String.self, forKey: .code)
@@ -45,5 +45,6 @@ struct AppointmentTypeDataModel : Codable {
 		color = try values.decodeIfPresent(String.self, forKey: .color)
 		flag = try values.decodeIfPresent(String.self, forKey: .flag)
 	}
+    
 
 }

@@ -15,7 +15,8 @@ public class GetPublicData {
     public var companyName = userDefaults.string(forKey: "companyName") ?? ""
     public var userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
     public var companyID = userDefaults.string(forKey: "companyID") ?? ""
-   
+    var apic = [AppointmentTypeDataModel]()
+    var apiGetSpecialityDataModel:ApiGetSpecialityDataModel?
     
     public var apiGetAllLanguageResponse:ApiGetAllLanguageResponse?
     public func getAllLanguage(){

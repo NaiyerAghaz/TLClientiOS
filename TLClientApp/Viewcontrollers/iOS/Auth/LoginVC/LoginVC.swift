@@ -35,8 +35,11 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //userNameTF.text = "Naiyer_customer1"
+        //passwordTF.text = "Total@user2020"
         loginUpdate()
     }
+    
     func loginUpdate() {
         userNameTF.rx.text.map { $0 ?? ""}.bind(to: loginVModel.userNameTFPublishObject).disposed(by: disposebag)
         passwordTF.rx.text.map{$0 ?? ""}.bind(to: loginVModel.emailTFPublishObject).disposed(by: disposebag)
@@ -74,7 +77,7 @@ class LoginVC: UIViewController {
         loginVModel.userLogin(UserName: userNameTF.text!, Password: passwordTF.text!, Ip: "M", Latitude: "", Longitude: "") { resp, err in
             SwiftLoader.hide()
             if resp! {
-                
+                print("login detail \(self.loginVModel.user.userDetails![0])")
                 let item = self.loginVModel.user.userDetails![0] as! DetailsModal
                 if item.userTypeID == "4" || item.userTypeID == "7" || item.userTypeID == "8" {
                     
@@ -90,24 +93,53 @@ class LoginVC: UIViewController {
                             userDefaults.set(item.userTypeID, forKey: "userTypeID")
                             userDefaults.set(item.customerID, forKey: "CustomerID")
                             userDefaults.set(item.userGuID, forKey: "userGUID")
+                         
                             print("userGUID is \(item.userGuID)")
                             //keychainServices.save(key: "username", data: Data(self.userNameTF.text!.utf8))
                            // keychainServices.save(key: "password", data: Data(self.passwordTF.text!.utf8))
                             self.view.makeToast("You have logged in", duration: 1.0, position: .top)
                             if  keychainServices.getKeychaindata(key: "touchID") != nil {
+                                self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                    if success == true {
+                                        let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                        let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                        self.navigationController?.pushViewController(vc, animated: true)
+                                    }
+                                }
                                 
-                                self.registerTwilioAccessToken(with: item)
+                                
+                                
+//                                self.registerTwilioAccessToken(with: item)
                             }
                             else {
                                 let alert = UIAlertController(title: "Do you want to save this login to use FACE ID/TOUCH ID", message: "", preferredStyle: .alert)
                                 let cancel = UIAlertAction(title: "Cancel", style: .cancel){ cancel  in
-                                    self.registerTwilioAccessToken(with: item)
+                                    
+                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                        if success == true {
+                                            let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                            let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        }
+                                    }
+                                    
+                                    
+//                                    self.registerTwilioAccessToken(with: item)
                                 }
                                 let yes = UIAlertAction(title: "Yes", style: .destructive) { alert in
                                     self.btnFaceAndTouchID.isHidden = false
                                     userDefaults.set(true, forKey: "touchID" )
 //                                    keychainServices.save(key: "touchID", data: Data("true".utf8))
-                                    self.registerTwilioAccessToken(with: item)
+                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                        if success == true {
+                                            let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                            let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                            self.navigationController?.pushViewController(vc, animated: true)
+                                        }
+                                    }
+                                    
+                                    
+//                                    self.registerTwilioAccessToken(with: item)
                                 }
                                 alert.addAction(cancel)
                                 alert.addAction(yes)

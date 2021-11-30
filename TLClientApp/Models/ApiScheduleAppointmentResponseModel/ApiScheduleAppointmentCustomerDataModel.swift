@@ -58,7 +58,7 @@ struct ApiScheduleAppointmentCustomerDataModel : Codable {
 	let unicFlag : String?
 	let badgeNumber : String?
 	let onsiteMilage : String?
-	let interpreterID : String?
+	let interpreterID : Int?
 	let officialCompany : String?
 	let acceptAndDeclineStatus : String?
 	let text : String?
@@ -735,7 +735,7 @@ struct ApiScheduleAppointmentCustomerDataModel : Codable {
 		unicFlag = try values.decodeIfPresent(String.self, forKey: .unicFlag)
 		badgeNumber = try values.decodeIfPresent(String.self, forKey: .badgeNumber)
 		onsiteMilage = try values.decodeIfPresent(String.self, forKey: .onsiteMilage)
-		interpreterID = try values.decodeIfPresent(String.self, forKey: .interpreterID)
+		interpreterID = try values.decodeIfPresent(Int.self, forKey: .interpreterID)
 		officialCompany = try values.decodeIfPresent(String.self, forKey: .officialCompany)
 		acceptAndDeclineStatus = try values.decodeIfPresent(String.self, forKey: .acceptAndDeclineStatus)
 		text = try values.decodeIfPresent(String.self, forKey: .text)

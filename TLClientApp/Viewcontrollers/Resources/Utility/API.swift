@@ -16,7 +16,7 @@ let nBaseUrl = "https://lsp.totallanguage.com"
 let twiliBaseURL = "https://sai1.smsionline.com"
 let baseOPI = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken"
 //let baseOPI = "https://lsp.smsionline.com/OPI/GetOPIAccessToken"
-
+let chatURL = "https://vriservices.totallanguage.com"
 enum APi{
     case login
     case forgetPassword
@@ -31,6 +31,8 @@ enum APi{
     case getVenueData
     case getAuthCode
     case speciality
+    case vriCallStart
+    case ConferenceParticipant
     case addAppointment
     case addDepartment
     case addproviderData
@@ -43,6 +45,12 @@ enum APi{
     case getData
     case notificationDetail
     case Vrilog
+    case vricallstart
+    case getVriVendorsbyLid
+    case AddUpdateConferenceData
+    case getParticipantByRoom
+    case getMeetingClientStatus
+    case chattoken
     var url: URL{
         switch self {
         case .login:
@@ -101,6 +109,22 @@ enum APi{
         case .notificationDetail:
             return URL(string: nBaseUrl + "/Home/GetData?methodType=NotificationsByUsername&")!
             
+        case .getVriVendorsbyLid:
+            return URL(string: baseUrl + "/chatBox/getVriVendorsbyLid")!
+        case .vricallstart:
+            return URL(string: nBaseUrl + "/VRICall/vricallstart")!
+        case .AddUpdateConferenceData:
+            return URL(string: baseUrl + "/AddUpdateConferenceData")!
+        case .vriCallStart:
+            return URL(string: nBaseUrl + "/VRICall/vricallstart")!
+        case .ConferenceParticipant:
+            return URL(string: baseUrl + "/ConferenceParticipant")!
+        case .getParticipantByRoom:
+            return URL(string: baseUrl + "/GetParticipantsByRoom")!
+        case .getMeetingClientStatus:
+            return URL(string: baseUrl + "/getMeetingClientStatus")!
+        case .chattoken:
+            return URL(string: chatURL + "/chattoken")!
         }
     }
 }

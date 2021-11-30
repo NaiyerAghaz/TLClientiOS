@@ -26,6 +26,7 @@ class venueListTableViewCell : UITableViewCell {
 }
 class VenueListViewController: UIViewController {
 
+    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet var venuListTV: UITableView!
     var stateDataSouerce = [String]()
     var apiAddVenueResponse:ApiAddVenueResponse?

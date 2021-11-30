@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+
 struct Storyboard_name {
     static let login = "Auth"
     static let home = "Home"
@@ -15,3 +17,31 @@ struct nibNamed {
 }
 
 var userDefaults = UserDefaults.standard
+enum cellIndentifier: String {
+    case vendorTVCell = "VendorTVCell"
+    case VDOCollectionViewCell = "VDOCollectionViewCell"
+}
+enum viewIndentifier: String {
+    case CallingPopupVC  = "CallingPopupVC"
+    case InviteParticipantVC  = "InviteParticipantVC"
+}
+class DynamicTableView: UITableView {
+
+    /// Will assign automatic dimension to the rowHeight variable
+    /// Will asign the value of this variable to estimated row height.
+    var dynamicRowHeight: CGFloat = UITableView.automaticDimension {
+        didSet {
+            rowHeight = UITableView.automaticDimension
+            estimatedRowHeight = dynamicRowHeight
+        }
+    }
+
+    public override var intrinsicContentSize: CGSize { contentSize }
+
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        if !bounds.size.equalTo(intrinsicContentSize) {
+            invalidateIntrinsicContentSize()
+        }
+    }
+}
