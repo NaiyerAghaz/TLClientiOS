@@ -108,7 +108,7 @@ PODS:
     - SwiftMessages/App (= 9.0.3)
   - SwiftMessages/App (9.0.3)
   - TwilioChatClient (5.0.1)
-  - TwilioVideo (4.4.0)
+  - TwilioVideo (4.6.2)
   - TwilioVoice (6.3.0)
   - XLPagerTabStrip (9.0.0)
 
@@ -179,10 +179,10 @@ SPEC CHECKSUMS:
   RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
   SwiftMessages: 077f19126c24033fe24042237ecc20261adb46e4
   TwilioChatClient: 2a915858c972075108da2fd5fc382f237b1490cc
-  TwilioVideo: fcf10b7460e582570887d194b73e75425685d813
+  TwilioVideo: f8c75425bce3f41912bb24352154b0502d89a9b3
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
 PODFILE CHECKSUM: 985c58008ecbcee824aceb6bbe77449f972913cb
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2

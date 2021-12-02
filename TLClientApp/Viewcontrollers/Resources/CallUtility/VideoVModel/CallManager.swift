@@ -187,7 +187,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         var saveParticipant = false
         var index = 0
         for i in 0...remoteParticipantArr.count{
-            let nParticipant = (self.localParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "participant") as? RemoteParticipant
+            let nParticipant = (self.remoteParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "participant") as? RemoteParticipant
             if nParticipant == participant {
                 saveParticipant = true
                 index = i

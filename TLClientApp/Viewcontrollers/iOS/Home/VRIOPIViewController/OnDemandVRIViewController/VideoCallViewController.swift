@@ -737,6 +737,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     
     func cleanupRemoteParticipant() {
+        print("cleanup first remote participant----------->")
         if self.remoteParticipant != nil {
             self.remoteView?.removeFromSuperview()
             self.remoteView = nil
@@ -939,7 +940,14 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: indexPath) as!  VDOCollectionViewCell
+        
+        let remote = VideoView(frame: CGRect(x: 0, y: 0, width: cell.remoteView.frame.size.width, height: cell.remoteView.frame.size.height))
+        remote.contentMode = .scaleAspectFill
+        remote.clipsToBounds = false
+        cell.remoteView?.contentMode = .scaleAspectFill
+        cell.remoteView.addSubview(remote)
         print("remoteParticipantArr:",remoteParticipantArr.count)
+       
        //participant.remoteVideoTracks
        // print("videoPublications:",videoPublications.count)
        
@@ -1012,7 +1020,7 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                    publication.isTrackSubscribed {
                     print("videoPublications--->",publication.isTrackSubscribed)
                    
-                    let remote = VideoView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+                   /* let remote = VideoView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
                     remote.contentMode = .scaleAspectFill
                     remote.clipsToBounds = false
                     cell.remoteView?.contentMode = .scaleAspectFill
@@ -1020,7 +1028,9 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                     cell.remoteView.clipsToBounds = false
                     cell.remoteView?.clipsToBounds = false
                     subscribedVideoTrack.addRenderer(remote)
-                     cell.remoteView.addSubview(remote)
+                     cell.remoteView.addSubview(remote)*/
+                    subscribedVideoTrack.addRenderer(remote)
+                    
                    
                     
                 }
@@ -1053,7 +1063,7 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
             else if self.remoteParticipantArr.count == 4 {
                
                
-                    return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/3-10)
+                    return CGSize(width: vdoCollectionView.frame.size.width/3, height: vdoCollectionView.frame.size.height/2-10)
                 
                 
             }

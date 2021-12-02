@@ -16,7 +16,7 @@ pod 'FSCalendar'
 pod 'XLPagerTabStrip'
 #https://github.com/xmartlabs/XLPagerTabStrip
 pod 'TwilioVideo'
-#pod 'TwilioVideo', '~> 4.4'
+#pod 'TwilioVideo', '~> 4.6'
 pod 'TwilioVoice'
 #pod 'TwilioVoice', '~> 6.3.0'
 pod 'TwilioChatClient'
