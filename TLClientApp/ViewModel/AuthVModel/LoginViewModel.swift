@@ -15,8 +15,9 @@ class LoginVM {
     let emailTFPublishObject = PublishSubject<String>()
     let userProvider = MoyaProvider<AuthServices>()
     
-    var user = UserDetail()
     var updateDeviceData = UpdatedUserDeviceToken()
+    var user = UserDetail()
+    
     private let disposeBag = DisposeBag()
     
     func isValid() -> Observable<Bool> {
@@ -28,10 +29,10 @@ class LoginVM {
     public func userLogin(UserName: String,Password: String,Ip: String,Latitude: String,Longitude: String, complitionBlock: @escaping(Bool?, Error?) -> ()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.login.url, para: ApiServices.shareInstace.loginRequest(UserName: UserName, Password: Password, Ip: Ip, Latitude: Latitude, Longitude: Longitude)) {(response, error) in
-           
-            print("EditBankDetails->", response)
+            print("loginDetails are : \(APi.login.url) ,parameter ", ApiServices.shareInstace.loginRequest(UserName: UserName, Password: Password, Ip: Ip, Latitude: Latitude, Longitude: Longitude) ,response)
+//            print("EditBankDetails->", response)
             if response != nil {
-                
+               
                 self.user = UserDetail.getUserDetails(dicts: response!)
                 SwiftLoader.hide()
                 let userDict = self.user.userDetails![0] as! DetailsModal
@@ -63,6 +64,8 @@ class LoginVM {
                 self.updateDeviceData = UpdatedUserDeviceToken.getUserDetails(dicts: response!)
                 let data = self.updateDeviceData.table?[0] as! TableModel
                 if data.success == "1" {
+                    userDefaults.set(data.CurrentUserGuid, forKey: "userGUID")
+                    print("userGUID is \(data.CurrentUserGuid)")
                     complitionBlock(true, nil)
                 }
                }
@@ -95,7 +98,5 @@ class LoginVM {
     }
     }
     
-}
-        
-      
     
+}

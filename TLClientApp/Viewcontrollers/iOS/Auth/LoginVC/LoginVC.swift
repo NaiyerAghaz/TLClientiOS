@@ -25,7 +25,7 @@ class LoginVC: UIViewController {
     
     var context = LAContext()
     var err: NSError?
-    
+    var newErr:NSError?
     static func createWith(navigator: Navigator, storyboard: UIStoryboard) -> LoginVC {
         return storyboard.instantiateViewController(ofType: LoginVC.self).then { viewController in
             
@@ -35,10 +35,11 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //userNameTF.text = "Naiyer_customer1"
+        //passwordTF.text = "Total@user2020"
         loginUpdate()
-        
-        // Do any additional setup after loading the view.
     }
+    
     func loginUpdate() {
         userNameTF.rx.text.map { $0 ?? ""}.bind(to: loginVModel.userNameTFPublishObject).disposed(by: disposebag)
         passwordTF.rx.text.map{$0 ?? ""}.bind(to: loginVModel.emailTFPublishObject).disposed(by: disposebag)
@@ -48,7 +49,11 @@ class LoginVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        if keychainServices.getKeychaindata(key: "touchID") != nil {
+        
+        let touchID = userDefaults.value(forKey: "touchID") ?? false //keychainServices.getKeychaindata(key: "touchID")
+        print("touch id after ", touchID)
+        if  touchID as! Bool  {
+            print("touch id saved")
             self.btnFaceAndTouchID.isHidden = false
         }
         else{
@@ -75,52 +80,144 @@ class LoginVC: UIViewController {
         loginVModel.userLogin(UserName: userNameTF.text!, Password: passwordTF.text!, Ip: "M", Latitude: "", Longitude: "") { resp, err in
             SwiftLoader.hide()
             if resp! {
-            
+                print("login detail \(self.loginVModel.user.userDetails![0])")
                 let item = self.loginVModel.user.userDetails![0] as! DetailsModal
                 if item.userTypeID == "4" || item.userTypeID == "7" || item.userTypeID == "8" {
                     
-                    self.loginVModel.addUpdateUserDeviceToken(TokenID: userDefaults.string(forKey: "fcmToken")!, Status: "Y", UserID: item.UserID, DeviceType: "I", voipToken: "") { status, err in
+                    let fcmToken = userDefaults.string(forKey: "fcmToken") ?? ""
+                    print("print fcmToken \(fcmToken)")
+                    self.loginVModel.addUpdateUserDeviceToken(TokenID: fcmToken ?? "", Status: "Y", UserID: item.UserID, DeviceType: "I", voipToken: "") { status, err in
                         if status == true {
                             userDefaults.set(self.userNameTF.text!, forKey:"username" )
+                            userDefaults.set(item.companyID, forKey:"companyID")
                             userDefaults.set(self.passwordTF.text!, forKey: "password" )
-                            userDefaults.setValue(item.UserID, forKey: "userid")
-                            userDefaults.setValue(item.companyID, forKey: "companyID")
-                            userDefaults.setValue(item.companyName, forKey: "companyName")
+                            userDefaults.set(item.UserID, forKey: .kUSER_ID)
+                            userDefaults.set(item.companyName, forKey: "companyName")
+                            userDefaults.set(item.userTypeID, forKey: "userTypeID")
+                            userDefaults.set(item.customerID, forKey: "CustomerID")
+                            userDefaults.set(item.timeZone, forKey: "TimeZone")
+                            print("time zone on login vc ", item.timeZone)
+                            
                             //keychainServices.save(key: "username", data: Data(self.userNameTF.text!.utf8))
                            // keychainServices.save(key: "password", data: Data(self.passwordTF.text!.utf8))
                             self.view.makeToast("You have logged in", duration: 1.0, position: .top)
-                            if  keychainServices.getKeychaindata(key: "touchID") != nil {
-                                
+                            let touchID = userDefaults.value(forKey: "touchID") ?? false
+                          //  if  keychainServices.getKeychaindata(key: "touchID") != nil {
+                            if touchID as! Bool {
                                 self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
                                     if success == true {
-
+                                        let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                        let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                        self.navigationController?.pushViewController(vc, animated: true)
                                     }
                                 }
-                                self.navigator.show(segue: .home(data: item), sender: self)
                                 
+                                
+                                
+//                                self.registerTwilioAccessToken(with: item)
                             }
                             else {
                                 let alert = UIAlertController(title: "Do you want to save this login to use FACE ID/TOUCH ID", message: "", preferredStyle: .alert)
                                 let cancel = UIAlertAction(title: "Cancel", style: .cancel){ cancel  in
+                                    
                                     self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
                                         if success == true {
-                                            self.navigator.show(segue: .home(data: item), sender: self)
+                                            let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                            let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                            self.navigationController?.pushViewController(vc, animated: true)
                                         }
                                     }
                                     
+                                    
+//                                    self.registerTwilioAccessToken(with: item)
                                 }
                                 let yes = UIAlertAction(title: "Yes", style: .destructive) { alert in
                                     self.btnFaceAndTouchID.isHidden = false
+                                    print("username and password ", item.userName , item.password)
                                     userDefaults.set(true, forKey: "touchID" )
-                                    keychainServices.save(key: "touchID", data: Data("true".utf8))
+                                    userDefaults.set(item.userName, forKey: "userNameForTouchID" )
+                                    userDefaults.set(item.password, forKey: "userPasswordForTouchID")
+                                   keychainServices.save(key: "touchID", data: Data("true".utf8))
                                     
-                                    self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
-                                        if success == true {
-                                           // self.navigator.show(segue: .home(data: item), sender: self)
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    let localString = "Biometric Authentication!"
+                                    
+                                    if self.context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &self.newErr){
+                                        
+                                        if self.context.biometryType == .faceID {
+                                            self.context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: localString) { success, err in
+                                                if success{
+                                                    DispatchQueue.main.async {
+                                                        SwiftLoader.show(title: "Login...", animated: true)
+                                                        let userName = GetPublicData.sharedInstance.userNameForTouchID
+                                                        let userPassword = GetPublicData.sharedInstance.userPasswordForTouchID
+                                                        
+                                                        print("user name and password ",userName, userPassword)
+                                                      //  self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
+                                                  //      self.biometricAuthentication(username: userName, pwd: userPassword)
+                                                        
+                                                        
+                                                        self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                                            if success == true {
+                                                                let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                                                let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                                                self.navigationController?.pushViewController(vc, animated: true)
+                                                            }
+                                                        }
+                                                        
+                                                        
+                                                        
+                                                        
+                                                    }
+                                                    
+                                                }else {
+                                                    print("unsuccessful .....")
+                                                }
+                                            }
+                                            
+                                            
+                                        }
+                                        else if self.context.biometryType == .touchID  {
+                                            self.context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: localString) { success, err in
+                                                if success{
+                                                    DispatchQueue.main.async {
+                                                        SwiftLoader.show(title: "Login..", animated: true)
+                                                        let userName = GetPublicData.sharedInstance.userNameForTouchID
+                                                        let userPassword = GetPublicData.sharedInstance.userPasswordForTouchID
+                                                        print("user name and password ",userName, userPassword)
+                                                       // self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
+                                                       // self.biometricAuthentication(username: userName, pwd: userPassword)
+                                                        self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                                            if success == true {
+                                                                let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                                                let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                                                                self.navigationController?.pushViewController(vc, animated: true)
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                }
+                                            }
                                         }
                                     }
-                                    self.navigator.show(segue: .home(data: item), sender: self)
-                                   
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+//                                    self.registerTwilioAccessToken(with: item)
                                 }
                                 alert.addAction(cancel)
                                 alert.addAction(yes)
@@ -144,19 +241,26 @@ class LoginVC: UIViewController {
                         alert.addAction(cancel)
                         alert.addAction(yes)
                         self.present(alert, animated: true, completion: nil)
-                    
                 }
                 
             }
             else {
-                let userDict = self.loginVModel.user.userDetails![0] as! DetailsModal
+                let userDict = self.loginVModel.user.userDetails?.firstObject  as! DetailsModal
                 self.view.makeToast(userDict.Message, duration: 1.0, position: .top)
             }
         }
-        
     }
-    
-    
+    //MARK: Register Twilio AccessToken
+    private func registerTwilioAccessToken(with item: DetailsModal) {
+        self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+            if success == true {
+                //self.navigator.show(segue: .home(data: item), sender: self)
+                let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
     @IBAction func btnSeenPasswordTabbed(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
@@ -172,6 +276,7 @@ class LoginVC: UIViewController {
         
         
     }
+    
     @IBAction func btnFaceIDTouchID(_ sender: UIButton) {
         let localString = "Biometric Authentication!"
         
@@ -182,7 +287,12 @@ class LoginVC: UIViewController {
                     if success{
                         DispatchQueue.main.async {
                             SwiftLoader.show(title: "Login...", animated: true)
-                            self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
+                            let userName = GetPublicData.sharedInstance.userNameForTouchID
+                            let userPassword = GetPublicData.sharedInstance.userPasswordForTouchID
+                            
+                            print("user name and password ",userName, userPassword)
+                          //  self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
+                            self.biometricAuthentication(username: userName, pwd: userPassword)
                         }
                         
                     }
@@ -195,7 +305,12 @@ class LoginVC: UIViewController {
                     if success{
                         DispatchQueue.main.async {
                             SwiftLoader.show(title: "Login..", animated: true)
-                            self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
+                            let userName = GetPublicData.sharedInstance.userNameForTouchID
+                            let userPassword = GetPublicData.sharedInstance.userPasswordForTouchID
+                            print("user name and password ",userName, userPassword)
+                           // self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
+                            self.biometricAuthentication(username: userName, pwd: userPassword)
+                            
                         }
                         
                     }
@@ -209,14 +324,18 @@ class LoginVC: UIViewController {
     
     
     public func biometricAuthentication(username: String, pwd: String){
-        
+        print("usernamr and password ", username , pwd)
         loginVModel.userLogin(UserName: username, Password: pwd, Ip: "M", Latitude: "", Longitude: "") { resp, err in
             SwiftLoader.hide()
             if resp! {
-                if !(self.navigationController?.topViewController is HomeViewController) {
-                    print("MainSegue LoginViewController")
-                    self.performSegue(withIdentifier: "HomeSegue", sender: nil)
-                }
+//                if !(self.navigationController?.topViewController is HomeViewController) {
+//                    print("MainSegue LoginViewController")
+//                    self.performSegue(withIdentifier: "HomeSegue", sender: nil)
+//                }
+                
+                let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
+                self.navigationController?.pushViewController(vc, animated: true)
                 
                 
             }

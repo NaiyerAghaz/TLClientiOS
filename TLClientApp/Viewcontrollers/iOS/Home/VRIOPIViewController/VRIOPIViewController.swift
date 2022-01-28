@@ -45,7 +45,8 @@ class VRIOPIViewController: ButtonBarPagerTabStripViewController {
         let opi = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"OnDemandOPIViewController") as! OnDemandOPIViewController
         let scheduleVRI = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"ScheduledVRIVIewController") as! ScheduledVRIVIewController
         let scheduleOPI = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"ScheduledOPIViewController") as! ScheduledOPIViewController
+        let meetingVC = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"MeetingViewController") as! MeetingViewController
         
-        return [vri,opi,scheduleVRI, scheduleOPI]
+        return [vri,opi,scheduleVRI, scheduleOPI , meetingVC]
     }
 }

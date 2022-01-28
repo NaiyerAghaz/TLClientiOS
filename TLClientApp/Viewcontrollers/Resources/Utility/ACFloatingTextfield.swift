@@ -34,21 +34,23 @@ import UIKit
     }
     
      /// Change line color when Editing in textfield
-    @IBInspectable open var selectedLineColor : UIColor = UIColor(red: 19/256.0, green: 141/256.0, blue: 117/256.0, alpha: 1.0){
+    //UIColor(hexString: "33A5FF")
+   // UIColor(red: 19/256.0, green: 141/256.0, blue: 117/256.0, alpha: 1.0)
+    @IBInspectable open var selectedLineColor : UIColor = UIColor(hexString: "33A5FF"){
         didSet{
             self.floatTheLabel()
         }
     }
     
      /// Change placeholder color.
-    @IBInspectable open var placeHolderColor : UIColor = UIColor.lightGray {
+    @IBInspectable open var placeHolderColor : UIColor = UIColor(hexString: "33A5FF") {
         didSet{
             self.floatTheLabel()
         }
     }
     
      /// Change placeholder color while editing.
-    @IBInspectable open var selectedPlaceHolderColor : UIColor = UIColor(red: 19/256.0, green: 141/256.0, blue: 117/256.0, alpha: 1.0){
+    @IBInspectable open var selectedPlaceHolderColor : UIColor = UIColor(hexString: "33A5FF"){
         didSet{
             self.floatTheLabel()
         }
@@ -307,6 +309,7 @@ fileprivate extension ACFloatingTextfield {
 
     //MARK:- Float & Resign
     func floatTheLabel() -> Void {
+        self.textColor = UIColor.lightGray
         DispatchQueue.main.async {
             if self.text == "" && self.isFirstResponder {
                 self.floatPlaceHolder(selected: true)
@@ -409,4 +412,102 @@ fileprivate extension ACFloatingTextfield {
 }
 
 //MARK:- Shake
+extension UIView {
+//    func shake() {
+//        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+//        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+//        animation.duration = 0.6
+//        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0 ]
+//        layer.add(animation, forKey: "shake")
+//        
+//        
+//        
+//        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+//        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+//        animation.duration = 0.6
+//        animation.values = [-20, 20, -20, 20, -10, 10, -5, 5, 0]
+//        animation.autoreverses = false
+//        layer.add(animation, forKey: "shake")
+//    }
+}
 
+
+
+extension UIView {
+    func addBorder(edge: UIRectEdge,
+                   color: UIColor,
+                   thickness: CGFloat) {
+        let border = CALayer()
+        
+        switch edge {
+        case .top:
+            border.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: frame.width,
+                                  height: thickness)
+        case .bottom:
+            border.frame = CGRect(x: 0,
+                                  y: frame.height - thickness,
+                                  width: frame.width,
+                                  height: thickness)
+        case .left:
+            border.frame = CGRect(x: 0,
+                                  y: 0,
+                                  width: thickness,
+                                  height: frame.height)
+        case .right:
+            border.frame = CGRect(x: frame.width - thickness,
+                                  y: 0,
+                                  width: thickness,
+                                  height: frame.height)
+        default:
+            break
+        }
+        
+        border.backgroundColor = color.cgColor
+        
+        layer.addSublayer(border)
+    }
+    
+    var safeAreaHeight: CGFloat {
+        if #available(iOS 11, *) {
+            return safeAreaLayoutGuide.layoutFrame.size.height
+        }
+        return bounds.height
+    }
+    
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds,
+                                byRoundingCorners: corners,
+                                cornerRadii: CGSize(width: radius,
+                                                    height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+        layer.masksToBounds = true
+    }
+    
+    class func loadFromNibNamed(_ nibNamed: String,
+                                bundle: Bundle? = nil) -> UIView? {
+        return UINib(nibName: nibNamed,
+                     bundle: bundle).instantiate(withOwner: nil,
+                                                 options: nil)[0] as? UIView
+    }
+    
+    class func loadFromNibNamedWithViewIndex(_ nibNamed: String,
+                                             bundle: Bundle? = nil,
+                                             index: Int) -> UIView? {
+        return UINib(nibName: nibNamed,
+                     bundle: bundle).instantiate(withOwner: nil,
+                                                 options: nil)[index] as? UIView
+    }
+    
+    func shake() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.duration = 0.6
+        animation.values = [-20, 20, -20, 20, -10, 10, -5, 5, 0]
+        animation.autoreverses = false
+        layer.add(animation, forKey: "shake")
+    }
+}

@@ -17,7 +17,8 @@ let configuration = URLSessionConfiguration.default
 class WebServices {
     static let sessionManager = Alamofire.Session(configuration: configuration)
     class func get(url: URL, completionHandler: CompletionBlock? = nil, failureHandler: FailureBlock? = nil) {
-        
+//        print("URLs......@ \(url)")
+        SwiftLoader.show(animated: true)
         sessionManager.request(url,
                                method: .get
             )
@@ -63,7 +64,30 @@ class WebServices {
                                method: .post,
                                parameters: jsonObject,
                                encoding: JSONEncoding.default,
-                               headers: ["content-type": "application/x-www-form-urlencoded"])
+                               headers: ["content-type": "application/json"])
+            .responseJSON { response in
+                
+           
+                if let json = response.value {
+                    completionHandler!(json as AnyObject, response.result as AnyObject)
+                } else {
+                    failureHandler?(response.value as AnyObject, "" as AnyObject)
+                }
+            }
+            .responseString { _ in
+                
+            }
+            .responseData { _ in
+        }
+    }
+    class func postNew( url: URL, jsonObject: Parameters,
+                     completionHandler: CompletionBlock? = nil,
+                     failureHandler: FailureBlock? = nil) {
+        sessionManager.request(url,
+                               method: .post,
+                               parameters: jsonObject,
+                               encoding: JSONEncoding.default,
+                               headers: ["content-type": "application/json"])
             .responseJSON { response in
                 
            

@@ -13,24 +13,82 @@ import UserNotifications
 import Messages
 import Firebase
 
-
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+    var window: UIWindow?
     var inHouseValue, inBoostlingoValue, isBoostlingoAccess: String?
     var slangNameAppdel, slangIDAppdel, tlangIDAppdel, tlangNameAppdel, tokenAppdel, initalCallType, roomIDAppdel, callTypeAppdel, patientnameAppdel, patientnoAppdel, myIDAppdel: String?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
         FirebaseApp.configure()
-        
+        Messaging.messaging().delegate = self
         registerNotification(app: application)
-        // Override point for customization after application launch.
+        
+        let userId = userDefaults.string(forKey: "userId") ?? ""
+        if userId != "" {
+            let storyboard : UIStoryboard = UIStoryboard(name:Storyboard_name.home, bundle: nil)
+//                        let navigationController : UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "TestNav") as! TestNav
+//                        navigationController.viewControllers = [rootViewController]
+                                           //self.window = UIWindow(frame: UIScreen.main.bounds)
+                        self.window?.rootViewController = rootViewController
+                        self.window?.makeKeyAndVisible()
+        }else {
+            let storyboard : UIStoryboard = UIStoryboard(name:Storyboard_name.login, bundle: nil)
+                        let navigationController : UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                        navigationController.viewControllers = [rootViewController]
+                                           //self.window = UIWindow(frame: UIScreen.main.bounds)
+                        self.window?.rootViewController = navigationController
+                        self.window?.makeKeyAndVisible()
+        }
+        
+        
+        
+        
+        
+        if #available(iOS 13.0, *) {
+                         window?.overrideUserInterfaceStyle = .light
+                         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+        }
+        
+        let center = UNUserNotificationCenter.current()
+                 center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                     // Enable or disable features based on Screen Time authorization.
+                 }
+                 application.registerForRemoteNotifications()
+             
+             if #available(iOS 10.0, *) {
+               // For iOS 10 display notification (sent via APNS)
+               UNUserNotificationCenter.current().delegate = self
+
+               let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+               UNUserNotificationCenter.current().requestAuthorization(
+                 options: authOptions,
+                 completionHandler: { _, _ in }
+               )
+             } else {
+               let settings: UIUserNotificationSettings =
+                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+               application.registerUserNotificationSettings(settings)
+             }
+             if #available(iOS 13.0, *) {
+                         window?.overrideUserInterfaceStyle = .light
+                         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+                     }
+             
+             if #available(iOS 13.0, *) {
+                      window?.overrideUserInterfaceStyle = .light
+                      UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
+                  }
+        
+        
         return true
     }
 
    
     // MARK: UISceneSession Lifecycle
-
+/*
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -41,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
+    }*/
 
     // MARK: - Core Data stack
 
@@ -87,7 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-    
     // Register for FCM notification
     
     public func registerNotification(app: UIApplication){
@@ -110,6 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().token { token, error in
+            print("check FCM TOken ")
           if let error = error {
             print("Error fetching FCM registration token: \(error)")
           } else if let token = token {
@@ -126,6 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
      Messaging.messaging().apnsToken = deviceToken**/
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
         print("userInfo-------------------->",userInfo.values, "Info:", userInfo )
         handleNotification(userInfo: userInfo)
     }
@@ -133,10 +192,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("will not generate in simulator", error.localizedDescription)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("userInfo22-------------------->",notification )
+        
+        let userInfo = notification.request.content.userInfo
+        
+        print("new notification ",userInfo.values)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(completionHandler)
+        
+        print("userNotificationCenter",completionHandler)
     }
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
@@ -178,8 +241,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }*/
             
             
+            }else if type == "opicall" {
+                
+                print("opi call Start")
+                
+                NotificationCenter.default.post(name: Notification.Name("vendorAnswered"), object: nil, userInfo: nil)
+                
+            }else if type?.contains("ParticipantLeave") ?? false {
+                print("participants leave notify ")
+                let participantsValue = type?.components(separatedBy: ",")
+                if (participantsValue?.count ?? 0 ) > 0 {
+                    let participantsStr = participantsValue?[0]
+                    let conferenceSID = participantsValue?[1] ?? ""
+                    let objConferenceSID:[String:String] = ["conferenceSID":conferenceSID]
+                    if participantsStr == "ParticipantLeave" {
+                        NotificationCenter.default.post(name: Notification.Name("removeParticipants"), object: nil, userInfo: objConferenceSID)
+                    }
+                }
+                
+                
+            }else if type == "tokenupdate" {
+                if isLogoutPressed {
+                    //isLogoutPressed = false
+                }else {
+                    self.window?.makeToast("This customer already logged-in on another device")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
+                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                        navigationController.viewControllers = [rootViewController]
+                        appDelegate.window!.rootViewController = navigationController
+                        appDelegate.window!.makeKeyAndVisible()
+                    }
+                }
+                
+            }
         }
     }
-    }
+   
 }
 

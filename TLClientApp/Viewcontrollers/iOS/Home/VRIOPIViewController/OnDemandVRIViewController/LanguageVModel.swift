@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+
 class LanguageVM {
     var lanuageList = LanguageList()
     var languageListArr = [LanguageModel]()
@@ -23,6 +24,7 @@ class LanguageVM {
         }
         
     }
+    
     func totalNumberOfrow() -> Int {
         return lanuageList.LanguageData?.count ?? 0
     }

@@ -10,7 +10,6 @@ import Alamofire
 class ApiServices: NSObject {
     static let shareInstace = ApiServices()
     func getDataFromApi(url: URL, para: [String:Any], completionHandler:@escaping(NSDictionary?, Error?) -> ()){
-        print("para->",para)
         WebServices.postJson(url: url, jsonObject: para,completionHandler: {(response, _) in
             completionHandler(response as? NSDictionary, nil)
             SwiftLoader.hide()
@@ -32,11 +31,14 @@ class ApiServices: NSObject {
             "UserName":userName
         ]
         return req
-       }
+        
+    }
     func deviceTokenReq(TokenID: String,Status: String,UserID: String,DeviceType: String,voipToken: String) -> [String: Any]{
-    let para:[String: Any] = ["TokenID":TokenID, "Status":Status, "UserID":UserID,"DeviceType":DeviceType,"voipToken":voipToken]
+        let para:[String: Any] = ["TokenID":TokenID, "Status":Status, "UserID":UserID,"DeviceType":DeviceType,"voipToken":voipToken]
+        print("param for update device token \(para)")
         return para
     }
-    
-    
+    func getRoomId() {
+        
+    }
 }

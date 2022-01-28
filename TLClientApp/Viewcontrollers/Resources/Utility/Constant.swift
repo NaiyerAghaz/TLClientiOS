@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+
 struct Storyboard_name {
     static let login = "Auth"
     static let home = "Home"
@@ -14,17 +15,17 @@ struct Storyboard_name {
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
 }
-var userDefaults = UserDefaults.standard
 
+var userDefaults = UserDefaults.standard
 enum cellIndentifier: String {
     case vendorTVCell = "VendorTVCell"
     case VDOCollectionViewCell = "VDOCollectionViewCell"
 }
 enum viewIndentifier: String {
     case CallingPopupVC  = "CallingPopupVC"
+    case CallingOPIPopUpVC = "CallingOPIPopUpVC"
     case InviteParticipantVC  = "InviteParticipantVC"
 }
-
 class DynamicTableView: UITableView {
 
     /// Will assign automatic dimension to the rowHeight variable

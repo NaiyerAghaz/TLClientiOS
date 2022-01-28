@@ -12,8 +12,7 @@ class ForgotPasswordVC: UIViewController {
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
     var forgotVM = ForgotViewModel()
-    static func createWith(navigator: Navigator, storyboard: UIStoryboard) -> ForgotPasswordVC {
-        return storyboard.instantiateViewController(ofType: ForgotPasswordVC.self).then { viewController in
+    static func createWith(navigator: Navigator, storyboard: UIStoryboard) -> ForgotPasswordVC {         return storyboard.instantiateViewController(ofType: ForgotPasswordVC.self).then { viewController in
             
         }
         

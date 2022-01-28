@@ -159,7 +159,7 @@ class DetailsModal: NSObject {
         item.companyID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CompanyID") ?? "") as String
         
         item.userName = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "UserName") ?? "") as String
-        
+       
         item.password = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Password") ?? "") as String
         if let status = dicts.value(forKey: "Status") as? Bool {
             item.status = status
@@ -267,7 +267,6 @@ class DetailsModal: NSObject {
         return item
     }
 }
-
 class UpdatedUserDeviceToken: NSObject {
     
     var table: NSMutableArray?
@@ -290,18 +289,7 @@ class UpdatedUserDeviceToken: NSObject {
         return itemModel
     }
 }
-/*
- {
-     "Table": [
-         {
-             "success": 1,
-             "tokenid": "cJu0cEA9yhE:APA91bEY0aKpfgA2KytMWpVRI633DQqP1IsYjFP6bRttGjAw3aDyCcTmrAE7u9Fg6OMKQmE-LIFi-OdWkTefD8S_x76-D5mWYA5vWDfIIwR7Pjtwt3nMEGWeDgCYbvt4QD_mEzLo_LKn",
-             "devicetype": "I",
-             "Utype": "4",
-             "CurrentUserGuid": "86476413-E68F-4B1B-B34B-25F815FD73CC"
-         }
-     ]
- }*/
+
 class TableModel: NSObject {
    
     var success, tokenid, devicetype, Utype, CurrentUserGuid: String
