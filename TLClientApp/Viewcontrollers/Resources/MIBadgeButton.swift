@@ -110,7 +110,7 @@ open class MIBadgeButton: UIButton {
     }
     
     @IBInspectable
-    open var badgeBackgroundColor : UIColor = UIColor.green {
+    open var badgeBackgroundColor : UIColor = #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0.9178884846) {
         didSet {
             badgeLabel.backgroundColor = badgeBackgroundColor
         }
@@ -441,7 +441,7 @@ open class MIBadgeButton: UIButton {
     fileprivate func setupBadgeViewWithString(badgeText: String?){
         badgeLabel.clipsToBounds = true
         badgeLabel.text = badgeText
-        badgeLabel.font = UIFont.systemFont(ofSize: 12)
+        badgeLabel.font = UIFont.boldSystemFont(ofSize: 8)
         badgeLabel.textAlignment = .center
         badgeLabel.sizeToFit()
         let badgeSize = badgeLabel.bounds.size

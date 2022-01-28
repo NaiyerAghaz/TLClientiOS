@@ -34,21 +34,23 @@ import UIKit
     }
     
      /// Change line color when Editing in textfield
-    @IBInspectable open var selectedLineColor : UIColor = UIColor(red: 19/256.0, green: 141/256.0, blue: 117/256.0, alpha: 1.0){
+    //UIColor(hexString: "33A5FF")
+   // UIColor(red: 19/256.0, green: 141/256.0, blue: 117/256.0, alpha: 1.0)
+    @IBInspectable open var selectedLineColor : UIColor = UIColor(hexString: "33A5FF"){
         didSet{
             self.floatTheLabel()
         }
     }
     
      /// Change placeholder color.
-    @IBInspectable open var placeHolderColor : UIColor = UIColor.lightGray {
+    @IBInspectable open var placeHolderColor : UIColor = UIColor(hexString: "33A5FF") {
         didSet{
             self.floatTheLabel()
         }
     }
     
      /// Change placeholder color while editing.
-    @IBInspectable open var selectedPlaceHolderColor : UIColor = UIColor(red: 19/256.0, green: 141/256.0, blue: 117/256.0, alpha: 1.0){
+    @IBInspectable open var selectedPlaceHolderColor : UIColor = UIColor(hexString: "33A5FF"){
         didSet{
             self.floatTheLabel()
         }
@@ -307,6 +309,7 @@ fileprivate extension ACFloatingTextfield {
 
     //MARK:- Float & Resign
     func floatTheLabel() -> Void {
+        self.textColor = UIColor.lightGray
         DispatchQueue.main.async {
             if self.text == "" && self.isFirstResponder {
                 self.floatPlaceHolder(selected: true)

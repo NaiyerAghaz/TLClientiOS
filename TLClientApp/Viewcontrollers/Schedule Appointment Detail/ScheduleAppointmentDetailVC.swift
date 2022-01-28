@@ -28,9 +28,11 @@ class ScheduleAppointmentDetailVC: UIViewController {
     
     @IBOutlet var endTimeLbl: UILabel!
     
+    @IBOutlet weak var venueDetailView: UIView!
     @IBOutlet var cancelBtn: UIButton!
     @IBOutlet var patientintialsLbl: UILabel!
     
+    @IBOutlet weak var saparationLbl: UILabel!
     @IBOutlet var nameLbl: UILabel!
     
     @IBOutlet var addressLbl: UILabel!
@@ -49,13 +51,13 @@ class ScheduleAppointmentDetailVC: UIViewController {
     @IBOutlet var statusLbl: UILabel!
     var appointmentID = 0
     var apiAppointmentDetailResponseModel:ApiAppointmentDetailResponseModel?
-    
+    var ifComeFromNotification = false
     var apiCancelRequestResponseModel:ApiCancelRequestResponseModel?
     override func viewDidLoad() {
         super.viewDidLoad()
         print(self.showAppointmentArr)
         self.getSelectedAppointmentData()
-        updateUI()
+       // updateUI()
         // Do any additional setup after loading the view.
     }
     func updateUI(){
@@ -64,6 +66,14 @@ class ScheduleAppointmentDetailVC: UIViewController {
         //self.appointStatusHeadingLbl.text = self.showAppointmentArr?.appointmentStatusType ?? "N/A"
         self.addressLbl.text =  showAppointmentArr?.address ?? "N/A"
         self.jobTypeLbl.text = showAppointmentArr?.appointmentType ?? "N/A"
+        let appointmentType = showAppointmentArr?.appointmentType ?? "N/A"
+        if appointmentType == "Virtual Meeting" || appointmentType == "Telephone Conference" {
+            self.venueDetailView.visibility = .gone
+            self.saparationLbl.visibility = .gone
+        }else {
+            self.venueDetailView.visibility = .visible
+            self.saparationLbl.visibility = .visible
+        }
         if showAppointmentArr?.appointmentType == "Schedule OPI" || showAppointmentArr?.appointmentType == "Schedule VRI" {
             self.authCodeLbl.text = showAppointmentArr?.assignedByName
         }else {
@@ -72,6 +82,7 @@ class ScheduleAppointmentDetailVC: UIViewController {
             self.authCodeLbl.text = components[0]
             
         }
+        
         self.languageLbl.text = showAppointmentArr?.languageName ?? "N/A"
         self.nameLbl.text = showAppointmentArr?.venueName ?? "N/A"
         self.cityLbl.text = showAppointmentArr?.city ?? "N/A"
@@ -128,7 +139,12 @@ class ScheduleAppointmentDetailVC: UIViewController {
         
     }
     @IBAction func backBtnTapped(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        if ifComeFromNotification{
+            self.dismiss(animated: true, completion: nil)
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
     }
     
     @IBAction func cancelRequestBtnTapped(_ sender: Any) {
@@ -244,12 +260,8 @@ class ScheduleAppointmentDetailVC: UIViewController {
             return ""
         }
     }
-    
-    
-    
-    
-
 }
+
 extension String {
     var digits: String {
             return components(separatedBy: CharacterSet.decimalDigits.inverted)

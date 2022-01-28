@@ -51,6 +51,7 @@ class TotalParticipantVC: BottomPopupViewController {
         DispatchQueue.main.async {
             self.tblView.reloadData()
         }
+        lblParticipants.text = "Participants (\(conferrenceInfoArr?.count ?? 0))"
        
     }
     
@@ -71,10 +72,10 @@ class TotalParticipantVC: BottomPopupViewController {
         vcontrol.shouldDismissInteractivelty = true
         vcontrol.popupDismisAlphaVal = 0.4
         let conferrenceItem = conferrenceInfoArr![0] as? ConferenceInfoModels
-        print("conferrenceItem-------->", conferrenceItem?.ACTUALROOM)
+        print("conferrenceItem-------->", conferrenceItem?.ACTUALROOM , conferrenceItem?.FROMUSERID)
         actualRoom = conferrenceItem?.ACTUALROOM
         sID = conferrenceItem?.PARTSID
-        fromUserID = conferrenceItem?.FROMUSERID
+        fromUserID = conferrenceItem?.FROMUSERID ?? ""
         
        // InviteViewModel().conferenceModel = conferrenceItem
        // print("Invite--->",InviteViewModel().conferenceModel?.ACTUALROOM)
@@ -134,6 +135,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
             
             return conferenceStatusModel?.INVITEDATA?.count ?? 0
         }
+        
         return conferrenceInfoArr?.count ?? 0
     }
     // Accept and reject from invite user:
@@ -188,6 +190,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                     DispatchQueue.global(qos: .background).async {[self] in
                         vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
                             conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
+                            
                             DispatchQueue.main.async {
                                 tblView.reloadData()
                             }
@@ -347,14 +350,6 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
 //
 //  Created by Naiyer on 10/6/21.
 //
-
-import UIKit
-import TwilioChatClient
-import BottomPopup
-import TwilioVideo
-
-
-
 /*
 class TotalParticipantVC: BottomPopupViewController {
     

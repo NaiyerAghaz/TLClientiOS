@@ -9,7 +9,7 @@ import UIKit
 import XLPagerTabStrip
 
 
-class InviteWithEmailVC: UIViewController,IndicatorInfoProvider {
+class InviteWithEmailVC: UIViewController,IndicatorInfoProvider, UITextFieldDelegate{
 
     
     
@@ -35,10 +35,10 @@ class InviteWithEmailVC: UIViewController,IndicatorInfoProvider {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
+       
         // Do any additional setup after loading the view.
     }
-   
+    
     @IBAction func btnInviteTapped(_ sender: Any) {
        if firstNameTF.text?.trim().count == 0 {
         firstNameTF.shake()
@@ -58,7 +58,8 @@ class InviteWithEmailVC: UIViewController,IndicatorInfoProvider {
             return self.view.makeToast("Please select authentication factor", position: .top)
         }
         SwiftLoader.show(animated: true)
-        let reqPara = inviteVmodel.inviteEmailReq(emailID: emailTF.text!, roomNo: actualRoom ?? "0", pid: inviteVmodel.random(digits: 10), mobile: mobileTF.text!, fName: firstNameTF.text!, lName: lastNameTF.text!, fromUserID: fromUserID ?? "0", authFactor: factorStr!)
+        //fromUserID ?? "0"
+        let reqPara = inviteVmodel.inviteEmailReq(emailID: emailTF.text!, roomNo: actualRoom ?? "0", pid: inviteVmodel.random(digits: 10), mobile: mobileTF.text!, fName: firstNameTF.text!, lName: lastNameTF.text!, fromUserID: GetPublicData.sharedInstance.userID, authFactor: factorStr!, calltype: "vri")
         inviteVmodel.inviteWithEmail(parameter: reqPara) { success, err in
             if success! {
                 SwiftLoader.hide()

@@ -9,6 +9,7 @@ import UIKit
 import  SideMenu
 import Alamofire
 import SDWebImage
+var isLogoutPressed = false
 class sideMenuTableViewCell :UITableViewCell{
     
     @IBOutlet var downOptionView: UIView!
@@ -133,6 +134,7 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
             }
         }else if indexPath.section == 4 {
             if indexPath.row == 0 {
+                isLogoutPressed = true
                 let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to Logout?", preferredStyle: UIAlertController.Style.alert)
 
                 refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in

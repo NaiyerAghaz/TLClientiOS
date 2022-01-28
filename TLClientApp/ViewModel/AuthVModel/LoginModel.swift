@@ -159,7 +159,7 @@ class DetailsModal: NSObject {
         item.companyID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CompanyID") ?? "") as String
         
         item.userName = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "UserName") ?? "") as String
-        
+       
         item.password = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Password") ?? "") as String
         if let status = dicts.value(forKey: "Status") as? Bool {
             item.status = status

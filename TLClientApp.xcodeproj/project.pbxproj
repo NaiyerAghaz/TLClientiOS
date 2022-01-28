@@ -115,11 +115,35 @@
 		04E701882732782D00C57A8E /* CancelledAppointmentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E701862732782D00C57A8E /* CancelledAppointmentDataModel.swift */; };
 		0734C230DD81E749DCB11388 /* Pods_TLClientAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */; };
 		0AD9728ACF99C695904AD46C /* Pods_TLClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7175F38E6A47EB062D2D2BDB /* Pods_TLClientApp.framework */; };
+		292DD08527588706003C0829 /* AutosizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292DD08427588706003C0829 /* AutosizedCollectionView.swift */; };
+		292DD08A27588B80003C0829 /* ContentSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 292DD08927588B80003C0829 /* ContentSizedTableView.swift */; };
+		293282062769BDBD00698592 /* ApiScheduleVRIDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293282052769BDBD00698592 /* ApiScheduleVRIDataModel.swift */; };
+		2932820E2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2932820D2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift */; };
+		29328241276A062800698592 /* ApiCreateVRICallClientResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29328240276A062800698592 /* ApiCreateVRICallClientResponseModel.swift */; };
+		29328246276A144A00698592 /* ApiCheckCallStatusResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29328245276A144A00698592 /* ApiCheckCallStatusResponseModel.swift */; };
+		296D81772763609D005ADBB0 /* CallingOPIPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */; };
+		2971A9D7276389B70096C730 /* AudioCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971A9D6276389B70096C730 /* AudioCallViewController.swift */; };
+		298FA12D2771F15E0023019C /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298FA12C2771F15E0023019C /* RatingViewController.swift */; };
+		298FA1852771F2800023019C /* ApiGetRatindScreenResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298FA1842771F2800023019C /* ApiGetRatindScreenResponseModel.swift */; };
+		29915D4F27856C7D00162033 /* ApiAddparticipantsOPIResponseModle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29915D4E27856C7D00162033 /* ApiAddparticipantsOPIResponseModle.swift */; };
 		2995EB40274FA9D3001D6454 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2995EB3F274FA9D3001D6454 /* AVFoundation.framework */; };
 		2995EB45274FAA6D001D6454 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2995EB44274FAA6D001D6454 /* AudioToolbox.framework */; };
+		29981FDB27721419003DF75E /* ApiGetMemberResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29981FD927721417003DF75E /* ApiGetMemberResponseModel.swift */; };
+		29981FDC27721419003DF75E /* ApiGetMemberInRoomDetailDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29981FDA27721418003DF75E /* ApiGetMemberInRoomDetailDataModel.swift */; };
+		29981FE527721486003DF75E /* ApiPostTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29981FE327721485003DF75E /* ApiPostTableData.swift */; };
+		29981FE627721486003DF75E /* ApiPostFeedbackResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29981FE427721486003DF75E /* ApiPostFeedbackResponseModel.swift */; };
+		29988E16277F38E80034F2D9 /* TimeZoneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29988E15277F38E80034F2D9 /* TimeZoneViewController.swift */; };
+		299A46B0275DEDD500333653 /* GrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 299A46AF275DEDD500333653 /* GrowingTextView.swift */; };
 		29B3C748274CC86E006345E0 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B3C747274CC86E006345E0 /* iOSDevCenters+GIF.swift */; };
 		29B3C74E274CD61F006345E0 /* call.gif in Resources */ = {isa = PBXBuildFile; fileRef = 29B3C74D274CD61F006345E0 /* call.gif */; };
 		29B3C754274CF255006345E0 /* incoming.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 29B3C753274CF255006345E0 /* incoming.mp3 */; };
+		29CAFF2C2783060500FA3DCA /* ApiGoogleTimeZoneresponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CAFF2B2783060500FA3DCA /* ApiGoogleTimeZoneresponse.swift */; };
+		29CAFF3327831DE400FA3DCA /* ApiUpdateTimeZoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CAFF3127831DE300FA3DCA /* ApiUpdateTimeZoneResponse.swift */; };
+		29CAFF3427831DE400FA3DCA /* ApiUPDATETIMEZONEDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CAFF3227831DE400FA3DCA /* ApiUPDATETIMEZONEDataModel.swift */; };
+		29D1D2E0275F59A400573E58 /* VirtualMeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D1D2DF275F59A400573E58 /* VirtualMeetingViewController.swift */; };
+		29D1D2F1275F89F000573E58 /* assets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 29D1D2EE275F89F000573E58 /* assets.bundle */; };
+		29D1D2F2275F89F000573E58 /* MICountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D1D2EF275F89F000573E58 /* MICountryPicker.swift */; };
+		29D1D2F3275F89F000573E58 /* CallingCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 29D1D2F0275F89F000573E58 /* CallingCodes.plist */; };
 		29D5F7AE2754EB2B0015F16B /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D5F7AD2754EB2B0015F16B /* MeetingViewController.swift */; };
 		29F8CF60274E5FD1006243EC /* ApiNotificationsCountsResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F8CF5F274E5FD1006243EC /* ApiNotificationsCountsResponseData.swift */; };
 		29F8CFDE274E762C006243EC /* VideoCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F8CFDD274E762C006243EC /* VideoCallViewController.swift */; };
@@ -137,6 +161,12 @@
 		C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F422754BF6600BE5227 /* InviteViewModel.swift */; };
 		C4E82F452754BF8B00BE5227 /* InviteWithDialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F442754BF8B00BE5227 /* InviteWithDialVC.swift */; };
 		C4FF3C0B2754A75400C27D44 /* ApiNotificationResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FF3C0A2754A75400C27D44 /* ApiNotificationResponseModel.swift */; };
+		C63805CF2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */; };
+		C63805D127982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63805D027982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift */; };
+		C6CA04EB278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CA04E9278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift */; };
+		C6CA04EC278FEC7E003B98DA /* ApiMeetResultDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CA04EA278FEC7E003B98DA /* ApiMeetResultDataModel.swift */; };
+		C6FDDFEC278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDDFEA278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift */; };
+		C6FDDFED278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDDFEB278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift */; };
 		CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DDFF426D13AFC003D4FC7 /* LanguageModel.swift */; };
 		CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DDFF626D13B2F003D4FC7 /* LanguageVModel.swift */; };
 		CE0DDFFA26D15A34003D4FC7 /* StatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0DDFF926D15A34003D4FC7 /* StatusModel.swift */; };
@@ -310,11 +340,35 @@
 		04E701812732714200C57A8E /* AppointmentsCreatedDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppointmentsCreatedDataModel.swift; sourceTree = "<group>"; };
 		04E701852732782D00C57A8E /* ApiCancelAppointmentResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCancelAppointmentResponseModel.swift; sourceTree = "<group>"; };
 		04E701862732782D00C57A8E /* CancelledAppointmentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelledAppointmentDataModel.swift; sourceTree = "<group>"; };
+		292DD08427588706003C0829 /* AutosizedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutosizedCollectionView.swift; sourceTree = "<group>"; };
+		292DD08927588B80003C0829 /* ContentSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentSizedTableView.swift; sourceTree = "<group>"; };
+		293282052769BDBD00698592 /* ApiScheduleVRIDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiScheduleVRIDataModel.swift; sourceTree = "<group>"; };
+		2932820D2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiScheduleVRIMeetResponseModel.swift; sourceTree = "<group>"; };
+		29328240276A062800698592 /* ApiCreateVRICallClientResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCreateVRICallClientResponseModel.swift; sourceTree = "<group>"; };
+		29328245276A144A00698592 /* ApiCheckCallStatusResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCheckCallStatusResponseModel.swift; sourceTree = "<group>"; };
+		296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingOPIPopUpVC.swift; sourceTree = "<group>"; };
+		2971A9D6276389B70096C730 /* AudioCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCallViewController.swift; sourceTree = "<group>"; };
+		298FA12C2771F15E0023019C /* RatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
+		298FA1842771F2800023019C /* ApiGetRatindScreenResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiGetRatindScreenResponseModel.swift; sourceTree = "<group>"; };
+		29915D4E27856C7D00162033 /* ApiAddparticipantsOPIResponseModle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiAddparticipantsOPIResponseModle.swift; sourceTree = "<group>"; };
 		2995EB3F274FA9D3001D6454 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2995EB44274FAA6D001D6454 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		29981FD927721417003DF75E /* ApiGetMemberResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetMemberResponseModel.swift; sourceTree = "<group>"; };
+		29981FDA27721418003DF75E /* ApiGetMemberInRoomDetailDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetMemberInRoomDetailDataModel.swift; sourceTree = "<group>"; };
+		29981FE327721485003DF75E /* ApiPostTableData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiPostTableData.swift; sourceTree = "<group>"; };
+		29981FE427721486003DF75E /* ApiPostFeedbackResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiPostFeedbackResponseModel.swift; sourceTree = "<group>"; };
+		29988E15277F38E80034F2D9 /* TimeZoneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeZoneViewController.swift; sourceTree = "<group>"; };
+		299A46AF275DEDD500333653 /* GrowingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTextView.swift; sourceTree = "<group>"; };
 		29B3C747274CC86E006345E0 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
 		29B3C74D274CD61F006345E0 /* call.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = call.gif; sourceTree = "<group>"; };
 		29B3C753274CF255006345E0 /* incoming.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = incoming.mp3; sourceTree = "<group>"; };
+		29CAFF2B2783060500FA3DCA /* ApiGoogleTimeZoneresponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGoogleTimeZoneresponse.swift; sourceTree = "<group>"; };
+		29CAFF3127831DE300FA3DCA /* ApiUpdateTimeZoneResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiUpdateTimeZoneResponse.swift; sourceTree = "<group>"; };
+		29CAFF3227831DE400FA3DCA /* ApiUPDATETIMEZONEDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiUPDATETIMEZONEDataModel.swift; sourceTree = "<group>"; };
+		29D1D2DF275F59A400573E58 /* VirtualMeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualMeetingViewController.swift; sourceTree = "<group>"; };
+		29D1D2EE275F89F000573E58 /* assets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = assets.bundle; sourceTree = "<group>"; };
+		29D1D2EF275F89F000573E58 /* MICountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MICountryPicker.swift; sourceTree = "<group>"; };
+		29D1D2F0275F89F000573E58 /* CallingCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CallingCodes.plist; sourceTree = "<group>"; };
 		29D5F7AD2754EB2B0015F16B /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		29F8CF5F274E5FD1006243EC /* ApiNotificationsCountsResponseData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiNotificationsCountsResponseData.swift; sourceTree = "<group>"; };
 		29F8CFDD274E762C006243EC /* VideoCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCallViewController.swift; sourceTree = "<group>"; };
@@ -337,6 +391,12 @@
 		C4E82F422754BF6600BE5227 /* InviteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteViewModel.swift; sourceTree = "<group>"; };
 		C4E82F442754BF8B00BE5227 /* InviteWithDialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithDialVC.swift; sourceTree = "<group>"; };
 		C4FF3C0A2754A75400C27D44 /* ApiNotificationResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiNotificationResponseModel.swift; sourceTree = "<group>"; };
+		C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationNewViewController.swift; sourceTree = "<group>"; };
+		C63805D027982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetCustomerDetailResponseModel.swift; sourceTree = "<group>"; };
+		C6CA04E9278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCheckMeetSatusResponseModel.swift; sourceTree = "<group>"; };
+		C6CA04EA278FEC7E003B98DA /* ApiMeetResultDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiMeetResultDataModel.swift; sourceTree = "<group>"; };
+		C6FDDFEA278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiOPiCallRoomDetailsResponseModel.swift; sourceTree = "<group>"; };
+		C6FDDFEB278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiOPiCallRoomDetailsModel.swift; sourceTree = "<group>"; };
 		CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TLClientApp.entitlements; sourceTree = "<group>"; };
 		CE0DDFF426D13AFC003D4FC7 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
 		CE0DDFF626D13B2F003D4FC7 /* LanguageVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageVModel.swift; sourceTree = "<group>"; };
@@ -730,11 +790,39 @@
 			path = cancelRequestModel;
 			sourceTree = "<group>";
 		};
+		2932823F276A061C00698592 /* OPI Calling Model */ = {
+			isa = PBXGroup;
+			children = (
+				29328245276A144A00698592 /* ApiCheckCallStatusResponseModel.swift */,
+				29328240276A062800698592 /* ApiCreateVRICallClientResponseModel.swift */,
+			);
+			path = "OPI Calling Model";
+			sourceTree = "<group>";
+		};
+		298FA1832771F2680023019C /* RatingResponseModel */ = {
+			isa = PBXGroup;
+			children = (
+				298FA1842771F2800023019C /* ApiGetRatindScreenResponseModel.swift */,
+			);
+			path = RatingResponseModel;
+			sourceTree = "<group>";
+		};
 		29906347274BC4D8007A3050 /* InviteParticipant */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = InviteParticipant;
+			sourceTree = "<group>";
+		};
+		29981FD8277213F3003DF75E /* RatingResponseModle */ = {
+			isa = PBXGroup;
+			children = (
+				29981FE427721486003DF75E /* ApiPostFeedbackResponseModel.swift */,
+				29981FE327721485003DF75E /* ApiPostTableData.swift */,
+				29981FDA27721418003DF75E /* ApiGetMemberInRoomDetailDataModel.swift */,
+				29981FD927721417003DF75E /* ApiGetMemberResponseModel.swift */,
+			);
+			path = RatingResponseModle;
 			sourceTree = "<group>";
 		};
 		29B3C6D6274CA8B8006345E0 /* CallUtility */ = {
@@ -776,6 +864,43 @@
 			path = Audio;
 			sourceTree = "<group>";
 		};
+		29CAFF3027831DCC00FA3DCA /* updateTimeZoneModel  */ = {
+			isa = PBXGroup;
+			children = (
+				29CAFF3227831DE400FA3DCA /* ApiUPDATETIMEZONEDataModel.swift */,
+				29CAFF3127831DE300FA3DCA /* ApiUpdateTimeZoneResponse.swift */,
+				29CAFF2B2783060500FA3DCA /* ApiGoogleTimeZoneresponse.swift */,
+			);
+			path = "updateTimeZoneModel ";
+			sourceTree = "<group>";
+		};
+		29D1D2EC275F89F000573E58 /* CountryCode */ = {
+			isa = PBXGroup;
+			children = (
+				29D1D2ED275F89F000573E58 /* Source */,
+			);
+			path = CountryCode;
+			sourceTree = "<group>";
+		};
+		29D1D2ED275F89F000573E58 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				29D1D2EE275F89F000573E58 /* assets.bundle */,
+				29D1D2EF275F89F000573E58 /* MICountryPicker.swift */,
+				29D1D2F0275F89F000573E58 /* CallingCodes.plist */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		29F3DA672759FAAF00C751F9 /* ScheduleMeetResponseModel */ = {
+			isa = PBXGroup;
+			children = (
+				293282052769BDBD00698592 /* ApiScheduleVRIDataModel.swift */,
+				2932820D2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift */,
+			);
+			path = ScheduleMeetResponseModel;
+			sourceTree = "<group>";
+		};
 		78D55CABACDA4EDE037C40F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,9 +926,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C6CA04E8278FEC01003B98DA /* CheckMeetStatus */ = {
+			isa = PBXGroup;
+			children = (
+				C6CA04E9278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift */,
+				C6CA04EA278FEC7E003B98DA /* ApiMeetResultDataModel.swift */,
+			);
+			path = CheckMeetStatus;
+			sourceTree = "<group>";
+		};
+		C6FDDFE9278C348D00B5F177 /* OPIRoomDetailModel */ = {
+			isa = PBXGroup;
+			children = (
+				C6FDDFEB278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift */,
+				C6FDDFEA278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift */,
+			);
+			path = OPIRoomDetailModel;
+			sourceTree = "<group>";
+		};
 		CE0DDFF826D15A1A003D4FC7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C63805D027982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift */,
+				C6CA04E8278FEC01003B98DA /* CheckMeetStatus */,
+				C6FDDFE9278C348D00B5F177 /* OPIRoomDetailModel */,
+				29915D4E27856C7D00162033 /* ApiAddparticipantsOPIResponseModle.swift */,
+				29CAFF3027831DCC00FA3DCA /* updateTimeZoneModel  */,
 				04CB27C6273E6EB300E54408 /* ApiAppointmentCustomerDataModel.swift */,
 				04CB27C5273E6EB300E54408 /* ApiAppointmentDetailResponseModel.swift */,
 				046334EA272825C60079CFCB /* ApiCategoryResponse */,
@@ -828,6 +976,8 @@
 				045619A727267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift */,
 				04C28C18272974A800C971C6 /* DocumentTranslationViewController.swift */,
 				04C997DA272C09270039FBBA /* TelephoneConfrenceServiceViewController.swift */,
+				29D1D2DF275F59A400573E58 /* VirtualMeetingViewController.swift */,
+				C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -857,6 +1007,7 @@
 		CE2704A426BCE7BE00009E77 /* TLClientApp */ = {
 			isa = PBXGroup;
 			children = (
+				29D1D2EC275F89F000573E58 /* CountryCode */,
 				29B3C752274CF23F006345E0 /* Audio */,
 				29B3C74C274CD605006345E0 /* image */,
 				29B3C71B274CB428006345E0 /* TVCells */,
@@ -954,6 +1105,7 @@
 				0423678C271833DA003BC021 /* TelephoneConferenceServiceHistoryVC.swift */,
 				CE3FE08C26C90210000BD19F /* CalendarTVCell.swift */,
 				29D5F7AD2754EB2B0015F16B /* MeetingViewController.swift */,
+				29988E15277F38E80034F2D9 /* TimeZoneViewController.swift */,
 			);
 			path = HomeViewController;
 			sourceTree = "<group>";
@@ -998,6 +1150,9 @@
 				CE74B2C526BE6A69008BBA8C /* Utility */,
 				04CC968627479A0F001D4A65 /* MIBadgeButton.swift */,
 				29F8CFE2274E7680006243EC /* Util.swift */,
+				292DD08427588706003C0829 /* AutosizedCollectionView.swift */,
+				292DD08927588B80003C0829 /* ContentSizedTableView.swift */,
+				299A46AF275DEDD500333653 /* GrowingTextView.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1018,6 +1173,10 @@
 		CE74B2D026BEED8E008BBA8C /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				29981FD8277213F3003DF75E /* RatingResponseModle */,
+				298FA1832771F2680023019C /* RatingResponseModel */,
+				2932823F276A061C00698592 /* OPI Calling Model */,
+				29F3DA672759FAAF00C751F9 /* ScheduleMeetResponseModel */,
 				04CC968D2747C0CE001D4A65 /* NotificationDetail */,
 				04CC96882747B0DA001D4A65 /* ApiVriOpiLogModel */,
 				04BDA09A274505AA00A40B84 /* Notification Response Model */,
@@ -1083,6 +1242,9 @@
 				048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */,
 				048AE7FE26D63A1700FB9309 /* AddParticipantController.swift */,
 				048AE80026D64D3600FB9309 /* OPIFeedbackController.swift */,
+				296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */,
+				2971A9D6276389B70096C730 /* AudioCallViewController.swift */,
+				298FA12C2771F15E0023019C /* RatingViewController.swift */,
 			);
 			path = OnDemandOPIViewController;
 			sourceTree = "<group>";
@@ -1132,6 +1294,7 @@
 				CE27049F26BCE7BE00009E77 /* Frameworks */,
 				CE2704A026BCE7BE00009E77 /* Resources */,
 				DEEAE5BC2CE1B05FE7817F99 /* [CP] Embed Pods Frameworks */,
+				60EEF220EEAE55273D15DC18 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1170,6 +1333,7 @@
 				CE2704C326BCE7C100009E77 /* Frameworks */,
 				CE2704C426BCE7C100009E77 /* Resources */,
 				1AE239406BEDF42E8F3B5A3D /* [CP] Embed Pods Frameworks */,
+				029B1368589C5737F17BA395 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1228,6 +1392,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29D1D2F1275F89F000573E58 /* assets.bundle in Resources */,
+				29D1D2F3275F89F000573E58 /* CallingCodes.plist in Resources */,
 				29F8D006274E7D2D006243EC /* MoreCell.xib in Resources */,
 				049AB17526E74D4C001D5766 /* GoogleService-Info.plist in Resources */,
 				CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */,
@@ -1265,6 +1431,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		029B1368589C5737F17BA395 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TLClientApp-TLClientAppUITests/Pods-TLClientApp-TLClientAppUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		16F845C35F3DE6F9A9BA4A8D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1324,6 +1507,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		60EEF220EEAE55273D15DC18 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TLClientApp/Pods-TLClientApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TLClientApp/Pods-TLClientApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TLClientApp/Pods-TLClientApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DA0476308BEA96A4145BA850 /* [CP] Check Pods Manifest.lock */ = {
@@ -1400,9 +1600,13 @@
 				04C7751F273BDD9600AE934A /* ApiUpdateDeviceTokenRespose.swift in Sources */,
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
 				04CC968B2747B131001D4A65 /* ApiVRIOPICallLogResponseModel.swift in Sources */,
+				C6CA04EC278FEC7E003B98DA /* ApiMeetResultDataModel.swift in Sources */,
 				29F8CFF7274E793A006243EC /* VendorTVCell.swift in Sources */,
 				04CE547A2715B375002B7288 /* NotificationViewController.swift in Sources */,
 				04D867BD271EB4C2004DB0C4 /* ApiGetAllVenueDataResponseModel.swift in Sources */,
+				29D1D2F2275F89F000573E58 /* MICountryPicker.swift in Sources */,
+				298FA1852771F2800023019C /* ApiGetRatindScreenResponseModel.swift in Sources */,
+				292DD08527588706003C0829 /* AutosizedCollectionView.swift in Sources */,
 				CE76024E26CF781500550B68 /* ScheduledOPIViewController.swift in Sources */,
 				CE74B2DB26C02520008BBA8C /* AuthServices.swift in Sources */,
 				04C91A4B27352CD90029FE90 /* AddProviderDetail.swift in Sources */,
@@ -1420,14 +1624,19 @@
 				04B225C426E9E8C60063129C /* AppCommonFunc.swift in Sources */,
 				CE74B2D526BEFA0B008BBA8C /* SwiftLoader.swift in Sources */,
 				04CC96902747C0E5001D4A65 /* ApiNotificationDetailResponseModel.swift in Sources */,
+				299A46B0275DEDD500333653 /* GrowingTextView.swift in Sources */,
 				CE74B2C726BE6A87008BBA8C /* Constant.swift in Sources */,
 				CE74B2B626BE55A3008BBA8C /* LoginVC.swift in Sources */,
 				29F8CF60274E5FD1006243EC /* ApiNotificationsCountsResponseData.swift in Sources */,
+				2971A9D7276389B70096C730 /* AudioCallViewController.swift in Sources */,
+				29D1D2E0275F59A400573E58 /* VirtualMeetingViewController.swift in Sources */,
 				29F8D001274E79F6006243EC /* InviteModel.swift in Sources */,
+				292DD08A27588B80003C0829 /* ContentSizedTableView.swift in Sources */,
 				04C5E3CD27390FE400C910A5 /* UpdateProfilePicViewController.swift in Sources */,
 				CE76024826CF778800550B68 /* OnDemandOPIViewController.swift in Sources */,
 				04C17E5F273154A800297528 /* TravelMilesDataModel.swift in Sources */,
 				04C5E3D32739290B00C910A5 /* ApiGetProfileResponseModel.swift in Sources */,
+				2932820E2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift in Sources */,
 				CE3FE08626C80A6F000BD19F /* HomeViewController.swift in Sources */,
 				04BFEDE027202A1E00EB38B7 /* CustomerSettingsResponseModel.swift in Sources */,
 				04C17E532731474100297528 /* GetPublicDetail.swift in Sources */,
@@ -1438,6 +1647,7 @@
 				29F8CFFC274E7991006243EC /* InviteParticipantVC.swift in Sources */,
 				04C91A4E27352E450029FE90 /* ApiAddDepartmentDataResponse.swift in Sources */,
 				04C07810274243A7000750C1 /* ApiCancelRequestResponseModel.swift in Sources */,
+				29981FE627721486003DF75E /* ApiPostFeedbackResponseModel.swift in Sources */,
 				049AB16E26E73E95001D5766 /* VDOCallViewModel.swift in Sources */,
 				CE74B2D926BEFA27008BBA8C /* Toast.swift in Sources */,
 				049AB17226E743E3001D5766 /* Models.swift in Sources */,
@@ -1445,12 +1655,15 @@
 				04B225C226E9E40E0063129C /* AppConstants.swift in Sources */,
 				04C17E60273154A800297528 /* ApiGetAuthCoderesponseModel.swift in Sources */,
 				04E701822732714200C57A8E /* ApiCreateAppointmentResponseModel.swift in Sources */,
+				29988E16277F38E80034F2D9 /* TimeZoneViewController.swift in Sources */,
 				04C17E61273154A800297528 /* VendorRankingDataModel.swift in Sources */,
+				C6FDDFEC278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift in Sources */,
 				04C91A572735359C0029FE90 /* ApiDepartmentData.swift in Sources */,
 				049AB16D26E73E95001D5766 /* CallManager.swift in Sources */,
 				04C91A4A27352CD90029FE90 /* ApiAddProviderDataresponse.swift in Sources */,
 				04B225CC26F477730063129C /* TLTimer.swift in Sources */,
 				CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */,
+				296D81772763609D005ADBB0 /* CallingOPIPopUpVC.swift in Sources */,
 				CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */,
 				04C17E63273154A800297528 /* GenderDataModel.swift in Sources */,
 				29D5F7AE2754EB2B0015F16B /* MeetingViewController.swift in Sources */,
@@ -1458,12 +1671,17 @@
 				04D867BF271EC906004DB0C4 /* AddNewVenueViewController.swift in Sources */,
 				046334EE272825F40079CFCB /* ApiGetCategoryResponseData.swift in Sources */,
 				04BFEDE327202A1E00EB38B7 /* ApiCustomerDetailResponseModel.swift in Sources */,
+				29CAFF3327831DE400FA3DCA /* ApiUpdateTimeZoneResponse.swift in Sources */,
 				CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */,
+				29328241276A062800698592 /* ApiCreateVRICallClientResponseModel.swift in Sources */,
 				04CE547E2716BC7F002B7288 /* Extention UIView.swift in Sources */,
 				C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */,
+				29981FE527721486003DF75E /* ApiPostTableData.swift in Sources */,
 				04C5E3D42739290B00C910A5 /* ApiUSERLOGOSDataModel.swift in Sources */,
 				CE76024B26CF77D300550B68 /* ScheduledVRIVIewController.swift in Sources */,
+				C63805D127982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift in Sources */,
 				04C2F495272FD62B007C0ED9 /* ApiLanguageResponseData.swift in Sources */,
+				29CAFF3427831DE400FA3DCA /* ApiUPDATETIMEZONEDataModel.swift in Sources */,
 				04C4162E272A6E0C0081E5B4 /* ApiCLASSIFICATIONDetails.swift in Sources */,
 				04E7017C273253FE00C57A8E /* SpecialityDataModel.swift in Sources */,
 				04C77521273BDD9600AE934A /* ApiUpdateTokenTableRespose.swift in Sources */,
@@ -1474,23 +1692,29 @@
 				046334DD27280BEC0079CFCB /* ApiManager.swift in Sources */,
 				0439C796270EF5F500DA3D61 /* ApiScheduleAppointmentResponseModel.swift in Sources */,
 				CE951DB626C6383500EC1BCA /* ForgotModel.swift in Sources */,
+				298FA12D2771F15E0023019C /* RatingViewController.swift in Sources */,
 				04CBAD7B271D495B00055797 /* SupportViewController.swift in Sources */,
 				0439C79B2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift in Sources */,
 				04E701872732782D00C57A8E /* ApiCancelAppointmentResponseModel.swift in Sources */,
 				04B225C626EF137F0063129C /* MembberListM.swift in Sources */,
+				29981FDB27721419003DF75E /* ApiGetMemberResponseModel.swift in Sources */,
 				04C07812274243A7000750C1 /* ApiSelectedAppointmentDetailResponse.swift in Sources */,
 				CE74B2CD26BE7DB5008BBA8C /* Storyboard+.swift in Sources */,
 				CE74B2DF26C046FA008BBA8C /* LoginModel.swift in Sources */,
 				CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */,
+				C6CA04EB278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift in Sources */,
 				CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */,
 				29F8CFED274E7731006243EC /* ChatManager.swift in Sources */,
 				04E701832732714200C57A8E /* AppointmentsCreatedDataModel.swift in Sources */,
+				C63805CF2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift in Sources */,
 				04C2F49727300460007C0ED9 /* RPicker.swift in Sources */,
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
 				C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
+				29915D4F27856C7D00162033 /* ApiAddparticipantsOPIResponseModle.swift in Sources */,
 				04CBAD7D271D498B00055797 /* VRIAndOPILogsViewController.swift in Sources */,
 				046334E2272813970079CFCB /* ApiNotificationConversionModel.swift in Sources */,
+				29328246276A144A00698592 /* ApiCheckCallStatusResponseModel.swift in Sources */,
 				29F8CFDE274E762C006243EC /* VideoCallViewController.swift in Sources */,
 				CE74B2DD26C026D1008BBA8C /* API.swift in Sources */,
 				046334E82728186C0079CFCB /* ApiGroupDetailResponseModel.swift in Sources */,
@@ -1501,6 +1725,7 @@
 				29F8CFE8274E76BA006243EC /* CallingPopUpVC.swift in Sources */,
 				048AE7FF26D63A1700FB9309 /* AddParticipantController.swift in Sources */,
 				0423678B271832CF003BC021 /* DocumentTransaltionHistoryVC.swift in Sources */,
+				29981FDC27721419003DF75E /* ApiGetMemberInRoomDetailDataModel.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
 				0439C798271008FE00DA3D61 /* UIColor.swift in Sources */,
@@ -1512,14 +1737,17 @@
 				04C2F494272FD62B007C0ED9 /* ApiGetAllLanguageResponse.swift in Sources */,
 				04CBAD84271D4A7200055797 /* AddVenuDetailViewController.swift in Sources */,
 				04C07811274243A7000750C1 /* ApiCancelRequestDataModel.swift in Sources */,
+				293282062769BDBD00698592 /* ApiScheduleVRIDataModel.swift in Sources */,
 				04C77520273BDD9600AE934A /* ApiLogoutResponseModel.swift in Sources */,
 				04C5E3D92739399B00C910A5 /* ApiUploadImageOnlyResponse.swift in Sources */,
 				04CC96912747C0E5001D4A65 /* ApiNotificationDetailDataModel.swift in Sources */,
 				04CE547C2716AA80002B7288 /* SideMenuViewController.swift in Sources */,
 				04C17E5D273154A800297528 /* AppointmentTypeDataModel.swift in Sources */,
+				29CAFF2C2783060500FA3DCA /* ApiGoogleTimeZoneresponse.swift in Sources */,
 				0439C795270EF5F500DA3D61 /* ApiScheduleAppointmentStatusDataModel.swift in Sources */,
 				04C17E64273154A800297528 /* AppointmentStatusDataModel.swift in Sources */,
 				04D867BC271EB4C2004DB0C4 /* ApiAllStateDataResponse.swift in Sources */,
+				C6FDDFED278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift in Sources */,
 				04CC968727479A0F001D4A65 /* MIBadgeButton.swift in Sources */,
 				04C91A55273534F30029FE90 /* ApiProviderDetail.swift in Sources */,
 				04CC968C2747B131001D4A65 /* ApiVRIOPICallLogDataModel.swift in Sources */,
@@ -1705,13 +1933,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6Z22496273;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.27;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev;
@@ -1736,7 +1965,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.27;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev;

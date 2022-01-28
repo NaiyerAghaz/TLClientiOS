@@ -51,6 +51,19 @@ enum APi{
     case getParticipantByRoom
     case getMeetingClientStatus
     case chattoken
+    case AddScheduleMeeting
+    case AddScheduleVRI
+    case createVRICallClient
+    case opiAcceptCall
+    case getCheckCallStatus
+    case createVRICallVendor
+    case endVRICall
+    case addCallFeedback
+    case getFeedbackDetails
+    case checkSingleUser
+    case getOPIDetailsByRoomID
+    case GetCustomerDetail
+    case GetCommonDetail
     var url: URL{
         switch self {
         case .login:
@@ -125,6 +138,32 @@ enum APi{
             return URL(string: baseUrl + "/getMeetingClientStatus")!
         case .chattoken:
             return URL(string: chatURL + "/chattoken")!
+        case .AddScheduleMeeting:
+            return URL(string: nBaseUrl + "/Appointment/AddScheduleMeeting")!
+        case .AddScheduleVRI:
+            return URL(string: nBaseUrl + "/Appointment/AddScheduleVRI")!
+        case .createVRICallClient:
+            return URL(string: baseUrl + "/CreateVRICallClient")!
+        case .opiAcceptCall:
+            return URL(string: baseUrl + "/Appointment/opiAcceptCall")!
+        case .getCheckCallStatus:
+            return URL(string: baseUrl + "/GetVRICallVendorWithCheckCallStatus")!
+        case .createVRICallVendor:
+            return URL(string: baseUrl + "/CreateVRICallVendor")!
+        case .endVRICall:
+            return URL(string: baseUrl + "/EndVRICall")!
+        case .addCallFeedback:
+            return URL(string: baseUrl + "/Security/AddCallFeedback")!
+        case .getFeedbackDetails:
+            return URL(string: baseUrl + "/chatBox/getFeedbackdetails")!
+        case .checkSingleUser:
+            return URL(string: baseUrl + "/GetUserGUIDtoChecksinglesignin")!
+        case .getOPIDetailsByRoomID:
+            return URL(string: baseUrl + "/Appointment/getOPIDetailsByRoomID")!
+        case .GetCustomerDetail:
+            return URL(string: baseUrl + "/GetGetAppointmentCommanddl")!
+        case .GetCommonDetail:
+            return URL(string: baseUrl + "/GetGetAppointmentDropDown")!
         }
     }
 }

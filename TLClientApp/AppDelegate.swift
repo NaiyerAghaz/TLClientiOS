@@ -184,6 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
      Messaging.messaging().apnsToken = deviceToken**/
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
         print("userInfo-------------------->",userInfo.values, "Info:", userInfo )
         handleNotification(userInfo: userInfo)
     }
@@ -191,10 +192,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("will not generate in simulator", error.localizedDescription)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print(notification)
+        
+        let userInfo = notification.request.content.userInfo
+        
+        print("new notification ",userInfo.values)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(completionHandler)
+        
+        print("userNotificationCenter",completionHandler)
     }
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
@@ -236,8 +241,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }*/
             
             
+            }else if type == "opicall" {
+                
+                print("opi call Start")
+                
+                NotificationCenter.default.post(name: Notification.Name("vendorAnswered"), object: nil, userInfo: nil)
+                
+            }else if type?.contains("ParticipantLeave") ?? false {
+                print("participants leave notify ")
+                let participantsValue = type?.components(separatedBy: ",")
+                if (participantsValue?.count ?? 0 ) > 0 {
+                    let participantsStr = participantsValue?[0]
+                    let conferenceSID = participantsValue?[1] ?? ""
+                    let objConferenceSID:[String:String] = ["conferenceSID":conferenceSID]
+                    if participantsStr == "ParticipantLeave" {
+                        NotificationCenter.default.post(name: Notification.Name("removeParticipants"), object: nil, userInfo: objConferenceSID)
+                    }
+                }
+                
+                
+            }else if type == "tokenupdate" {
+                if isLogoutPressed {
+                    //isLogoutPressed = false
+                }else {
+                    self.window?.makeToast("This customer already logged-in on another device")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
+                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                        navigationController.viewControllers = [rootViewController]
+                        appDelegate.window!.rootViewController = navigationController
+                        appDelegate.window!.makeKeyAndVisible()
+                    }
+                }
+                
+            }
         }
-    }
     }
    
 }

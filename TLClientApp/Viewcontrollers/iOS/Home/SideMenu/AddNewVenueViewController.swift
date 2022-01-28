@@ -99,7 +99,7 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
         let userId = userDefaults.string(forKey: "userId") ?? ""
         
         let urlString = "https://lsp.totallanguage.com/Controls/Venue/GetData?methodType=VenueData%2CDepartmentData%2CProviderData%2CStates&CustomerID=\(userId)&UserType=Customer&Type=EDITTIME"
-        //print("url to get schedule \(urABC)")
+        print("url to get states \(urlString)")
                 AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                     .validate()
                     .responseData(completionHandler: { [self] (response) in
@@ -107,7 +107,7 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
                         switch(response.result){
                         
                         case .success(_):
-                            print("Respose Success ")
+                            print("Respose Success Add venue ")
                             guard let daata = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()

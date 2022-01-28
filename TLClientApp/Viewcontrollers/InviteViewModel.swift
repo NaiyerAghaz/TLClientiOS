@@ -14,8 +14,8 @@ class InviteViewModel{
      E means Email authentication
      N means No2FA authentication
      You can pass like this character to AUTHFACT*/
-    func inviteEmailReq(emailID: String,roomNo: String, pid: String, mobile: String, fName: String,lName: String,fromUserID: String, authFactor: String) -> [String: Any]{
-        let para :[String: Any] = ["strSearchString": "<Info><TYPE>A</TYPE><ROOMNO>\(roomNo)</ROOMNO><EMAIL>\(emailID)</EMAIL><PID>\(pid)</PID><MOBILENO>\(mobile)</MOBILENO><FNAME>\(fName)</FNAME><LNAME>\(lName)</LNAME><FROMUSERID>\(fromUserID)</FROMUSERID><AUTHFACT>\(authFactor)</AUTHFACT><CALLTYPE></CALLTYPE></Info>" ]
+    func inviteEmailReq(emailID: String,roomNo: String, pid: String, mobile: String, fName: String,lName: String,fromUserID: String, authFactor: String, calltype: String) -> [String: Any]{
+        let para :[String: Any] = ["strSearchString": "<Info><TYPE>A</TYPE><ROOMNO>\(roomNo)</ROOMNO><EMAIL>\(emailID)</EMAIL><PID>\(pid)</PID><MOBILENO>\(mobile)</MOBILENO><FNAME>\(fName)</FNAME><LNAME>\(lName)</LNAME><FROMUSERID>\(fromUserID)</FROMUSERID><AUTHFACT>\(authFactor)</AUTHFACT><CALLTYPE>\(calltype)</CALLTYPE></Info>" ]
        
         
       return para
@@ -26,8 +26,9 @@ class InviteViewModel{
         return parameter
     }
     func inviteWithEmail(parameter:[String:Any],complitionBlock: @escaping(Bool?, Error?) -> ()){
-       
+       print("invitePara:", parameter)
         WebServices.postJson(url: APi.AddUpdateConferenceData.url, jsonObject: parameter) { response, error in
+            print("url and parametere for invite through email ",APi.AddUpdateConferenceData.url , parameter)
             let arr = response as! NSArray
             let inviteDict = arr[0] as! NSDictionary
             print("newArrDictnewArrDict-->",inviteDict)

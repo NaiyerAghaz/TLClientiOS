@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 class VDOCallViewModel {
     var conferrenceDetail = ConferenceInfoResultModel()
     func getTwilioToken(complitionBlock: @escaping(TwilioModel?, Error?) -> ()){
@@ -250,6 +251,16 @@ class VDOCallViewModel {
     }
     func rejectInvitation(parameter:[String: Any],completionBlock:@escaping(Bool?) ->()) {
         
+    }
+    public func videoTrackEnableOrDisable(isenable:Bool, img: UIImageView){
+        if isenable {
+            img.isHidden = true
+           }
+        else {
+            img.isHidden = false
+            
+            
+        }
     }
     //Reject Invite call
     

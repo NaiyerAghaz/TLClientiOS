@@ -257,6 +257,8 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             self.vdoCollectionView.reloadData()
         }
         
+
+        
         
     }
     
@@ -278,6 +280,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func didSubscribeToAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {
+        print("Subscribe audio track!")
         // We are subscribed to the remote Participant's audio Track. We will start receiving the
         // remote Participant's audio now.
         self.view.makeToast("Subscribed to audio track for Participant \(participant.identity)")
@@ -294,12 +297,22 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     
     func remoteParticipantDidEnableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         self.view.makeToast("Participant \(participant.identity) enabled video track")
+
+    
+        self.vdoCollectionView.reloadData()
         
         
     }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
-        self.view.makeToast("Participant \(participant.identity) enabled video track")
+        self.view.makeToast("Participant \(participant.identity) disabled video track")
+        self.vdoCollectionView.reloadData()
+//        vdoCollectionView.performBatchUpdates {
+//            vdoCollectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
+//        } completion: { success in
+//
+//        }
+//        print("DidDisableEnableVideoTrack:",publication.remoteTrack?.isEnabled)
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
