@@ -926,29 +926,7 @@ extension VideoCallViewController:RoomDelegate{
             self.remoteParicipantDictionary?["\(index)"] = ["participant":participant]
             
         }
-        
-        
-        /* bool saveParticipant = true;
-         int index = 0;
-         for (int i= 0; i< self.remoteParticipantsList.count; i++) {
-         TVIRemoteParticipant * participant1 = [[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"participant"];
-         
-         if(participant1 == participant){
-         saveParticipant = false;
-         }
-         index = i+1;
-         }
-         if(saveParticipant){
-         [self.remoteParticipantsList addObject:participant];
-         participant.delegate = self;
-         [self.remoteParticipantsDictionary setObject:@{
-         @"participant" : participant,
-         } forKey:[NSString stringWithFormat:@"%d",index]];
-         }*/
-        
-        
-        
-    }
+      }
     
     func participantDidDisconnect(room: Room, participant: RemoteParticipant) {
         recordTime.invalidate()
@@ -976,11 +954,9 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: indexPath) as!  VDOCollectionViewCell
-        print("remoteParticipantArr:",remoteParticipantArr.count)
+       
         //participant.remoteVideoTracks
         // print("videoPublications:",videoPublications.count)
-        
-        
         /* if remoteParticipantArr.count > 1 {
          /* if([[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"videoTrak"] != nil){
          callCell.audioCallImg.hidden = YES;
@@ -1015,8 +991,6 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
          
          
          cell.remoteView.addSubview(remote)
-         
-         
          }
          }*/
          for i in 0...remoteParticipantArr.count {
