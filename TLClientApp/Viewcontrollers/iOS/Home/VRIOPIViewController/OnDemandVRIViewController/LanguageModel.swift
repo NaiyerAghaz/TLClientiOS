@@ -6,19 +6,8 @@
 //
 
 import Foundation
-/*
- {
- "LanguageData": [
- {
- "LanguageID": 1198,
- "LanguageName": "Abkhazian",
- "Active": false,
- "Type": null,
- "Rate": 0,
- "VendorLanguageID": null,
- "LanguageColorCode": null
- },
- */
+
+
 
 class LanguageList: NSObject {
     var LanguageData: NSMutableArray?
