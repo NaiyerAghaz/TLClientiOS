@@ -96,7 +96,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1099"
             endingLineNumber = "1099"
-            landmarkName = "videoViewDidReceiveData(view:)"
+            landmarkName = "remoteParticipantSwitchedOnVideoTrack(participant:track:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

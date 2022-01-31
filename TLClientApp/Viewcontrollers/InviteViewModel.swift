@@ -15,7 +15,7 @@ class InviteViewModel{
      N means No2FA authentication
      You can pass like this character to AUTHFACT*/
     func inviteEmailReq(emailID: String,roomNo: String, pid: String, mobile: String, fName: String,lName: String,fromUserID: String, authFactor: String, calltype: String) -> [String: Any]{
-        let para :[String: Any] = ["strSearchString": "<Info><TYPE>A</TYPE><ROOMNO>\(roomNo)</ROOMNO><EMAIL>\(emailID)</EMAIL><PID>\(pid)</PID><MOBILENO>\(mobile)</MOBILENO><FNAME>\(fName)</FNAME><LNAME>\(lName)</LNAME><FROMUSERID>\(fromUserID)</FROMUSERID><AUTHFACT>\(authFactor)</AUTHFACT><CALLTYPE>\(calltype)</CALLTYPE></Info>" ]
+        let para :[String: Any] = ["strSearchString": "<Info><TYPE>A</TYPE><ROOMNO>\(roomNo)</ROOMNO><EMAIL>\(emailID)</EMAIL><PID>\(pid)</PID><MOBILENO>\(mobile)</MOBILENO><FNAME>\(fName)</FNAME><LNAME>\(lName)</LNAME><FROMUSERID>\(fromUserID)</FROMUSERID><AUTHFACT>\(authFactor)</AUTHFACT><CALLTYPE>\(calltype)</CALLTYPE><CNAME></CNAME><clogo></clogo></Info>" ]
        
         
       return para

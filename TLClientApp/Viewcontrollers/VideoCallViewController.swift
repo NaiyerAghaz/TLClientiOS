@@ -47,7 +47,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
     var ringToneTimer = Timer()
-    var ringingTime = 16
+    var ringingTime = 60
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
