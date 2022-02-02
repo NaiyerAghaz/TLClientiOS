@@ -154,6 +154,7 @@ class OnsiteInterpretationNewViewController: UIViewController , UITextFieldDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Hello World")
         self.departmentOptionMajorView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.departmentOptionMajorView.isHidden = true
         self.departmentOptionView.layer.cornerRadius = 15
