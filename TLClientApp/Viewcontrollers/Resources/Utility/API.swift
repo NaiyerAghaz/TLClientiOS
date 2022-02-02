@@ -16,7 +16,7 @@ let nBaseUrl = "https://lsp.totallanguage.com"
 let twiliBaseURL = "https://sai1.smsionline.com"
 let baseOPI = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken"
 //let baseOPI = "https://lsp.smsionline.com/OPI/GetOPIAccessToken"
-
+let chatURL = "https://vriservices.totallanguage.com"
 enum APi{
     case login
     case forgetPassword
@@ -31,6 +31,8 @@ enum APi{
     case getVenueData
     case getAuthCode
     case speciality
+    case vriCallStart
+    case ConferenceParticipant
     case addAppointment
     case addDepartment
     case addproviderData
@@ -43,8 +45,7 @@ enum APi{
     case getData
     case notificationDetail
     case Vrilog
-<<<<<<< Updated upstream
-=======
+
     case vricallstart
     case getVriVendorsbyLid
     case AddUpdateConferenceData
@@ -68,8 +69,7 @@ enum APi{
     case AddUpdateDeptAndContactData
     case tladdupdateappointment
     case encryptdecryptvalue
-
->>>>>>> Stashed changes
+    case ParticipantEndCall
     var url: URL{
         switch self {
         case .login:
@@ -127,9 +127,6 @@ enum APi{
             
         case .notificationDetail:
             return URL(string: nBaseUrl + "/Home/GetData?methodType=NotificationsByUsername&")!
-            
-<<<<<<< Updated upstream
-=======
         case .getVriVendorsbyLid:
             return URL(string: baseUrl + "/chatBox/getVriVendorsbyLid")!
         case .vricallstart:
@@ -180,7 +177,8 @@ enum APi{
             return URL(string: baseUrl + "/tladdupdateappointment")!
         case .encryptdecryptvalue:
             return URL(string: baseUrl + "/encryptdecryptvalue")!
->>>>>>> Stashed changes
+        case .ParticipantEndCall:
+            return URL(string: chatURL + "/ParticipantEndCall")!
         }
     }
 }

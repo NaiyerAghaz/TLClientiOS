@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+
 struct Storyboard_name {
     static let login = "Auth"
     static let home = "Home"
@@ -15,8 +17,6 @@ struct nibNamed {
 }
 
 var userDefaults = UserDefaults.standard
-<<<<<<< Updated upstream
-=======
 enum cellIndentifier: String {
     case vendorTVCell = "VendorTVCell"
     case VDOCollectionViewCell = "VDOCollectionViewCell"
@@ -46,4 +46,4 @@ class DynamicTableView: UITableView {
         }
     }
 }
->>>>>>> Stashed changes
+

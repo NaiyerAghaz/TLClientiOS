@@ -16,6 +16,8 @@ import Firebase
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     var window: UIWindow?
+    var inHouseValue, inBoostlingoValue, isBoostlingoAccess: String?
+    var slangNameAppdel, slangIDAppdel, tlangIDAppdel, tlangNameAppdel, tokenAppdel, initalCallType, roomIDAppdel, callTypeAppdel, patientnameAppdel, patientnoAppdel, myIDAppdel: String?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
         FirebaseApp.configure()
@@ -182,13 +184,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
      Messaging.messaging().apnsToken = deviceToken**/
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-<<<<<<< Updated upstream
-        print("userInfo------>",userInfo)
-=======
-        
         print("userInfo-------------------->",userInfo.values, "Info:", userInfo )
         handleNotification(userInfo: userInfo)
->>>>>>> Stashed changes
+
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("will not generate in simulator", error.localizedDescription)
@@ -203,8 +201,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         print("userNotificationCenter",completionHandler)
     }
-<<<<<<< Updated upstream
-=======
+
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
         let payload = userInfo[AnyHashable("payload")] as? String
@@ -267,8 +264,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }else if type == "tokenupdate" {
                 if isLogoutPressed {
                     //isLogoutPressed = false
-               
-                
+
                 }else {
                     self.window?.makeToast("This customer already logged-in on another device")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -285,7 +281,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
->>>>>>> Stashed changes
+
    
 }
 

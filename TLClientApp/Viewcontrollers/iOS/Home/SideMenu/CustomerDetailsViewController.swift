@@ -10,6 +10,7 @@ import Alamofire
 import DropDown
 class CustomerDetailsViewController: UIViewController {
     @IBOutlet var passwordTF: UITextField!
+    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet var lastNameTF: UITextField!
     @IBOutlet var billingContactTF: UITextField!
     @IBOutlet var customerfullNameTF: UITextField!

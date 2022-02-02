@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.4.4)
+  - BottomPopup (0.7.0)
   - Charts (3.6.0):
     - Charts/Core (= 3.6.0)
   - Charts/Core (3.6.0)
@@ -185,21 +186,15 @@ PODS:
     - SDWebImage/Core (= 5.12.1)
   - SDWebImage/Core (5.12.1)
   - SideMenu (6.5.0)
-<<<<<<< Updated upstream
-=======
-  - SteppableSlider (0.1.0):
-    - SteppableSlider/Core (= 0.1.0)
-  - SteppableSlider/Core (0.1.0)
-  - SwiftMessages (9.0.5):
-    - SwiftMessages/App (= 9.0.5)
-  - SwiftMessages/App (9.0.5)
->>>>>>> Stashed changes
+
   - SwiftPullToRefresh (3.1.1)
+  - TwilioChatClient (5.0.1)
   - TwilioVideo (4.6.2)
   - TwilioVoice (6.3.0)
   - XLPagerTabStrip (9.0.0)
 
 DEPENDENCIES:
+  - BottomPopup
   - Charts
   - DateTimePicker
   - DropDown
@@ -220,19 +215,18 @@ DEPENDENCIES:
   - RxSwift (~> 5)
   - SDWebImage
   - SideMenu
-<<<<<<< Updated upstream
-=======
-  - SteppableSlider
+ - SteppableSlider
   - SwiftMessages
->>>>>>> Stashed changes
   - SwiftPullToRefresh
+  - TwilioChatClient
   - TwilioVideo
-  - TwilioVoice (~> 6.3.0)
+  - TwilioVoice
   - XLPagerTabStrip
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - BottomPopup
     - Charts
     - DateTimePicker
     - DropDown
@@ -261,18 +255,16 @@ SPEC REPOS:
     - RxSwift
     - SDWebImage
     - SideMenu
-<<<<<<< Updated upstream
-=======
-    - SteppableSlider
-    - SwiftMessages
->>>>>>> Stashed changes
+
     - SwiftPullToRefresh
+    - TwilioChatClient
     - TwilioVideo
     - TwilioVoice
     - XLPagerTabStrip
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  BottomPopup: fe3e284628532f99093ae68c592c6b9d392c972d
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   DateTimePicker: 52701ddf656a50856d3510955933f767cd2c947c
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
@@ -301,20 +293,19 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
-<<<<<<< Updated upstream
-=======
+
+
   SteppableSlider: 298a795befede08e4a558417fe566d7852b272a6
   SwiftMessages: 9cca50659fa22bb523b4dd2a958d4442e843a354
->>>>>>> Stashed changes
+
   SwiftPullToRefresh: f61d67439c5b8d66420fe57193cab8c279398e7a
+  TwilioChatClient: 2a915858c972075108da2fd5fc382f237b1490cc
   TwilioVideo: f8c75425bce3f41912bb24352154b0502d89a9b3
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
-<<<<<<< Updated upstream
-PODFILE CHECKSUM: f1bce528eadf2e415a19e504c4522df0c108402b
-=======
-PODFILE CHECKSUM: 4a8e5a2357102936a41c400713ab9618ad847d36
->>>>>>> Stashed changes
 
-COCOAPODS: 1.10.2
+PODFILE CHECKSUM: 4a8e5a2357102936a41c400713ab9618ad847d36
+
+
+COCOAPODS: 1.11.2

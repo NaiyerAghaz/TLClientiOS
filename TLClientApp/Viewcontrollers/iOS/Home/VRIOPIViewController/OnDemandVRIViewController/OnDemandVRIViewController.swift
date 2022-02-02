@@ -7,10 +7,8 @@
 
 import UIKit
 import XLPagerTabStrip
-<<<<<<< Updated upstream
-=======
 import iOSDropDown
->>>>>>> Stashed changes
+
 
 class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPickerViewDelegate,UIPickerViewDataSource, UITextFieldDelegate {
     @IBOutlet weak var txtTargetlanguage: iOSDropDown!
@@ -19,31 +17,67 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     var vriPickerView = UIPickerView()
     var sourceLang = true
     var languageViewModel = LanguageVM()
+    var isShownParti = false
+    
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
     {
         
         return IndicatorInfo(title:"Ondemand VRI")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
         uiUpdate()
+        
         // Do any additional setup after loading the view.
     }
+    
     public func uiUpdate(){
-<<<<<<< Updated upstream
-        txtTargetlanguage.delegate = self
+
+       txtTargetlanguage.delegate = self
+
         txtSourceLanguage.delegate = self
-        txtTargetlanguage.inputView = vriPickerView
-        txtSourceLanguage.inputView = vriPickerView
+       // txtTargetlanguage.inputView = vriPickerView
+       // txtSourceLanguage.inputView = vriPickerView
+        self.txtSourceLanguage.layer.borderWidth = 0.6
+        self.txtSourceLanguage.layer.cornerRadius = 10
+        self.txtSourceLanguage.layer.borderColor = UIColor.gray.cgColor
+        self.txtSourceLanguage.setLeftPaddingPoints(20)
+        
+        self.txtTargetlanguage.layer.borderWidth = 0.6
+        self.txtTargetlanguage.layer.cornerRadius = 10
+        self.txtTargetlanguage.layer.borderColor = UIColor.gray.cgColor
+        self.txtTargetlanguage.setLeftPaddingPoints(20)
+        
+        txtSourceLanguage.optionArray = GetPublicData.sharedInstance.languageArray
+        txtSourceLanguage.checkMarkEnabled = true
+        txtSourceLanguage.isSearchEnable = true
+        txtSourceLanguage.selectedRowColor = UIColor.clear
+        txtSourceLanguage.didSelect{(selectedText , index , id) in
+          //  self.txtSourceLanguage.resignFirstResponder()
+           self.txtSourceLanguage.text = "\(selectedText)"
+       }
+        
+        txtTargetlanguage.optionArray = GetPublicData.sharedInstance.languageArray
+        txtTargetlanguage.checkMarkEnabled = true
+        txtTargetlanguage.isSearchEnable = true
+        txtTargetlanguage.selectedRowColor = UIColor.clear
+        txtTargetlanguage.didSelect{(selectedText , index , id) in
+          //  self.txtTargetlanguage.resignFirstResponder()
+           self.txtTargetlanguage.text = "\(selectedText)"
+       }
+
+        SwiftLoader.show(animated: true)
         languageViewModel.languageData { list, err in
             if err == nil {
+
                 self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
                
             }
           }
     }
-=======
+
        // txtTargetlanguage.delegate = self
         //txtSourceLanguage.delegate = self
         //txtTargetlanguage.inputView = vriPickerView
@@ -77,6 +111,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         SwiftLoader.show(animated: true)
         languageViewModel.languageData { list, err in
             if err == nil {
+
                 SwiftLoader.hide()
                //
                 //self.txtSourceLanguage.text = "English"
@@ -86,16 +121,18 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
             }}
      }
     
->>>>>>> Stashed changes
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == txtSourceLanguage{
+            
             sourceLang = true
-         }
+        }
         else {
             sourceLang = false
         }
-        vriPickerView.delegate = self
-        vriPickerView.dataSource = self
+        textField.resignFirstResponder()
+        //vriPickerView.delegate = self
+       // vriPickerView.dataSource = self
     }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -108,25 +145,28 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     
     func pickerView( _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        return languageViewModel.titleForList(row: row, tag: 0)
+        return languageViewModel.titleForList(row: row)
         
     }
     
     func pickerView( _ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        
         if sourceLang {
+            pickerView.updateConstraints()
             languageViewModel.titleToTxtField(row: row, txtField: txtSourceLanguage)
         }
         else {
+            pickerView.updateConstraints()
             languageViewModel.titleToTxtField(row: row, txtField: txtTargetlanguage)
         }
     }
     @IBAction func btnCallNowTapped(_ sender: Any) {
+        print("LANGUAGE LIST ARRAY IS \(languageViewModel.languageListArr)")
         let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
-<<<<<<< Updated upstream
-            
-=======
+
             let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: viewIndentifier.CallingPopupVC.rawValue) as! CallingPopupVC
             vcontrol.modalPresentationStyle = .overFullScreen
@@ -137,13 +177,13 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
             vcontrol.targetName = txtTargetlanguage.text!
             print("Language ID for call is ,",vcontrol.sourceID , vcontrol.targetID)
             self.present(vcontrol, animated: true, completion: nil)
->>>>>>> Stashed changes
+
         }
         else {
             self.view.makeToast(validate.error, duration: 1, position: .center)
         }
     }
-    
-    
-}
+    }
+
+
 

@@ -24,6 +24,7 @@ class SupportSenderTableViewCell:UITableViewCell{
 }
 class SupportViewController: UIViewController {
 
+    @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet var messageTF: UITextField!
     @IBOutlet var supportTV: UITableView!
     var apiGetSupportMessageModel:ApiGetSupportMessageModel?

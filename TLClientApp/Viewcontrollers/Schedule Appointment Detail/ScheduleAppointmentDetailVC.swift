@@ -259,8 +259,6 @@ class ScheduleAppointmentDetailVC: UIViewController {
         }else {
             return ""
         }
-        
-
     }
 }
 

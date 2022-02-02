@@ -12,15 +12,15 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct ApiScheduleAppointmentStatusDataModel: Codable {
-	let id : Int?
-	let code : String?
-	let value : String?
-	let type : String?
-	let sortOrder : Int?
-	let exactValue : String?
-	let color : String?
-	let flag : Int?
+class ApiScheduleAppointmentStatusDataModel: Codable {
+    var id : Int? = nil
+	var code : String? = nil
+    var value : String? = nil
+	var type : String? = nil
+	var sortOrder : Int? = nil
+	var exactValue : String? = nil
+	var color : String? = nil
+	var flag : Int? = nil
 
 	enum CodingKeys: String, CodingKey {
 
@@ -33,8 +33,8 @@ struct ApiScheduleAppointmentStatusDataModel: Codable {
 		case color = "Color"
 		case flag = "Flag"
 	}
-
-	init(from decoder: Decoder) throws {
+    
+    required init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		id = try values.decodeIfPresent(Int.self, forKey: .id)
 		code = try values.decodeIfPresent(String.self, forKey: .code)
@@ -45,5 +45,9 @@ struct ApiScheduleAppointmentStatusDataModel: Codable {
 		color = try values.decodeIfPresent(String.self, forKey: .color)
 		flag = try values.decodeIfPresent(Int.self, forKey: .flag)
 	}
+    init(){
+        
+    }
 
 }
+ 

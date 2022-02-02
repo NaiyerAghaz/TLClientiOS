@@ -21,7 +21,7 @@ class AddParticipantController: UIViewController {
     //VC Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black.withAlphaComponent(0.6)
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.al_Bottom.constant = -al_Height.constant
     }
     override func viewDidAppear(_ animated: Bool) {
