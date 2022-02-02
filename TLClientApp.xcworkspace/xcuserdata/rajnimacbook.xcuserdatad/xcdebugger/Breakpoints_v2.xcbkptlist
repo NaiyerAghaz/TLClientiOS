@@ -316,7 +316,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "557"
             endingLineNumber = "557"
-            landmarkName = "selectService(_:)"
+            landmarkName = "actionAddActualDepartment(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -332,7 +332,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "304"
             endingLineNumber = "304"
-            landmarkName = "selectProcessingDetail(_:)"
+            landmarkName = "updateServiceAndSpeciality()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

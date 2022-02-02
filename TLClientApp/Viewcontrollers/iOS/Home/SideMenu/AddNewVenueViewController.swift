@@ -28,6 +28,7 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
     var stateDataSouerce = [String]()
     var apiGetAllVenueDataResponseModel:ApiGetAllVenueDataResponseModel?
     var apiAddVenueResponse:ApiAddVenueResponse?
+    var apiStateListResponseModel:ApiStateListResponseModel?
     var apiAllStateDataResponse = [ApiAllStateDataResponse]()
     var apiGetAllVenuListResponse:ApiGetAllVenuListResponse?
     override func viewDidLoad() {
@@ -54,12 +55,13 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
 //                }
 //            }
 //        }
-        getVenuList()
+       // getVenuList()
+        getStateList()
         if isFrom == "EDITVENUE"{
-            self.venuetitleLbl.text = "Edit Venue details"
+            self.venuetitleLbl.text = "Edit Venue Details"
         }else {
             
-            self.venuetitleLbl.text = "Add Venue details"
+            self.venuetitleLbl.text = "Add Venue Details"
         }
         // Do any additional setup after loading the view.
     }
@@ -92,6 +94,63 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
             
             }
 }
+    func getStateList(){
+        stateDataSouerce.removeAll()
+        SwiftLoader.show(animated: true)
+              
+        let userId = userDefaults.string(forKey: "userId") ?? ""
+        let userTypeID = GetPublicData.sharedInstance.userTypeID
+        let companyId = GetPublicData.sharedInstance.companyID
+        let urlString = "https://lsp.totallanguage.com/Controls/Venue/GetData?methodType=States&UserID=\(userId)&UserType=\(userTypeID)&country=\(companyId)"
+        print("url to get states \(urlString)")
+                AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
+                    .validate()
+                    .responseData(completionHandler: { [self] (response) in
+                        SwiftLoader.hide()
+                        switch(response.result){
+                        
+                        case .success(_):
+                            print("Respose Success State Data ")
+                            guard let daata = response.data else { return }
+                            do {
+                                let jsonDecoder = JSONDecoder()
+                                self.apiStateListResponseModel = try jsonDecoder.decode(ApiStateListResponseModel.self, from: daata)
+                               print("Success")
+                                self.apiStateListResponseModel?.states?.forEach { stateData in
+                                    let state =  stateData.stateName ?? ""
+                                      stateDataSouerce.append(state)
+                                    
+                                    stateTF.selectedRowColor = UIColor.clear
+                                    stateTF.optionArray = stateDataSouerce
+                                    stateTF.didSelect{(selectedText , index , id) in
+                                        self.stateTF.text = "\(selectedText)"
+                                        
+                                        self.apiStateListResponseModel?.states?.forEach({ stateData2  in
+                                            print("selected Text \(selectedText) , state name  \(stateData2.stateName ?? "")")
+                                            if selectedText == stateData2.stateName ?? "" {
+                                                self.stateId = stateData2.stateID ?? 0
+                                                print("state id \(self.stateId)")
+                                            }
+                                        })
+                                            
+                                        
+                                    }
+
+                                 }
+                                
+                                
+                                
+                        
+                            } catch{
+                                
+                                print("error block forgot password " ,error)
+                            }
+                        case .failure(_):
+                            print("Respose Failure ")
+                           
+                        }
+                })
+     }
     func getVenuList(){
         stateDataSouerce.removeAll()
         SwiftLoader.show(animated: true)
@@ -182,7 +241,20 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
     }
     func addVenueDetail(){
         SwiftLoader.show(animated: true)
-    
+        if self.stateId == 0 {
+            let selectedText = stateTF.text ?? ""
+            self.apiGetAllVenueDataResponseModel?.states?.forEach({ stateData2  in
+                print("selected Text \(selectedText) , state name  \(stateData2.stateName ?? "")")
+                if selectedText == stateData2.stateName ?? "" {
+                    self.stateId = stateData2.stateID ?? 0
+                    print("state id \(self.stateId)")
+                }
+            })
+        }else {
+            
+        }
+        
+        
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let companyId = userDefaults.string(forKey: "companyID") ?? ""
         let urlString = "https://lsp.totallanguage.com/Controls/Venue/AddUpdateVenue"

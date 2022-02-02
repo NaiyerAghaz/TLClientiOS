@@ -10,6 +10,11 @@ import Alamofire
 import HSSearchable
 class NotificationTableViewCell:UITableViewCell{
     
+<<<<<<< Updated upstream
+    @IBOutlet var dateLbl: UILabel!
+    @IBOutlet var notificationLbl: UILabel!
+    @IBOutlet var notificationTV: UITableView!
+=======
     @IBOutlet weak var selectAppointmentBtn: UIButton!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var notificationWebview: UIWebView!
@@ -20,6 +25,7 @@ class NotificationTableViewCell:UITableViewCell{
         //self.notificationWebview.scrollView.isScrollEnabled = false
         self.mainView.addShadowGrey()
     }
+>>>>>>> Stashed changes
 }
 class StatusFilterTableViewCell : UITableViewCell{
     @IBOutlet var titleLbl: UILabel!
@@ -218,6 +224,8 @@ class NotificationViewController: UIViewController ,UISearchBarDelegate{
               let timeConverted = (dateFormatter.string(from: dateVar))
               return timeConverted
     }
+<<<<<<< Updated upstream
+=======
     func getTimefromTimeStamp(timeStamp: String ) -> String {
         let t = Int(timeStamp) ?? 0/1000
         let unixTimestamp = "\(t)"
@@ -243,6 +251,7 @@ class NotificationViewController: UIViewController ,UISearchBarDelegate{
         return currentdate
     }
     
+>>>>>>> Stashed changes
 
 }
 extension NotificationViewController :UITableViewDelegate, UITableViewDataSource {
@@ -259,6 +268,30 @@ extension NotificationViewController :UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+<<<<<<< Updated upstream
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationTableViewCell") as! NotificationTableViewCell
+       //self.apiPrivacyPolicyResponseModel?.term_payload?.text?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Muli", size: 16), csscolor: "white", lineheight: 5, csstextalign: "left")
+        let indx = self.apiNotificationDetailResponseModel?.notificationsByUsername?[indexPath.row]
+        let dateString = indx?.createDate ?? ""
+        let date = dateString.digits
+        print("date \(date)")
+        let actualDate = conertDateString(time: Double(date) ?? 0)
+        cell.dateLbl.text = actualDate
+        cell.dateLbl.textColor = UIColor.gray
+        let subStatus = indx?.subStatus ?? ""
+        let notificationStringa = indx?.notification ?? ""
+        let notif4 = notificationStringa.replacingOccurrences(of: "#: <b>", with: "<table border=1 style=font-size:6vw;border-collapse:collapse; ><tr><td><b>")
+        let  notif5 = notif4.replacingOccurrences(of: ": ", with: "</b></td><td>")
+        let  notif6 = notif5.replacingOccurrences(of: ",", with: "</td></tr><tr><td><b>")
+        let  notif7 = notif6.replacingOccurrences(of: "</b>.", with: "</b></td></tr></table>")
+        let mainString = notificationStringa + subStatus
+        
+        let notificationString = notif7.convertHtmlToAttributedStringWithCSS(font: UIFont.systemFont(ofSize: 16) , csscolor: "Black", lineheight: 5, csstextalign: "left")
+        cell.notificationLbl.attributedText = notificationString
+        return cell
+    }
+    
+=======
         if tableView == notificationTV {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationTableViewCell") as! NotificationTableViewCell
            //self.apiPrivacyPolicyResponseModel?.term_payload?.text?.convertHtmlToAttributedStringWithCSS(font: UIFont(name: "Muli", size: 16), csscolor: "white", lineheight: 5, csstextalign: "left")
@@ -402,6 +435,7 @@ extension NotificationViewController :UITableViewDelegate, UITableViewDataSource
         }
         
     }
+>>>>>>> Stashed changes
     
 }
 

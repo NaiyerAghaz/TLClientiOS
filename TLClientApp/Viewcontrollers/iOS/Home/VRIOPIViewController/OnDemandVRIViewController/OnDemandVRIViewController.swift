@@ -9,6 +9,7 @@ import UIKit
 import XLPagerTabStrip
 import iOSDropDown
 
+
 class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPickerViewDelegate,UIPickerViewDataSource, UITextFieldDelegate {
     @IBOutlet weak var txtTargetlanguage: iOSDropDown!
     @IBOutlet weak var txtSourceLanguage: iOSDropDown!
@@ -33,7 +34,9 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     }
     
     public func uiUpdate(){
+
        txtTargetlanguage.delegate = self
+
         txtSourceLanguage.delegate = self
        // txtTargetlanguage.inputView = vriPickerView
        // txtSourceLanguage.inputView = vriPickerView
@@ -68,6 +71,47 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         SwiftLoader.show(animated: true)
         languageViewModel.languageData { list, err in
             if err == nil {
+
+                self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
+               
+            }
+          }
+    }
+
+       // txtTargetlanguage.delegate = self
+        //txtSourceLanguage.delegate = self
+        //txtTargetlanguage.inputView = vriPickerView
+       // txtSourceLanguage.inputView = vriPickerView
+        self.txtSourceLanguage.layer.borderWidth = 0.6
+        self.txtSourceLanguage.layer.cornerRadius = 10
+        self.txtSourceLanguage.layer.borderColor = UIColor.gray.cgColor
+        self.txtSourceLanguage.setLeftPaddingPoints(20)
+        
+        self.txtTargetlanguage.layer.borderWidth = 0.6
+        self.txtTargetlanguage.layer.cornerRadius = 10
+        self.txtTargetlanguage.layer.borderColor = UIColor.gray.cgColor
+        self.txtTargetlanguage.setLeftPaddingPoints(20)
+        
+        txtSourceLanguage.optionArray = GetPublicData.sharedInstance.languageArray
+        txtSourceLanguage.checkMarkEnabled = true
+        txtSourceLanguage.isSearchEnable = true
+        txtSourceLanguage.selectedRowColor = UIColor.clear
+        txtSourceLanguage.didSelect{(selectedText , index , id) in
+           self.txtSourceLanguage.text = "\(selectedText)"
+       }
+        
+        txtTargetlanguage.optionArray = GetPublicData.sharedInstance.languageArray
+        txtTargetlanguage.checkMarkEnabled = true
+        txtTargetlanguage.isSearchEnable = true
+        txtTargetlanguage.selectedRowColor = UIColor.clear
+        txtTargetlanguage.didSelect{(selectedText , index , id) in
+           self.txtTargetlanguage.text = "\(selectedText)"
+       }
+
+        SwiftLoader.show(animated: true)
+        languageViewModel.languageData { list, err in
+            if err == nil {
+
                 SwiftLoader.hide()
                //
                 //self.txtSourceLanguage.text = "English"
@@ -77,6 +121,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
             }}
      }
     
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == txtSourceLanguage{
             
@@ -121,6 +166,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
+
             let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: viewIndentifier.CallingPopupVC.rawValue) as! CallingPopupVC
             vcontrol.modalPresentationStyle = .overFullScreen
@@ -131,6 +177,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
             vcontrol.targetName = txtTargetlanguage.text!
             print("Language ID for call is ,",vcontrol.sourceID , vcontrol.targetID)
             self.present(vcontrol, animated: true, completion: nil)
+
         }
         else {
             self.view.makeToast(validate.error, duration: 1, position: .center)

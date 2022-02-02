@@ -186,12 +186,7 @@ PODS:
     - SDWebImage/Core (= 5.12.1)
   - SDWebImage/Core (5.12.1)
   - SideMenu (6.5.0)
-  - SteppableSlider (0.1.0):
-    - SteppableSlider/Core (= 0.1.0)
-  - SteppableSlider/Core (0.1.0)
-  - SwiftMessages (9.0.5):
-    - SwiftMessages/App (= 9.0.5)
-  - SwiftMessages/App (9.0.5)
+
   - SwiftPullToRefresh (3.1.1)
   - TwilioChatClient (5.0.1)
   - TwilioVideo (4.6.2)
@@ -220,7 +215,7 @@ DEPENDENCIES:
   - RxSwift (~> 5)
   - SDWebImage
   - SideMenu
-  - SteppableSlider
+ - SteppableSlider
   - SwiftMessages
   - SwiftPullToRefresh
   - TwilioChatClient
@@ -260,8 +255,7 @@ SPEC REPOS:
     - RxSwift
     - SDWebImage
     - SideMenu
-    - SteppableSlider
-    - SwiftMessages
+
     - SwiftPullToRefresh
     - TwilioChatClient
     - TwilioVideo
@@ -299,14 +293,19 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
+
+
   SteppableSlider: 298a795befede08e4a558417fe566d7852b272a6
   SwiftMessages: 9cca50659fa22bb523b4dd2a958d4442e843a354
+
   SwiftPullToRefresh: f61d67439c5b8d66420fe57193cab8c279398e7a
   TwilioChatClient: 2a915858c972075108da2fd5fc382f237b1490cc
   TwilioVideo: f8c75425bce3f41912bb24352154b0502d89a9b3
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
+
 PODFILE CHECKSUM: 4a8e5a2357102936a41c400713ab9618ad847d36
+
 
 COCOAPODS: 1.11.2

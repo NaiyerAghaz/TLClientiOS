@@ -45,6 +45,7 @@ enum APi{
     case getData
     case notificationDetail
     case Vrilog
+
     case vricallstart
     case getVriVendorsbyLid
     case AddUpdateConferenceData
@@ -64,6 +65,10 @@ enum APi{
     case getOPIDetailsByRoomID
     case GetCustomerDetail
     case GetCommonDetail
+    case GetVenueCommanddl
+    case AddUpdateDeptAndContactData
+    case tladdupdateappointment
+    case encryptdecryptvalue
     case ParticipantEndCall
     var url: URL{
         switch self {
@@ -122,7 +127,6 @@ enum APi{
             
         case .notificationDetail:
             return URL(string: nBaseUrl + "/Home/GetData?methodType=NotificationsByUsername&")!
-            
         case .getVriVendorsbyLid:
             return URL(string: baseUrl + "/chatBox/getVriVendorsbyLid")!
         case .vricallstart:
@@ -165,6 +169,14 @@ enum APi{
             return URL(string: baseUrl + "/GetGetAppointmentCommanddl")!
         case .GetCommonDetail:
             return URL(string: baseUrl + "/GetGetAppointmentDropDown")!
+        case .GetVenueCommanddl:
+            return URL(string: baseUrl + "/GetVenueCommanddl")!
+        case .AddUpdateDeptAndContactData:
+            return URL(string: baseUrl + "/AddUpdateDeptAndContactData")!
+        case .tladdupdateappointment:
+            return URL(string: baseUrl + "/tladdupdateappointment")!
+        case .encryptdecryptvalue:
+            return URL(string: baseUrl + "/encryptdecryptvalue")!
         case .ParticipantEndCall:
             return URL(string: chatURL + "/ParticipantEndCall")!
         }

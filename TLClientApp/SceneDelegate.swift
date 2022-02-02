@@ -38,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, PKPushRegistryDelegate 
     func checkLoginStatus(){
         var initialViewController : UIViewController?
         var navigation = UINavigationController()
-        if  userDefaults.value(forKey: "username") != nil &&  userDefaults.value(forKey: "password") != nil {
+        if keychainServices.getKeychaindata(key: "username") != nil && keychainServices.getKeychaindata(key: "password") != nil {
             let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
 
             initialViewController = storyboard.instantiateViewController(identifier: "TabViewController") // here identifier was HomeViewController

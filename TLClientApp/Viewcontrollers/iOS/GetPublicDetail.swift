@@ -11,14 +11,13 @@ public class GetPublicData {
     static var sharedInstance = GetPublicData()
     public var languageArray:[String] = []
     public var userID = userDefaults.string(forKey: "userId") ?? ""
-    public var userNameForTouchID = userDefaults.string(forKey: "userNameForTouchID") ?? ""
-    public var userPasswordForTouchID = userDefaults.string(forKey: "userPasswordForTouchID") ?? ""
+    //public var userNameForTouchID = userDefaults.string(forKey: "userNameForTouchID") ?? ""
+   // public var userPasswordForTouchID = userDefaults.string(forKey: "userPasswordForTouchID") ?? ""
     public var usenName = userDefaults.string(forKey: "username") ?? ""
     public var companyName = userDefaults.string(forKey: "companyName") ?? ""
     public var userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
     public var companyID = userDefaults.string(forKey: "companyID") ?? ""
-    var apic = [AppointmentTypeDataModel]()
-    var apiGetSpecialityDataModel:ApiGetSpecialityDataModel?
+   
     
     public var apiGetAllLanguageResponse:ApiGetAllLanguageResponse?
     public func getAllLanguage(){
