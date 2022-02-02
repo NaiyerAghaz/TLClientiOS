@@ -120,6 +120,15 @@ extension Date {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
+      
+
+        return dateFormatter.string(from: self)
+    }
+    
+    func changeDateString(_ format: String = "MM/dd/YYYY hh:mm a") -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
         
         return dateFormatter.string(from: self)
     }

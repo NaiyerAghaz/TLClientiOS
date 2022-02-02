@@ -35,8 +35,15 @@ class keychainServices : NSObject {
         // search for keychain item
         var dataTypeRef : AnyObject? = nil
         let status : OSStatus = SecItemCopyMatching(query as CFDictionary, &dataTypeRef)
-        print("status for touch id \(status)")
+        print("status for touch id \(status) , \(errSecSuccess)")
+       /* if status != nil {
+            return dataTypeRef as! Data?
+        }else {
+            return nil
+        }*/
+        
         if status == noErr {
+            
             return dataTypeRef as! Data?
         }
         else {

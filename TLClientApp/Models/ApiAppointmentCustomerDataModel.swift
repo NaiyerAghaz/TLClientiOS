@@ -15,7 +15,7 @@ import Foundation
 struct ApiAppointmentCustomerDataModel : Codable {
 	let filecode : String?
 	let appointmentID : Int?
-	let cActive : String?
+	let cActive : Int?
 	let overrideSatus : String?
 	let overrideauth : String?
 	let multipleVenueFlag : String?
@@ -696,7 +696,7 @@ struct ApiAppointmentCustomerDataModel : Codable {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		filecode = try values.decodeIfPresent(String.self, forKey: .filecode)
 		appointmentID = try values.decodeIfPresent(Int.self, forKey: .appointmentID)
-		cActive = try values.decodeIfPresent(String.self, forKey: .cActive)
+		cActive = try values.decodeIfPresent(Int.self, forKey: .cActive)
 		overrideSatus = try values.decodeIfPresent(String.self, forKey: .overrideSatus)
 		overrideauth = try values.decodeIfPresent(String.self, forKey: .overrideauth)
 		multipleVenueFlag = try values.decodeIfPresent(String.self, forKey: .multipleVenueFlag)

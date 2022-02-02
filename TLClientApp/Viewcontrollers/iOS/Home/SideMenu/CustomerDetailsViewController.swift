@@ -174,6 +174,16 @@ class CustomerDetailsViewController: UIViewController {
                         self.classificationNameTF.text = ""
                         self.classificationBtn.setTitle("", for: .normal)
                         self.classificationView.visibility = .gone
+                        if classificationAction == 0 {
+                            self.view.makeToast("Classification added successfully.")
+                        }else if classificationAction == 1{
+                            self.view.makeToast("Classification updated successfully.")
+                        }else if classificationAction == 2{
+                            self.view.makeToast("Classification deleted successfully.")
+                        }else {
+                            
+                        }
+                       
                             getCustomerDetail()
                         
                         

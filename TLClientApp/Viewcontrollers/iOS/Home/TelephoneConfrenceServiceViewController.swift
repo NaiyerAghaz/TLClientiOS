@@ -11,6 +11,10 @@ import  Alamofire
 import iOSDropDown
 class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var endTimeTimeTF: UITextField!
+  
+    @IBOutlet weak var startTimeTimeTF: UITextField!
+    
     @IBOutlet var clientRefrenceTF: UITextField!
     @IBOutlet var companyNameLbl: UILabel!
     @IBOutlet var clientInitialTF: UITextField!
@@ -80,9 +84,9 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
     var sendEndTimevar = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        getAuthCode()
+       getAuthCode()
        getServiceType()
-   self.sendEndTimeSwitch.transform = CGAffineTransform(scaleX: 0.85, y: 0.70)
+       self.sendEndTimeSwitch.transform = CGAffineTransform(scaleX: 0.85, y: 0.70)
    //self.btnDeactivate.layer.borderColor = UIColor(hexString: "33A5FF").cgColor
    //self.btnDeactivate.layer.borderWidth = 0.6
    self.sendEndTimeSwitch.isOn = false
@@ -97,18 +101,60 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
    GetPublicData.sharedInstance.getAllLanguage()
    self.userNameLbl.text = GetPublicData.sharedInstance.usenName
    self.companyNameLbl.text = GetPublicData.sharedInstance.companyName
-   
-   let dateFormatter = DateFormatter()
-   dateFormatter.dateFormat = "dd/MM/yyyy h:mm a"
-   let startDate =  dateFormatter.string(from: Date())
-  self.requestONTF.text = startDate
-   self.loadedONTF.text = startDate
-   languageTF.optionArray = GetPublicData.sharedInstance.languageArray
-   languageTF.checkMarkEnabled = true
+   // NEW DATE TIME
+        let dateFormatter = DateFormatter()
+//        MM/dd/yyyy
+        dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+        let dateFormatterDate = DateFormatter()
+        dateFormatterDate.dateFormat = "MM/dd/yyyy"
         
-   languageTF.selectedRowColor = UIColor.clear
-   languageTF.didSelect{(selectedText , index , id) in
-      self.languageTF.text = "\(selectedText)"
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat = "h:mm a"
+        
+        let currentDateTime = Date().nearestHour() ?? Date()
+        startDateTF.text = dateFormatterDate.string(from: currentDateTime)
+        startTimeTimeTF.text = dateFormatterTime.string(from: currentDateTime)
+        
+        let endTimee = Date().adding(minutes: 10).nearestHour() ?? Date()
+        endDateTF.text = dateFormatterDate.string(from: endTimee)
+        endTimeTimeTF.text = dateFormatterTime.string(from: endTimee)
+        
+        let startDate =  dateFormatterTime.string(from: Date().nearestHour() ?? Date ())
+        let endDate = Date().adding(minutes: 120)
+        let newEndDate = endDate.nearestHour() ?? Date ()
+        let showEndDate = dateFormatterTime.string(from: newEndDate)
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//       NEW TIME DATE
+        
+   let dateFormattera = DateFormatter()
+        dateFormattera.dateFormat = "MM/dd/yyyy h:mm a"
+        let startDatee =  dateFormattera.string(from: Date().nearestHour() ?? Date())
+         
+        let endDatee = Date().adding(minutes: 120)
+        let newEndDatee = endDate.nearestHour() ?? Date()
+        let showEndDatee = dateFormatter.string(from: newEndDatee)
+//        self.startDateTF.text = startDate
+//        self.endDateTF.text = showEndDate
+        self.requestONTF.text = startDatee
+        self.loadedONTF.text = startDatee
+        languageTF.optionArray = GetPublicData.sharedInstance.languageArray
+        languageTF.checkMarkEnabled = true
+        
+        languageTF.selectedRowColor = UIColor.clear
+        languageTF.didSelect{(selectedText , index , id) in
+       self.languageTF.text = "\(selectedText)"
        GetPublicData.sharedInstance.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
           print("language data \(languageData.languageName ?? "")")
            if selectedText == languageData.languageName ?? "" {
@@ -117,8 +163,10 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
            }
        })
   }
+        
    // Do any additional setup after loading the view.
 }
+    
     @objc func sendEndTime(){
         print("switch ")
         if sendEndTimevar {
@@ -207,10 +255,11 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
     @IBAction func deleteContactAction(_ sender: UIButton) {
       //  addContactView.visibility = .visible
         self.contactAction = 2
-        self.contactNameTF.text = self.selectedContact
+        
         if  contactNameTF.text == ""{
             self.view.makeToast("Please add Contact Name. ")
         }else {
+            self.contactNameTF.text = self.selectedContact
             let departmentName = contactNameTF.text ?? ""
             self.addProviderData(Active: false, venueID: self.venueIDForContact, providerName: departmentName, DeActive: true, departmentID: self.departmentID, providerID: Int(self.providerID) ?? 0)
             
@@ -274,18 +323,49 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
            }
     }
     @IBAction func actionEndDate(_ sender: UIButton) {
-        let minDate = Date().adding(minutes: 120)
+        let minDate = Date().adding(minutes: 10)
          RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
                          // TODO: Your implementation for date
-                         self?.endDateTF.text = selectedDate.dateString("MM/dd/YYYY hh:mm a")
+                          let roundOff = selectedDate.nearestHour() ?? selectedDate
+                         self?.endDateTF.text = roundOff.dateString("MM/dd/YYYY hh:mm a")
                      })
     }
     @IBAction func actionStartDate(_ sender: UIButton) {
-        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .date, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
                         // TODO: Your implementation for date
-                        self?.startDateTF.text = selectedDate.dateString("MM/dd/YYYY hh:mm a")
+                        // let roundOff = selectedDate.nearestHour() ?? selectedDate
+                    print("SELECT DATE IS \(selectedDate)")
+                        self?.startDateTF.text = selectedDate.dateString("MM/dd/YYYY")
+                    self?.endDateTF.text = selectedDate.dateString("MM/dd/YYYY")
+//                         let endDate = roundOff.adding(minutes: 120)
+                       // self?.endDateTF.text = endDate.dateString("MM/dd/YYYY")
                     })
    }
+    
+    @IBAction func actionStartTimeBtn(_ sender: UIButton) {
+        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .time, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+                        // TODO: Your implementation for date
+                         let roundOff = selectedDate.nearestHour() ?? selectedDate
+                        self?.startTimeTimeTF.text = selectedDate.dateString("hh:mm a")
+                         let endDate = roundOff.adding(minutes: 10)
+                        self?.endTimeTimeTF.text = endDate.dateString("hh:mm a")
+                    })
+   }
+    
+    
+    @IBAction func actionEndTimeBtn(_ sender: UIButton) {
+        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .time, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+                        // TODO: Your implementation for date
+//                         let roundOff = selectedDate.nearestHour() ?? selectedDate
+                        self?.endTimeTimeTF.text = selectedDate.dateString("hh:mm a")
+//                         let endDate = roundOff.adding(minutes: 120)
+//                        self?.startTimeTimeTF.text = endDate.dateString("hh:mm a")
+                    })
+   }
+    
+    
+    
+    
     @IBAction func genderBtnPressed(_ sender: UIButton) {
         dropDown.anchorView = sender //5
                 dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height) //6
@@ -302,7 +382,7 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                     self?.apiGetAuthCoderesponseModel?.gender?.forEach({ typeData  in
                         let type = typeData.value ?? ""
                         if type == item {
-                            self?.genderId = "\(typeData.id ?? 0)"
+                            self?.genderId = "\(typeData.code ?? "")"
                         }
                     })
            }
@@ -311,7 +391,8 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
     @IBAction func actionProcessingDetailCalender(_ sender: UIButton) {
         RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
                         // TODO: Your implementation for date
-            let selectedDate  = selectedDate.dateString("MM/dd/YYYY hh:mm a")
+            let roundOff = selectedDate.nearestHour() ?? selectedDate
+            let selectedDate  = roundOff.dateString("MM/dd/YYYY hh:mm a")
                      print("seleceted date \(selectedDate)")
             if sender.tag == 0 {
                  self?.requestONTF.text = selectedDate
@@ -360,6 +441,11 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
         }
     }
     
+    @IBAction func cancelConatctView(_ sender: UIButton) {
+        self.addContactView.visibility = .gone
+        self.contactNameTF.text = ""
+        self.venueIDForContact = "0"
+    }
     func getAuthCode(){
         SwiftLoader.show(animated: true)
         genderArray.removeAll()
@@ -398,7 +484,11 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                                     }
                                 })
                                 
-                                self.authCodeLbl.text = apiGetAuthCoderesponseModel?.authenticationCode?.first?.authCode ?? ""
+                                let authCode = apiGetAuthCoderesponseModel?.authenticationCode?.first?.authCode ?? ""
+                                var authcodeComponent =  authCode.components(separatedBy: "-")
+                                authcodeComponent[1].add(prefix: "CR")
+                                let newAuthCode = authcodeComponent.joined(separator: "-")
+                                self.authCodeLbl.text = newAuthCode
                                 self.apiGetAuthCoderesponseModel?.gender?.forEach({ genderData in
                                     let title = genderData.value ?? ""
                                     self.genderArray.append(title)
@@ -529,8 +619,8 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                "InvoiceBit": false,
                "ConfirmationBit": false,
                "WaitingList": false,
-               "StartDateTime": startDate,
-               "EndDateTime": EndDate,
+               "StartDateTime": "\(startDateTF.text ?? "") \(startTimeTimeTF.text ?? "")",
+               "EndDateTime": "\(endDateTF.text ?? "") \(endTimeTimeTF.text ?? "")",
                "Priority": true,
                "Gender": genderID,
                "AppointmentTypeID": AppointTypeID,
@@ -638,16 +728,31 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
     func addProviderData(Active:Bool , venueID: String ,providerName : String , DeActive:Bool , departmentID: String , providerID :Int){
         SwiftLoader.show(animated: true)
         let urlString = APi.addproviderData.url
-        let parameters = [
-            "ProviderDetails": [
-                    "ProviderName":providerName,
-                    "ProviderID":providerID,
-                    "VenueID":venueID,
-                    "DepartmentID":departmentID,
-                    "Active" : Active,
-                    "DeActive":DeActive
-                ]
-             ] as [String:Any]
+        var parameters = ["":""] as [String:Any]
+        if contactAction == 0 {
+             parameters = [
+                "ProviderDetails": [
+                        "ProviderName":providerName,
+                        "ProviderID":providerID,
+                       // "VenueID":venueID,
+                        //"DepartmentID":departmentID,
+                        "Active" : Active,
+                        "CustomerCompany":"\(GetPublicData.sharedInstance.userID)"
+                    ]
+                 ] as [String:Any]
+        }else {
+            parameters = [
+                "ProviderDetails": [
+                        "ProviderName":providerName,
+                        "ProviderID":providerID,
+                        "VenueID":venueID,
+                        "DepartmentID":departmentID,
+                        "Active" : Active,
+                        "DeActive":DeActive
+                    ]
+                 ] as [String:Any]
+        }
+        
              print("url to create Appointment \(urlString),\(parameters)")
                 AF.request(urlString, method: .post , parameters: parameters, encoding: JSONEncoding.default, headers: nil)
                     .validate()

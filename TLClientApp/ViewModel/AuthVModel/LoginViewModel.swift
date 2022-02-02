@@ -64,6 +64,8 @@ class LoginVM {
                 self.updateDeviceData = UpdatedUserDeviceToken.getUserDetails(dicts: response!)
                 let data = self.updateDeviceData.table?[0] as! TableModel
                 if data.success == "1" {
+                    userDefaults.set(data.CurrentUserGuid, forKey: "userGUID")
+                    print("userGUID is \(data.CurrentUserGuid)")
                     complitionBlock(true, nil)
                 }
                }

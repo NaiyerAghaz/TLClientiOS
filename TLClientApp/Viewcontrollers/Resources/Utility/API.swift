@@ -43,6 +43,33 @@ enum APi{
     case getData
     case notificationDetail
     case Vrilog
+<<<<<<< Updated upstream
+=======
+    case vricallstart
+    case getVriVendorsbyLid
+    case AddUpdateConferenceData
+    case getParticipantByRoom
+    case getMeetingClientStatus
+    case chattoken
+    case AddScheduleMeeting
+    case AddScheduleVRI
+    case createVRICallClient
+    case opiAcceptCall
+    case getCheckCallStatus
+    case createVRICallVendor
+    case endVRICall
+    case addCallFeedback
+    case getFeedbackDetails
+    case checkSingleUser
+    case getOPIDetailsByRoomID
+    case GetCustomerDetail
+    case GetCommonDetail
+    case GetVenueCommanddl
+    case AddUpdateDeptAndContactData
+    case tladdupdateappointment
+    case encryptdecryptvalue
+
+>>>>>>> Stashed changes
     var url: URL{
         switch self {
         case .login:
@@ -101,6 +128,59 @@ enum APi{
         case .notificationDetail:
             return URL(string: nBaseUrl + "/Home/GetData?methodType=NotificationsByUsername&")!
             
+<<<<<<< Updated upstream
+=======
+        case .getVriVendorsbyLid:
+            return URL(string: baseUrl + "/chatBox/getVriVendorsbyLid")!
+        case .vricallstart:
+            return URL(string: nBaseUrl + "/VRICall/vricallstart")!
+        case .AddUpdateConferenceData:
+            return URL(string: baseUrl + "/AddUpdateConferenceData")!
+        case .vriCallStart:
+            return URL(string: nBaseUrl + "/VRICall/vricallstart")!
+        case .ConferenceParticipant:
+            return URL(string: baseUrl + "/ConferenceParticipant")!
+        case .getParticipantByRoom:
+            return URL(string: baseUrl + "/GetParticipantsByRoom")!
+        case .getMeetingClientStatus:
+            return URL(string: baseUrl + "/getMeetingClientStatus")!
+        case .chattoken:
+            return URL(string: chatURL + "/chattoken")!
+        case .AddScheduleMeeting:
+            return URL(string: nBaseUrl + "/Appointment/AddScheduleMeeting")!
+        case .AddScheduleVRI:
+            return URL(string: nBaseUrl + "/Appointment/AddScheduleVRI")!
+        case .createVRICallClient:
+            return URL(string: baseUrl + "/CreateVRICallClient")!
+        case .opiAcceptCall:
+            return URL(string: baseUrl + "/Appointment/opiAcceptCall")!
+        case .getCheckCallStatus:
+            return URL(string: baseUrl + "/GetVRICallVendorWithCheckCallStatus")!
+        case .createVRICallVendor:
+            return URL(string: baseUrl + "/CreateVRICallVendor")!
+        case .endVRICall:
+            return URL(string: baseUrl + "/EndVRICall")!
+        case .addCallFeedback:
+            return URL(string: baseUrl + "/Security/AddCallFeedback")!
+        case .getFeedbackDetails:
+            return URL(string: baseUrl + "/chatBox/getFeedbackdetails")!
+        case .checkSingleUser:
+            return URL(string: baseUrl + "/GetUserGUIDtoChecksinglesignin")!
+        case .getOPIDetailsByRoomID:
+            return URL(string: baseUrl + "/Appointment/getOPIDetailsByRoomID")!
+        case .GetCustomerDetail:
+            return URL(string: baseUrl + "/GetGetAppointmentCommanddl")!
+        case .GetCommonDetail:
+            return URL(string: baseUrl + "/GetGetAppointmentDropDown")!
+        case .GetVenueCommanddl:
+            return URL(string: baseUrl + "/GetVenueCommanddl")!
+        case .AddUpdateDeptAndContactData:
+            return URL(string: baseUrl + "/AddUpdateDeptAndContactData")!
+        case .tladdupdateappointment:
+            return URL(string: baseUrl + "/tladdupdateappointment")!
+        case .encryptdecryptvalue:
+            return URL(string: baseUrl + "/encryptdecryptvalue")!
+>>>>>>> Stashed changes
         }
     }
 }

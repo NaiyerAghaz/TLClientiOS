@@ -182,17 +182,110 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
      Messaging.messaging().apnsToken = deviceToken**/
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+<<<<<<< Updated upstream
         print("userInfo------>",userInfo)
+=======
+        
+        print("userInfo-------------------->",userInfo.values, "Info:", userInfo )
+        handleNotification(userInfo: userInfo)
+>>>>>>> Stashed changes
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("will not generate in simulator", error.localizedDescription)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print(notification)
+        
+        let userInfo = notification.request.content.userInfo
+        
+        print("new notification ",userInfo.values)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print(completionHandler)
+        
+        print("userNotificationCenter",completionHandler)
     }
+<<<<<<< Updated upstream
+=======
+    func handleNotification(userInfo:[AnyHashable:Any]){
+        let type =  userInfo[AnyHashable("type")] as? String
+        let payload = userInfo[AnyHashable("payload")] as? String
+        
+        if type != nil {
+           // let dict = convertToDictionary(text: payload!)
+            if type == TypeNotification.notavailable.rawValue {
+                print("mytype--->", type)
+                if let roomNo = userInfo[AnyHashable("gcm.notification.Roomno")]  as? String {
+                    print("roommmm---->",roomNo)
+                    if roomNo == roomIDAppdel {
+                        
+                    }
+                }
+                
+                // CommonMethods.playSounds(audioName: "cyanping")
+               // let timeDisDict = NotificationsTimeForDistance(dictionary: dict!)
+                // let assignedJob = ApiJobListIncomming.JobAssignedDetail(dictionary: dict! as NSDictionary)
+                
+               /* if timeDisDict.valjob == 1 {
+                    //   NotificationCenter.default.post(name: Notification.Name("notificationRegularJob"), object: nil)
+                    /* vc.isValidateStatus = true
+                     vc.jobAssignDic = jobAcceptData */
+                    CommonMethods.playSounds(audioName: "notification_driver")
+                    
+                    if let rootViewController = self.window!.rootViewController as? UINavigationController {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        
+                        if let vc = storyboard.instantiateViewController(withIdentifier: "RegularJobViewController") as? RegularJobViewController {
+                            let assignedJob = ApiJobListIncomming.JobAssignedDetail(dictionary: dict! as NSDictionary)
+                            print("assignedJob!!=",assignedJob)
+                            vc.jobAssignDriverDict = assignedJob
+                            vc.isFromNotification = true
+                            vc.jobId = assignedJob.id
+                            rootViewController.pushViewController(vc, animated: true)
+                        }
+                    }
+                }*/
+            
+            
+            }else if type == "opicall" {
+                
+                print("opi call Start")
+                
+                NotificationCenter.default.post(name: Notification.Name("vendorAnswered"), object: nil, userInfo: nil)
+                
+            }else if type?.contains("ParticipantLeave") ?? false {
+                print("participants leave notify ")
+                let participantsValue = type?.components(separatedBy: ",")
+                if (participantsValue?.count ?? 0 ) > 0 {
+                    let participantsStr = participantsValue?[0]
+                    let conferenceSID = participantsValue?[1] ?? ""
+                    let objConferenceSID:[String:String] = ["conferenceSID":conferenceSID]
+                    if participantsStr == "ParticipantLeave" {
+                        NotificationCenter.default.post(name: Notification.Name("removeParticipants"), object: nil, userInfo: objConferenceSID)
+                    }
+                }
+                
+                
+            }else if type == "tokenupdate" {
+                if isLogoutPressed {
+                    //isLogoutPressed = false
+               
+                
+                }else {
+                    self.window?.makeToast("This customer already logged-in on another device")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
+                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                        navigationController.viewControllers = [rootViewController]
+                        appDelegate.window!.rootViewController = navigationController
+                        appDelegate.window!.makeKeyAndVisible()
+                    }
+                }
+                
+            }
+        }
+    }
+>>>>>>> Stashed changes
    
 }
 

@@ -17,9 +17,16 @@ pod 'XLPagerTabStrip'
 #https://github.com/xmartlabs/XLPagerTabStrip
 pod 'TwilioVideo'
 pod 'Charts'
+pod 'SteppableSlider'
 pod 'SwiftPullToRefresh'
 pod 'iOSDropDown' 
+pod 'MaterialComponents/TextControls+FilledTextAreas'
+pod 'MaterialComponents/TextControls+FilledTextFields'
+pod 'MaterialComponents/TextControls+OutlinedTextAreas'
+pod 'MaterialComponents/TextControls+OutlinedTextFields'
+
 pod 'SDWebImage'
+pod 'HSSearchable'
 #pod 'TwilioVideo', '~> 4.4'
   # Pods for TLClientApp
 pod 'TwilioVoice', '~> 6.3.0'
@@ -28,6 +35,7 @@ pod 'Firebase/Core'
 pod 'Firebase/Messaging'
 pod 'SideMenu'
 pod 'DropDown'
+pod 'GoogleMaps'
 pod 'DateTimePicker'
   target 'TLClientAppTests' do
     inherit! :search_paths

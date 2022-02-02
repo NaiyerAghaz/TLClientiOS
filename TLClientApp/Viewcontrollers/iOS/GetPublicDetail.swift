@@ -11,6 +11,8 @@ public class GetPublicData {
     static var sharedInstance = GetPublicData()
     public var languageArray:[String] = []
     public var userID = userDefaults.string(forKey: "userId") ?? ""
+    //public var userNameForTouchID = userDefaults.string(forKey: "userNameForTouchID") ?? ""
+   // public var userPasswordForTouchID = userDefaults.string(forKey: "userPasswordForTouchID") ?? ""
     public var usenName = userDefaults.string(forKey: "username") ?? ""
     public var companyName = userDefaults.string(forKey: "companyName") ?? ""
     public var userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
@@ -21,7 +23,8 @@ public class GetPublicData {
     public func getAllLanguage(){
         SwiftLoader.show(animated: true)
              
-       
+        //languageArray.removeAll()
+        //self.apiGetAllLanguageResponse = nil
         let urlString = "https://lsp.totallanguage.com/Security/GetData?methodType=LanguageData"
                 AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                     .validate()

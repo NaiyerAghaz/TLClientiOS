@@ -8,6 +8,7 @@
 import UIKit
 import FSCalendar
 import Alamofire
+import GoogleMaps
 var userImageURl = ""
 import SwiftPullToRefresh
 class ScheduleAppointmentTableViewCell:UITableViewCell{
@@ -32,21 +33,46 @@ class ScheduleAppointmentTableViewCell:UITableViewCell{
         outerView.addShadowGrey()
     }
 }
-class HomeViewController: UIViewController,FSCalendarDelegate {
+class ScheduleMeetingTableViewCell:UITableViewCell{
+    
+    @IBOutlet var statusOuterView: UIView!
+   
+    @IBOutlet var startDateLbl: UILabel!
+    
+    @IBOutlet var checkInLbl: UILabel!
+    @IBOutlet var statusOfAppointmentLbl: UILabel!
+    @IBOutlet var outerView: UIView!
+    @IBOutlet var interpreterLbl: UILabel!
+   
+    @IBOutlet weak var joinMeetBtn: UIButton!
+    
+    @IBOutlet var appointmentTimeLbl: UILabel!
+    @IBOutlet var appointmentIDLbl: UILabel!
+    override func awakeFromNib() {
+        outerView.addShadowGrey()
+    }
+}
+class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerDelegate{
 
     @IBOutlet weak var tblCalenderView: UITableView!
     var navigator = Navigator()
     var loginVM = DetailsModal()
     var eventColor = [UIColor]()
+    var currentUserGUID = ""
+    var lattitude = "0.0"
+    var longitude = "0.0"
+    var apiGoogleTimeZoneresponse:ApiGoogleTimeZoneresponse?
     var apiUpdateDeviceTokenRespose : ApiUpdateDeviceTokenRespose?
     var apiLogoutResponseModel : ApiLogoutResponseModel?
     @IBOutlet var dashBoardTitleLbl: UILabel!
     
      var apiNotificationResponseModel:ApiNotificationResponseModel?
-    
+    var apiCheckCallStatusResponseModel = [ApiCheckCallStatusResponseModel]()
     @IBOutlet var notificationBtn: MIBadgeButton!
+    var cLocationManager = CLLocationManager()
     var apiScheduleAppointmentResponseModel:ApiScheduleAppointmentResponseModel?
     var showAppointmentArr = [ApiScheduleAppointmentCustomerDataModel]()
+    var apiCheckMeetSatusResponseModel = [ApiCheckMeetSatusResponseModel]()
     fileprivate weak var calendarObject: FSCalendar!
     @IBOutlet weak var calenderView: UIView!
     static func createWith(navigator: Navigator, storyboard: UIStoryboard,userModel: DetailsModal) -> HomeViewController {
@@ -59,10 +85,23 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
         tblCalenderView.spr_setIndicatorHeader { [weak self] in
                         self?.action()
                     }
+<<<<<<< Updated upstream
         
+=======
+        checkSingleSignin()
+        getServiceType()
+        getallweekDate()
+        self.dashBoardTitleLbl.text = GetPublicData.sharedInstance.companyName
+>>>>>>> Stashed changes
         GetPublicData.sharedInstance.getAllLanguage()
         NotificationCenter.default.addObserver(self, selector: #selector(self.moveToUploadImg(notification:)), name: Notification.Name("UpdateProfilePic"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.actionLogout(notification:)), name: Notification.Name("LogoutFunction"), object: nil)// LogoutFunction
+        
+    }
+    
+    @IBAction func actionVirtualMeeting(_ sender: UIButton) {
+        let vc = storyboard?.instantiateViewController(identifier: "VirtualMeetingViewController" ) as! VirtualMeetingViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     @objc func actionLogout(notification: Notification) {
         updateDeviceToken()
@@ -92,9 +131,6 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
                                 let count = self.apiNotificationResponseModel?.notificationsCounts?.first?.notificationCounts ?? ""
                                 print("notification count\(count)" )
                                 self.notificationBtn.badgeString = count
-                                
-        
-                                
                             } catch{
                                 
                                 print("error block forgot password " ,error)
@@ -122,37 +158,126 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
         print("UpdateProfilePicViewController")
     }
     override func viewWillAppear(_ animated: Bool) {
+    
+        GetPublicData.sharedInstance.userID = userDefaults.string(forKey: "userId") ?? ""
+        GetPublicData.sharedInstance.companyName = userDefaults.string(forKey: "companyName") ?? ""
+        GetPublicData.sharedInstance.userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
+        GetPublicData.sharedInstance.companyID = userDefaults.string(forKey: "companyID") ?? ""
         tblCalenderView.spr_beginRefreshing()
+        locAuthentication()
        // updateUI()
         //calenderView.removeFromSuperview()
        // createCalendar()
     }
-    func createCalendar(){
+    func locAuthentication(){
+        cLocationManager.delegate = self
+        cLocationManager.distanceFilter = 200
+        cLocationManager.startUpdatingLocation()
+        cLocationManager.requestAlwaysAuthorization()
+        cLocationManager.requestWhenInUseAuthorization()
+    }
+    func getCurrentTimeZone(lattitude : String , longitude: String , timeStamp : String){
+        let url = "https://maps.googleapis.com/maps/api/timezone/json?location=\(lattitude),\(longitude)&timestamp=\(timeStamp)&key=AIzaSyBs4BqawAAkN1ily7xcXUDeN7kruZ2BBI0"
+        print("url to get time zone ", url )
+        AF.request(url, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
+            .validate()
+            .responseData(completionHandler: { [self] (response) in
+                SwiftLoader.hide()
+                switch(response.result){
+                
+                case .success(_):
+                    print("Respose getCurrentTimeZone ")
+                    guard let daata = response.data else { return }
+                    do {
+                        let jsonDecoder = JSONDecoder()
+                        self.apiGoogleTimeZoneresponse = try jsonDecoder.decode(ApiGoogleTimeZoneresponse.self, from: daata)
+                        let status = self.apiGoogleTimeZoneresponse?.status ?? ""
+                        if status == "OK" {
+                            let timeConverter1 = DateFormatter()
+                            timeConverter1.dateFormat = "MM/dd/yyyy"
+                            let dateStr = timeConverter1.string(from: Date())
+                            let timeZone = self.apiGoogleTimeZoneresponse?.timeZoneName ?? ""
+                            print("current time zone from google", timeZone)
+                            let previousTimeZone = userDefaults.string(forKey: "TimeZone") ?? ""
+                            print("previous TimeZone ",previousTimeZone ?? "")
+                            if previousTimeZone == timeZone {
+                                
+                            }else {
+                                let vc = storyboard?.instantiateViewController(identifier: "TimeZoneViewController") as! TimeZoneViewController
+                                vc.currentTimeZone = timeZone
+                                vc.timeZoneStr = "Your timezone had appeared to change from \(dateStr) - \(previousTimeZone) to \(dateStr) - \(timeZone)."
+                                vc.modalPresentationStyle = .overFullScreen
+                                self.present(vc, animated: true, completion: nil)
+                            }
+                            
+                        }
+   
+                        
+                    } catch{
+                        self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
+                        print("error block forgot password " ,error)
+                    }
+                case .failure(_):
+                    print("Respose Failure ")
+                    self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
+                   
+                }
+        })
         
-        let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 250))
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+       print("location running....")
+        self.lattitude = "\(locations.last!.coordinate.latitude)"
+        self.longitude = "\(locations.last!.coordinate.longitude)"
+       // self.studioListModel.dataList?.removeAllObjects()
+        
+        //startLocation = locations.last!
+        let timeStamp = Int(Date().timeIntervalSince1970)
+        let timeStampString = "\(timeStamp)"
+        self.getCurrentTimeZone(lattitude: self.lattitude, longitude: self.longitude, timeStamp: timeStampString)
+      }
+    func createCalendar(){
+        //calenderView.removeFromSuperview()
+        calenderView.subviews.forEach { (item) in
+             item.removeFromSuperview()
+        }
+        let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
+        //calendar.removeFromSuperview()+
+        calendar.placeholderType = .none
+        //calendar.appearance.separators = .interRows
+        calendar.appearance.caseOptions = FSCalendarCaseOptions.weekdayUsesSingleUpperCase
+        
+        
         
         calendar.dataSource = self
         calendar.delegate = self
         calendar.appearance.todayColor = .clear
         calendar.appearance.titleTodayColor = .blue
-        
+        calendar.today = Date()
+        //calendar.currentPage = Date()
+        calendar.setCurrentPage(Date(), animated: true)
         calendar.calendarHeaderView.backgroundColor = UIColor(hexString: "#33A5FF")
-        calendar.appearance.headerMinimumDissolvedAlpha = (0.8)
+        calendar.appearance.headerMinimumDissolvedAlpha = (0.3)
         calendar.appearance.headerTitleColor = .white
         self.calendarObject = calendar
         calendar.scope = .month
-        if calenderView.subviews.count == 0 {
+      //  if calenderView.subviews.count == 0 {
             calenderView.addSubview(calendar)
-        }
-       
         let FirstDate = Date()
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
         guard let result : String = formatter.string(from: FirstDate) as String? else { return }
         print("selected Date -->",result )
+       
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let CustomerID = userDefaults.string(forKey: "CustomerID") ?? ""
         let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
+        let companyID = userDefaults.string(forKey: "companyID") ?? ""
+        let companyName = userDefaults.string(forKey: "companyName") ?? ""
+        GetPublicData.sharedInstance.userID = userId
+        GetPublicData.sharedInstance.companyName = companyName
+        GetPublicData.sharedInstance.userTypeID = userTypeID
+        GetPublicData.sharedInstance.companyID = companyID  
         print("userId is \(userId) , cutomerId is \(CustomerID) , usertypeID is \(userTypeID)")
         self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: result)
     }
@@ -188,6 +313,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
                                 if status == 1 {
                                     print("Success update device token ")
                                     let userGUID = self.apiUpdateDeviceTokenRespose?.table?.first?.currentUserGuid ?? ""
+                                    self.currentUserGUID = userGUID
                                     self.actionLogout(userGuid: userGUID)
                                     
                                 }else {
@@ -203,6 +329,78 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
                            
                         }
                 })
+     }
+    func checkSingleSignin(){
+        SwiftLoader.show(animated: true)
+        
+        let urlString = APi.checkSingleUser.url
+        let userID = GetPublicData.sharedInstance.userID
+        let currentGUID = userDefaults.string(forKey: "userGUID") ?? ""
+        let srchString = "<INFO><USERID>\(userID)</USERID><GUID>\(currentGUID)</GUID></INFO>"
+        let parameters = [
+            "strSearchString":srchString
+             ] as [String:Any]
+        print("url to get  checkSingleSignin \(urlString),\(parameters)")
+                AF.request(urlString, method: .post , parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+                    .validate()
+                    .responseData(completionHandler: { (response) in
+                        SwiftLoader.hide()
+                        switch(response.result){
+                    
+                        case .success(_):
+                            guard let daata = response.data else { return }
+                            do {
+                                print("check singel user response ",daata)
+                                let jsonDecoder = JSONDecoder()
+                                self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
+                                print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
+                                let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
+                        
+                                print("STRING DATA IS \(str)")
+                                let data = str.data(using: .utf8)!
+                                do {
+    //
+                                    print("DATAAA ISSS \(data)")
+                                    if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
+                                    {
+
+                                        let newjson = jsonArray.first
+                                        let userInfo = newjson?["UserGuIdInfo"] as? [[String:Any]]
+                                        
+                                        let userIfo = userInfo?.first
+                                        let vendorId = userIfo?["id"] as? Int
+                                       print("vendorId ....",vendorId ?? 0)
+                                        
+                                        if vendorId == nil {
+                                            // user is  login another device
+                                            self.view.makeToast("This customer already logged-in on another device")
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                                self.updateDeviceToken()
+                                            }
+                                        }else {
+                                          // user is not login on another device
+                                            
+                                        }
+                                       
+                                        
+                                       
+                                        
+                                    } else {
+                                        print("bad json")
+                                    }
+                                } catch let error as NSError {
+                                    print(error)
+                                }
+                            
+                            } catch{
+                            
+                                print("error block getVendorIDs Data  " ,error)
+                            }
+                        case .failure(_):
+                            print("Respose Failure getVendorIDs ")
+                            
+                        }
+                    })
      }
     func actionLogout(userGuid : String ){
         SwiftLoader.show(animated: true)
@@ -235,7 +433,8 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
                                     
                                     userDefaults.removeObject(forKey: "userId")
                                     
-                                    
+                                    isLogoutPressed = false
+                                   
                                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                                     let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
                                     let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
@@ -268,8 +467,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
     }
     
     @IBAction func onsiteAppointmentBtn(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "OnSiteInterpretationAppointmentVC" ) as! OnSiteInterpretationAppointmentVC
+        let vc = storyboard?.instantiateViewController(identifier: "OnsiteInterpretationNewViewController" ) as! OnsiteInterpretationNewViewController
         self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = storyboard?.instantiateViewController(identifier: "OnSiteInterpretationAppointmentVC" ) as! OnSiteInterpretationAppointmentVC
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func btnSideMenu(_ sender: UIButton) {
         let vc = storyboard?.instantiateViewController(identifier: "SideMenuViewController" ) as! SideMenuViewController
@@ -317,6 +518,112 @@ class HomeViewController: UIViewController,FSCalendarDelegate {
         tblCalenderView.delegate = self
         tblCalenderView.dataSource = self
         tblCalenderView.reloadData()
+    }
+    func hitApiCheckMeetingStatus(roomNo: String, callTime : String){
+        self.apiCheckMeetSatusResponseModel.removeAll()
+        let urlString = APi.getMeetingClientStatus.url
+       
+        let parameter = [
+            "strSearchString":"<Info><ROOMNO>\(roomNo)</ROOMNO></Info>"
+        ]
+        print("url and parameter for getCreateVRICallVendor", urlString , parameter)
+        AF.request(urlString, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                SwiftLoader.hide()
+                switch(response.result){
+                
+                case .success(_):
+                    
+                    print("hitApiCheckMeetingStatus ")
+                    guard let daata = response.data else { return }
+                    print("response are ", response.data)
+                    do {
+                        let jsonDecoder = JSONDecoder()
+                        self.apiCheckMeetSatusResponseModel = try jsonDecoder.decode([ApiCheckMeetSatusResponseModel].self, from: daata)
+                        let duration = self.apiCheckMeetSatusResponseModel.first?.resultData?.first?.dURATION ?? 0
+                        print("check meet data ", self.apiCheckMeetSatusResponseModel)
+                        let roomId = self.apiCheckMeetSatusResponseModel.first?.resultData?.first?.rOOMNO ?? ""
+                        if duration < 1 {
+                            //Move to VRI and OPI
+                            //print("call started", callTime)
+                            // check time of call
+                            
+                           // let isoDate = "2016-04-14T10:44:00+0000"
+                            print("time of call before conversion ", callTime)
+                            let dateFormatter1 = DateFormatter()
+                            dateFormatter1.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+                            dateFormatter1.dateFormat = "h:mm a"//"yyyy-MM-dd'T'HH:mm:ssZ"
+                            let finalDate = dateFormatter1.date(from:callTime)!
+                            
+                            
+                            
+                            let calendar = Calendar.current
+                            let timeBeforeCall = calendar.date(byAdding: .minute, value: -10, to: finalDate) ?? Date()
+                            
+                            print("date from string", finalDate , timeBeforeCall)
+                            
+                            
+                            let dateFormatter = DateFormatter()
+                             dateFormatter.dateFormat = "h:mm a"
+                            let time10Before = dateFormatter.string(from: timeBeforeCall)
+                           let currentTime =  dateFormatter.string(from: Date())
+                            print("time for call ", callTime, currentTime , time10Before)
+                           
+                            
+                            if time10Before > currentTime {
+                                print("call not started , wait ")
+                                let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
+                                vdoCall.ifComeFromMeet = true
+                                vdoCall.ifTimereach = false
+                                vdoCall.modalPresentationStyle = .overFullScreen
+                                
+                                self.present(vdoCall, animated: true, completion: nil)
+                            }else {
+                              print("call can start ")
+                                
+                                    print("VRI call start ")
+                                    if roomId != "" {
+                                        //self.addAppCall()
+                                       // self.getCallPriorityVideoWithCompletion()
+                                       // debugPrint("roomId:\(roomId),sourceID:\(sourceID),targetID:\(targetID),sourceName:\(sourceName),targetName:\(targetName)")
+                                        let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                        let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
+                                        vdoCall.roomID = roomId
+                                        vdoCall.ifComeFromMeet = true
+                                        vdoCall.ifTimereach = true
+                                       // vdoCall.sourceLangID = sourceID
+                                       // vdoCall.targetLangID = targetID
+                                        vdoCall.isClientDetails = true
+                                        vdoCall.isScheduled = false
+                                       // vdoCall.sourceLangName = sourceName
+                                        //vdoCall.targetLangName = targetName
+                                        //vdoCall.patientno = txtPatientClientNumber.text ?? ""
+                                       // vdoCall.patientname = txtPatientClientName.text ?? ""
+                                        vdoCall.modalPresentationStyle = .overFullScreen
+                                        
+                                        self.present(vdoCall, animated: true, completion: nil)
+                                    
+                                    }
+                                
+                                
+                            }
+                        }else {
+                            
+                            self.view.makeToast("Meeting is already Completed.")
+                        }
+                        
+                    }catch (let error) {
+                        print("error in do catch ", error.localizedDescription)
+                    }
+
+                case .failure(_):
+                    print("Respose Failure hitApiCheckMeetingStatus ")
+                   
+                }
+        })
+        
     }
     func hitApigetAllScheduleAppointment(date:String ,customerId:String , selectedDate:String){
                             SwiftLoader.show(animated: true)
@@ -413,77 +720,122 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        // let cell  = tableView.dequeueReusableCell(withIdentifier: HomeCellIdentifier.calendarTVCell.rawValue, for: indexPath) as! CalendarTVCell
-        let cell  = tableView.dequeueReusableCell(withIdentifier: "ScheduleAppointmentTableViewCell", for: indexPath) as! ScheduleAppointmentTableViewCell
         let index = showAppointmentArr[indexPath.row]
-        cell.targetLanguageLbl.text = index.languageName ?? ""
-        cell.venuLbl.text = index.venueName ?? ""
-        cell.typeOfMeetLbl.text = index.appointmentType ?? ""
-        cell.clientNameLbl.text = index.clientName ?? ""
-        cell.customerName.text = index.customerName ?? ""
-       // cell.interpreterLbl.text = index.interpretorName
-        cell.sourceLanguageLbl.text = ""
-        cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
-        let dateValue = index.startDateTime ?? ""
-        let timeValue = convertDateAndTimeFormat(dateValue)
-        cell.startDateLbl.text = timeValue
-        self.apiScheduleAppointmentResponseModel?.appointmentStatus?.forEach({ statusDetail in
-            if statusDetail.code == index.appointmentStatusType {
-                //cell.statusOuterView.backgroundColor = UIColor(hexString: statusDetail.color!)
-               cell.statusOfAppointmentLbl.backgroundColor = UIColor(hexString: statusDetail.color!)
+        let statustype = index.appointmentStatusType ?? ""
+        print("statsu type \(statustype)")
+        if statustype == "Meeting" {
+            let cell  = tableView.dequeueReusableCell(withIdentifier: "ScheduleMeetingTableViewCell", for: indexPath) as! ScheduleMeetingTableViewCell
+            let dateValue = index.startDateTime ?? ""
+            let timeValue = convertDateFormater(dateValue)
+            cell.startDateLbl.text = timeValue
+            cell.checkInLbl.text = index.vendorName ?? ""
+            cell.interpreterLbl.text = convertTimeFormater(dateValue)
+            cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
+            let rawTime = index.startDateTime ?? ""
+            let newTime = convertTimeFormater(rawTime)
+            cell.appointmentTimeLbl.text = newTime
+            if index.appointmentType == "Schedule OPI" || index.appointmentType == "Schedule VRI" {
+                cell.appointmentIDLbl.text = index.assignedByName
+            }else {
+                let str = index.authCode ?? ""
+                let components = str.components(separatedBy: " ")
+                cell.appointmentIDLbl.text = components[0]
             }
-        })
-        
-        let checkInStatus = index.checkIn ?? 0
-        let checkOutStatus = index.checkOut  ?? 0
-        let statusType = index.appointmentStatusType ?? ""
-        print("stsus of appointment  \(statusType) ,\(checkInStatus) , \(checkOutStatus)")
-        if statusType == "BOOKED"{
-            if checkInStatus == 1  && checkOutStatus == 0 {
-               cell.checkInLbl.isHidden = false
-               cell.checkOutHeadingLbl.isHidden = false
-               cell.checkInLbl.text = "Checked In"
-           }else if checkInStatus == 1  && checkOutStatus == 1 {
-               cell.checkInLbl.isHidden = false
-               cell.checkOutHeadingLbl.isHidden = false
-               cell.checkInLbl.text = "Checked Out"
-           }else {
-               cell.checkInLbl.isHidden = true
-               cell.checkOutHeadingLbl.isHidden = true
-           }
-        }else{
-            cell.checkInLbl.isHidden = true
-            cell.checkOutHeadingLbl.isHidden = true
-        }
-         
-        let rawTime = index.startDateTime ?? ""
-        let newTime = convertTimeFormater(rawTime)
-        cell.appointmentTimeLbl.text = newTime
-        if index.appointmentType == "Schedule OPI" || index.appointmentType == "Schedule VRI" {
-            cell.appointmentIDLbl.text = index.assignedByName
-            cell.interpreterLbl.attributedText = index.interpretorName?.convertHtmlToAttributedStringWithCSS(font: UIFont.systemFont(ofSize: 17), csscolor: "black", lineheight: 5, csstextalign: "left")
+            cell.joinMeetBtn.tag = indexPath.row
+            cell.joinMeetBtn.addTarget(self, action: #selector(actionJoinMeet), for: .touchUpInside)
+            return cell
         }else {
-            let str = index.authCode ?? ""
-            let components = str.components(separatedBy: " ")
-            cell.appointmentIDLbl.text = components[0]
-            cell.interpreterLbl.text = index.interpretorName ?? "N/A"
+            let cell  = tableView.dequeueReusableCell(withIdentifier: "ScheduleAppointmentTableViewCell", for: indexPath) as! ScheduleAppointmentTableViewCell
+            print("Apppointment Data is ", index)
+            cell.targetLanguageLbl.text = index.languageName ?? ""
+            cell.venuLbl.text = index.venueName ?? ""
+            cell.typeOfMeetLbl.text = index.appointmentType ?? ""
+            cell.clientNameLbl.text = index.clientName ?? ""
+            cell.customerName.text = index.customerName ?? ""
+           // cell.interpreterLbl.text = index.interpretorName
+            cell.sourceLanguageLbl.text = "English"
+            cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
+            let dateValue = index.startDateTime ?? ""
+            let timeValue = convertDateAndTimeFormat(dateValue)
+            cell.startDateLbl.text = timeValue
+            self.apiScheduleAppointmentResponseModel?.appointmentStatus?.forEach({ statusDetail in
+                if statusDetail.code == index.appointmentStatusType {
+                    //cell.statusOuterView.backgroundColor = UIColor(hexString: statusDetail.color!)
+                   cell.statusOfAppointmentLbl.backgroundColor = UIColor(hexString: statusDetail.color!)
+                }else if index.appointmentStatusType == "Meeting"{
+                    cell.statusOfAppointmentLbl.backgroundColor = .clear
+                }
+            })
+            
+            let checkInStatus = index.checkIn ?? 0
+            let checkOutStatus = index.checkOut  ?? 0
+            let statusType = index.appointmentStatusType ?? ""
+            print("stsus of appointment  \(statusType) ,\(checkInStatus) , \(checkOutStatus)")
+            if statusType == "BOOKED"{
+                if checkInStatus == 1  && checkOutStatus == 0 {
+                   cell.checkInLbl.isHidden = false
+                   cell.checkOutHeadingLbl.isHidden = false
+                   cell.checkInLbl.text = "Checked In"
+               }else if checkInStatus == 1  && checkOutStatus == 1 {
+                   cell.checkInLbl.isHidden = false
+                   cell.checkOutHeadingLbl.isHidden = false
+                   cell.checkInLbl.text = "Checked Out"
+               }else {
+                   cell.checkInLbl.isHidden = true
+                   cell.checkOutHeadingLbl.isHidden = true
+               }
+            }else{
+                cell.checkInLbl.isHidden = true
+                cell.checkOutHeadingLbl.isHidden = true
+            }
+             
+            let rawTime = index.startDateTime ?? ""
+            let newTime = convertTimeFormater(rawTime)
+            cell.appointmentTimeLbl.text = newTime
+            if index.appointmentType == "Schedule OPI" || index.appointmentType == "Schedule VRI" {
+                cell.appointmentIDLbl.text = index.assignedByName
+                let interpretorname  = index.interpretorName?.replacingOccurrences(of: "fffb4a", with: "000000")
+                
+                cell.interpreterLbl.attributedText = interpretorname?.convertHtmlToAttributedStringWithCSS(font: UIFont.systemFont(ofSize: 12), csscolor: "black", lineheight: 5, csstextalign: "left")
+                cell.interpreterLbl.textColor = UIColor.black
+            }else {
+                let str = index.authCode ?? ""
+                let components = str.components(separatedBy: " ")
+                cell.appointmentIDLbl.text = components[0]
+                cell.interpreterLbl.text = index.interpretorName ?? "N/A"
+            }
+            
+            
+            return cell
+        }
+       
+    }
+    @objc func actionJoinMeet(_ sender: UIButton){
+        print("sendervalue ",self.showAppointmentArr[sender.tag])
+        let timeOfcall = self.showAppointmentArr[sender.tag].startDateTime ?? ""
+      //  let rawTime = index.startDateTime ?? ""
+        let newTime = convertTimeFormater(timeOfcall)
+        let roomNo = self.showAppointmentArr[sender.tag].authCode ?? ""
+        self.hitApiCheckMeetingStatus(roomNo: roomNo, callTime: newTime)
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let typeid = self.showAppointmentArr[indexPath.row].appointmentTypeID ?? 0
+        if typeid != 12 {
+            let vc = self.storyboard?.instantiateViewController(identifier: "ScheduleAppointmentDetailVC") as! ScheduleAppointmentDetailVC
+            vc.showAppointmentArr = self.showAppointmentArr[indexPath.row]
+            vc.appointmentID = self.showAppointmentArr[indexPath.row].appointmentID ?? 0
+            vc.apiScheduleAppointmentResponseModel = self.apiScheduleAppointmentResponseModel ?? ApiScheduleAppointmentResponseModel()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            
         }
         
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(identifier: "ScheduleAppointmentDetailVC") as! ScheduleAppointmentDetailVC
-        vc.showAppointmentArr = self.showAppointmentArr[indexPath.row]
-        vc.appointmentID = self.showAppointmentArr[indexPath.row].appointmentID ?? 0 
-        vc.apiScheduleAppointmentResponseModel = self.apiScheduleAppointmentResponseModel ?? ApiScheduleAppointmentResponseModel()
-        self.navigationController?.pushViewController(vc, animated: true)
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.showAppointmentArr.count  ?? 0
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return 240
+        return UITableView.automaticDimension //240
     }
 }
 
@@ -496,7 +848,7 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
             // Create Date Formatter
             let dateFormatter = DateFormatter()
             // Set Date Format
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateFormat = "MM/dd/yyyy"
             // Convert Date to String
             let endDate = dateFormatter.string(from: maxDate)
            // self.hitApiGetWeeklyJournals(dateStr: endDate, calender: calendar )
@@ -508,6 +860,52 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         self.hitApigetAllScheduleAppointment(date: endDate, customerId: userId, selectedDate: endDate)
           
     }
+    
+    
+    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        guard let result : String = formatter.string(from: date) as String? else { return UIImage(named: "")}
+        var eventCount = 0
+        //print("count of appointment \(self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.count ?? 0) for date \(result)")
+        for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
+            let rawDate = scheduleAppointment.startDateTime ?? ""
+            let newDate = convertDateFormater(rawDate)
+            //print("new date is in number of event\(newDate)")
+            //print("result date is in number of event  \(result)")
+            if newDate == result {
+                eventCount = eventCount + 1
+                print("event count \(eventCount)")
+                
+            }
+        }
+        if eventCount > 3 {
+            return UIImage(named: "addTest")
+        }else {
+            return UIImage(named: "")
+        }
+
+//        return UIImage(named: "addTest")
+        
+        
+    }
+    
+    
+    
+    
+    
+    func getallweekDate (){
+        let dateInWeek = Date()//7th June 2017
+
+        let calendar = Calendar.current
+        let dayOfWeek = calendar.component(.weekday, from: dateInWeek)
+        let weekdays = calendar.range(of: .weekday, in: .weekOfYear, for: dateInWeek)!
+        let days = (weekdays.lowerBound ..< weekdays.upperBound)
+            .compactMap { calendar.date(byAdding: .day, value: $0 - dayOfWeek, to: dateInWeek) }
+
+        print("dates of week are ", days)
+    }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
@@ -516,12 +914,13 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in
             let rawDate = appointmentData.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
+            //print("new date is in number of event\(newDate)")
+            //print("result date is in number of event  \(result)")
             if newDate == result {
                 self.apiScheduleAppointmentResponseModel?.appointmentStatus?.forEach({ appointmentStatusData in
                     if  appointmentStatusData.code  == appointmentData.appointmentStatusType
                     {
+                        
                         let statusColor = appointmentStatusData.color ?? ""
                         eventColor.append(UIColor(hexString: statusColor))
                     }
@@ -553,6 +952,11 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: selectedDate)
     }
     
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventOffsetFor date: Date) -> CGPoint {
+        return CGPoint(x: 0, y: -5)
+    }
+    
+    
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
@@ -562,8 +966,8 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
             let rawDate = scheduleAppointment.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
+           // print("new date is in number of event\(newDate)")
+           // print("result date is in number of event  \(result)")
             if newDate == result {
                 eventCount = eventCount + 1
                 print("event count \(eventCount)")
@@ -585,6 +989,12 @@ extension Date {
         comp.month = 1
         comp.day = -1
         return Calendar.current.date(byAdding: comp, to: self.startOfMonth()!)
+    }
+    func nearestHour() -> Date? {
+            var components = NSCalendar.current.dateComponents([.minute], from: self)
+            let minute = components.minute ?? 0
+            components.minute = minute >= 30 ? 60 - minute : -minute
+            return Calendar.current.date(byAdding: components, to: self)
     }
 }
 

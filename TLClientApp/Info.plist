@@ -38,6 +38,14 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Access Mobile Camera</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app requires access for client location to make sure vendors are in there specified location from their profile to attend video remote interpretation(VRI) and over the phone interpretation (OPI).</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app requires access for client location to make sure vendors are in there specified location from their profile to attend video remote interpretation(VRI) and over the phone interpretation (OPI).</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires access for client location to make sure vendors are in there specified location from their profile to attend video remote interpretation(VRI) and over the phone interpretation (OPI).</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to access your microphone</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
