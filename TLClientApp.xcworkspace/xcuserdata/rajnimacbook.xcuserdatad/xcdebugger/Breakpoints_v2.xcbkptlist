@@ -14,8 +14,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "btnLoginTabbed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -52,34 +52,34 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "C871CFE9-EA04-463E-931E-40FD7DFDA84B - af98c172acb89ed5"
+                  uuid = "C871CFE9-EA04-463E-931E-40FD7DFDA84B - f9a81451e2aabb4e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.SceneDelegate.pushRegistry(_: __C.PKPushRegistry, didUpdate: __C.PKPushCredentials, for: __C.PKPushType) -&gt; ()"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/SceneDelegate.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/SceneDelegate.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "101"
                   endingLineNumber = "101"
-                  offsetFromSymbolStart = "156">
+                  offsetFromSymbolStart = "233">
                </Location>
                <Location
-                  uuid = "C871CFE9-EA04-463E-931E-40FD7DFDA84B - af98c172acb89ed5"
+                  uuid = "C871CFE9-EA04-463E-931E-40FD7DFDA84B - f9a81451e2aabb4e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.SceneDelegate.pushRegistry(_: __C.PKPushRegistry, didUpdate: __C.PKPushCredentials, for: __C.PKPushType) -&gt; ()"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/SceneDelegate.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/SceneDelegate.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "101"
                   endingLineNumber = "101"
-                  offsetFromSymbolStart = "216">
+                  offsetFromSymbolStart = "281">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "312"
-            endingLineNumber = "312"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
             landmarkName = "btnFaceIDTouchID(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "biometricAuthentication(username:pwd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
+            startingLineNumber = "328"
+            endingLineNumber = "328"
             landmarkName = "biometricAuthentication(username:pwd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
+            startingLineNumber = "314"
+            endingLineNumber = "314"
             landmarkName = "btnFaceIDTouchID(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
             landmarkName = "biometricAuthentication(username:pwd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "biometricAuthentication(username:pwd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Auth/LoginVC/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "294"
-            endingLineNumber = "294"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "btnFaceIDTouchID(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -212,94 +212,94 @@
             landmarkType = "3">
             <Locations>
                <Location
-                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 984d3fdc4ed0b2c1"
+                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 753a9fc5a2837a0c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.OnSiteInterpretationAppointmentVC.serviceId.getter : Swift.String"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
                   endingLineNumber = "83"
-                  offsetFromSymbolStart = "100">
+                  offsetFromSymbolStart = "103">
                </Location>
                <Location
-                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 36e40a1dd1fa02f5"
+                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - db93aa043da9ca38"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.OnSiteInterpretationAppointmentVC.serviceId.setter : Swift.String"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
                   endingLineNumber = "83"
-                  offsetFromSymbolStart = "136">
+                  offsetFromSymbolStart = "139">
                </Location>
                <Location
-                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - ff39f50a52202371"
+                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 124e5513be73fcb6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.OnSiteInterpretationAppointmentVC.serviceId.modify : Swift.String"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
                   endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "27">
                </Location>
                <Location
-                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - a04b86c75824159e"
+                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 4d3c26deb477dd53"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.OnSiteInterpretationAppointmentVC.serviceId.modify : Swift.String with unmangled suffix &quot;.resume.0&quot;"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
                   endingLineNumber = "83"
-                  offsetFromSymbolStart = "16">
+                  offsetFromSymbolStart = "15">
                </Location>
                <Location
-                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 6081f5f2ef26e020"
+                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 8df655eb037528ed"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.OnSiteInterpretationAppointmentVC.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; TLClientApp.OnSiteInterpretationAppointmentVC"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
                   endingLineNumber = "83"
-                  offsetFromSymbolStart = "2944">
+                  offsetFromSymbolStart = "3287">
                </Location>
                <Location
-                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - 582f5e10e00ac67"
+                  uuid = "70A729FA-8F5D-48BA-8B05-2468FD53384C - e8f555f8e25364aa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "TLClientApp.OnSiteInterpretationAppointmentVC.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;TLClientApp.OnSiteInterpretationAppointmentVC&gt;"
                   moduleName = "TLClientApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2024%20jan%202022/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
+                  urlString = "file:///Users/rajnimacbook/Desktop/Projects/Total%20Client/TLClientiOS%2029%20Dec/TLClientApp/Viewcontrollers/iOS/Home/OnSiteInterpretationAppointmentVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "83"
                   endingLineNumber = "83"
-                  offsetFromSymbolStart = "2920">
+                  offsetFromSymbolStart = "3229">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -307,16 +307,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "01CB62C2-998A-4F7A-B8B0-D842130043A6"
+            uuid = "F69E0FF2-ABE3-40BD-88DD-863B3F75C84F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/OnsiteInterpretationNewViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "746"
-            endingLineNumber = "746"
-            landmarkName = "actionOpenContactOPtion(_:)"
+            startingLineNumber = "556"
+            endingLineNumber = "556"
+            landmarkName = "actionAddActualDepartment(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F4EFF65C-6177-43FE-A8BC-50644061F996"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/OnsiteInterpretationNewViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
+            landmarkName = "updateServiceAndSpeciality()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
