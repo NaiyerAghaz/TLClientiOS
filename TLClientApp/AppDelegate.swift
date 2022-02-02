@@ -184,9 +184,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
      Messaging.messaging().apnsToken = deviceToken**/
     }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
         print("userInfo-------------------->",userInfo.values, "Info:", userInfo )
         handleNotification(userInfo: userInfo)
+
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("will not generate in simulator", error.localizedDescription)
@@ -201,6 +201,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         print("userNotificationCenter",completionHandler)
     }
+
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
         let payload = userInfo[AnyHashable("payload")] as? String
@@ -263,6 +264,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }else if type == "tokenupdate" {
                 if isLogoutPressed {
                     //isLogoutPressed = false
+
                 }else {
                     self.window?.makeToast("This customer already logged-in on another device")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
@@ -279,6 +281,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
+
    
 }
 

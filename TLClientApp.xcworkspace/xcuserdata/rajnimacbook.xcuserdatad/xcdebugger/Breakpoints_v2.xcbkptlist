@@ -314,9 +314,9 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/OnsiteInterpretationNewViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "556"
-            endingLineNumber = "556"
-            landmarkName = "selectService(_:)"
+            startingLineNumber = "557"
+            endingLineNumber = "557"
+            landmarkName = "actionAddActualDepartment(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -330,9 +330,9 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/OnsiteInterpretationNewViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
-            landmarkName = "selectProcessingDetail(_:)"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
+            landmarkName = "updateServiceAndSpeciality()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -65,7 +65,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     var apiUpdateDeviceTokenRespose : ApiUpdateDeviceTokenRespose?
     var apiLogoutResponseModel : ApiLogoutResponseModel?
     @IBOutlet var dashBoardTitleLbl: UILabel!
-    var apiGetSpecialityDataModel :ApiGetSpecialityDataModel?
+    
      var apiNotificationResponseModel:ApiNotificationResponseModel?
     var apiCheckCallStatusResponseModel = [ApiCheckCallStatusResponseModel]()
     @IBOutlet var notificationBtn: MIBadgeButton!
@@ -85,10 +85,14 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         tblCalenderView.spr_setIndicatorHeader { [weak self] in
                         self?.action()
                     }
+<<<<<<< Updated upstream
+        
+=======
         checkSingleSignin()
         getServiceType()
         getallweekDate()
         self.dashBoardTitleLbl.text = GetPublicData.sharedInstance.companyName
+>>>>>>> Stashed changes
         GetPublicData.sharedInstance.getAllLanguage()
         NotificationCenter.default.addObserver(self, selector: #selector(self.moveToUploadImg(notification:)), name: Notification.Name("UpdateProfilePic"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.actionLogout(notification:)), name: Notification.Name("LogoutFunction"), object: nil)// LogoutFunction
@@ -154,6 +158,11 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         print("UpdateProfilePicViewController")
     }
     override func viewWillAppear(_ animated: Bool) {
+    
+        GetPublicData.sharedInstance.userID = userDefaults.string(forKey: "userId") ?? ""
+        GetPublicData.sharedInstance.companyName = userDefaults.string(forKey: "companyName") ?? ""
+        GetPublicData.sharedInstance.userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
+        GetPublicData.sharedInstance.companyID = userDefaults.string(forKey: "companyID") ?? ""
         tblCalenderView.spr_beginRefreshing()
         locAuthentication()
        // updateUI()
@@ -259,9 +268,16 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
             formatter.dateFormat = "MM/dd/yyyy"
         guard let result : String = formatter.string(from: FirstDate) as String? else { return }
         print("selected Date -->",result )
+       
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let CustomerID = userDefaults.string(forKey: "CustomerID") ?? ""
         let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
+        let companyID = userDefaults.string(forKey: "companyID") ?? ""
+        let companyName = userDefaults.string(forKey: "companyName") ?? ""
+        GetPublicData.sharedInstance.userID = userId
+        GetPublicData.sharedInstance.companyName = companyName
+        GetPublicData.sharedInstance.userTypeID = userTypeID
+        GetPublicData.sharedInstance.companyID = companyID  
         print("userId is \(userId) , cutomerId is \(CustomerID) , usertypeID is \(userTypeID)")
         self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: result)
     }
@@ -417,7 +433,8 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                     
                                     userDefaults.removeObject(forKey: "userId")
                                     
-                                    
+                                    isLogoutPressed = false
+                                   
                                     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
                                     let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
                                     let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
@@ -593,6 +610,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                 
                             }
                         }else {
+                            
                             self.view.makeToast("Meeting is already Completed.")
                         }
                         
@@ -640,7 +658,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                                             self.showAppointmentArr.append(appointmentData)
                                                         }
                                                     })
-                                                   
+                                                    
                                                     print("total appointment for \(selectedDate) are \(self.showAppointmentArr.count)")
 
                                                     tblCalenderView.reloadData()
@@ -655,52 +673,6 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                             }
                                     })
                          }
-    func getServiceType(){
-        SwiftLoader.show(animated: true)
-        
-        //Appointment/GetData?methodType=Speciality&CompanyId=55&SpType1=1
-             let userId = userDefaults.string(forKey: "userId") ?? ""
-              let companyId = userDefaults.string(forKey: "companyID") ?? ""
-            let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
-            let urlPostFix = "&CompanyId=\(companyId)&SpType1=1"
-              
-            let urlString = "\(APi.speciality.url)" + urlPostFix
-        print("url for service  \(urlString)")
-                AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
-                    .validate()
-                    .responseData(completionHandler: { [self] (response) in
-                        SwiftLoader.hide()
-                        switch(response.result){
-                        
-                        case .success(_):
-                            print("Respose Success ")
-                            guard let daata = response.data else { return }
-                            do {
-                                let jsonDecoder = JSONDecoder()
-                                self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata)
-                               print("Success")
-                                GetPublicData.sharedInstance.apiGetSpecialityDataModel = self.apiGetSpecialityDataModel
-                                
-                                
-                                
-                                GetPublicData.sharedInstance.apic.removeAll()
-                                self.apiGetSpecialityDataModel?.appointmentType?.forEach({ (abc) in
-                                    GetPublicData.sharedInstance.apic.append(abc)
-                                })
-                                print("count for appointment data \(GetPublicData.sharedInstance.apic.count)")
-                                
-                                
-                                
-                            } catch{
-                                
-                                print("error block forgot password " ,error)
-                            }
-                        case .failure(_):
-                            print("Respose Failure service ")
-                           
-                        }
-                })
-     }
     func convertDateAndTimeFormat(_ date: String) -> String
     {
             let dateFormatter = DateFormatter()
@@ -774,14 +746,14 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             return cell
         }else {
             let cell  = tableView.dequeueReusableCell(withIdentifier: "ScheduleAppointmentTableViewCell", for: indexPath) as! ScheduleAppointmentTableViewCell
-            
+            print("Apppointment Data is ", index)
             cell.targetLanguageLbl.text = index.languageName ?? ""
             cell.venuLbl.text = index.venueName ?? ""
             cell.typeOfMeetLbl.text = index.appointmentType ?? ""
             cell.clientNameLbl.text = index.clientName ?? ""
             cell.customerName.text = index.customerName ?? ""
            // cell.interpreterLbl.text = index.interpretorName
-            cell.sourceLanguageLbl.text = ""
+            cell.sourceLanguageLbl.text = "English"
             cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
             let dateValue = index.startDateTime ?? ""
             let timeValue = convertDateAndTimeFormat(dateValue)
@@ -896,12 +868,12 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         formatter.dateFormat = "MM/dd/yyyy"
         guard let result : String = formatter.string(from: date) as String? else { return UIImage(named: "")}
         var eventCount = 0
-        print("count of appointment \(self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.count ?? 0) for date \(result)")
+        //print("count of appointment \(self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.count ?? 0) for date \(result)")
         for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
             let rawDate = scheduleAppointment.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
+            //print("new date is in number of event\(newDate)")
+            //print("result date is in number of event  \(result)")
             if newDate == result {
                 eventCount = eventCount + 1
                 print("event count \(eventCount)")
@@ -942,8 +914,8 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in
             let rawDate = appointmentData.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
+            //print("new date is in number of event\(newDate)")
+            //print("result date is in number of event  \(result)")
             if newDate == result {
                 self.apiScheduleAppointmentResponseModel?.appointmentStatus?.forEach({ appointmentStatusData in
                     if  appointmentStatusData.code  == appointmentData.appointmentStatusType
@@ -994,8 +966,8 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
             let rawDate = scheduleAppointment.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
+           // print("new date is in number of event\(newDate)")
+           // print("result date is in number of event  \(result)")
             if newDate == result {
                 eventCount = eventCount + 1
                 print("event count \(eventCount)")
@@ -1028,7 +1000,7 @@ extension Date {
 
 
 
-/*struct ApiNotificationResponseModel : Codable {
+struct ApiNotificationResponseModel : Codable {
     let notificationsCounts : [ApiNotificationsCountsResponseData]?
 
     enum CodingKeys: String, CodingKey {
@@ -1567,5 +1539,5 @@ struct ApiNotificationsCountsResponseData : Codable {
         orientation = try values.decodeIfPresent(String.self, forKey: .orientation)
     }
 
-}*/
+}
 

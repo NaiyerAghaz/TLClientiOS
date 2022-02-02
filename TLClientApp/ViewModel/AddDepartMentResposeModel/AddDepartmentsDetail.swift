@@ -32,3 +32,40 @@ struct AddDepartmentsDetail : Codable {
 	}
 
 }
+
+
+struct ApiAddUpdateDepartmentResponseModel : Codable {
+    let depConatctData : [AddUpdateDepartmentDataModel]?
+
+    enum CodingKeys: String, CodingKey {
+
+        case depConatctData = "DepConatctData"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        depConatctData = try values.decodeIfPresent([AddUpdateDepartmentDataModel].self, forKey: .depConatctData)
+    }
+
+}
+
+struct AddUpdateDepartmentDataModel : Codable {
+    let success : Int?
+    let message : String?
+    let status : Int?
+
+    enum CodingKeys: String, CodingKey {
+
+        case success = "success"
+        case message = "Message"
+        case status = "Status"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        success = try values.decodeIfPresent(Int.self, forKey: .success)
+        message = try values.decodeIfPresent(String.self, forKey: .message)
+        status = try values.decodeIfPresent(Int.self, forKey: .status)
+    }
+
+}

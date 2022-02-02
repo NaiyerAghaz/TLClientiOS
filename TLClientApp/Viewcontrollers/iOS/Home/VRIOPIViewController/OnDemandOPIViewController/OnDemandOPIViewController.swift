@@ -9,22 +9,36 @@ import UIKit
 import XLPagerTabStrip
 import iOSDropDown
 class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPickerViewDelegate,UIPickerViewDataSource, UITextFieldDelegate {
+
     @IBOutlet weak var txtTargetlanguage: iOSDropDown!
     @IBOutlet weak var txtSourceLanguage: iOSDropDown!
+
     
     var vriPickerView = UIPickerView()
     var sourceLang = true
     var languageViewModel = LanguageVM()
+
+    private var accessToken: String? = ""
+    
+    var callManagerVM = CallManagerVM()
+    
+    lazy var userId: String = {
+        return userDefaults.value(forKey: .kUSER_ID) as? String
+    }() ?? ""
+
     var onDemandOPIVM = OnDemandOPIVM()
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
     {
         
+
         return IndicatorInfo(title:"Ondemand OPI")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
         uiUpdate()
+
+        self.getAccessToken(userId: userId)
         let userID = GetPublicData.sharedInstance.userID
         onDemandOPIVM.getTwilioAccessToken(userId: userID) { (token, error) in
             print("Twillio OPI Token ", token)
@@ -64,8 +78,17 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
        }
         languageViewModel.languageData { list, err in
             if err == nil {
+//                print("Language List ====>\n", list?.LanguageData ?? [])
+                let langArray = list?.LanguageData as? [LanguageModel]
+                let index = langArray?.firstIndex { $0.LanguageID == "3" }
+                if let row = index {
+                    self.languageViewModel.titleToTxtField(row: row, txtField: self.txtSourceLanguage)
+                    self.vriPickerView.reloadAllComponents()
+                }
+
                 //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
                
+
             }
           }
     }
@@ -107,10 +130,63 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
         }
     }
     @IBAction func btnCallNowTapped(_ sender: Any) {
+
+//        self.getVriVendorsbyLid_KE()
+        self.openVRI_OPI_popup()
+    }
+}
+//MARK: Api calling
+extension OnDemandOPIViewController {
+    
+//    func getVriVendorsbyLid_KE() {
+//        guard let userId = userDefaults.value(forKey: .kUSER_ID) as? String else { return }
+//        let params: [String: Any] = ["Slid": self.languageViewModel.sID!,
+//                                     "LId": "1205",//self.languageViewModel.lID!,
+//                                     "UserId": userId,
+//                                     "Calltype":"O",
+//                                     "MembersType":"app",]
+//        self.callManagerVM.getVriVendorsbyLid_KE(parameter: params) { memberLists, error in
+//            //Validate response if success then call below method
+//            if memberLists.count > 0 {
+//                self.openVRI_OPI_popup()
+//            }
+//        }
+//    }
+    func getAccessToken(isTokenRefresh: Bool = false, userId: String) {
+        self.ondemandOPIVM.getTwilioAccessToken(userId: userId) { token, error in
+           // guard token.length > 0 else {
+            guard token != nil else {
+                return
+            }
+            self.accessToken = token
+        }
+    }
+    //
+    private func openVRI_OPI_popup() {
+        let request = TxtRequest(txt: self.txtTargetlanguage.text)
+        let validate = ValidationReq().validate(txtfield: request)
+        if validate.success {
+          //  let vc = OnDemandCallInfoController.instantiate(from: .Home)
+            let vc = storyboard?.instantiateViewController(identifier: "OnDemandCallInfoController") as! OnDemandCallInfoController
+            vc.sID = self.languageViewModel.sID ?? ""
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.dissmissVC = {[weak self] (isSuccess, clientName, clientNumber) in
+               // vc.DISMISS(false)
+                
+                if isSuccess {
+                    self?.moveVC(with: self?.accessToken ?? "",
+                                 clientName: clientName,
+                                 clientNumber: clientNumber)
+                }
+            }
+            //self.PRESENT(vc, false)
+            self.present(vc, animated: true, completion: nil)
+        } else {
         print("LANGUAGE LIST ARRAY IS \(languageViewModel.languageListArr)")
         let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
+
             let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: viewIndentifier.CallingPopupVC.rawValue) as! CallingPopupVC
             vcontrol.modalPresentationStyle = .overFullScreen
@@ -123,6 +199,7 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
             self.present(vcontrol, animated: true, completion: nil)
         }
         else {
+
             self.view.makeToast(validate.error, duration: 1, position: .center)
         }
     }
@@ -137,6 +214,4 @@ let validate = ValidationReq().validate(txtfield: request)
 if validate.success {
     
 }
-else {
-    self.view.makeToast(validate.error, duration: 1, position: .center)
-}*/
+*/
