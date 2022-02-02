@@ -470,6 +470,20 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 
             })
         }
+        else {
+            let bodyMsz = "rejectfromclient:\(pid)"
+            print("acceptmessagebody-------------------------->:",bodyMsz)
+            // self.dismiss(animated: true, completion: nil)
+            let messageOption = TCHMessageOptions.init()
+            messageOption.withBody(bodyMsz)
+            self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
+                if result.isSuccessful(){
+                    print("result.isSuccessful()------------------>:",result.isSuccessful())
+                    self.getMeetingClientStatusLobbyRefreshAccept(roomId: self.roomID!)
+                }
+                
+            })
+        }
         
     }
     func getMeetingClientStatusLobbyRefreshAccept(roomId: String){
@@ -576,6 +590,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
          var roomlocalParticipantSIDrule: String?
          var conferrenceInfoArr : NSMutableArray?*/
         vcontrol.room = room
+        vcontrol.roomID = roomID
         vcontrol.localVideoTrack = localVideoTrack
         vcontrol.camera = camera
         vcontrol.callChannel = callChannel
@@ -1056,30 +1071,51 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                 
             }
             else if self.remoteParticipantArr.count == 3 {
-                return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/2-10)
+                if indexPath.row == 2 {
+                    return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height/2-10)
+                }
+                else {
+                    return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/2-10)
+                }
+                
             }
             else if self.remoteParticipantArr.count == 4 {
                 
                 
-                return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/3-10)
+                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/2-10)
                 
                 
             }
             else if self.remoteParticipantArr.count == 5 {
-                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/3-10)
+                if indexPath.row == 4 {
+                    return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/2-10)
+                }
+                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/3-2)
             }
             else if self.remoteParticipantArr.count == 6 {
-                if indexPath.row == 4 {
-                    return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height/4-10)
-                }
-                else{
+               
                     
-                    return CGSize(width: vdoCollectionView.frame.size.width/2, height: vdoCollectionView.frame.size.height/3-10)
-                    
-                }
+                    return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/3-10)
+               
             }
             else if self.remoteParticipantArr.count == 7 {
-                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/4-10)
+                if indexPath.row == 6 {
+                    return CGSize(width: vdoCollectionView.frame.size.width/3-10, height: vdoCollectionView.frame.size.height/3-10)
+                }
+                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/3-10)
+            }
+            else if self.remoteParticipantArr.count == 8 {
+                if indexPath.row == 7 {
+                    return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/3-10)
+                }
+                return CGSize(width: vdoCollectionView.frame.size.width/3-10, height: vdoCollectionView.frame.size.height/3-2)
+            }
+            else if self.remoteParticipantArr.count == 9 {
+                if indexPath.row == 8 {
+                    
+                return CGSize(width: vdoCollectionView.frame.size.width/3-10, height: vdoCollectionView.frame.size.height/3-10)
+            }
+            
             }
             
             return CGSize(width: vdoCollectionView.frame.size.width/2 - 10, height: vdoCollectionView.frame.size.height/2-10)

@@ -23,6 +23,7 @@ class CallingPopupVC: UIViewController {
     let app = UIApplication.shared.delegate as? AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
         configureUI()
@@ -54,8 +55,9 @@ class CallingPopupVC: UIViewController {
             return
         }else{
             if self.calltype == "VRI" {
+                
                 if roomId != nil {
-                    
+                    SwiftLoader.show(animated: true)
                     self.addAppCall()
                     self.getCallPriorityVideoWithCompletion()
                     debugPrint("roomId:\(roomId),sourceID:\(sourceID),targetID:\(targetID),sourceName:\(sourceName),targetName:\(targetName)")
@@ -71,7 +73,7 @@ class CallingPopupVC: UIViewController {
                     vdoCall.patientno = txtPatientClientNumber.text ?? ""
                     vdoCall.patientname = txtPatientClientName.text ?? ""
                     vdoCall.modalPresentationStyle = .overFullScreen
-                    
+                    SwiftLoader.hide()
                     self.present(vdoCall, animated: true, completion: nil)
                 
                 }

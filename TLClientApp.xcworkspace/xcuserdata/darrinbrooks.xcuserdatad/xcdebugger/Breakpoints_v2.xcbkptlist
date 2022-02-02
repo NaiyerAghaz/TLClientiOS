@@ -94,8 +94,8 @@
             filePath = "TLClientApp/Viewcontrollers/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1099"
-            endingLineNumber = "1099"
+            startingLineNumber = "1135"
+            endingLineNumber = "1135"
             landmarkName = "remoteParticipantSwitchedOnVideoTrack(participant:track:)"
             landmarkType = "7">
          </BreakpointContent>

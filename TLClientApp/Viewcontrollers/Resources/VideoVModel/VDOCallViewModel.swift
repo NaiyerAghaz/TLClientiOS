@@ -195,6 +195,84 @@ class VDOCallViewModel {
             print ("Oops something happened buddy")
         }
     }
+    
+    //MARK: Disconnect individual Participant
+    func endParticipantAPIReq(partSID: String) -> [String: Any]{
+        let para :[String:Any] = ["strSearchString":"<Info><ACTION>E</ACTION><PARTSID>\(partSID)</PARTSID><CALL>0</CALL></Info>"]
+        return para
+    }
+    
+    func participantEndMethod1(partSID: String,completionHandler:@escaping( Bool?, Error?) ->()){
+        var request = URLRequest(url: APi.ConferenceParticipant.url)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
+        request.httpMethod = "POST"
+        
+        do {
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: endParticipantAPIReq(partSID: partSID), options: .prettyPrinted)
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completionHandler(false, error)
+                }
+                guard let data = data else {return}
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("participantEndMethod1-Data---->", data, response, "statusCode:",httpResponse.statusCode)
+                    if httpResponse.statusCode == 200 {
+                        completionHandler(true, nil)
+                    }
+                    else {
+                        completionHandler(false, nil)
+                    }
+                }
+           
+                
+            }
+            .resume()
+        }
+        catch _ {
+            print ("Oops something happened buddy")
+        }
+    }
+    func participantEndMethod2(roomSID: String, partSID: String,completionHandler:@escaping( Bool?, Error?) ->()){
+        let fUrl = APi.ParticipantEndCall.url.appendingPathComponent("/\(roomSID)?id=\(partSID)")
+        print("fullURL-->",fUrl)
+        var request = URLRequest(url: fUrl)
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
+        request.httpMethod = "POST"
+        
+        do {
+            let para :[String:Any] = [:]
+            request.httpBody = try JSONSerialization.data(withJSONObject: para, options: .prettyPrinted)
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                
+                if let error = error {
+                    completionHandler(false, error)
+                }
+                guard let data = data else {return}
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("participantEndMethod2-Data---->", data, response,"statusCode:",httpResponse.statusCode)
+                    if httpResponse.statusCode == 200 {
+                        completionHandler(true, nil)
+                    }
+                    else {
+                        completionHandler(false, nil)
+                    }
+                }
+            
+                
+            }
+            .resume()
+        }
+        catch _ {
+            print ("Oops something happened buddy")
+        }
+    }
+    
+    //END-----
     func meetingClientReq(roomID: String) -> [String: Any]{
         let para :[String:Any] = ["strSearchString":"<Info><ROOMNO>\(roomID)</ROOMNO></Info>"]
         return para
@@ -215,6 +293,7 @@ class VDOCallViewModel {
         let para :[String:Any] = ["strSearchString":"<Info><ACTION>P</ACTION><ID></ID><ACTUALROOM>\(roomid)</ACTUALROOM><PID>\(pid)</PID></Info>"]
         return para
     }
+    
     //Accept Invite call
     func acceptInvitation(parameter:[String: Any],completionBlock:@escaping(Bool?) ->()) {
         var request = URLRequest(url: APi.ConferenceParticipant.url)
@@ -250,7 +329,43 @@ class VDOCallViewModel {
         }
     }
     func rejectInvitation(parameter:[String: Any],completionBlock:@escaping(Bool?) ->()) {
+        var request = URLRequest(url: APi.ConferenceParticipant.url)
         
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
+        request.httpMethod = "POST"
+        
+        do {
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameter, options: .prettyPrinted)
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completionBlock(false)
+                }
+                guard let data = data else {return}
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        completionBlock(true)
+                    }
+                    else {
+                        completionBlock(false)
+                    }
+                }
+                print("DataAccept---->", response)
+                
+            }
+            .resume()
+        }
+        catch _ {
+            print ("Oops something happened buddy")
+        }
+    }
+    
+    public func rejectRequest( pid: String, roomid: String) -> [String: Any]{
+        let para :[String:Any] = ["strSearchString":"<Info><ACTION>R</ACTION><ID></ID><ACTUALROOM>\(roomid)</ACTUALROOM><PID>\(pid)</PID></Info>"]
+       
+        return para
     }
     public func videoTrackEnableOrDisable(isenable:Bool, img: UIImageView){
         if isenable {
