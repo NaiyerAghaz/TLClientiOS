@@ -496,12 +496,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     
                    
                 }
-                DispatchQueue.global(qos: .background).async { [self] in
-                    vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
-                        print("getParticipant22222----------->", success)
-                    }
+//                DispatchQueue.global(qos: .background).async { [self] in
+//                    vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+//                        print("getParticipant22222----------->", success)
+//                    }
                     
-                }
+              //  }
                 
             }
             
@@ -958,8 +958,13 @@ extension VideoCallViewController:RoomDelegate{
 }
 extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if remoteParticipantArr.count > 1 {
+            return remoteParticipantArr.count + 1
+        }
+        else {
+            return remoteParticipantArr.count
+        }
         
-        return remoteParticipantArr.count
         
         
     }
@@ -970,66 +975,7 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: indexPath) as!  VDOCollectionViewCell
        
-        //participant.remoteVideoTracks
-        // print("videoPublications:",videoPublications.count)
-        /* if remoteParticipantArr.count > 1 {
-         /* if([[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"videoTrak"] != nil){
-         callCell.audioCallImg.hidden = YES;
-         callCell.pinBtn.hidden = NO;
-         TVIRemoteVideoTrack * videoT = [[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"videoTrak"];
-         [videoT addRenderer:remoteView];
-         
-         }*/
-         if indexPath.row == 0 {
-         let localParticipant = (self.localParicipantDictionary?.value(forKey: "0") as? NSObject)?.value(forKey: "videoTrak") as? LocalVideoTrack
-         if localParticipant != nil {
-         localParticipant?.addRenderer(cell.remoteView)
-         }
-         
-         //  startPreview(localView: cell.remoteView)
-         self.preview.isHidden = true
-         
-         }
-         else {
-         /* let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
-         for publication in videoPublications {
-         if let subscribedVideoTrack = publication.remoteTrack,
-         publication.isTrackSubscribed {
-         print("videoPublications--->",publication.isTrackSubscribed)
-         /// setupRemoteVideoView()
-         let remote = VideoView(frame: CGRect(x: 0, y: 0, width: self.vdoCollectionView.frame.size.width, height: self.vdoCollectionView.frame.size.height))
-         remote.contentMode = .scaleAspectFill
-         remote.clipsToBounds = false
-         cell.remoteView?.contentMode = .scaleAspectFill
-         cell.remoteView?.clipsToBounds = false
-         subscribedVideoTrack.addRenderer(remote)
-         
-         
-         cell.remoteView.addSubview(remote)
-         }
-         }*/
-         for i in 0...remoteParticipantArr.count {
-         if i+1 == indexPath.row {
-         print("remote--------------->",i)
-         
-         if let vTrack = (self.remoteParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "videoTrak") as? RemoteVideoTrack {
-         print("remote---------------2>",vTrack)
-         //                        let remote = VideoView(frame: CGRect(x: 0, y: 0, width: self.vdoCollectionView.frame.size.width, height: self.vdoCollectionView.frame.size.height))
-         //                        remote.contentMode = .scaleAspectFill
-         //                        remote.clipsToBounds = false
-         //                        cell.remoteView?.contentMode = .scaleAspectFill
-         //                        cell.remoteView?.clipsToBounds = false
-         vTrack.addRenderer(remote)
-         cell.remoteView.addSubview(remote)
-         // vTrack.addRenderer(cell.remoteView)
-         }
-         
-         }
-         }
-         }
-         
-         }
-         else {*/
+        
         let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
        
         self.preview.isHidden = false

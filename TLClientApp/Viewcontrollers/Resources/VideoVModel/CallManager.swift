@@ -256,8 +256,12 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         DispatchQueue.main.async {
             self.vdoCollectionView.reloadData()
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {[self] in
+            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+                print("getParticipant22222----------->", success, "participantArr:", vdoCallVM.conferrenceDetail.CONFERENCEInfo)
+        }
         
-
+        }
         
         
     }
@@ -276,7 +280,28 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 remainingParticipants.remove(at: index)
                 renderRemoteParticipants(participants: remainingParticipants)
             }
+           
         }
+        if remoteParticipantArr.count > 0 {
+            for vdo in remoteParticipantArr {
+                if vdo == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                        remoteParticipantArr.remove(at: index)
+                    }
+                }
+                }
+            DispatchQueue.main.async {
+                self.vdoCollectionView.reloadData()
+            }
+            lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+            DispatchQueue.global(qos: .background).async { [self] in
+                vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+                    print("getParticipant22222----------->", success, "participantArr:", vdoCallVM.conferrenceDetail.CONFERENCEInfo)
+                }
+            }
+            
+        }
+        
     }
     
     func didSubscribeToAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {

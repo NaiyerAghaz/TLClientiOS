@@ -49,26 +49,27 @@ class TotalParticipantVC: BottomPopupViewController {
        // tblView.register(cellNib, forCellReuseIdentifier: VendorIdentityCell.lobbyCell.rawValue)
         tblView.delegate = self
         tblView.dataSource = self
-//        DispatchQueue.main.async {
-//            self.tblView.reloadData()
-//        }
+        DispatchQueue.main.async {
+            self.tblView.reloadData()
+        }
         
         
-        lblParticipants.text = "Participants (\(conferrenceInfoArr?.count ?? 0))"
-        SwiftLoader.show(animated: true)
+       
+       /* SwiftLoader.show(animated: true)
         vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
             if success == true {
                 SwiftLoader.hide()
                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[self] in
+                    lblParticipants.text = "Participants (\(conferrenceInfoArr?.count ?? 0))"
                     self.tblView.reloadData()
-                 }
+                }
             }
             else {
                 SwiftLoader.hide()
             }
-        }
-       
+        }*/
+      
        
     }
     
@@ -341,10 +342,8 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
         vdoCallVM.participantEndCall(roomID: vdoIndex.ACTUALROOM!) { success, err in
             if success == true {
                 
-                SwiftLoader.hide()
-               
-                DispatchQueue.main.async {[self] in
-
+              DispatchQueue.main.async {[self] in
+                    SwiftLoader.hide()
                         if (room != nil){
                          room?.disconnect()
                          if (self.camera != nil){
@@ -369,17 +368,28 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                     if success == true {
                         self.vdoCallVM.participantEndMethod2(roomSID: vdoIndex.ROOMSID!, partSID: vdoIndex.PARTSID!) { success, err in
                             if success == true {
-                                SwiftLoader.hide()
-                                self.conferrenceInfoArr?.removeObject(at: sender.tag)
-                                self.tblView.reloadData()
+                                
+                                DispatchQueue.main.async {[self] in
+                                    SwiftLoader.hide()
+                                   // let obj  = self.conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
+                                   // conferrenceInfoArr?.remove(obj)
+                                    dismiss(animated: true, completion: nil)
+                                    //tblView.reloadData()
+                                    
+                                }
+                               
                             }
                             else {
-                                SwiftLoader.hide()
+                                DispatchQueue.main.async {
+                                    SwiftLoader.hide()
+                                }
                             }
                         }
                     }
                     else {
-                        SwiftLoader.hide()
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
                     }
                 }
                 

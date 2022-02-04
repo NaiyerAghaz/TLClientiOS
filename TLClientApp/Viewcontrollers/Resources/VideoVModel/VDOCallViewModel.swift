@@ -65,6 +65,7 @@ class VDOCallViewModel {
         return req
     }
     func getParticipantList2(lid: String, roomID: String, completionHandler:@escaping(Bool?, Error?) -> ()){
+       
         conferrenceDetail.CONFERENCEInfo?.removeAllObjects()
         var request = URLRequest(url: APi.getParticipantByRoom.url)
         
@@ -93,15 +94,18 @@ class VDOCallViewModel {
                         let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
                         
                         print("ObjectConference!--->", self.conferrenceDetail.CONFERENCEInfo?.count, items.UserName)
+                       
                         completionHandler(true, nil)
                     }
                     else {
+                        
                         completionHandler(false, error as? Error)
                     }
                     
                 }
                 
                 catch let error {
+                    SwiftLoader.hide()
                     print(error.localizedDescription)
                 }
             }
@@ -109,6 +113,7 @@ class VDOCallViewModel {
         }
         catch _ {
             print ("Oops something happened buddy")
+            SwiftLoader.hide()
         }
     }
     func audioReqAPI(val: Int, partSID: String, isAudio: Bool) -> [String: Any] {
@@ -180,13 +185,14 @@ class VDOCallViewModel {
                 guard let data = data else {return}
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 200 {
+                        print("Data---->", data, response)
                         completionHandler(true, nil)
                     }
                     else {
                         completionHandler(false, nil)
                     }
                 }
-                print("Data---->", data, response)
+               
                 
             }
             .resume()
@@ -236,9 +242,14 @@ class VDOCallViewModel {
         }
     }
     func participantEndMethod2(roomSID: String, partSID: String,completionHandler:@escaping( Bool?, Error?) ->()){
-        let fUrl = APi.ParticipantEndCall.url.appendingPathComponent("/\(roomSID)?id=\(partSID)")
-        print("fullURL-->",fUrl)
-        var request = URLRequest(url: fUrl)
+       
+       
+        let urlStr = "\(chatURL)/ParticipantEndCall/\(roomSID)?id=\(partSID)"
+        let fullURL = URL(string: urlStr)
+        //let fUrl = APi.ParticipantEndCall.url.appendingPathComponent("/\(roomSID)\(id)\(partSID)")
+        print("fullURL2:",fullURL)
+        //https://vriservices.totallanguage.com/ParticipantEndCall/RM44196e48252ab6d80cc65e4d0ddda1c6?id=PAd88453f4a4ec3e4011e0ee48b6e16924
+        var request = URLRequest(url: fullURL!)
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-type")
         request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
