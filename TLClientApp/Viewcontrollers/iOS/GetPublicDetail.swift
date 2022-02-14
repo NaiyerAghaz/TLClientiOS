@@ -17,6 +17,7 @@ public class GetPublicData {
     public var companyName = userDefaults.string(forKey: "companyName") ?? ""
     public var userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
     public var companyID = userDefaults.string(forKey: "companyID") ?? ""
+    var TempCustomerID = ""
     var apic = [AppointmentTypeDataModel]()
     var apiGetSpecialityDataModel:ApiGetSpecialityDataModel?
     

@@ -64,6 +64,11 @@ enum APi{
     case getOPIDetailsByRoomID
     case GetCustomerDetail
     case GetCommonDetail
+    case ParticipantEndCall
+    case GetVenueCommanddl
+    case AddUpdateDeptAndContactData
+    case tladdupdateappointment
+    case encryptdecryptvalue
     var url: URL{
         switch self {
         case .login:
@@ -164,6 +169,16 @@ enum APi{
             return URL(string: baseUrl + "/GetGetAppointmentCommanddl")!
         case .GetCommonDetail:
             return URL(string: baseUrl + "/GetGetAppointmentDropDown")!
+        case .ParticipantEndCall:
+            return URL(string: chatURL + "/ParticipantEndCall")!
+        case .GetVenueCommanddl:
+            return URL(string: baseUrl + "/GetVenueCommanddl")!
+        case .AddUpdateDeptAndContactData:
+            return URL(string: baseUrl + "/AddUpdateDeptAndContactData")!
+        case .tladdupdateappointment:
+            return URL(string: baseUrl + "/tladdupdateappointment")!
+        case .encryptdecryptvalue:
+            return URL(string: baseUrl + "/encryptdecryptvalue")!
         }
     }
 }

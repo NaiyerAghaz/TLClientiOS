@@ -37,15 +37,12 @@ class CallManagerVM {
         return para
     }
     func getTwilioTokenWithCompletion(userID: String,Handler:@escaping(String?, Error?) ->()){
-        
-        
-        
         let tokenURL = "\(baseOPI)?identity=\(userID)&deviceType=clientIos"
         
         do {
             let content = try String(contentsOf:URL(string: tokenURL)!)
             Handler(content, nil)
-            print("content------->",content)
+            
         }
         catch let error {
             Handler(nil, error)
@@ -85,8 +82,6 @@ class CallManagerVM {
             
         }
     }
-    
-    
     func addAppCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.vricallstart.url, para: req) { response, err in
@@ -101,14 +96,9 @@ class CallManagerVM {
         }
     }
     
-    
-    
-    
-    func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String) -> [String: Any]{
+func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String) -> [String: Any]{
         var parameter:[String:Any] = [:]
-        
-        print("SENDER ID ISSS \(userDefaults.string(forKey: "userid") ?? "")")
-        print("asdvasuydgasuydgasd\(GetPublicData.sharedInstance.userID)")
+       
         parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":GetPublicData.sharedInstance.userID ,"touserid":0,"statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":"","patientno":"","Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
         
         
@@ -120,9 +110,9 @@ class CallManagerVM {
         return parameter
     }
     func priorityVideoCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-        debugPrint("priorityPara--->", req)
+        
         ApiServices.shareInstace.getDataFromApi(url: APi.getVriVendorsbyLid.url, para: req) { response, err in
-            print("freponsegetVriVendorsbyLid:---------->",response)
+            
             if response != nil {
                 completionHandler(true, nil)
             }
@@ -156,89 +146,45 @@ class CallManagerVM {
     }
 }
 
-
-
-
-
-
-
 // MARK:- RemoteParticipantDelegate
 
 extension VideoCallViewController : RemoteParticipantDelegate {
     func remoteParticipantDidPublishVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         // Remote Participant has offered to share the video Track.
-        self.view.makeToast("Participant \(participant.identity) published video track")
+        //self.view.makeToast("Participant \(participant.identity) published video track")
         
     }
     
     func remoteParticipantDidUnpublishVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         // Remote Participant has stopped sharing the video Track.
-        self.view.makeToast("Participant \(participant.identity) unpublished video track")
+       // self.view.makeToast("Participant \(participant.identity) unpublished video track")
         
     }
     
     func remoteParticipantDidPublishAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
         // Remote Participant has offered to share the audio Track.
-        self.view.makeToast("Participant \(participant.identity) published audio track")
+       // self.view.makeToast("Participant \(participant.identity) published audio track")
         
     }
     
     func remoteParticipantDidUnpublishAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-        self.view.makeToast("Participant \(participant.identity) unpublished audio track")
+       // self.view.makeToast("Participant \(participant.identity) unpublished audio track")
+        print("mute participant :", participant.audioTracks)
         
     }
     
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         // The LocalParticipant is subscribed to the RemoteParticipant's video Track. Frames will begin to arrive now.
-        self.view.makeToast("Subscribed to \(publication.trackName) video track for Participant \(participant.identity)")
+       // self.view.makeToast("Subscribed to \(publication.trackName) video track for Participant \(participant.identity)")
         if (self.remoteParticipant == nil) {
             _ = renderRemoteParticipant(participant: participant)
         }
         if remoteParicipantDictionary?.count == 1 {
-           /* {
-                
-                if(self.isChatConnected){
-                    [self.chatBtn setHidden:NO];
-                    self.chatBGView.hidden = NO;
-                }
-                
-                TVILocalParticipant * participantLocal;
-                
-                participantLocal = [[self.localParticipantsDictionary valueForKey:@"0"] valueForKey:@"participant"];
-                
-                [self.localParticipantsDictionary setObject:@{
-                    @"participant" : participantLocal,
-                    @"videoTrak" : self.localVideoTrack
-                } forKey:@"0"];
-            }*/
+            
             let localParticipant = (self.localParicipantDictionary?.value(forKey: "0") as? NSObject)?.value(forKey: "participant") as? LocalParticipant
             self.localParicipantDictionary?["0"] = ["participant":localParticipant, "videoTrak":videoTrack]
             
         }
-        /*
-         bool saveParticipant = false;
-         int index = 0;
-         for (int i= 0; i< self.remoteParticipantsList.count; i++) {
-             TVIRemoteParticipant * participant1 = [[self.remoteParticipantsDictionary valueForKey:[NSString stringWithFormat:@"%d",i]] valueForKey:@"participant"];
-             
-             if(participant1 == participant){
-                 saveParticipant = true;
-                 index = i;
-                 break;
-             }
-         }
-         if(saveParticipant){
-             [self.remoteParticipantsDictionary setObject:@{
-                 @"participant" : participant,
-                 @"videoTrak" : videoTrack
-             } forKey:[NSString stringWithFormat:@"%d",index]];
-         }
-         
-         dispatch_async(dispatch_get_main_queue(), ^(void){
-             [self.videoCollectionView reloadData];
-             [self.speakerVideoCollectionView reloadData];
-         });
-         */
         var saveParticipant = false
         var index = 0
         for i in 0...remoteParticipantArr.count{
@@ -254,19 +200,21 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             self.remoteParicipantDictionary?["\(index)"] = ["participant":participant, "videoTrak": videoTrack]
         }
         DispatchQueue.main.async {
+            
             self.vdoCollectionView.reloadData()
         }
-        
-
-        
-        
-    }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {[self] in
+            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+                
+            }
+            
+        }}
     
     func didUnsubscribeFromVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
         // remote Participant's video.
         print("cleanup remote participant----------------------:")
-        self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
+        // self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
         if self.remoteParticipant == participant {
             cleanupRemoteParticipant()
             
@@ -276,14 +224,59 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 remainingParticipants.remove(at: index)
                 renderRemoteParticipants(participants: remainingParticipants)
             }
+            
         }
+        if remoteParticipantArr.count > 1 {
+            for vdo in remoteParticipantArr {
+                if vdo == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                        remoteParticipantArr.remove(at: index)
+                    }
+                }
+            }
+            
+            lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+            DispatchQueue.global(qos: .background).async { [self] in
+                vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+                    if success == true && vdoCallVM.conferrenceDetail.TOTALRECORDS != "0"{
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadData()
+                        }
+                    }
+                    else {
+                        backToMainController()
+                    }
+                }
+            } }
+        else {
+            backToMainController()
+       }
+        
+    }
+    func backToMainController(){
+        remoteParticipantArr.removeAll()
+        
+        self.room = nil
+        if (self.camera != nil){
+            camera?.stopCapture()
+            camera = nil
+        }
+        if (localVideoTrack != nil){
+            localVideoTrack = nil
+        }
+        if localAudioTrack != nil {
+            localAudioTrack = nil
+        }
+        
+        self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        
     }
     
     func didSubscribeToAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {
         print("Subscribe audio track!")
         // We are subscribed to the remote Participant's audio Track. We will start receiving the
         // remote Participant's audio now.
-        self.view.makeToast("Subscribed to audio track for Participant \(participant.identity)")
+      //  self.view.makeToast("Subscribed to audio track for Participant \(participant.identity)")
         
         
     }
@@ -291,38 +284,101 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     func didUnsubscribeFromAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {
         // We are unsubscribed from the remote Participant's audio Track. We will no longer receive the
         // remote Participant's audio.
-        self.view.makeToast("Unsubscribed from audio track for Participant \(participant.identity)")
+       // self.view.makeToast("Unsubscribed from audio track for Participant \(participant.identity)")
         
     }
     
     func remoteParticipantDidEnableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
-        self.view.makeToast("Participant \(participant.identity) enabled video track")
-
-    
+        print("enableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
+//        self.view.makeToast("Participant \(participant.identity) enable video track")
+//                    for vdo in remoteParticipantArr {
+//                        if vdo == participant {
+//                            if let index = remoteParticipantArr.firstIndex(of: vdo) {
+//                                print("enablevdoIndex:",index)
+//                              //  remoteParticipantArr.remove(at: index)
+//                                let indexPath = IndexPath(item: index, section: 0)
+//                                vdoCollectionView.reloadItems(at: [indexPath])
+//                            }
+//                        }
+//                    }
+        
+       // self.view.makeToast("Participant \(participant.identity) enabled video track")
         self.vdoCollectionView.reloadData()
-        
-        
-    }
+     }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
-        self.view.makeToast("Participant \(participant.identity) disabled video track")
+        print("DisableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
+//        self.view.makeToast("Participant \(participant.identity) disabled video track")
+//                    for vdo in remoteParticipantArr {
+//                        if vdo == participant {
+//                            if let index = remoteParticipantArr.firstIndex(of: vdo) {
+//                             print("DisablevdoIndex:",index)
+//                                let indexPath = IndexPath(item: index, section: 0)
+//                                vdoCollectionView.reloadItems(at: [indexPath])
+//                            }
+//                        }
+//                    }
         self.vdoCollectionView.reloadData()
-//        vdoCollectionView.performBatchUpdates {
-//            vdoCollectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
-//        } completion: { success in
-//
-//        }
-//        print("DidDisableEnableVideoTrack:",publication.remoteTrack?.isEnabled)
+        
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-        self.view.makeToast("Participant \(participant.identity) enabled audio track")
+      //  self.view.makeToast("Participant \(participant.identity) enabled audio track")
+        print("enable Audio Track", participant.audioTracks,participant)
+        print("enableaudio::",remoteParticipantArr.count)
+        if remoteParticipantArr.count > 1 {
+//            for audio in remoteParticipantArr {
+//                if audio == participant {
+//                    if let index = remoteParticipantArr.firstIndex(of: audio) {
+//                      //  remoteParticipantArr.remove(at: index)
+//                        let indexPath = IndexPath(item: index, section: 0)
+//                        vdoCollectionView.reloadItems(at: [indexPath])
+//                    }
+//                }
+//            }
+            vdoCollectionView.reloadData()
+        }
+        else {
+            for audio in remoteParticipantArr {
+                if audio == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: audio) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+        }
+        
         
     }
     
     func remoteParticipantDidDisableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-        
-        self.view.makeToast("Participant \(participant.identity) disabled audio track")
+        print("Disableaudio::",remoteParticipantArr.count)
+        if remoteParticipantArr.count > 1 {
+//            for audio in remoteParticipantArr {
+//                if audio == participant {
+//                    if let index = remoteParticipantArr.firstIndex(of: audio) {
+//                      //  remoteParticipantArr.remove(at: index)
+//                        let indexPath = IndexPath(item: index, section: 0)
+//                        vdoCollectionView.reloadItems(at: [indexPath])
+//                    }
+//                }
+//            }
+            vdoCollectionView.reloadData()
+        }
+        else {
+            for audio in remoteParticipantArr {
+                if audio == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: audio) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+        }
+       // self.view.makeToast("Participant \(participant.identity) disabled audio track")
         
     }
     
@@ -333,10 +389,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     
     func didFailToSubscribeToVideoTrack(publication: RemoteVideoTrackPublication, error: Error, participant: RemoteParticipant) {
         self.view.makeToast("FailedToSubscribe \(publication.trackName) video track, error = \(String(describing: error))")
-        
-        
+     }
     }
-    
-}
 
 

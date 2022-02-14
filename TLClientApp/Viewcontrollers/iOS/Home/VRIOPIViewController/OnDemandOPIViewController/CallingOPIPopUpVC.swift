@@ -16,6 +16,7 @@ class CallingOPIPopUpVC: UIViewController {
     let app = UIApplication.shared.delegate as? AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
         configureUI()
