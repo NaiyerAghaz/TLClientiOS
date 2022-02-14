@@ -156,6 +156,9 @@
 		29F8D001274E79F6006243EC /* InviteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F8D000274E79F6006243EC /* InviteModel.swift */; };
 		29F8D006274E7D2D006243EC /* MoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F8D005274E7D2D006243EC /* MoreCell.xib */; };
 		29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F8D00A274E7DA7006243EC /* VendorTVCell.xib */; };
+		7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7320F73E27B6740D00E8049F /* Chat.storyboard */; };
+		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
+		73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
 		C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */; };
 		C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F422754BF6600BE5227 /* InviteViewModel.swift */; };
@@ -385,6 +388,9 @@
 		50963BC388A4FE8B123C6D8B /* Pods-TLClientApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp.debug.xcconfig"; path = "Target Support Files/Pods-TLClientApp/Pods-TLClientApp.debug.xcconfig"; sourceTree = "<group>"; };
 		685003B7CBCB0EBE976CE665 /* Pods-TLClientApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp.release.xcconfig"; path = "Target Support Files/Pods-TLClientApp/Pods-TLClientApp.release.xcconfig"; sourceTree = "<group>"; };
 		7175F38E6A47EB062D2D2BDB /* Pods_TLClientApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7320F73E27B6740D00E8049F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
+		73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationBlockedAppointmentWork.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithEmailVC.swift; sourceTree = "<group>"; };
@@ -901,6 +907,26 @@
 			path = ScheduleMeetResponseModel;
 			sourceTree = "<group>";
 		};
+		7320F73D27B673B100E8049F /* ChatView */ = {
+			isa = PBXGroup;
+			children = (
+				7320F73E27B6740D00E8049F /* Chat.storyboard */,
+			);
+			path = ChatView;
+			sourceTree = "<group>";
+		};
+		73C059F827BA5B5100BCA88F /* OnsiteInterpretation  */ = {
+			isa = PBXGroup;
+			children = (
+				045619A727267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift */,
+				C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */,
+				73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */,
+				73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */,
+				042367882718325B003BC021 /* OnsiteInterpretationHistoryVC.swift */,
+			);
+			path = "OnsiteInterpretation ";
+			sourceTree = "<group>";
+		};
 		78D55CABACDA4EDE037C40F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -966,6 +992,7 @@
 		CE1844AD26C38F8200E9E84E /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				73C059F827BA5B5100BCA88F /* OnsiteInterpretation  */,
 				04BDA09E27450EF700A40B84 /* Home.storyboard */,
 				29F8D00A274E7DA7006243EC /* VendorTVCell.xib */,
 				04CBAD82271D4A5900055797 /* SideMenu */,
@@ -973,11 +1000,9 @@
 				CE76024026CF752F00550B68 /* VRIOPIViewController */,
 				CE3FE08926C90196000BD19F /* HomeViewController */,
 				04CE54792715B375002B7288 /* NotificationViewController.swift */,
-				045619A727267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift */,
 				04C28C18272974A800C971C6 /* DocumentTranslationViewController.swift */,
 				04C997DA272C09270039FBBA /* TelephoneConfrenceServiceViewController.swift */,
 				29D1D2DF275F59A400573E58 /* VirtualMeetingViewController.swift */,
-				C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1075,6 +1100,7 @@
 		CE2704D926BCED6400009E77 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				7320F73D27B673B100E8049F /* ChatView */,
 				CE1844AD26C38F8200E9E84E /* Home */,
 				CE2704DA26BCED8700009E77 /* Auth */,
 				04CE547F2716C511002B7288 /* TabViewController.swift */,
@@ -1100,7 +1126,6 @@
 				CE3FE08726C8FF30000BD19F /* CalenderVCell.xib */,
 				CE3FE08526C80A6F000BD19F /* HomeViewController.swift */,
 				04CBAD83271D4A7200055797 /* AddVenuDetailViewController.swift */,
-				042367882718325B003BC021 /* OnsiteInterpretationHistoryVC.swift */,
 				0423678A271832CF003BC021 /* DocumentTransaltionHistoryVC.swift */,
 				0423678C271833DA003BC021 /* TelephoneConferenceServiceHistoryVC.swift */,
 				CE3FE08C26C90210000BD19F /* CalendarTVCell.swift */,
@@ -1410,6 +1435,7 @@
 				CE74B2C226BE662C008BBA8C /* Neuton-Regular.ttf in Resources */,
 				CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */,
 				29B3C754274CF255006345E0 /* incoming.mp3 in Resources */,
+				7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */,
 				CE2704AD26BCE7BE00009E77 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1596,6 +1622,7 @@
 				CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */,
 				04BFEDE127202A1E00EB38B7 /* CustomerAddressResponseModel.swift in Sources */,
 				CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */,
+				73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */,
 				04BFEDDE27202A1E00EB38B7 /* CustomerdetailResponseModel.swift in Sources */,
 				04C7751F273BDD9600AE934A /* ApiUpdateDeviceTokenRespose.swift in Sources */,
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
@@ -1726,6 +1753,7 @@
 				048AE7FF26D63A1700FB9309 /* AddParticipantController.swift in Sources */,
 				0423678B271832CF003BC021 /* DocumentTransaltionHistoryVC.swift in Sources */,
 				29981FDC27721419003DF75E /* ApiGetMemberInRoomDetailDataModel.swift in Sources */,
+				73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
 				0439C798271008FE00DA3D61 /* UIColor.swift in Sources */,

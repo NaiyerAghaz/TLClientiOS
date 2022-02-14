@@ -23,24 +23,29 @@ class CallingPopupVC: UIViewController {
     let app = UIApplication.shared.delegate as? AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
         configureUI()
-       
+        
     }
     func configureUI(){
-        SwiftLoader.show(animated: true)
-        callManagerVM.getRoomList { roolist, error in
-            if error == nil {
+        DispatchQueue.main.async {[self] in
+            SwiftLoader.show(animated: true)
+            callManagerVM.getRoomList { roolist, error in
+                if error == nil {
+                    self.roomId = roolist?[0].RoomNo ?? "0"
+                    
+                    SwiftLoader.hide()
+                    self.app?.roomIDAppdel = self.roomId
+                }
+                else {
+                    SwiftLoader.hide()
+                }
                 
-                self.roomId = roolist?[0].RoomNo ?? "0"
-                print("roomid ",self.roomId)
-                SwiftLoader.hide()
-                self.app?.roomIDAppdel = self.roomId
             }
-            
         }
+        
     }
     @IBAction func btnCloseTapped(_ sender: Any){
         self.dismiss(animated: true, completion: nil)
@@ -57,26 +62,13 @@ class CallingPopupVC: UIViewController {
             if self.calltype == "VRI" {
                 
                 if roomId != nil {
-                    SwiftLoader.show(animated: true)
-                    self.addAppCall()
                     self.getCallPriorityVideoWithCompletion()
-                    debugPrint("roomId:\(roomId),sourceID:\(sourceID),targetID:\(targetID),sourceName:\(sourceName),targetName:\(targetName)")
-                    let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-                    let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
-                    vdoCall.roomID = roomId
-                    vdoCall.sourceLangID = sourceID
-                    vdoCall.targetLangID = targetID
-                    vdoCall.isClientDetails = true
-                    vdoCall.isScheduled = false
-                    vdoCall.sourceLangName = sourceName
-                    vdoCall.targetLangName = targetName
-                    vdoCall.patientno = txtPatientClientNumber.text ?? ""
-                    vdoCall.patientname = txtPatientClientName.text ?? ""
-                    vdoCall.modalPresentationStyle = .overFullScreen
-                    SwiftLoader.hide()
-                    self.present(vdoCall, animated: true, completion: nil)
-                
-                }
+                    self.addAppCall()
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                        self.callTOVRI()
+                    }
+                 }
             }else if self.calltype == "OPI" {
                 print("OPI call start" , roomId)
                 if roomId != nil {
@@ -89,29 +81,36 @@ class CallingPopupVC: UIViewController {
         }
         
     }
+    func callTOVRI(){
+        let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+        let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
+        vdoCall.roomID = roomId
+        vdoCall.sourceLangID = sourceID
+        vdoCall.targetLangID = targetID
+        vdoCall.isClientDetails = true
+        vdoCall.isScheduled = false
+        vdoCall.sourceLangName = sourceName
+        vdoCall.targetLangName = targetName
+        vdoCall.patientno = txtPatientClientNumber.text ?? ""
+        vdoCall.patientname = txtPatientClientName.text ?? ""
+        vdoCall.modalPresentationStyle = .overFullScreen
+        
+        self.present(vdoCall, animated: true, completion: nil)
+    }
     
     @IBAction func btnSkipTapped(_ sender: Any){
+        DispatchQueue.main.async { SwiftLoader.show(animated: true)}
         if self.calltype == "VRI" {
             print("VRI call start ")
             if roomId != nil {
-                self.addAppCall()
                 self.getCallPriorityVideoWithCompletion()
-                debugPrint("roomId:\(roomId),sourceID:\(sourceID),targetID:\(targetID),sourceName:\(sourceName),targetName:\(targetName)")
-                let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-                let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
-                vdoCall.roomID = roomId
-                vdoCall.sourceLangID = sourceID
-                vdoCall.targetLangID = targetID
-                vdoCall.isClientDetails = true
-                vdoCall.isScheduled = false
-                vdoCall.sourceLangName = sourceName
-                vdoCall.targetLangName = targetName
-                vdoCall.patientno = txtPatientClientNumber.text ?? ""
-                vdoCall.patientname = txtPatientClientName.text ?? ""
-                vdoCall.modalPresentationStyle = .overFullScreen
+                self.addAppCall()
+                DispatchQueue.main.async {
+                    SwiftLoader.hide()
+                    self.callTOVRI()
+                }
+             
                 
-                self.present(vdoCall, animated: true, completion: nil)
-            
             }
         }else if self.calltype == "OPI" {
             print("OPI call start" , roomId)
@@ -122,10 +121,8 @@ class CallingPopupVC: UIViewController {
                 self.view.makeToast("No roomID.")
             }
         }
-       
-        
-        
     }
+    
     func getVRICallClient(){
         let roomID = self.roomId ?? ""
         let clientID = GetPublicData.sharedInstance.userID
@@ -145,15 +142,15 @@ class CallingPopupVC: UIViewController {
     }
     func postOPIAcceptCall(){
         let parameter = [
-                "lid": targetID ?? "",
-                "Roomno": self.roomId ?? "",
-                "senderid": GetPublicData.sharedInstance.userID,
-                "touserid": "0",
-                "statustype": "O",
-                "sourceLid": sourceID ?? "",
-                "Accepttype": "C",
-                "patientname": self.txtPatientClientName.text ?? "",
-                "patientno": self.txtPatientClientNumber.text ?? ""
+            "lid": targetID ?? "",
+            "Roomno": self.roomId ?? "",
+            "senderid": GetPublicData.sharedInstance.userID,
+            "touserid": "0",
+            "statustype": "O",
+            "sourceLid": sourceID ?? "",
+            "Accepttype": "C",
+            "patientname": self.txtPatientClientName.text ?? "",
+            "patientno": self.txtPatientClientNumber.text ?? ""
         ]
         self.postOPIAcceptCallWithCompletion(req: parameter) { (completion, error) in
             if completion ?? false {
@@ -187,30 +184,30 @@ class CallingPopupVC: UIViewController {
                         self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
                         print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
                         let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
-                    /*
-                        let data = Data(str.utf8 )
+                        /*
+                         let data = Data(str.utf8 )
                          print("new String",str)
-                        do {
-                            // make sure this JSON is in the format we expect
-                            print("enter do block")
-                            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
-                                // try to read out a string array
-                                print("userInfo before conversion" , json)
-                                if let names = json["UserInfo"]  {
-                                    print("userInfo",names)
-                                }
-                            }
-                        } catch let error as NSError {
-                            print("Failed to load: \(error.localizedDescription)")
-                        }*/
+                         do {
+                         // make sure this JSON is in the format we expect
+                         print("enter do block")
+                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
+                         // try to read out a string array
+                         print("userInfo before conversion" , json)
+                         if let names = json["UserInfo"]  {
+                         print("userInfo",names)
+                         }
+                         }
+                         } catch let error as NSError {
+                         print("Failed to load: \(error.localizedDescription)")
+                         }*/
                         print("STRING DATA IS \(str)")
                         let data = str.data(using: .utf8)!
                         do {
-//
+                            //
                             print("DATAAA ISSS \(data)")
                             if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
                             {
-
+                                
                                 let newjson = jsonArray.first
                                 let userInfo = newjson?["UserInfo"] as? [[String:Any]]
                                 let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
@@ -230,16 +227,16 @@ class CallingPopupVC: UIViewController {
                         }
                         self.twilioVoiceView()
                         
-
+                        
                     } catch{
                         
                         print("error block getVendorIDs Data  " ,error)
                     }
                 case .failure(_):
                     print("Respose Failure getVendorIDs ")
-                   
+                    
                 }
-        })
+            })
     }
     func twilioVoiceView(){
         if (self.isToThirdPartyCall) {
@@ -265,7 +262,7 @@ class CallingPopupVC: UIViewController {
         }
     }
     func getCreateVRICallClient(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-        debugPrint("priorityPara--->", req)
+       
         let urlString = APi.createVRICallClient.url
         self.apiCreateVRICallClientResponseModel.removeAll()
         AF.request(urlString, method: .post, parameters: req, encoding: JSONEncoding.default, headers: nil)
@@ -281,10 +278,10 @@ class CallingPopupVC: UIViewController {
                     do {
                         let jsonDecoder = JSONDecoder()
                         self.apiCreateVRICallClientResponseModel = try jsonDecoder.decode([ApiCreateVRICallClientResponseModel].self, from: daata)
-                       print("Success getCreateVRICallClient Model ",self.apiCreateVRICallClientResponseModel)
-                       
+                        print("Success getCreateVRICallClient Model ",self.apiCreateVRICallClientResponseModel)
+                        
                         self.ccid = self.apiCreateVRICallClientResponseModel.first?.id ?? ""
-
+                        
                         completionHandler(true, nil)
                     } catch{
                         
@@ -292,20 +289,10 @@ class CallingPopupVC: UIViewController {
                     }
                 case .failure(_):
                     print("Respose Failure getCreateVRICallClient ")
-                   
+                    
                 }
-        })
-        /*ApiServices.shareInstace.getDataFromApi(url: APi.createVRICallClient.url, para: req) { response, err in
-            print("url and param are ", APi.createVRICallClient.url , req)
-            print("respose",response)
-            
-            if response != nil {
-                completionHandler(true, nil)
-            }
-            else {
-                completionHandler(false, err)
-            }
-        }*/
+            })
+       
     }
     func postOPIAcceptCallWithCompletion(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         ApiServices.shareInstace.getDataFromApi(url: APi.opiAcceptCall.url, para: req) { response, err in
@@ -322,18 +309,25 @@ class CallingPopupVC: UIViewController {
     }
     func addAppCall(){
         let para = callManagerVM.addAppCallReqAPI(sourceID: sourceID ?? "", targetID: targetID ?? "", roomId: roomId ?? "", targetName: targetName ?? "", sourceName: sourceName ?? "", patientName: txtPatientClientName.text!,patientNo: txtPatientClientNumber.text!)
-            callManagerVM.addAppCall(req: para) { success, err in
-               debugPrint("success------------>", success)
+        callManagerVM.addAppCall(req: para) { success, err in
+            if success! {
+                //handler(true, nil)
             }
+            else{
+               // handler(false, nil)
+            }
+        }
     }
     func getCallPriorityVideoWithCompletion() {
         let reqpara = callManagerVM.priorityReqAPI(LtargetId: targetID ?? "", Calltype: "V", Slid: sourceID ?? "")
         
         callManagerVM.priorityVideoCall(req: reqpara) { success, err in
             if success! {
-               print("priority success------>",success)
+               // handler(true, nil)
+                print("priority success------>",success)
             }
             else {
+               // handler(false, nil)
                 print("priority failed------>",success)
             }
         }

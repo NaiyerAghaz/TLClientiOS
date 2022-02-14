@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (c) 2021 Swift Models Generated from JSON powered by http://www.json4swift.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -13,22 +13,59 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 struct AddDepartmentsDetail : Codable {
-	let status : String?
-	let message : String?
-	let success : Int?
+    let status : String?
+    let message : String?
+    let success : Int?
 
-	enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
 
-		case status = "Status"
-		case message = "Message"
-		case success = "success"
-	}
+        case status = "Status"
+        case message = "Message"
+        case success = "success"
+    }
 
-	init(from decoder: Decoder) throws {
-		let values = try decoder.container(keyedBy: CodingKeys.self)
-		status = try values.decodeIfPresent(String.self, forKey: .status)
-		message = try values.decodeIfPresent(String.self, forKey: .message)
-		success = try values.decodeIfPresent(Int.self, forKey: .success)
-	}
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        status = try values.decodeIfPresent(String.self, forKey: .status)
+        message = try values.decodeIfPresent(String.self, forKey: .message)
+        success = try values.decodeIfPresent(Int.self, forKey: .success)
+    }
+
+}
+
+
+struct ApiAddUpdateDepartmentResponseModel : Codable {
+    let depConatctData : [AddUpdateDepartmentDataModel]?
+
+    enum CodingKeys: String, CodingKey {
+
+        case depConatctData = "DepConatctData"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        depConatctData = try values.decodeIfPresent([AddUpdateDepartmentDataModel].self, forKey: .depConatctData)
+    }
+
+}
+
+struct AddUpdateDepartmentDataModel : Codable {
+    let success : Int?
+    let message : String?
+    let status : Int?
+
+    enum CodingKeys: String, CodingKey {
+
+        case success = "success"
+        case message = "Message"
+        case status = "Status"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        success = try values.decodeIfPresent(Int.self, forKey: .success)
+        message = try values.decodeIfPresent(String.self, forKey: .message)
+        status = try values.decodeIfPresent(Int.self, forKey: .status)
+    }
 
 }

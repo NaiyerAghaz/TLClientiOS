@@ -70,7 +70,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
             if err == nil {
                 SwiftLoader.hide()
                //
-                //self.txtSourceLanguage.text = "English"
+                self.txtSourceLanguage.text = "English"
                 //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
                 //
                 
@@ -117,7 +117,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         }
     }
     @IBAction func btnCallNowTapped(_ sender: Any) {
-        print("LANGUAGE LIST ARRAY IS \(languageViewModel.languageListArr)")
+       
         let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
@@ -129,7 +129,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
             vcontrol.sourceName = txtSourceLanguage.text!
             vcontrol.targetID = languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!)
             vcontrol.targetName = txtTargetlanguage.text!
-            print("Language ID for call is ,",vcontrol.sourceID , vcontrol.targetID)
+            
             self.present(vcontrol, animated: true, completion: nil)
         }
         else {
