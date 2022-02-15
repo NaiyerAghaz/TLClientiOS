@@ -23,6 +23,7 @@ class CallingOPIPopUpVC: UIViewController {
        
     }
     func configureUI(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         callManagerVM.getRoomList { roolist, error in
             if error == nil {
@@ -31,6 +32,9 @@ class CallingOPIPopUpVC: UIViewController {
                 self.app?.roomIDAppdel = self.roomId
             }
             
+        }}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
     @IBAction func btnCloseTapped(_ sender: Any){

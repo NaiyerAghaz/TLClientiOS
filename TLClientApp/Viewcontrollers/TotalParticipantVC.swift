@@ -142,6 +142,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
     // Accept and reject from invite user:
     
     @objc func acceptPressed(_ sender: UIButton){
+        if Reachability.isConnectedToNetwork() {
         DispatchQueue.main.async {
             SwiftLoader.show(animated: true)}
         let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
@@ -157,10 +158,13 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                 }
                 
             }
+        }}else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
     
     @objc func rejectPressed(_ sender: UIButton){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
         let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
@@ -176,12 +180,15 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                 }
                 
             }
+        }}else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
         
     }
     //End:
     
     @objc func audioPressed(_ sender: UIButton){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         //let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
@@ -241,9 +248,12 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                 
                 debugPrint("Channel has updated----------------->>")
             }
-        })
+        })}else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     @objc func videoPressed(_ sender: UIButton){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
        // let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
@@ -306,9 +316,12 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                 
                 debugPrint("Channel has updated----------------->>")
             }
-        })
+        })}else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     @objc func participantCallEnded(_ sender: UIButton){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
@@ -363,7 +376,9 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                 }
             }
             
+        }}else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
-    }
+        }
 }
 

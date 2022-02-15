@@ -78,8 +78,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandVRIViewController/OnDemandVRIViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "textFieldDidBeginEditing(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,9 +94,9 @@
             filePath = "TLClientApp/Viewcontrollers/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1091"
-            endingLineNumber = "1091"
-            landmarkName = "videoViewDimensionsDidChange(view:dimensions:)"
+            startingLineNumber = "1090"
+            endingLineNumber = "1090"
+            landmarkName = "remoteParticipantSwitchedOnVideoTrack(participant:track:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,8 +186,8 @@
             filePath = "TLClientApp/Viewcontrollers/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
             landmarkName = "remoteParticipantDidEnableAudioTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,8 +202,8 @@
             filePath = "TLClientApp/Viewcontrollers/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1006"
-            endingLineNumber = "1006"
+            startingLineNumber = "1005"
+            endingLineNumber = "1005"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>

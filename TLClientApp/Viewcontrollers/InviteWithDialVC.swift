@@ -40,6 +40,7 @@ class InviteWithDialVC: UIViewController,IndicatorInfoProvider {
              
              return self.view.makeToast("Please enter your mobile", position: .top)
          }
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let para = inviteVmodel.inviteDailReq(roomNo: actualRoom ?? "0", pid:inviteVmodel.random(digits: 10), mobile: mobileTF.text!, fName: firstNameTF.text!, lName: lastNameTF.text!, fromUserID: fromUserID!)
             inviteVmodel.inviteWithEmail(parameter: para) { success, err in
@@ -47,7 +48,9 @@ class InviteWithDialVC: UIViewController,IndicatorInfoProvider {
                     SwiftLoader.hide()
                     self.dismiss(animated: true, completion: nil)
                 }
-          }
+            }}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
         
     }
 }

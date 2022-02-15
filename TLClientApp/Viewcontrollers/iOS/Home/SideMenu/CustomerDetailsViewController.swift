@@ -154,6 +154,7 @@ class CustomerDetailsViewController: UIViewController {
     }
     func addUpdateClassifiation(classificationName : String , classificationID:Int) {
         self.apiGetClassificationDetails = nil
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
              
         let customerId = userDefaults.string(forKey: "CustomerID") ?? ""
@@ -188,9 +189,13 @@ class CustomerDetailsViewController: UIViewController {
                             getCustomerDetail()
                         
                         
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func getClassificationDetails(){
+        if Reachability.isConnectedToNetwork() {
         self.apiGetClassificationDetails = nil
         self.classificationArr.removeAll()
         SwiftLoader.show(animated: true)
@@ -231,10 +236,14 @@ class CustomerDetailsViewController: UIViewController {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     
     func getCustomerDetail(){
+        if Reachability.isConnectedToNetwork() {
         self.apiCustomerDetailResponseModel = nil
         SwiftLoader.show(animated: true)
               /*  let headers: HTTPHeaders = [
@@ -309,7 +318,10 @@ class CustomerDetailsViewController: UIViewController {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+            else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
      }
     func updateUI(){
         self.userNameTF.setLeftPaddingPoints(20)

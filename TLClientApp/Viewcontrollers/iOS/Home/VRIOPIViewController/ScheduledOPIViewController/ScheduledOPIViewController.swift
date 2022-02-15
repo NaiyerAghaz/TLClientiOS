@@ -376,6 +376,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                     })
     }
     func hitApiScheduleVRIAppointment(firstName : String,lastName : String,date : String,time : String,userID : String,companyID : String,active : Bool, LanguageID: String,caseNumber:String,anticipatedHR:String,cPintials : String, srcLngID : String,mobileNo:String,emailID:String,participantsList:[String],notes:String,caseName:String,speciality:String){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         let urlString = APi.AddScheduleVRI.url
@@ -447,7 +448,10 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func updateUI(){
         self.srcLngView.layer.borderWidth = 0.6

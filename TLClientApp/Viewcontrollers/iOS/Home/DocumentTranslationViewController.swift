@@ -79,9 +79,8 @@ class DocumentTranslationViewController: UIViewController, UIDocumentPickerDeleg
               print(urls)
     }
     func getAllLanguage(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
-             
-       
         let urlString = "https://lsp.totallanguage.com/Security/GetData?methodType=LanguageData"
                 AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                     .validate()
@@ -109,7 +108,9 @@ class DocumentTranslationViewController: UIViewController, UIDocumentPickerDeleg
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}else {
+                        self.view.makeToast(ConstantStr.noItnernet.val)
+                    }
      }
 }
 

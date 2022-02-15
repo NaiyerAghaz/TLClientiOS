@@ -717,6 +717,7 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
         })
     }
     @IBAction func actionCreateRequest(_ sender: UIButton) {
+        if Reachability.isConnectedToNetwork() {
         let selectedText = languageTF.text ?? ""
         GetPublicData.sharedInstance.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
             print("language data \(languageData.languageName ?? "")")
@@ -753,6 +754,8 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
             
         }else {
             self.createRequestForAppointment(userID: userId, companyID: companyID, AuthCode: authCode, AppointStatusID: appointStatusID, startDate: startDate, EndDate: endDate, AppointTypeID: appointTypeId, languageID: languageID, userTypeID: userTypeID, jobType: jobType, clientName: clientName, venueID: self.venueID, updatedOn: updatedOn, requestedON: requestedOn, loadedON: loadedOn, cpInitials: cpIntial, serviceTypeID: serviceId, genderID: genderId, userName: userName)
+        }}else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
     /*func getAllLanguage(){
@@ -789,6 +792,7 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
      })
      }*/
     func getAuthCode(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         genderArray.removeAll()
         //   https://lsp.totallanguage.com/Appointment/GetData?methodType=AuthenticationCode&UserID=219490&UserType=Customer&CompanyID=55
@@ -847,9 +851,13 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     print("Respose Failure ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func getServiceType(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         specialityArray.removeAll()
         //Appointment/GetData?methodType=Speciality&CompanyId=55&SpType1=1
@@ -889,9 +897,13 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     print("Respose Failure service ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func getVenuList(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.venueArray.removeAll()
         self.departmentArray.removeAll()
@@ -940,9 +952,13 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     print("Respose Failure ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func addDepartmentData(Active:Bool , venueID: String ,DepartmentName : String , DeActive:Bool, departmentID:Int  ){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.addDepartment.url
         let parameters = [
@@ -1002,9 +1018,13 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func createRequestForAppointment(userID:String,companyID:String,AuthCode:String , AppointStatusID:Int , startDate:String, EndDate:String , AppointTypeID:Int , languageID :String , userTypeID:String ,jobType : String , clientName:String , venueID: String , updatedOn:String , requestedON:String, loadedON:String , cpInitials:String ,serviceTypeID : String , genderID : String, userName : String ){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.addAppointment.url
         var donotSend = ""
@@ -1137,9 +1157,13 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func addProviderData(Active:Bool , venueID: String ,providerName : String , DeActive:Bool , departmentID: String , providerID :Int){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.addproviderData.url
         let parameters = [
@@ -1195,7 +1219,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     
 }

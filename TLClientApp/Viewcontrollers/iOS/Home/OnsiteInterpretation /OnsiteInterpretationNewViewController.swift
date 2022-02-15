@@ -1028,6 +1028,7 @@ class OnsiteInterpretationNewViewController: UIViewController , UITextFieldDeleg
     //MARK: - Create Request method
     
     @IBAction func actionCreateRequest(_ sender: UIButton) {
+        if Reachability.isConnectedToNetwork() {
         if selectTypeOFAppointment == "B" {
             createBlockedAppointment()
         }else if selectTypeOFAppointment == "R" {
@@ -1035,7 +1036,9 @@ class OnsiteInterpretationNewViewController: UIViewController , UITextFieldDeleg
         }else if selectTypeOFAppointment == "RB" {
             
         }
-                    
+        }else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      
     }
     func createRegularAppointment(){
@@ -1247,6 +1250,7 @@ class OnsiteInterpretationNewViewController: UIViewController , UITextFieldDeleg
 
 extension OnsiteInterpretationNewViewController {
     func hitApiAddDepartment(id : Int, departmentName : String, flag: String, isOneTime:Int, deptID :Int , type :String, isChangeParameter : Bool){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.AddUpdateDeptAndContactData.url
         let companyID = self.companyID//GetPublicData.sharedInstance.companyID
@@ -1343,8 +1347,13 @@ extension OnsiteInterpretationNewViewController {
                     
                 }
             })
+        }
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func getSubcustomerList(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.GetCustomerDetail.url
         let companyID = self.companyID//GetPublicData.sharedInstance.companyID
@@ -1413,9 +1422,13 @@ extension OnsiteInterpretationNewViewController {
                     print("Respose getCustomerDetail ")
                     
                 }
-            })
+            })}
+            else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
     }
     func getCustomerDetail(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.GetCustomerDetail.url
         let companyID = self.companyID//GetPublicData.sharedInstance.companyID
@@ -1483,9 +1496,13 @@ extension OnsiteInterpretationNewViewController {
                     print("Respose getCustomerDetail ")
                     
                 }
-            })
+            })}
+            else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
     }
     func getVenueDetail(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.venueArray.removeAll()
         self.venueDetail.removeAll()
@@ -1582,9 +1599,13 @@ extension OnsiteInterpretationNewViewController {
                     print("Respose getCustomerDetail ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func getCommonDetail(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.specialityArray.removeAll()
         self.specialityDetail.removeAll()
@@ -1713,9 +1734,13 @@ extension OnsiteInterpretationNewViewController {
                     print("Respose getCommonDetail ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         // start time 01/10/2022 3:00 PM
         //end time  01/10/2022 5:00 PM
@@ -1826,10 +1851,14 @@ extension OnsiteInterpretationNewViewController {
                     print("Respose getCustomerDetail ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     
     func hitApiEncryptValue(value : String , encryptedValue : @escaping(Bool? , String?) -> ()){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         let urlString = APi.encryptdecryptvalue.url
@@ -1865,7 +1894,10 @@ extension OnsiteInterpretationNewViewController {
                     print("Respose getCommonDetail ")
                     
                 }
-            })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
     }
     
 }

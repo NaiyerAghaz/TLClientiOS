@@ -103,6 +103,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         updateDeviceToken()
     }
     func hitApiGetNotificationCount(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.apiNotificationResponseModel = nil
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -135,7 +136,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func action() {
             print("Data reload ")
@@ -266,12 +270,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: result)
     }
     func updateDeviceToken(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
-    
-        //let userId = userDefaults.string(forKey: "userId") ?? ""
-        //let companyId = userDefaults.string(forKey: "companyID") ?? ""
-        
-        let urlString = APi.addUpdateUserDeviceToken.url
+     let urlString = APi.addUpdateUserDeviceToken.url
         let fcmToken = userDefaults.string(forKey: "fcmToken") ?? ""
         let parameters = [
             "TokenID":fcmToken ,
@@ -312,9 +313,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func checkSingleSignin(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         let urlString = APi.checkSingleUser.url
@@ -384,9 +389,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             print("Respose Failure getVendorIDs ")
                             
                         }
-                    })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func actionLogout(userGuid : String ){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
     
         //let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -438,7 +447,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     @IBAction func telephoneConfrenceServiceBtn(_ sender: UIButton) {
         let vc = storyboard?.instantiateViewController(identifier: "TelephoneConfrenceServiceViewController" ) as! TelephoneConfrenceServiceViewController
@@ -608,12 +620,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         
     }
     func hitApigetAllScheduleAppointment(date:String ,customerId:String , selectedDate:String){
+        if Reachability.isConnectedToNetwork() {
                             SwiftLoader.show(animated: true)
-                                  /*  let headers: HTTPHeaders = [
-                                        "Authorization": "Bearer \(UserDefaults.standard.value(forKey:"token") ?? "")",
-                                               "cache-control": "no-cache"
-                                           ]
-                                   // print("😗---hitApiSignUpUser -" , Api.profile.url) 10/01/2021 */
+                                 
                             let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
                             print("url to get schedule \(urlString)")
                                     AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -653,12 +662,15 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                                 print("Respose Failure ")
                                                
                                             }
-                                    })
+                                        })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
                          }
     func getServiceType(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
-        //Appointment/GetData?methodType=Speciality&CompanyId=55&SpType1=1
              let userId = userDefaults.string(forKey: "userId") ?? ""
               let companyId = userDefaults.string(forKey: "companyID") ?? ""
             let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
@@ -699,7 +711,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             print("Respose Failure service ")
                            
                         }
-                })
+                    })}else {self.view.makeToast(ConstantStr.noItnernet.val)}
      }
     func convertDateAndTimeFormat(_ date: String) -> String
     {

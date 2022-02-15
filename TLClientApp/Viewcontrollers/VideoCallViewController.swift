@@ -945,7 +945,6 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                                 let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
                                 remote.contentMode = .scaleAspectFill
                                 remote.clipsToBounds = false
-                                
                                 subscribedVideoTrack.addRenderer(remote)
                                 cell.remoteView.addSubview(remote)
                             }

@@ -105,6 +105,7 @@ class VRIAndOPILogsViewController: UIViewController {
         return (startDate1, endDate1)
     }
     func getVriCallLogDetails( startDateForLog : String  , EndDateForLog : String ){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.apiVRIOPICallLogResponseModel = nil
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -142,7 +143,9 @@ class VRIAndOPILogsViewController: UIViewController {
                             print("Respose Failure vri opi log ")
                            
                         }
-                })
+                    })}else {
+                        self.view.makeToast(ConstantStr.noItnernet.val)
+                    }
      }
     func convertTimeFormater(_ date: String) -> String
     {

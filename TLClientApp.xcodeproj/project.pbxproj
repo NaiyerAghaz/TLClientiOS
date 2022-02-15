@@ -159,6 +159,7 @@
 		7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7320F73E27B6740D00E8049F /* Chat.storyboard */; };
 		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
 		73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */; };
+		73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFFC7427BB896C007EE602 /* ConstantString.swift */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
 		C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */; };
 		C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F422754BF6600BE5227 /* InviteViewModel.swift */; };
@@ -391,6 +392,7 @@
 		7320F73E27B6740D00E8049F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
 		73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationBlockedAppointmentWork.swift; sourceTree = "<group>"; };
+		73DFFC7427BB896C007EE602 /* ConstantString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantString.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithEmailVC.swift; sourceTree = "<group>"; };
@@ -1160,6 +1162,7 @@
 				CE74B2E026C0758C008BBA8C /* CommonClass.swift */,
 				CEB2569326C23799007A951E /* APIServices.swift */,
 				CE1844B026C3977100E9E84E /* TLCKeychain.swift */,
+				73DFFC7427BB896C007EE602 /* ConstantString.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1638,6 +1641,7 @@
 				CE74B2DB26C02520008BBA8C /* AuthServices.swift in Sources */,
 				04C91A4B27352CD90029FE90 /* AddProviderDetail.swift in Sources */,
 				29F8CFE3274E7680006243EC /* Util.swift in Sources */,
+				73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */,
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
 				CEB2569426C23799007A951E /* APIServices.swift in Sources */,
 				04C91A4F27352E450029FE90 /* AddDepartmentsDetail.swift in Sources */,
@@ -1968,7 +1972,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.27;
+				MARKETING_VERSION = 1.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev;
@@ -1993,7 +1997,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.27;
+				MARKETING_VERSION = 1.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev;

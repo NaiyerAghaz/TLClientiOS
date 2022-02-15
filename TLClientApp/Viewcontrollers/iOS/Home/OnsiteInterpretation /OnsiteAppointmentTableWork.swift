@@ -360,6 +360,7 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
       
     }
     func getVenueDetail(){
+        
         SwiftLoader.show(animated: true)
         self.venueArray.removeAll()
         self.venueDetail.removeAll()
@@ -458,6 +459,7 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
                     
                 }
             })
+       
     }
     func showVenueDropDown(){
         

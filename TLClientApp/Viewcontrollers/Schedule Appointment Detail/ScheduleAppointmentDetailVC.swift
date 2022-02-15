@@ -163,6 +163,7 @@ class ScheduleAppointmentDetailVC: UIViewController {
 
     }
     func getSelectedAppointmentData(){
+        if Reachability.isConnectedToNetwork(){
         SwiftLoader.show(animated: true)
         let userId = GetPublicData.sharedInstance.userID
         let urlPostfix = "NotoficationId=0&AppointmentID=\(self.appointmentID)&flag=2&UserID=\(userId)"
@@ -193,9 +194,13 @@ class ScheduleAppointmentDetailVC: UIViewController {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+    else {
+        self.view.makeToast(ConstantStr.noItnernet.val)
+    }
      }
     func hitApiCancelRequest(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let userId = GetPublicData.sharedInstance.userID
         let urlPostfix = "AppointmentId=\(self.appointmentID)&CurrentUserId=\(userId)&UserType=Customer"
@@ -234,7 +239,10 @@ class ScheduleAppointmentDetailVC: UIViewController {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func convertDateFormater(_ date: String) -> String
     {

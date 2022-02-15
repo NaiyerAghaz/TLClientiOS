@@ -64,7 +64,8 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
           //  self.txtTargetlanguage.resignFirstResponder()
            self.txtTargetlanguage.text = "\(selectedText)"
        }
-
+        
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         languageViewModel.languageData { list, err in
             if err == nil {
@@ -74,7 +75,9 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
                 //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
                 //
                 
-            }}
+            }}}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
      }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

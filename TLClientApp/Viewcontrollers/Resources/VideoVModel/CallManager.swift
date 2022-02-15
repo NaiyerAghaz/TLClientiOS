@@ -290,42 +290,38 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     
     func remoteParticipantDidEnableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         print("enableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
-//        self.view.makeToast("Participant \(participant.identity) enable video track")
-//                    for vdo in remoteParticipantArr {
-//                        if vdo == participant {
-//                            if let index = remoteParticipantArr.firstIndex(of: vdo) {
-//                                print("enablevdoIndex:",index)
-//                              //  remoteParticipantArr.remove(at: index)
-//                                let indexPath = IndexPath(item: index, section: 0)
-//                                vdoCollectionView.reloadItems(at: [indexPath])
-//                            }
-//                        }
-//                    }
-        
-       // self.view.makeToast("Participant \(participant.identity) enabled video track")
+        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+            let objects = obj as! ConferenceInfoModels
+            if objects.PARTSID == participant.sid {
+                self.view.makeToast("TURN ON \(objects.UserName!)'s video", duration: 2, position: .center)
+            }
+        }
+
         self.vdoCollectionView.reloadData()
      }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         print("DisableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
-//        self.view.makeToast("Participant \(participant.identity) disabled video track")
-//                    for vdo in remoteParticipantArr {
-//                        if vdo == participant {
-//                            if let index = remoteParticipantArr.firstIndex(of: vdo) {
-//                             print("DisablevdoIndex:",index)
-//                                let indexPath = IndexPath(item: index, section: 0)
-//                                vdoCollectionView.reloadItems(at: [indexPath])
-//                            }
-//                        }
-//                    }
+
+        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+            let objects = obj as! ConferenceInfoModels
+            if objects.PARTSID == participant.sid {
+                self.view.makeToast("TURN OFF \(objects.UserName!)'s video", duration: 2, position: .center)
+            }
+        }
+     
+       
         self.vdoCollectionView.reloadData()
         
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-      //  self.view.makeToast("Participant \(participant.identity) enabled audio track")
-        print("enable Audio Track", participant.audioTracks,participant)
-        print("enableaudio::",remoteParticipantArr.count)
+        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+            let objects = obj as! ConferenceInfoModels
+            if objects.PARTSID == participant.sid {
+                self.view.makeToast("Unmute \(objects.UserName!)'s Audio", duration: 2, position: .center)
+            }
+        }
         if remoteParticipantArr.count > 1 {
 //            for audio in remoteParticipantArr {
 //                if audio == participant {
@@ -354,7 +350,12 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func remoteParticipantDidDisableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-        print("Disableaudio::",remoteParticipantArr.count)
+        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+            let objects = obj as! ConferenceInfoModels
+            if objects.PARTSID == participant.sid {
+                self.view.makeToast("Mute \(objects.UserName!)'s Audio", duration: 2, position: .center)
+            }
+        }
         if remoteParticipantArr.count > 1 {
 //            for audio in remoteParticipantArr {
 //                if audio == participant {

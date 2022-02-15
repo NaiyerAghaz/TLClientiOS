@@ -146,6 +146,7 @@ class NotificationViewController: UIViewController ,UISearchBarDelegate{
         self.dismiss(animated: false, completion: nil)
     }
     func getNotificatioDetail(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.apiNotificationDetailResponseModel = nil
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -205,7 +206,9 @@ class NotificationViewController: UIViewController ,UISearchBarDelegate{
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}else {
+                        self.view.makeToast(ConstantStr.noItnernet.val)
+                    }
      }
     func conertDateString(time :Double ) -> String{
         print("MILI SECONDS IS \(time)")

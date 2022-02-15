@@ -671,6 +671,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         })
     }
     func getProfileimg(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
               
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -713,7 +714,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     @IBAction func actionBtnDisconnect(_ sender: UIButton) {
         let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to Discoonect ?", preferredStyle: UIAlertController.Style.alert)

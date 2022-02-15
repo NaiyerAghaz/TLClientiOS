@@ -165,6 +165,7 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
         
         
         self.startDateTF.text = startDate
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         callManagerVM.getRoomList { roolist, error in
             if error == nil {
@@ -174,6 +175,8 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
                 
             }
             
+        }}else{
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
         
         // Do any additional setup after loading the view.
@@ -236,6 +239,7 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
         }
     }
     func hitApiScheduleMeeting(firstName : String,lastName : String,date : String,time : String,userID : String,companyID : String,active : Bool){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         var newArr = [ScheduleMeetingInvitation]()
         scheduleMeetingInvitation.forEach { (meetdata) in
@@ -307,7 +311,10 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     
 

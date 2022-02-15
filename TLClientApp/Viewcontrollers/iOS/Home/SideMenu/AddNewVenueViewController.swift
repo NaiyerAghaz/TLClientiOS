@@ -93,9 +93,9 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
             }
 }
     func getVenuList(){
-        stateDataSouerce.removeAll()
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
-              
+        stateDataSouerce.removeAll()
         let userId = userDefaults.string(forKey: "userId") ?? ""
         
         let urlString = "https://lsp.totallanguage.com/Controls/Venue/GetData?methodType=VenueData%2CDepartmentData%2CProviderData%2CStates&CustomerID=\(userId)&UserType=Customer&Type=EDITTIME"
@@ -146,7 +146,10 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     @IBAction func cancleBtn(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -181,6 +184,7 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
         
     }
     func addVenueDetail(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
     
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -234,6 +238,9 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
 }
