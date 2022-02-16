@@ -18,7 +18,7 @@ class OnsiteAppointmentParentVC: UIViewController {
         self.regularConatinerView.alpha = 1
         self.blockedContainerView.alpha = 0
         self.recuriingContainerView.alpha = 0
-        
+        print("Hello world.")
     }
     
 
