@@ -297,7 +297,29 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             }
         }
 
-        self.vdoCollectionView.reloadData()
+        if remoteParticipantArr.count > 1 {
+            for vdo in remoteParticipantArr {
+                if vdo == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+            //vdoCollectionView.reloadData()
+        }
+        else {
+            for vdo in remoteParticipantArr {
+                if vdo == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+        }
      }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
@@ -310,8 +332,29 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             }
         }
      
-       
-        self.vdoCollectionView.reloadData()
+        if remoteParticipantArr.count > 1 {
+            for vdo in remoteParticipantArr {
+                if vdo == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+            //vdoCollectionView.reloadData()
+        }
+        else {
+            for vdo in remoteParticipantArr {
+                if vdo == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+        }
         
     }
     
@@ -323,16 +366,16 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             }
         }
         if remoteParticipantArr.count > 1 {
-//            for audio in remoteParticipantArr {
-//                if audio == participant {
-//                    if let index = remoteParticipantArr.firstIndex(of: audio) {
-//                      //  remoteParticipantArr.remove(at: index)
-//                        let indexPath = IndexPath(item: index, section: 0)
-//                        vdoCollectionView.reloadItems(at: [indexPath])
-//                    }
-//                }
-//            }
-            vdoCollectionView.reloadData()
+            for audio in remoteParticipantArr {
+                if audio == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: audio) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+            //vdoCollectionView.reloadData()
         }
         else {
             for audio in remoteParticipantArr {
@@ -357,16 +400,16 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             }
         }
         if remoteParticipantArr.count > 1 {
-//            for audio in remoteParticipantArr {
-//                if audio == participant {
-//                    if let index = remoteParticipantArr.firstIndex(of: audio) {
-//                      //  remoteParticipantArr.remove(at: index)
-//                        let indexPath = IndexPath(item: index, section: 0)
-//                        vdoCollectionView.reloadItems(at: [indexPath])
-//                    }
-//                }
-//            }
-            vdoCollectionView.reloadData()
+            for audio in remoteParticipantArr {
+                if audio == participant {
+                    if let index = remoteParticipantArr.firstIndex(of: audio) {
+                      //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                        vdoCollectionView.reloadItems(at: [indexPath])
+                    }
+                }
+            }
+            //vdoCollectionView.reloadData()
         }
         else {
             for audio in remoteParticipantArr {

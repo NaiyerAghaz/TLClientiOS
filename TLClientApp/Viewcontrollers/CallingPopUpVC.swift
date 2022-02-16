@@ -115,9 +115,7 @@ class CallingPopupVC: UIViewController {
                         SwiftLoader.hide()
                         self.callTOVRI()
                     }
-                    
-                    
-                }
+                   }
             }else if self.calltype == "OPI" {
                 print("OPI call start" , roomId)
                 if roomId != nil {

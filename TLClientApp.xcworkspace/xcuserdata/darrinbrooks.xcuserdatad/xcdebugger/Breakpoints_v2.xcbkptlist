@@ -186,9 +186,9 @@
             filePath = "TLClientApp/Viewcontrollers/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
-            landmarkName = "remoteParticipantDidEnableAudioTrack(participant:publication:)"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "remoteParticipantDidDisableAudioTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
