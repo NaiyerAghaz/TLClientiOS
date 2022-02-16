@@ -167,6 +167,7 @@
 		C4FF3C0B2754A75400C27D44 /* ApiNotificationResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FF3C0A2754A75400C27D44 /* ApiNotificationResponseModel.swift */; };
 		C63805CF2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */; };
 		C63805D127982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63805D027982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift */; };
+		C6B3F6A527BCC5B70095BE3C /* OnsiteAppointmentParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B3F6A427BCC5B70095BE3C /* OnsiteAppointmentParentVC.swift */; };
 		C6CA04EB278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CA04E9278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift */; };
 		C6CA04EC278FEC7E003B98DA /* ApiMeetResultDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CA04EA278FEC7E003B98DA /* ApiMeetResultDataModel.swift */; };
 		C6FDDFEC278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FDDFEA278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift */; };
@@ -401,6 +402,7 @@
 		C4FF3C0A2754A75400C27D44 /* ApiNotificationResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiNotificationResponseModel.swift; sourceTree = "<group>"; };
 		C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationNewViewController.swift; sourceTree = "<group>"; };
 		C63805D027982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetCustomerDetailResponseModel.swift; sourceTree = "<group>"; };
+		C6B3F6A427BCC5B70095BE3C /* OnsiteAppointmentParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentParentVC.swift; sourceTree = "<group>"; };
 		C6CA04E9278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCheckMeetSatusResponseModel.swift; sourceTree = "<group>"; };
 		C6CA04EA278FEC7E003B98DA /* ApiMeetResultDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiMeetResultDataModel.swift; sourceTree = "<group>"; };
 		C6FDDFEA278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiOPiCallRoomDetailsResponseModel.swift; sourceTree = "<group>"; };
@@ -925,6 +927,7 @@
 				73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */,
 				73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */,
 				042367882718325B003BC021 /* OnsiteInterpretationHistoryVC.swift */,
+				C6B3F6A427BCC5B70095BE3C /* OnsiteAppointmentParentVC.swift */,
 			);
 			path = "OnsiteInterpretation ";
 			sourceTree = "<group>";
@@ -1690,6 +1693,7 @@
 				04C17E61273154A800297528 /* VendorRankingDataModel.swift in Sources */,
 				C6FDDFEC278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift in Sources */,
 				04C91A572735359C0029FE90 /* ApiDepartmentData.swift in Sources */,
+				C6B3F6A527BCC5B70095BE3C /* OnsiteAppointmentParentVC.swift in Sources */,
 				049AB16D26E73E95001D5766 /* CallManager.swift in Sources */,
 				04C91A4A27352CD90029FE90 /* ApiAddProviderDataresponse.swift in Sources */,
 				04B225CC26F477730063129C /* TLTimer.swift in Sources */,

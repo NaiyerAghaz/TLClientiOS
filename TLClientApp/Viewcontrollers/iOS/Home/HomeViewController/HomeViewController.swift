@@ -462,7 +462,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     }
     
     @IBAction func onsiteAppointmentBtn(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "OnsiteInterpretationNewViewController" ) as! OnsiteInterpretationNewViewController
+        let vc = storyboard?.instantiateViewController(identifier: "OnsiteAppointmentParentVC" ) as! OnsiteAppointmentParentVC
         self.navigationController?.pushViewController(vc, animated: true)
 //        let vc = storyboard?.instantiateViewController(identifier: "OnSiteInterpretationAppointmentVC" ) as! OnSiteInterpretationAppointmentVC
 //        self.navigationController?.pushViewController(vc, animated: true)
