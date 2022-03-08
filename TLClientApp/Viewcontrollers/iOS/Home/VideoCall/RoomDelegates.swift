@@ -66,8 +66,8 @@ extension VideoCallViewController:RoomDelegate{
         if localAudioTrack != nil {
             localAudioTrack = nil
         }
-        
-        self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        updateYourFeedback()
+       // self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
     }
     
     func roomDidFailToConnect(room: Room, error: Error) {

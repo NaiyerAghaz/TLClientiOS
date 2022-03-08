@@ -460,6 +460,7 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                                 self.apiGetAuthCoderesponseModel?.appointmentType?.forEach({ typeData  in
                                     let type = typeData.code ?? ""
                                     if type == "VIRTUALMEETING" {
+                                        print("VIRTUALMEETING code  \(typeData.id ?? 0)")
                                         self.appointTypeId = typeData.id ?? 0
                                     }
                                 })

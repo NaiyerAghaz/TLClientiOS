@@ -29,10 +29,10 @@ class OPIFeedbackController: UIViewController {
 extension OPIFeedbackController {
     
     @IBAction func clickOnCancel(_ sender: UIButton) {
-        self.popToVc()
+        dismissToVC()
     }
     @IBAction func clickOnSubmit(_ sender: UIButton) {
-        self.popToVc()
+        dismissToVC()
     }
     @IBAction func sliderValueChanged(_ slider: UISlider) {
         //Log.print("Slider Value =====> ", slider.roundOffValue())
@@ -41,6 +41,9 @@ extension OPIFeedbackController {
     @IBAction func sliderRateValueChanged(_ slider: UISlider) {
        // Log.print("Slider Value =====> ", slider.roundOffValue())
         print("Slider Value =====> ", slider.roundOffValue())
+    }
+    public func dismissToVC(){
+        self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
     }
 }
 //MARK: Common Functions

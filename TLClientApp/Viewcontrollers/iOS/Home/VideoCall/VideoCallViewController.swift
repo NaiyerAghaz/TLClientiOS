@@ -127,6 +127,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             genarateChatTokenCreate()
         }
         
+        // print("roomID------------>2:", self.roomID)
+        // Do any additional setup after loading the view.
     }
     
     //MARK: Configure With Twilio
@@ -459,7 +461,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         if isaccept{
             let bodyMsz = "acceptfromclient:\(pid)"
             print("acceptmessagebody-------------------------->:",bodyMsz)
-           
+            // self.dismiss(animated: true, completion: nil)
             let messageOption = TCHMessageOptions.init()
             messageOption.withBody(bodyMsz)
             self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
@@ -471,7 +473,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }
         else {
             let bodyMsz = "rejectfromclient:\(pid)"
-           
+            print("acceptmessagebody-------------------------->:",bodyMsz)
+            // self.dismiss(animated: true, completion: nil)
             let messageOption = TCHMessageOptions.init()
             messageOption.withBody(bodyMsz)
             self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
@@ -547,11 +550,26 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     if (localVideoTrack != nil){
                         localVideoTrack = nil
                     }
-                    self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+                    if remoteParticipantArr.count > 0 {
+                     updateYourFeedback()
+                     }
+                    else {
+                     self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+                    }
+                   
                 }
             }}}
     
-    
+    //MARK: Feedback Method call:
+    public func updateYourFeedback(){
+        let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+        let fb = sB.instantiateViewController(identifier: "OPIFeedbackController") as! OPIFeedbackController
+        fb.modalPresentationStyle = .overFullScreen
+       // SwiftLoader.hide()
+        self.present(fb, animated: true, completion: nil)
+        
+        
+    }
     @IBAction func btnParticipantTapped(_ sender: Any) {
         let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let vcontrol = callVC.instantiateViewController(identifier: "TotalParticipantVC") as! TotalParticipantVC

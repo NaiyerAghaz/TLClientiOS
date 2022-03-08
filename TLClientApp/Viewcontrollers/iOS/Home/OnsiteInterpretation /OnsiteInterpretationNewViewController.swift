@@ -10,7 +10,7 @@ import iOSDropDown
 import Alamofire
 import DropDown
 import MaterialComponents.MaterialTextControls_OutlinedTextFields
-class OnsiteInterpretationNewViewController: UIViewController , UITextFieldDelegate{
+/*class OnsiteInterpretationNewViewController: UIViewController , UITextFieldDelegate{
 
     @IBOutlet weak var serviceTypeTF: iOSDropDown!
     @IBOutlet weak var specialityTF: iOSDropDown!
@@ -1902,7 +1902,7 @@ extension OnsiteInterpretationNewViewController {
     
 }
 
-
+*/
 struct SpecialityData {
     var SpecialityID : Int?
     var DisplayValue : String?

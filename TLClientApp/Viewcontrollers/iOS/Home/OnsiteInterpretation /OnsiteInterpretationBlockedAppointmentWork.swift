@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-extension OnsiteInterpretationNewViewController {
+/*extension OnsiteInterpretationNewViewController {
     func showLanguageForBlocked(){
         self.blockedLanguageTF.optionArray = self.languageArray
         print("OPTIONS ARRYA \(GetPublicData.sharedInstance.languageArray)")
@@ -60,4 +60,4 @@ extension OnsiteInterpretationNewViewController {
             })
         }
     }
-}
+}*/
