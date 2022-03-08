@@ -14,5 +14,7 @@ enum ConstantStr {
             return "No internet connection!"
         
         }
-    }}
+    }
+    
+}
 

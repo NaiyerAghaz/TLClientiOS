@@ -15,7 +15,7 @@ struct Storyboard_name {
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
 }
-
+var isFeedback = false 
 var userDefaults = UserDefaults.standard
 enum cellIndentifier: String {
     case vendorTVCell = "VendorTVCell"

@@ -128,6 +128,7 @@ class VDOCallViewModel {
         
         return parameter
     }
+    
     func audioVideoHostControl(audioVal: Int, partSID: String,isAudio: Bool, completionHandler:@escaping( Bool?, Error?) ->()){
         var para :[String:Any] = [:]
         if isAudio {

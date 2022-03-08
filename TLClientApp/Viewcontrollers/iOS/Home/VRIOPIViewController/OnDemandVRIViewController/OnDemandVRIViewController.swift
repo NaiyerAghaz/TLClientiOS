@@ -31,6 +31,11 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        if isFeedback == true {
+            
+        }
+    }
     
     public func uiUpdate(){
        txtTargetlanguage.delegate = self
