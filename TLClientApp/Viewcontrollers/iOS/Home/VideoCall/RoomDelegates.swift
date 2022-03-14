@@ -89,6 +89,7 @@ extension VideoCallViewController:RoomDelegate{
     }
     
     func participantDidConnect(room: Room, participant: RemoteParticipant) {
+        callStartTime = cEnum.instance.getCurrentDateAndTime()
         print("participant added times---------------:",participant.remoteAudioTracks.count)
         recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
         /*  participant.delegate = self

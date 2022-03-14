@@ -67,10 +67,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var moreView: UIView!
-    var vendorTbl : UITableView = UITableView()
+   
     
+    @IBOutlet weak var lblTimeSpeak: UILabel!
     
     @IBOutlet weak var imgLocalPrivacy: UIImageView!
+    var vendorTbl : UITableView = UITableView()
     var lblParticipant = UILabel()
     var callingImageView = UIImageView()
     var isShownParti = false
@@ -78,6 +80,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var isMeetingCall = false
     var clientStatusModel: ClientStatusModel?
     var isAttendMultiPart = false
+    var callStartTime = ""
     //More dropdown
     let moreDropDown = DropDown()
     lazy var dropDowns: [DropDown] = {
@@ -499,7 +502,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         let req = vdoCallVM.meetingClientReq(roomID: roomId)
         vdoCallVM.getMeetingClientStatusLobbyWithCompletion(parameter: req) { success, result in
             if success  == true{
-                print("result?.INVITEDATA2----->",result?.INVITEDATA2)
+                
                 if result?.INVITEDATA2 == "0"{
                     self.clientStatusModel = nil
                 }
@@ -507,7 +510,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }}
     // MARK:TwilioChatClientDelegate
     //MARK: Actions and Outlet
-    
+    @IBOutlet weak var btnStopVideo: UIButton!
     @IBOutlet weak var btnMic: UIButton!
     @IBAction func btnMicTapped(_ sender: Any) {
         if (localAudioTrack != nil){
@@ -517,7 +520,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
     }
     
-    @IBOutlet weak var btnStopVideo: UIButton!
+   
     @IBAction func btnStopVideoTapped(_ sender: Any) {
         
         if localVideoTrack != nil {
@@ -551,21 +554,27 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         localVideoTrack = nil
                     }
                     if remoteParticipantArr.count > 0 {
-                     updateYourFeedback()
-                     }
-                    else {
-                     self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+                      
+                        updateYourFeedback()
                     }
-                   
+                    else {
+                        self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+                    }
+                    
                 }
             }}}
     
     //MARK: Feedback Method call:
     public func updateYourFeedback(){
+        recordTime.invalidate()
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let fb = sB.instantiateViewController(identifier: "OPIFeedbackController") as! OPIFeedbackController
+        fb.roomID = roomID
+        fb.targetLang = targetLangName
+        fb.duration = lblTimeSpeak.text//callStartTime
+        fb.dateAndTime = callStartTime
         fb.modalPresentationStyle = .overFullScreen
-       // SwiftLoader.hide()
+        // SwiftLoader.hide()
         self.present(fb, animated: true, completion: nil)
         
         
@@ -609,7 +618,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         flipCamera()
     }
     
-    @IBOutlet weak var lblTimeSpeak: UILabel!
     //Join member
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember) {
         print("memberJoin:",channel.members)

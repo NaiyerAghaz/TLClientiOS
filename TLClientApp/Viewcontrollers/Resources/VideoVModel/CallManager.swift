@@ -268,7 +268,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             localAudioTrack = nil
         }
         
-        self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        updateYourFeedback()
+        
+       // self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
         
     }
     

@@ -159,10 +159,12 @@
 		73165B6F27D7946A008FCCC2 /* videoViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */; };
 		73165B7127D79473008FCCC2 /* RoomDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B7027D79473008FCCC2 /* RoomDelegates.swift */; };
 		7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7320F73E27B6740D00E8049F /* Chat.storyboard */; };
+		738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738878F127D8AE4100C7614B /* FeedbackVModel.swift */; };
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
 		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
 		73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */; };
+		73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB308227D9C90D006A17DE /* FeedbackModel.swift */; };
 		73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFFC7427BB896C007EE602 /* ConstantString.swift */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
 		C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */; };
@@ -411,10 +413,12 @@
 		73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = videoViewDelegates.swift; sourceTree = "<group>"; };
 		73165B7027D79473008FCCC2 /* RoomDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDelegates.swift; sourceTree = "<group>"; };
 		7320F73E27B6740D00E8049F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		738878F127D8AE4100C7614B /* FeedbackVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVModel.swift; sourceTree = "<group>"; };
 		73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		73A1A76527C36921007281DC /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
 		73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationBlockedAppointmentWork.swift; sourceTree = "<group>"; };
+		73CB308227D9C90D006A17DE /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
 		73DFFC7427BB896C007EE602 /* ConstantString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantString.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -951,6 +955,7 @@
 		73165B6D27D793EB008FCCC2 /* VideoCall */ = {
 			isa = PBXGroup;
 			children = (
+				738878F027D8AE0D00C7614B /* Feedback */,
 				29F8CFE7274E76BA006243EC /* CallingPopUpVC.swift */,
 				29F8CFDD274E762C006243EC /* VideoCallViewController.swift */,
 				29F8CFFB274E7991006243EC /* InviteParticipantVC.swift */,
@@ -970,6 +975,16 @@
 				7320F73E27B6740D00E8049F /* Chat.storyboard */,
 			);
 			path = ChatView;
+			sourceTree = "<group>";
+		};
+		738878F027D8AE0D00C7614B /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				048AE80026D64D3600FB9309 /* OPIFeedbackController.swift */,
+				73CB308227D9C90D006A17DE /* FeedbackModel.swift */,
+				738878F127D8AE4100C7614B /* FeedbackVModel.swift */,
+			);
+			path = Feedback;
 			sourceTree = "<group>";
 		};
 		73A1A76427C368F2007281DC /* FeedbackVC */ = {
@@ -1366,7 +1381,6 @@
 				04DCB7C426D3AE3C003A99E1 /* OnDemandCallInfoController.swift */,
 				048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */,
 				048AE7FE26D63A1700FB9309 /* AddParticipantController.swift */,
-				048AE80026D64D3600FB9309 /* OPIFeedbackController.swift */,
 				296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */,
 				2971A9D6276389B70096C730 /* AudioCallViewController.swift */,
 				298FA12C2771F15E0023019C /* RatingViewController.swift */,
@@ -1838,6 +1852,7 @@
 				29981FDB27721419003DF75E /* ApiGetMemberResponseModel.swift in Sources */,
 				04C07812274243A7000750C1 /* ApiSelectedAppointmentDetailResponse.swift in Sources */,
 				CE74B2CD26BE7DB5008BBA8C /* Storyboard+.swift in Sources */,
+				73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */,
 				CE74B2DF26C046FA008BBA8C /* LoginModel.swift in Sources */,
 				CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */,
 				C6CA04EB278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift in Sources */,
@@ -1849,6 +1864,7 @@
 				C63805CF2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift in Sources */,
 				C6EAE8D727D21B82009F7261 /* OnsiteRecurringAppointmentVC.swift in Sources */,
 				04C2F49727300460007C0ED9 /* RPicker.swift in Sources */,
+				738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */,
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
 				C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
