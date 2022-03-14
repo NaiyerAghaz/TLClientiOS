@@ -426,6 +426,7 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
         
     }
     func getAuthCode(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         genderArray.removeAll()
         //   https://lsp.totallanguage.com/Appointment/GetData?methodType=AuthenticationCode&UserID=219490&UserType=Customer&CompanyID=55
@@ -459,6 +460,7 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                                 self.apiGetAuthCoderesponseModel?.appointmentType?.forEach({ typeData  in
                                     let type = typeData.code ?? ""
                                     if type == "VIRTUALMEETING" {
+                                        print("VIRTUALMEETING code  \(typeData.id ?? 0)")
                                         self.appointTypeId = typeData.id ?? 0
                                     }
                                 })
@@ -481,9 +483,12 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}else {
+                        self.view.makeToast(ConstantStr.noItnernet.val)
+                    }
      }
     func getServiceType(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         specialityArray.removeAll()
         //Appointment/GetData?methodType=Speciality&CompanyId=55&SpType1=1
@@ -522,9 +527,12 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                             print("Respose Failure service ")
                            
                         }
-                })
+                    })}else {
+                        self.view.makeToast(ConstantStr.noItnernet.val)
+                    }
      }
     func getVenuList(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.venueArray.removeAll()
         //self.departmentArray.removeAll()
@@ -573,9 +581,13 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func createRequestForAppointment(userID:String,companyID:String,AuthCode:String , AppointStatusID:Int , startDate:String, EndDate:String , AppointTypeID:Int , languageID :String , userTypeID:String ,jobType : String , clientName:String , venueID: String , updatedOn:String , requestedON:String, loadedON:String , cpInitials:String ,serviceTypeID : String , genderID : String, userName : String ){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.addAppointment.url
         let parameters = [
@@ -701,10 +713,13 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}else {
+                        self.view.makeToast(ConstantStr.noItnernet.val)
+                    }
      }
     
     func addProviderData(Active:Bool , venueID: String ,providerName : String , DeActive:Bool , departmentID: String , providerID :Int){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let urlString = APi.addproviderData.url
         var parameters = ["":""] as [String:Any]
@@ -768,7 +783,10 @@ class VirtualMeetingViewController: UIViewController, UITextFieldDelegate {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     
 }

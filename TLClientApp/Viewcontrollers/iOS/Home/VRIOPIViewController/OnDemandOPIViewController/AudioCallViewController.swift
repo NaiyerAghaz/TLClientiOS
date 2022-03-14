@@ -515,9 +515,9 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                         self.apiGetMemberInRoomDetailDataModel = try jsonDecoder.decode(ApiGetMemberInRoomDetailDataModel.self, from: daata)
                         let ratingData = self.apiGetMemberInRoomDetailDataModel?.getMembers?.first
                         self.vendorNameRatingLbl.text = ratingData?.vendorName ?? ""
-                        let baseUrl = "https://lsp.totallanguage.com/"
-                        let imgUrl = ratingData?.vendorImg ?? ""
-                        let vendorImgUrl = baseUrl + imgUrl
+                       // let baseUrl = "https://lsp.totallanguage.com/"
+                        let imgUrl = ratingData?.custImg ?? ""
+                        let vendorImgUrl = nBaseUrl + imgUrl
                         self.vendorImgView.sd_setImage(with: URL(string: vendorImgUrl), completed: nil)
                         self.durationLbl.text = self.callDuration //ratingData?.duration ?? ""
                         self.roomNoLbl.text = ratingData?.roomno ?? ""
@@ -671,6 +671,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         })
     }
     func getProfileimg(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
               
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -713,7 +714,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     @IBAction func actionBtnDisconnect(_ sender: UIButton) {
         let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to Discoonect ?", preferredStyle: UIAlertController.Style.alert)

@@ -13,7 +13,7 @@ class OnDemandOPIVM: NSObject {
 
 extension OnDemandOPIVM {
     public func getTwilioAccessToken(userId: String, onSuccess: @escaping(String, Error?)->()) {
-        if Network.init().isNetworkAvailable() {//
+        if Reachability.isConnectedToNetwork() {
             let API_ACCESS_TOKEN = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken?identity=\(userId)&deviceType=clientIos"
             
             let url = URL(string: API_ACCESS_TOKEN)!

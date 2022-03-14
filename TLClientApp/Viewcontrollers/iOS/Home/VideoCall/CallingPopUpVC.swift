@@ -29,20 +29,25 @@ class CallingPopupVC: UIViewController {
         configureUI()
         
     }
-    func configureUI(){
+
+func configureUI(){
         DispatchQueue.main.async {[self] in
-            SwiftLoader.show(animated: true)
-            callManagerVM.getRoomList { roolist, error in
-                if error == nil {
-                    self.roomId = roolist?[0].RoomNo ?? "0"
+            if Reachability.isConnectedToNetwork() {
+                SwiftLoader.show(animated: true)
+                callManagerVM.getRoomList { roolist, error in
+                    if error == nil {
+                        self.roomId = roolist?[0].RoomNo ?? "0"
+                        
+                        SwiftLoader.hide()
+                        self.app?.roomIDAppdel = self.roomId
+                    }
+                    else {
+                        SwiftLoader.hide()
+                    }
                     
-                    SwiftLoader.hide()
-                    self.app?.roomIDAppdel = self.roomId
-                }
-                else {
-                    SwiftLoader.hide()
-                }
-                
+                }}
+            else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
             }
         }
         
@@ -62,13 +67,10 @@ class CallingPopupVC: UIViewController {
             if self.calltype == "VRI" {
                 
                 if roomId != nil {
-                    self.getCallPriorityVideoWithCompletion()
+                   self.getCallPriorityVideoWithCompletion()
                     self.addAppCall()
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
-                        self.callTOVRI()
-                    }
-                 }
+                    
+                   }
             }else if self.calltype == "OPI" {
                 print("OPI call start" , roomId)
                 if roomId != nil {
@@ -83,6 +85,15 @@ class CallingPopupVC: UIViewController {
     }
     func callTOVRI(){
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+        let fb = sB.instantiateViewController(identifier: "OPIFeedbackController") as! OPIFeedbackController
+        fb.roomID = "111"
+        fb.targetLang = "test"
+        fb.duration = "20"//callStartTime
+        fb.dateAndTime = "22/02/2022"
+        fb.modalPresentationStyle = .overFullScreen
+        // SwiftLoader.hide()
+        self.present(fb, animated: true, completion: nil)
+        /*let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
         vdoCall.roomID = roomId
         vdoCall.sourceLangID = sourceID
@@ -94,32 +105,32 @@ class CallingPopupVC: UIViewController {
         vdoCall.patientno = txtPatientClientNumber.text ?? ""
         vdoCall.patientname = txtPatientClientName.text ?? ""
         vdoCall.modalPresentationStyle = .overFullScreen
-        
-        self.present(vdoCall, animated: true, completion: nil)
+        SwiftLoader.hide()
+        self.present(vdoCall, animated: true, completion: nil)*/
     }
     
     @IBAction func btnSkipTapped(_ sender: Any){
-        DispatchQueue.main.async { SwiftLoader.show(animated: true)}
-        if self.calltype == "VRI" {
-            print("VRI call start ")
-            if roomId != nil {
-                self.getCallPriorityVideoWithCompletion()
-                self.addAppCall()
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                    self.callTOVRI()
-                }
-             
+        if Reachability.isConnectedToNetwork() {
+            SwiftLoader.show(animated: true)
+            
+            if self.calltype == "VRI" {
+                print("VRI call start ")
+                if roomId != nil {
+                   self.getCallPriorityVideoWithCompletion()
+                    self.addAppCall()
+                    
+                   }
+            }else if self.calltype == "OPI" {
                 
+                if roomId != nil {
+                    getVRICallClient()
+                    postOPIAcceptCall()
+                }else {
+                    self.view.makeToast("No roomID.")
+                }
             }
-        }else if self.calltype == "OPI" {
-            print("OPI call start" , roomId)
-            if roomId != nil {
-                getVRICallClient()
-                postOPIAcceptCall()
-            }else {
-                self.view.makeToast("No roomID.")
-            }
+        }else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
     
@@ -184,22 +195,7 @@ class CallingPopupVC: UIViewController {
                         self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
                         print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
                         let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
-                        /*
-                         let data = Data(str.utf8 )
-                         print("new String",str)
-                         do {
-                         // make sure this JSON is in the format we expect
-                         print("enter do block")
-                         if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String : Any] {
-                         // try to read out a string array
-                         print("userInfo before conversion" , json)
-                         if let names = json["UserInfo"]  {
-                         print("userInfo",names)
-                         }
-                         }
-                         } catch let error as NSError {
-                         print("Failed to load: \(error.localizedDescription)")
-                         }*/
+                        
                         print("STRING DATA IS \(str)")
                         let data = str.data(using: .utf8)!
                         do {
@@ -262,7 +258,7 @@ class CallingPopupVC: UIViewController {
         }
     }
     func getCreateVRICallClient(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-       
+        
         let urlString = APi.createVRICallClient.url
         self.apiCreateVRICallClientResponseModel.removeAll()
         AF.request(urlString, method: .post, parameters: req, encoding: JSONEncoding.default, headers: nil)
@@ -292,7 +288,7 @@ class CallingPopupVC: UIViewController {
                     
                 }
             })
-       
+        
     }
     func postOPIAcceptCallWithCompletion(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         ApiServices.shareInstace.getDataFromApi(url: APi.opiAcceptCall.url, para: req) { response, err in
@@ -311,10 +307,11 @@ class CallingPopupVC: UIViewController {
         let para = callManagerVM.addAppCallReqAPI(sourceID: sourceID ?? "", targetID: targetID ?? "", roomId: roomId ?? "", targetName: targetName ?? "", sourceName: sourceName ?? "", patientName: txtPatientClientName.text!,patientNo: txtPatientClientNumber.text!)
         callManagerVM.addAppCall(req: para) { success, err in
             if success! {
-                //handler(true, nil)
+               
+                
             }
             else{
-               // handler(false, nil)
+                self.view.makeToast("Something is wrong, please try again")
             }
         }
     }
@@ -323,11 +320,16 @@ class CallingPopupVC: UIViewController {
         
         callManagerVM.priorityVideoCall(req: reqpara) { success, err in
             if success! {
-               // handler(true, nil)
+                DispatchQueue.main.async {
+                    
+                    self.callTOVRI()
+                    
+                }
+                // handler(true, nil)
                 print("priority success------>",success)
             }
             else {
-               // handler(false, nil)
+                // handler(false, nil)
                 print("priority failed------>",success)
             }
         }

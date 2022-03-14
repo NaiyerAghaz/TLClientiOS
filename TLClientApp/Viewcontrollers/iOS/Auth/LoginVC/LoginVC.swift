@@ -75,7 +75,7 @@ class LoginVC: UIViewController {
         else if passwordTF.text!.isEmpty {
             return self.view.makeToast("Please enter your Password", duration: 1.0, position: .top)
         }
-        
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(title: "Login...", animated: true)
         loginVModel.userLogin(UserName: userNameTF.text!, Password: passwordTF.text!, Ip: "M", Latitude: "", Longitude: "") { resp, err in
             SwiftLoader.hide()
@@ -111,11 +111,7 @@ class LoginVC: UIViewController {
                                         self.navigationController?.pushViewController(vc, animated: true)
                                     }
                                 }
-                                
-                                
-                                
-//                                self.registerTwilioAccessToken(with: item)
-                            }
+                         }
                             else {
                                 let alert = UIAlertController(title: "Do you want to save this login to use FACE ID/TOUCH ID", message: "", preferredStyle: .alert)
                                 let cancel = UIAlertAction(title: "Cancel", style: .cancel){ cancel  in
@@ -128,8 +124,6 @@ class LoginVC: UIViewController {
                                         }
                                     }
                                     
-                                    
-//                                    self.registerTwilioAccessToken(with: item)
                                 }
                                 let yes = UIAlertAction(title: "Yes", style: .destructive) { alert in
                                     self.btnFaceAndTouchID.isHidden = false
@@ -139,12 +133,7 @@ class LoginVC: UIViewController {
                                     userDefaults.set(item.password, forKey: "userPasswordForTouchID")
                                    keychainServices.save(key: "touchID", data: Data("true".utf8))
                                     
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    let localString = "Biometric Authentication!"
+                                   let localString = "Biometric Authentication!"
                                     
                                     if self.context.canEvaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, error: &self.newErr){
                                         
@@ -156,31 +145,20 @@ class LoginVC: UIViewController {
                                                         let userName = GetPublicData.sharedInstance.userNameForTouchID
                                                         let userPassword = GetPublicData.sharedInstance.userPasswordForTouchID
                                                         
-                                                        print("user name and password ",userName, userPassword)
-                                                      //  self.biometricAuthentication(username: CEnumClass.share.loadKeydata(keyname: "username"), pwd: CEnumClass.share.loadKeydata(keyname: "password"))
-                                                  //      self.biometricAuthentication(username: userName, pwd: userPassword)
-                                                        
-                                                        
-                                                        self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
+                                                      self.loginVModel.twilioRegisterWithAccessToken(userID: item.UserID) { success in
                                                             if success == true {
                                                                 let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
                                                                 let vc = storyboard.instantiateViewController(identifier: "TabViewController") as! TabViewController
                                                                 self.navigationController?.pushViewController(vc, animated: true)
                                                             }
                                                         }
-                                                        
-                                                        
-                                                        
-                                                        
-                                                    }
+                                                      }
                                                     
                                                 }else {
-                                                    print("unsuccessful .....")
+                                                   
                                                 }
                                             }
-                                            
-                                            
-                                        }
+                                            }
                                         else if self.context.biometryType == .touchID  {
                                             self.context.evaluatePolicy(LAPolicy.deviceOwnerAuthenticationWithBiometrics, localizedReason: localString) { success, err in
                                                 if success{
@@ -204,21 +182,7 @@ class LoginVC: UIViewController {
                                             }
                                         }
                                     }
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-//                                    self.registerTwilioAccessToken(with: item)
-                                }
+                                 }
                                 alert.addAction(cancel)
                                 alert.addAction(yes)
                                 self.present(alert, animated: true, completion: nil)
@@ -248,6 +212,9 @@ class LoginVC: UIViewController {
                 let userDict = self.loginVModel.user.userDetails?.firstObject  as! DetailsModal
                 self.view.makeToast(userDict.Message, duration: 1.0, position: .top)
             }
+        }}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
     //MARK: Register Twilio AccessToken

@@ -69,6 +69,7 @@ enum APi{
     case AddUpdateDeptAndContactData
     case tladdupdateappointment
     case encryptdecryptvalue
+    case GetBlokedAppointmentDetailApi
     var url: URL{
         switch self {
         case .login:
@@ -179,27 +180,10 @@ enum APi{
             return URL(string: baseUrl + "/tladdupdateappointment")!
         case .encryptdecryptvalue:
             return URL(string: baseUrl + "/encryptdecryptvalue")!
+        case .GetBlokedAppointmentDetailApi:
+            return URL(string: baseUrl + "/GetAppointmentBlokedHomeScreenPopupApi")!
         }
     }
 }
 
 
-//let baseUrl = "https://lspservices.totallanguage.com/api"
-//let nBaseUrl = "https://lsp.totallanguage.com/VendorManagement/Vendor/"
-//
-//enum APi{
-//    case login
-//    case forgetPassword
-//    case languagedata
-//
-//    var url: URL{
-//        switch self {
-//        case .login:
-//            return URL(string: baseUrl + "/Security/Login")!
-//        case .forgetPassword:
-//            return URL(string: baseUrl + "/Security/ForgetPassword")!
-//        case .languagedata:
-//            return URL(string: nBaseUrl + "GetData?methodType=LanguageData")!
-//        }
-//    }
-//}

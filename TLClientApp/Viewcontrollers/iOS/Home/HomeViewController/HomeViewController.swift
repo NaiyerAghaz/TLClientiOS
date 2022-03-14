@@ -13,12 +13,18 @@ var userImageURl = ""
 import SwiftPullToRefresh
 class ScheduleAppointmentTableViewCell:UITableViewCell{
     
+    @IBOutlet weak var cancelMessageStack: UIStackView!
+    @IBOutlet weak var appointmentTitleLbl: UILabel!
     @IBOutlet var statusOuterView: UIView!
     @IBOutlet var checkOutOuterView: UIView!
     @IBOutlet var startDateLbl: UILabel!
     @IBOutlet var customerName: UILabel!
     @IBOutlet var checkInLbl: UILabel!
+    @IBOutlet weak var CustomerNameStack: UIStackView!
+    @IBOutlet weak var clientValueStack: UIStackView!
     @IBOutlet var statusOfAppointmentLbl: UILabel!
+    @IBOutlet weak var customerValueStack: UIStackView!
+    @IBOutlet weak var clientnameStack: UIStackView!
     @IBOutlet var outerView: UIView!
     @IBOutlet var interpreterLbl: UILabel!
     @IBOutlet var typeOfMeetLbl: UILabel!
@@ -31,10 +37,16 @@ class ScheduleAppointmentTableViewCell:UITableViewCell{
     @IBOutlet var appointmentIDLbl: UILabel!
     override func awakeFromNib() {
         outerView.addShadowGrey()
+        self.customerValueStack.isHidden = false
+        self.CustomerNameStack.isHidden = false
+        self.clientnameStack.isHidden = false
+        self.clientValueStack.isHidden = false
+        self.cancelMessageStack.isHidden = true
     }
 }
 class ScheduleMeetingTableViewCell:UITableViewCell{
     
+    @IBOutlet weak var appointmentTitleLbl: UILabel!
     @IBOutlet var statusOuterView: UIView!
    
     @IBOutlet var startDateLbl: UILabel!
@@ -96,13 +108,18 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     }
     
     @IBAction func actionVirtualMeeting(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "VirtualMeetingViewController" ) as! VirtualMeetingViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+      let vc = storyboard?.instantiateViewController(identifier: "VirtualMeetingParentNewVC" ) as! VirtualMeetingParentNewVC
+       self.navigationController?.pushViewController(vc, animated: true)
+        
+        
+        //let vc = storyboard?.instantiateViewController(identifier: "VirtualMeetingViewController" ) as! VirtualMeetingViewController
+        //self.navigationController?.pushViewController(vc, animated: true)
     }
     @objc func actionLogout(notification: Notification) {
         updateDeviceToken()
     }
     func hitApiGetNotificationCount(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         self.apiNotificationResponseModel = nil
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -135,7 +152,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func action() {
             print("Data reload ")
@@ -238,8 +258,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         //calendar.appearance.separators = .interRows
         calendar.appearance.caseOptions = FSCalendarCaseOptions.weekdayUsesSingleUpperCase
         
-        
-        
+        let tDate = Date()
+        let formatterTest = DateFormatter()
+        formatterTest.dateFormat = "yyyy/MM/dd"
+        print(formatterTest.string(from: tDate))
+        let finalDate = formatterTest.string(from: tDate)
+                
+        calendar.select(formatterTest.date(from: finalDate)!)
         calendar.dataSource = self
         calendar.delegate = self
         calendar.appearance.todayColor = .clear
@@ -266,12 +291,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: result)
     }
     func updateDeviceToken(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
-    
-        //let userId = userDefaults.string(forKey: "userId") ?? ""
-        //let companyId = userDefaults.string(forKey: "companyID") ?? ""
-        
-        let urlString = APi.addUpdateUserDeviceToken.url
+     let urlString = APi.addUpdateUserDeviceToken.url
         let fcmToken = userDefaults.string(forKey: "fcmToken") ?? ""
         let parameters = [
             "TokenID":fcmToken ,
@@ -312,9 +334,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func checkSingleSignin(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         let urlString = APi.checkSingleUser.url
@@ -384,9 +410,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             print("Respose Failure getVendorIDs ")
                             
                         }
-                    })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func actionLogout(userGuid : String ){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
     
         //let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -438,10 +468,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     @IBAction func telephoneConfrenceServiceBtn(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "TelephoneConfrenceServiceViewController" ) as! TelephoneConfrenceServiceViewController
+        let vc = storyboard?.instantiateViewController(identifier: "TelephonicConferenceParentVC" ) as! TelephonicConferenceParentVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func documentTranslationBtn(_ sender: UIButton) {
@@ -450,9 +483,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     }
     
     @IBAction func onsiteAppointmentBtn(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "OnsiteInterpretationNewViewController" ) as! OnsiteInterpretationNewViewController
+        let vc = storyboard?.instantiateViewController(identifier: "OnsiteAppointmentParentVC" ) as! OnsiteAppointmentParentVC
         self.navigationController?.pushViewController(vc, animated: true)
-//        let vc = storyboard?.instantiateViewController(identifier: "OnSiteInterpretationAppointmentVC" ) as! OnSiteInterpretationAppointmentVC
+      
+//        let vc = storyboard?.instantiateViewController(identifier: "OnsiteInterpretationNewViewController" ) as! OnsiteInterpretationNewViewController
 //        self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func btnSideMenu(_ sender: UIButton) {
@@ -608,12 +642,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         
     }
     func hitApigetAllScheduleAppointment(date:String ,customerId:String , selectedDate:String){
+        if Reachability.isConnectedToNetwork() {
                             SwiftLoader.show(animated: true)
-                                  /*  let headers: HTTPHeaders = [
-                                        "Authorization": "Bearer \(UserDefaults.standard.value(forKey:"token") ?? "")",
-                                               "cache-control": "no-cache"
-                                           ]
-                                   // print("😗---hitApiSignUpUser -" , Api.profile.url) 10/01/2021 */
+                                 
                             let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
                             print("url to get schedule \(urlString)")
                                     AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -653,12 +684,15 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                                 print("Respose Failure ")
                                                
                                             }
-                                    })
+                                        })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
                          }
     func getServiceType(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
-        //Appointment/GetData?methodType=Speciality&CompanyId=55&SpType1=1
              let userId = userDefaults.string(forKey: "userId") ?? ""
               let companyId = userDefaults.string(forKey: "companyID") ?? ""
             let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
@@ -699,7 +733,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             print("Respose Failure service ")
                            
                         }
-                })
+                    })}else {self.view.makeToast(ConstantStr.noItnernet.val)}
      }
     func convertDateAndTimeFormat(_ date: String) -> String
     {
@@ -756,6 +790,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             let dateValue = index.startDateTime ?? ""
             let timeValue = convertDateFormater(dateValue)
             cell.startDateLbl.text = timeValue
+            cell.appointmentTitleLbl.text = "Meeting"
             cell.checkInLbl.text = index.vendorName ?? ""
             cell.interpreterLbl.text = convertTimeFormater(dateValue)
             cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
@@ -774,14 +809,65 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             return cell
         }else {
             let cell  = tableView.dequeueReusableCell(withIdentifier: "ScheduleAppointmentTableViewCell", for: indexPath) as! ScheduleAppointmentTableViewCell
-            
+            let titleString = index.title
+            if titleString == "R " {
+                cell.appointmentTitleLbl.text = "Regular Appointment"
+                cell.customerValueStack.isHidden = false
+                cell.CustomerNameStack.isHidden = false
+                cell.clientnameStack.isHidden = false
+                cell.clientValueStack.isHidden = false
+            }else if titleString == "B " {
+                cell.appointmentTitleLbl.text = "Blocked Appointment"
+                cell.customerValueStack.isHidden = true
+                cell.CustomerNameStack.isHidden = true
+                cell.clientnameStack.isHidden = true
+                cell.clientValueStack.isHidden = true
+            }else if titleString == "RC" {
+                cell.customerValueStack.isHidden = false
+                cell.CustomerNameStack.isHidden = false
+                cell.clientnameStack.isHidden = false
+                cell.clientValueStack.isHidden = false
+                cell.appointmentTitleLbl.text = "Regular Appointment"
+            }else {
+                cell.customerValueStack.isHidden = false
+                cell.CustomerNameStack.isHidden = false
+                cell.clientnameStack.isHidden = false
+                cell.clientValueStack.isHidden = false
+                cell.appointmentTitleLbl.text = ""
+            }
+           
+            let cancelStatus = index.customerCancelRequest
+            print("cancel status \(cancelStatus)")
+            if cancelStatus == 0 {
+                let appStats = index.appointmentStatusType ?? ""
+                print("app status in case of cancel \(appStats)")
+                if appStats == "Late Cancelled" || appStats == "Botched" || appStats == "Cancelled" {
+                    cell.cancelMessageStack.isHidden = true
+                }else {
+                    cell.cancelMessageStack.isHidden = false
+                }
+            }else {
+                let appStats = index.appointmentStatusType ?? ""
+                print("app status in case of cancel \(appStats)")
+                cell.cancelMessageStack.isHidden = true
+            }
             cell.targetLanguageLbl.text = index.languageName ?? ""
             cell.venuLbl.text = index.venueName ?? ""
             cell.typeOfMeetLbl.text = index.appointmentType ?? ""
-            cell.clientNameLbl.text = index.clientName ?? ""
+            if index.clientName == nil || index.clientName == ""{
+                cell.clientNameLbl.text =  "N/A"
+            }else {
+                cell.clientNameLbl.text = index.clientName
+            }
+            
             cell.customerName.text = index.customerName ?? ""
            // cell.interpreterLbl.text = index.interpretorName
-            cell.sourceLanguageLbl.text = ""
+            if index.sLanguageName == nil {
+                cell.sourceLanguageLbl.text = "English"
+            }else {
+                cell.sourceLanguageLbl.text = index.sLanguageName ?? ""
+            }
+            
             cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
             let dateValue = index.startDateTime ?? ""
             let timeValue = convertDateAndTimeFormat(dateValue)
@@ -849,11 +935,25 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let typeid = self.showAppointmentArr[indexPath.row].appointmentTypeID ?? 0
         if typeid != 12 {
-            let vc = self.storyboard?.instantiateViewController(identifier: "ScheduleAppointmentDetailVC") as! ScheduleAppointmentDetailVC
-            vc.showAppointmentArr = self.showAppointmentArr[indexPath.row]
-            vc.appointmentID = self.showAppointmentArr[indexPath.row].appointmentID ?? 0
-            vc.apiScheduleAppointmentResponseModel = self.apiScheduleAppointmentResponseModel ?? ApiScheduleAppointmentResponseModel()
-            self.navigationController?.pushViewController(vc, animated: true)
+            let title = self.showAppointmentArr[indexPath.row].title ?? ""
+            if title == "B " {
+                let vc = self.storyboard?.instantiateViewController(identifier: "BlockedAppointmentDetailVC") as! BlockedAppointmentDetailVC
+                vc.startDateString = convertDateFormater(self.showAppointmentArr[indexPath.row].startDateTime ?? "")
+                vc.startTime = convertTimeFormater(self.showAppointmentArr[indexPath.row].startDateTime ?? "")
+                vc.cancelKey = self.showAppointmentArr[indexPath.row].customerCancelRequest ?? 0
+                vc.EndTime = convertTimeFormater(self.showAppointmentArr[indexPath.row].endDateTime ?? "")
+                vc.appointmentID = self.showAppointmentArr[indexPath.row].appointmentID ?? 0
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                let vc = self.storyboard?.instantiateViewController(identifier: "ScheduleAppointmentDetailVC") as! ScheduleAppointmentDetailVC
+                vc.showAppointmentArr = self.showAppointmentArr[indexPath.row]
+                vc.appointmentID = self.showAppointmentArr[indexPath.row].appointmentID ?? 0
+                
+                vc.apiScheduleAppointmentResponseModel = self.apiScheduleAppointmentResponseModel ?? ApiScheduleAppointmentResponseModel()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            
         }else {
             
         }

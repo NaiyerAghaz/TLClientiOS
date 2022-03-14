@@ -28,6 +28,7 @@ class TimeZoneViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
      }
     func updateTimeZoneWithParams(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let userID = GetPublicData.sharedInstance.userID
         let timeZone = self.currentTimeZone.replacingOccurrences(of: " ", with: "")
@@ -65,7 +66,10 @@ class TimeZoneViewController: UIViewController {
                     self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                    
                 }
-        })
+            })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
         
     }
 

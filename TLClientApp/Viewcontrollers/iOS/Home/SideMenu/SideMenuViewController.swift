@@ -60,6 +60,7 @@ class SideMenuViewController: UIViewController {
    
     
     func getProfileimg(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
               
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -92,7 +93,10 @@ class SideMenuViewController: UIViewController {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
 }
 extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {

@@ -31,6 +31,11 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        if isFeedback == true {
+            
+        }
+    }
     
     public func uiUpdate(){
        txtTargetlanguage.delegate = self
@@ -64,7 +69,8 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
           //  self.txtTargetlanguage.resignFirstResponder()
            self.txtTargetlanguage.text = "\(selectedText)"
        }
-
+        
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         languageViewModel.languageData { list, err in
             if err == nil {
@@ -74,7 +80,9 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
                 //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
                 //
                 
-            }}
+            }}}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
      }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {

@@ -57,6 +57,7 @@ class InviteWithEmailVC: UIViewController,IndicatorInfoProvider, UITextFieldDele
         else if isAuthentication == 0 {
             return self.view.makeToast("Please select authentication factor", position: .top)
         }
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         //fromUserID ?? "0"
         let reqPara = inviteVmodel.inviteEmailReq(emailID: emailTF.text!, roomNo: actualRoom ?? "0", pid: inviteVmodel.random(digits: 10), mobile: mobileTF.text!, fName: firstNameTF.text!, lName: lastNameTF.text!, fromUserID: GetPublicData.sharedInstance.userID, authFactor: factorStr!, calltype: "vri")
@@ -65,7 +66,7 @@ class InviteWithEmailVC: UIViewController,IndicatorInfoProvider, UITextFieldDele
                 SwiftLoader.hide()
                 self.dismiss(animated: true, completion: nil)
             }
-        }
+        }}else {self.view.makeToast(ConstantStr.noItnernet.val)}
        }
 @IBAction func btn2FATapped(_ sender: UIButton) {
        if sender.tag == 1 {

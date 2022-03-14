@@ -12,9 +12,12 @@ class ScheduleAppointmentDetailVC: UIViewController {
 
     var apiScheduleAppointmentResponseModel:ApiScheduleAppointmentResponseModel?
     
+    @IBOutlet weak var contactView: UIStackView!
+    @IBOutlet weak var departmentView: UIStackView!
     @IBOutlet var jobTypeLbl: UILabel!
     
     @IBOutlet var authCodeLbl: UILabel!
+    @IBOutlet weak var zipcodeView: UIStackView!
     
     @IBOutlet var interpreterLbl: UILabel!
     
@@ -28,7 +31,6 @@ class ScheduleAppointmentDetailVC: UIViewController {
     
     @IBOutlet var endTimeLbl: UILabel!
     
-    @IBOutlet weak var venueDetailView: UIView!
     @IBOutlet var cancelBtn: UIButton!
     @IBOutlet var patientintialsLbl: UILabel!
     
@@ -45,9 +47,15 @@ class ScheduleAppointmentDetailVC: UIViewController {
     
     @IBOutlet var contactLbl: UILabel!
     
+    @IBOutlet weak var specialNotesLbl: UILabel!
+    @IBOutlet weak var locationLbl: UILabel!
     @IBOutlet var languageLbl: UILabel!
     
-
+    @IBOutlet weak var venueNameView: UIStackView!
+    @IBOutlet weak var venueAddressView: UIStackView!
+    
+    @IBOutlet weak var stateView: UIStackView!
+    @IBOutlet weak var cityView: UIStackView!
     @IBOutlet var statusLbl: UILabel!
     var appointmentID = 0
     var apiAppointmentDetailResponseModel:ApiAppointmentDetailResponseModel?
@@ -66,13 +74,26 @@ class ScheduleAppointmentDetailVC: UIViewController {
         //self.appointStatusHeadingLbl.text = self.showAppointmentArr?.appointmentStatusType ?? "N/A"
         self.addressLbl.text =  showAppointmentArr?.address ?? "N/A"
         self.jobTypeLbl.text = showAppointmentArr?.appointmentType ?? "N/A"
+        self.locationLbl.text = showAppointmentArr?.location ?? "N/A"
+        self.specialNotesLbl.text = showAppointmentArr?.text ?? "N/A"
         let appointmentType = showAppointmentArr?.appointmentType ?? "N/A"
         if appointmentType == "Virtual Meeting" || appointmentType == "Telephone Conference" {
-            self.venueDetailView.visibility = .gone
-            self.saparationLbl.visibility = .gone
+           
+            self.venueNameView.isHidden = true
+            self.venueAddressView.isHidden = true
+            self.stateView.isHidden = true
+            self.cityView.isHidden = true
+            self.zipcodeView.isHidden = true
+            self.departmentView.isHidden = true
+            self.contactView.isHidden = true
         }else {
-            self.venueDetailView.visibility = .visible
-            self.saparationLbl.visibility = .visible
+            self.venueNameView.isHidden = false
+            self.venueAddressView.isHidden = false
+            self.stateView.isHidden = false
+            self.cityView.isHidden = false
+            self.zipcodeView.isHidden = false
+            self.departmentView.isHidden = false
+            self.contactView.isHidden = false
         }
         if showAppointmentArr?.appointmentType == "Schedule OPI" || showAppointmentArr?.appointmentType == "Schedule VRI" {
             self.authCodeLbl.text = showAppointmentArr?.assignedByName
@@ -90,12 +111,21 @@ class ScheduleAppointmentDetailVC: UIViewController {
         self.statusLbl.text = showAppointmentArr?.appointmentStatusType ?? "N/A"
         self.zipcodeLbl.text = showAppointmentArr?.zipcode ?? "N/A"
         self.departmentLbl.text = showAppointmentArr?.departmentName ?? "N/A"
-        self.genderLbl.text = showAppointmentArr?.gender ?? "N/A"
-        self.contactLbl.text = showAppointmentArr?.contactName ?? "N/A"
+        if showAppointmentArr?.gender == "" {
+            self.genderLbl.text = "N/A"
+        }else {
+            self.genderLbl.text = showAppointmentArr?.gender ?? "N/A"
+        }
+       
+        self.contactLbl.text = showAppointmentArr?.providerName ?? "N/A"
         
         
+        if showAppointmentArr?.cPIntials == "" {
+            self.patientintialsLbl.text =  "N/A"
+        }else {
+            self.patientintialsLbl.text = showAppointmentArr?.cPIntials ?? "N/A"
+        }
         
-        self.patientintialsLbl.text = showAppointmentArr?.cPIntials ?? "N/A"
        // self.interpreterLbl.text = self.showAppointmentArr?.interpretorName ?? "N/A"
         let rawTime = showAppointmentArr?.startDateTime ?? ""
         let rawEndTime = showAppointmentArr?.endDateTime ?? ""
@@ -163,6 +193,7 @@ class ScheduleAppointmentDetailVC: UIViewController {
 
     }
     func getSelectedAppointmentData(){
+        if Reachability.isConnectedToNetwork(){
         SwiftLoader.show(animated: true)
         let userId = GetPublicData.sharedInstance.userID
         let urlPostfix = "NotoficationId=0&AppointmentID=\(self.appointmentID)&flag=2&UserID=\(userId)"
@@ -193,9 +224,13 @@ class ScheduleAppointmentDetailVC: UIViewController {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+    else {
+        self.view.makeToast(ConstantStr.noItnernet.val)
+    }
      }
     func hitApiCancelRequest(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let userId = GetPublicData.sharedInstance.userID
         let urlPostfix = "AppointmentId=\(self.appointmentID)&CurrentUserId=\(userId)&UserType=Customer"
@@ -234,7 +269,10 @@ class ScheduleAppointmentDetailVC: UIViewController {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func convertDateFormater(_ date: String) -> String
     {

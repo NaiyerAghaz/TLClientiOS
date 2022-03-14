@@ -83,6 +83,7 @@ class SupportViewController: UIViewController {
         
     }
     func hitApiGetGroupData(){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let companyId = userDefaults.string(forKey: "companyID") ?? ""
@@ -113,9 +114,13 @@ class SupportViewController: UIViewController {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else{
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func hitApiGetCategoryData(groupID:Int){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let companyId = userDefaults.string(forKey: "companyID") ?? ""
@@ -146,9 +151,13 @@ class SupportViewController: UIViewController {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func hitApiGetAllMessage(catID:Int , userID:Int,groupID:Int){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
               
         self.apiGetSupportMessageModel = nil
@@ -179,8 +188,11 @@ class SupportViewController: UIViewController {
                            
                         }
                 })
-     }
-    
+        }
+    else {
+        self.view.makeToast(ConstantStr.noItnernet.val)
+    }
+    }
     
 }
 

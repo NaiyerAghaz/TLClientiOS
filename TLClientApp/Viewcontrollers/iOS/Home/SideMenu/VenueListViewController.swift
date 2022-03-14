@@ -55,18 +55,14 @@ class VenueListViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     func getVenuList(){
-        stateDataSouerce.removeAll()
+        if Reachability.isConnectedToNetwork() {
+       
         SwiftLoader.show(animated: true)
-              /*  let headers: HTTPHeaders = [
-                    "Authorization": "Bearer \(UserDefaults.standard.value(forKey:"token") ?? "")",
-                           "cache-control": "no-cache"
-                       ]
-               // print("😗---hitApiSignUpUser -" , Api.profile.url) 10/01/2021 */
+        stateDataSouerce.removeAll()
         let userId = userDefaults.string(forKey: "userId") ?? ""
-        //let urlParam = "CustomerID=\(userId)&UserType=Customer&Type=EDITTIME"
-        //let urABC = "\(APi.getVenueData.url)" + urlParam
+      
         let urlString = "https://lsp.totallanguage.com/Controls/Venue/GetData?methodType=VenueData%2CDepartmentData%2CProviderData%2CStates&CustomerID=\(userId)&UserType=Customer&Type=EDITTIME"
-        //print("url to get schedule \(urABC)")
+       
                 AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                     .validate()
                     .responseData(completionHandler: { [self] (response) in
@@ -99,9 +95,13 @@ class VenueListViewController: UIViewController {
                             print("Respose Failure ")
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     func deleteVenueAddress(venueId:Int, venueName:String , address:String , address2:String , notes:String , city:String , state:String , zipcode:String){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
     
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -152,7 +152,10 @@ class VenueListViewController: UIViewController {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
 }
 extension VenueListViewController : UITableViewDelegate , UITableViewDataSource {

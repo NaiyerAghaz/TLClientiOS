@@ -38,7 +38,7 @@ class UpdateProfilePicViewController: UIViewController {
                }
     }
     func uploadImageOnly(userImg : UIImage){
-        
+        if Reachability.isConnectedToNetwork() {
                 SwiftLoader.show(animated: true)
                 
                 AF.upload(multipartFormData: { multipartFormData in
@@ -50,16 +50,6 @@ class UpdateProfilePicViewController: UIViewController {
                 to: APi.importImage.url, method: .post , headers: nil)
                 .responseJSON(completionHandler: { (response) in
                     SwiftLoader.hide()
-                    print(response)
-            
-//                    if let err = response.error{
-//                        print(err)
-//
-//                        return
-//                    }
-                    
-                    print("Succesfully uploaded")
-                    
                     switch(response.result){
                     
                     case .success(_):
@@ -84,9 +74,13 @@ class UpdateProfilePicViewController: UIViewController {
                     }
                     
             
-                })
+                })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
             }
     func hitApiUploadImage(imageName: String , contentType: String){
+        if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
     
         let userId = userDefaults.string(forKey: "userId") ?? ""
@@ -126,7 +120,10 @@ class UpdateProfilePicViewController: UIViewController {
                             self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                            
                         }
-                })
+                    })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
      }
     
 }
