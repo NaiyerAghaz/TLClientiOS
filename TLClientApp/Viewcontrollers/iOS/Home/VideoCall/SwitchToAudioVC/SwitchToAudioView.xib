@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SwitchToAudioView" customModule="TLClientApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="254" height="256"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="N/Ajhfjccgjcg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lhd-7j-ca5">
+                    <rect key="frame" x="15" y="30" width="224" height="20.5"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We couldn’t find any vendors at this moment, Would you like to switch to OPI instead?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4k-lW-zi1">
+                    <rect key="frame" x="15" y="80.5" width="224" height="56"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1Ev-9H-y8z">
+                    <rect key="frame" x="10" y="161.5" width="234" height="30"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mk4-If-d0h">
+                            <rect key="frame" x="0.0" y="2.5" width="78" height="25.5"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;&gt;&gt;&gt;&gt;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBh-5R-pTG">
+                            <rect key="frame" x="78" y="0.0" width="78" height="30"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="cml-bo-1uo">
+                            <rect key="frame" x="156" y="1.5" width="78" height="27.5"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="YGu-ZB-Q8s"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.098039215686274508" green="0.61568627450980395" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="1Ev-9H-y8z" firstAttribute="top" secondItem="Q4k-lW-zi1" secondAttribute="bottom" constant="25" id="6RL-lh-bB4"/>
+                <constraint firstItem="1Ev-9H-y8z" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="6w4-a3-ePK"/>
+                <constraint firstItem="Q4k-lW-zi1" firstAttribute="top" secondItem="Lhd-7j-ca5" secondAttribute="bottom" constant="30" id="Dbv-nO-kyz"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1Ev-9H-y8z" secondAttribute="bottom" constant="10" id="Tiq-dA-gE9"/>
+                <constraint firstItem="Lhd-7j-ca5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="dXD-Lg-JTK"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Lhd-7j-ca5" secondAttribute="trailing" constant="15" id="hO8-tM-hbb"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Q4k-lW-zi1" secondAttribute="trailing" constant="15" id="lSP-Tc-mXA"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1Ev-9H-y8z" secondAttribute="trailing" constant="10" id="mEi-eB-tpJ"/>
+                <constraint firstItem="Lhd-7j-ca5" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="pD6-F2-zcY"/>
+                <constraint firstItem="Q4k-lW-zi1" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="vtF-hq-87B"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="lblSTLang" destination="Lhd-7j-ca5" id="dpm-XC-7lj"/>
+            </connections>
+            <point key="canvasLocation" x="-231.8840579710145" y="-4.0178571428571423"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="phone.fill" catalog="system" width="128" height="114"/>
+        <image name="video.fill" catalog="system" width="128" height="82"/>
+    </resources>
+</document>

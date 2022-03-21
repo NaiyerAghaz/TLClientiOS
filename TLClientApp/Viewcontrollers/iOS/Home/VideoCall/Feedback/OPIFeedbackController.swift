@@ -8,8 +8,8 @@
 import UIKit
 import SteppableSlider
 
-class OPIFeedbackController: UIViewController {
-
+class VRIOPIFeedbackController: UIViewController {
+    
     @IBOutlet var imgViewCaller: UIImageView!
     @IBOutlet var lblRoomId: UILabel!
     @IBOutlet var lblUserName: UILabel!
@@ -34,29 +34,31 @@ class OPIFeedbackController: UIViewController {
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
         getFeedback()
-       
+        
     }
     func uiConfigure(){
-       /*
-        lblTranslate.text = "English >> \(apiGetfeedbackDetail?.getMembers![0].languageName ?? "")"
         lblDuration.text = duration
         lblRoomId.text = roomID
         lblDateTime.text = dateAndTime
-        lblVoice.text = "Video"*/
-       
+        lblVoice.text = "Video"
+        
         lblUserName.text = apiGetfeedbackDetail?.getMembers![0].customerName ?? ""
+        
         let custImage = apiGetfeedbackDetail?.getMembers![0].custImg ?? ""
         
         imgViewCaller.sd_setImage(with: URL(string: nBaseUrl + custImage), placeholderImage: UIImage(named: "ic_user"))
+        expSlider.value = 2
+        overallRatingSlider.value = 2
         expSlider.layer.cornerRadius = expSlider.frame.height/2
-        expSlider.numberOfSteps = 4
-        
         overallRatingSlider.layer.cornerRadius = overallRatingSlider.frame.height/2
-        overallRatingSlider.numberOfSteps = 4
+        let lng = "English >> \(apiGetfeedbackDetail?.getMembers![0].languageName ?? "")"
+       
+        lblTranslate.text = lng
         expSlider.addTarget(self, action: #selector(expSliderValueChanged(_:)), for: .valueChanged)
         overallRatingSlider.addTarget(self, action: #selector(overallRatingValueChanged(_:)), for: .valueChanged)
-       
+        
     }
+    
     func getFeedback(){
         SwiftLoader.show(animated: true)
         let req = feedbackVM.feedbackReq(roomId: roomID ?? "")
@@ -71,29 +73,24 @@ class OPIFeedbackController: UIViewController {
         sender.value = round(sender.value)
         switch sender.value {
         case 0:
-            print("SENDER VALUE IS 0")
-            
-            lblExpr.text = ""
-        case 1:
-            print("SENDER VALUE IS 1")
             
             lblExpr.text = "Poor"
-        case 2:
-            print("SENDER VALUE IS 2")
-           
+            
+        case 1:
+            
             lblExpr.text = "Average"
-        case 3:
-            print("SENDER VALUE IS 3")
-           
+            
+        case 2:
+            
             lblExpr.text = "Good"
-        case 4:
-            print("SENDER VALUE IS 4")
-          
+        case 3:
+            
             lblExpr.text = "Very Good"
-        case 5:
-            print("SENDER VALUE IS 4")
+            
+        case 4:
             
             lblExpr.text = "Excellent"
+            
         default:
             print("Awesome")
         }
@@ -104,29 +101,27 @@ class OPIFeedbackController: UIViewController {
         sender.value = round(sender.value)
         switch sender.value {
         case 0:
-            print("SENDER VALUE IS 0")
-            ratingValue = 0
-            lblRating.text = ""
-        case 1:
-            print("SENDER VALUE IS 1")
+            
+            
             ratingValue = 1
             lblRating.text = "Poor"
-        case 2:
-            print("SENDER VALUE IS 2")
+        case 1:
+            
             ratingValue = 2
             lblRating.text = "Average"
-        case 3:
-            print("SENDER VALUE IS 3")
+        case 2:
+            
             ratingValue = 3
             lblRating.text = "Good"
-        case 4:
-            print("SENDER VALUE IS 4")
+        case 3:
+            
             ratingValue = 4
             lblRating.text = "Very Good"
-        case 5:
-            print("SENDER VALUE IS 5")
+        case 4:
+            
             ratingValue = 5
             lblRating.text = "Excellent"
+            
         default:
             print("Awesome")
         }
@@ -134,16 +129,20 @@ class OPIFeedbackController: UIViewController {
     }
 }
 //MARK: Button Actions
-extension OPIFeedbackController {
+extension VRIOPIFeedbackController {
     
     @IBAction func clickOnCancel(_ sender: UIButton) {
         dismissToVC()
     }
     @IBAction func clickOnSubmit(_ sender: UIButton) {
-       
+        SwiftLoader.show(title: "Submit..", animated: true)
+        
         let reqparameter = feedbackVM.requestFeedback(callquality:  lblExpr.text ?? "", VendID: "\(apiGetfeedbackDetail?.getMembers![0].vendID ?? 0)", roomno: roomID!, CustID: "\(apiGetfeedbackDetail?.getMembers![0].custID ?? 0)", LID: "\(apiGetfeedbackDetail?.getMembers![0].lID ?? 0)", rating: ratingValue)
+        print("para-->",reqparameter)
         feedbackVM.submitfeedbackMethod(parameter: reqparameter) { success, err in
+            SwiftLoader.hide()
             if success {
+                
                 self.dismissToVC()
             }
             else {
@@ -152,14 +151,14 @@ extension OPIFeedbackController {
         }
         //dismissToVC()
     }
-   
+    
     public func dismissToVC(){
-        dismiss(animated: true, completion: nil)
-       // self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        //  dismiss(animated: true, completion: nil)
+        self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
     }
 }
 //MARK: Common Functions
-extension OPIFeedbackController {
+extension VRIOPIFeedbackController {
     private func popToVc() {
         let navArray: [UIViewController] = self.navigationController?.viewControllers ?? []
         for vc in navArray {

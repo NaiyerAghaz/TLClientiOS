@@ -54,6 +54,7 @@ class VDOCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var remoteView: VideoView!
     @IBOutlet weak var imgRemotePrivacy: UIImageView!
     
+    @IBOutlet weak var lblNameSpeaker: UILabel!
     @IBOutlet weak var lblVideo: PaddingLabel!
     @IBOutlet weak var audioLbl: PaddingLabel!
     @IBOutlet weak var participantName: PaddingLabel!

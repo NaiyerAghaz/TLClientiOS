@@ -7,7 +7,51 @@
 
 import UIKit
 import Alamofire
-class CallingPopupVC: UIViewController {
+protocol VideocallDelegate {
+    func switchToAudioMethods(roomId:String,sourceLangID: String,targetLangID:String,ccid:String,sourceLangName:String,targetLangName: String,patientno: String,patientname: String, vendorDetails: VendorCallUserInfoModel?)
+}
+class CallingPopupVC: UIViewController,VideocallDelegate {
+    func switchToAudioMethods(roomId:String,sourceLangID: String,targetLangID:String,ccid:String,sourceLangName:String,targetLangName: String,patientno: String,patientname: String,vendorDetails: VendorCallUserInfoModel?) {
+        print("roomId!:",roomId,"sourceLangID:",sourceLangID,"targetLangID:",targetLangID,"ccid:",ccid,"sourceLangName:",sourceLangName,"patientno:",patientno,"patientname:",patientname)
+        let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+        let odoCall = sB.instantiateViewController(identifier: "AudioCallViewController") as! AudioCallViewController
+        odoCall.roomID = roomId
+        odoCall.sourceLangID = sourceLangID
+        odoCall.targetLangID = targetLangID
+        odoCall.ccid = ccid
+        odoCall.isToThirdPartyCall = false
+        odoCall.sourceLangName = sourceLangName
+        odoCall.targetLangName = targetLangName
+        odoCall.patientno = patientno
+        odoCall.patientname = patientname
+        odoCall.vendorID = "\(vendorDetails?.UserId ?? 0)"
+        odoCall.vendorName = vendorDetails?.CustomerDisplayName ?? ""
+        odoCall.vendorImg = vendorDetails?.CustomerImage ?? ""
+        odoCall.modalPresentationStyle = .overFullScreen
+       
+        self.present(odoCall, animated: true, completion: nil)
+        
+//        odoCall.roomID = roomId
+//        odoCall.sourceLangID = sourceID
+//        odoCall.targetLangID = targetID
+//        odoCall.ccid = self.ccid
+//        odoCall.isToThirdPartyCall = false
+//        odoCall.sourceLangName = sourceName
+//        odoCall.targetLangName = targetName
+//        odoCall.patientno = txtPatientClientNumber.text ?? ""
+//        odoCall.patientname = txtPatientClientName.text ?? ""
+        
+//        n.putExtra("tokens", "");
+//                            in.putExtra("statustype", "O");
+//                            in.putExtra("sourceLid", sourceLid);
+//                            in.putExtra("selectedLanguageId", selectedLanguageId);
+//                            in.putExtra("touserid", "0");
+//                            in.putExtra("pClientName", pClientName);
+//                            in.putExtra("pClientNumber", pClientNumber);
+//                            in.putExtra("Type", AppConstants.VRIOPIOndemand);
+//                            in.putExtra("cId", cId);
+    }
+    
     @IBOutlet weak var txtPatientClientName: ACFloatingTextfield!
     @IBOutlet weak var txtPatientClientNumber: ACFloatingTextfield!
     var callManagerVM = CallManagerVM()
@@ -71,29 +115,24 @@ func configureUI(){
                     self.addAppCall()
                     
                    }
+                else {
+                    self.view.makeToast("Room is not being created. Please try again",duration: 1, position: .center)
+                }
             }else if self.calltype == "OPI" {
                 print("OPI call start" , roomId)
                 if roomId != nil {
                     getVRICallClient()
                     postOPIAcceptCall()
                 }else {
-                    self.view.makeToast("No roomID.")
+                    self.view.makeToast("Room is not being created. Please try again",duration: 1, position: .center)
                 }
             }
         }
         
     }
     func callTOVRI(){
+        
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-        let fb = sB.instantiateViewController(identifier: "OPIFeedbackController") as! OPIFeedbackController
-        fb.roomID = "111"
-        fb.targetLang = "test"
-        fb.duration = "20"//callStartTime
-        fb.dateAndTime = "22/02/2022"
-        fb.modalPresentationStyle = .overFullScreen
-        // SwiftLoader.hide()
-        self.present(fb, animated: true, completion: nil)
-        /*let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
         vdoCall.roomID = roomId
         vdoCall.sourceLangID = sourceID
@@ -104,9 +143,10 @@ func configureUI(){
         vdoCall.targetLangName = targetName
         vdoCall.patientno = txtPatientClientNumber.text ?? ""
         vdoCall.patientname = txtPatientClientName.text ?? ""
+        vdoCall.videocallDelegate = self
         vdoCall.modalPresentationStyle = .overFullScreen
         SwiftLoader.hide()
-        self.present(vdoCall, animated: true, completion: nil)*/
+        self.present(vdoCall, animated: true, completion: nil)
     }
     
     @IBAction func btnSkipTapped(_ sender: Any){
@@ -120,6 +160,9 @@ func configureUI(){
                     self.addAppCall()
                     
                    }
+                else {
+                    self.view.makeToast("No roomID.")
+                }
             }else if self.calltype == "OPI" {
                 
                 if roomId != nil {

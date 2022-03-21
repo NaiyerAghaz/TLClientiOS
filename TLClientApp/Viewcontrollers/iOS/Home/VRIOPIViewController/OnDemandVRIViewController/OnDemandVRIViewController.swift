@@ -8,6 +8,7 @@
 import UIKit
 import XLPagerTabStrip
 import iOSDropDown
+import Malert
 
 class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPickerViewDelegate,UIPickerViewDataSource, UITextFieldDelegate {
     @IBOutlet weak var txtTargetlanguage: iOSDropDown!
@@ -38,8 +39,8 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
     }
     
     public func uiUpdate(){
-       txtTargetlanguage.delegate = self
-        txtSourceLanguage.delegate = self
+      // txtTargetlanguage.delegate = self
+       // txtSourceLanguage.delegate = self
        // txtTargetlanguage.inputView = vriPickerView
        // txtSourceLanguage.inputView = vriPickerView
         self.txtSourceLanguage.layer.borderWidth = 0.6
@@ -125,25 +126,30 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider, UIPicke
         }
     }
     @IBAction func btnCallNowTapped(_ sender: Any) {
-       
-        let request = TxtRequest(txt: txtTargetlanguage.text)
+        
+       let request = TxtRequest(txt: txtTargetlanguage.text)
         let validate = ValidationReq().validate(txtfield: request)
         if validate.success {
             let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: viewIndentifier.CallingPopupVC.rawValue) as! CallingPopupVC
-            vcontrol.modalPresentationStyle = .overFullScreen
+            
             vcontrol.calltype = "VRI"
             vcontrol.sourceID = languageViewModel.getSournceSelectedLID(stlanguage: txtSourceLanguage.text!)
             vcontrol.sourceName = txtSourceLanguage.text!
             vcontrol.targetID = languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!)
             vcontrol.targetName = txtTargetlanguage.text!
-            
+            vcontrol.modalPresentationStyle = .overFullScreen
             self.present(vcontrol, animated: true, completion: nil)
         }
         else {
             self.view.makeToast(validate.error, duration: 1, position: .center)
         }
     }
+    
+    //MAlert controller:::
+    
+   
+    
     }
 
 

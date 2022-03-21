@@ -70,6 +70,7 @@ enum APi{
     case tladdupdateappointment
     case encryptdecryptvalue
     case GetBlokedAppointmentDetailApi
+    case customerVRIEndCall
     var url: URL{
         switch self {
         case .login:
@@ -182,6 +183,8 @@ enum APi{
             return URL(string: baseUrl + "/encryptdecryptvalue")!
         case .GetBlokedAppointmentDetailApi:
             return URL(string: baseUrl + "/GetAppointmentBlokedHomeScreenPopupApi")!
+        case .customerVRIEndCall:
+            return URL(string: nBaseUrl + "/VRICall/customervriendcall")!
         }
     }
 }

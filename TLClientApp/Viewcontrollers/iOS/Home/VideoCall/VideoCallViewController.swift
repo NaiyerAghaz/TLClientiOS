@@ -11,17 +11,16 @@ import TwilioVideo
 import CallKit
 import DropDown
 import TwilioChatClient
-
+import Malert
 
 
 class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHChannelDelegate,TwilioChatClientDelegate,AcceptAndRejectDelegate {
-    
-    
-    
     // Video SDK components
     /**
      * We will create an audio device and manage it's lifecycle in response to CallKit events.
      */
+    
+    @IBOutlet weak var lblParticipantTalking: UILabel!
     @IBOutlet weak var lblTotalParticipant: UILabel!
     @IBOutlet weak var userRemoteView: UIView!
     var audioDevice: DefaultAudioDevice = DefaultAudioDevice()
@@ -38,7 +37,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     // CallKit components
     let callKitProvider: CXProvider? = nil
     let callKitCallController: CXCallController? = nil
-    var callKitCompletionHandler: ((Bool)->Swift.Void?)? = nil
+    //var callKitCompletionHandler: ((Bool)->Swift.Void?)? = nil
     var userInitiatedDisconnect: Bool = false
     var ifComeFromMeet = false
     var ifTimereach = false
@@ -49,28 +48,24 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
     var ringToneTimer = Timer()
-    var ringingTime = 60
+    var ringingTime = 45
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
-    
+    @IBOutlet weak var btnSpeak: UIButton!
+    @IBOutlet weak var btnCameraFlip: UIButton!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var preview: VideoView!
-    
     @IBOutlet weak var muteView: UIView!
     @IBOutlet weak var topView: UIView!
-    
     @IBOutlet weak var stopVideoView: UIView!
-    
     @IBOutlet weak var vdoCollectionView: UICollectionView!
     @IBOutlet weak var participantView: UIView!
-    
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var moreView: UIView!
-   
-    
+    @IBOutlet weak var btnStopVideo: UIButton!
+    @IBOutlet weak var btnMic: UIButton!
     @IBOutlet weak var lblTimeSpeak: UILabel!
-    
     @IBOutlet weak var imgLocalPrivacy: UIImageView!
     var vendorTbl : UITableView = UITableView()
     var lblParticipant = UILabel()
@@ -81,7 +76,16 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var clientStatusModel: ClientStatusModel?
     var isAttendMultiPart = false
     var callStartTime = ""
+    var isChatCreated = false
+    var isChatConnected  = false
+    var myChannel : TCHChannel?
+    var client : TwilioChatClient?
+    var channels :NSMutableOrderedSet?
+    var videocallDelegate: VideocallDelegate?
+    var isSpeaking = false
+    var isSpeakerSId = ""
     //More dropdown
+    
     let moreDropDown = DropDown()
     lazy var dropDowns: [DropDown] = {
         return [
@@ -91,7 +95,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var lView = VideoView()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(participantNotAvailable(noti:)), name: Notification.Name("notAvailableParticipant"), object: nil)
         if ifComeFromMeet {
             if ifTimereach {
                 // start call here
@@ -270,7 +274,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }
     }
     //MARK:******** Generate Chat token creation  ********
-    
     func genarateChatTokenCreate(){
         chatManager.loginWithIdentityChat(indentityName: userDefaults.string(forKey: "username")!) { success, err in
             if success! {
@@ -282,15 +285,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             else {
                 print("genarateChatTokenCreate-------------->")
             }
-            
-            
         }
     }
-    var isChatCreated = false
-    var isChatConnected  = false
-    var myChannel : TCHChannel?
-    var client : TwilioChatClient?
-    var channels :NSMutableOrderedSet?
+    
     func newChannelPrivateCreate(){
         
         var channelList = TCHChannels()
@@ -510,8 +507,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }}
     // MARK:TwilioChatClientDelegate
     //MARK: Actions and Outlet
-    @IBOutlet weak var btnStopVideo: UIButton!
-    @IBOutlet weak var btnMic: UIButton!
+    
     @IBAction func btnMicTapped(_ sender: Any) {
         if (localAudioTrack != nil){
             localAudioTrack?.isEnabled = !localAudioTrack!.isEnabled
@@ -520,7 +516,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
     }
     
-   
+    
     @IBAction func btnStopVideoTapped(_ sender: Any) {
         
         if localVideoTrack != nil {
@@ -554,11 +550,28 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         localVideoTrack = nil
                     }
                     if remoteParticipantArr.count > 0 {
-                      
-                        updateYourFeedback()
+                        vdoCallVM.customerEndCallWithoutConnect(roomID: roomID ?? "") { success, err in
+                            if success! {
+                                DispatchQueue.main.async {
+                                    self.updateYourFeedback()
+                                }
+                                
+                            }
+                            self.view.makeToast("Please try again to hangup this call")
+                        }
+                        
                     }
                     else {
-                        self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+                        vdoCallVM.customerEndCallWithoutConnect(roomID: roomID ?? "") { success, err in
+                            if success! {
+                                DispatchQueue.main.async {
+                                    self.dismissViewControllers()
+                                }
+                                
+                            }
+                            self.view.makeToast("Please try again to hangup this call")
+                        }
+                       
                     }
                     
                 }
@@ -568,7 +581,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     public func updateYourFeedback(){
         recordTime.invalidate()
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-        let fb = sB.instantiateViewController(identifier: "OPIFeedbackController") as! OPIFeedbackController
+        let fb = sB.instantiateViewController(identifier: "VRIOPIFeedbackController") as! VRIOPIFeedbackController
         fb.roomID = roomID
         fb.targetLang = targetLangName
         fb.duration = lblTimeSpeak.text//callStartTime
@@ -580,6 +593,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
     }
     @IBAction func btnParticipantTapped(_ sender: Any) {
+        
         let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let vcontrol = callVC.instantiateViewController(identifier: "TotalParticipantVC") as! TotalParticipantVC
         vcontrol.height = 500
@@ -595,25 +609,24 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vcontrol.callChannel = myChannel
         vcontrol.roomlocalParticipantSIDrule = roomlocalParticipantSIDrule
         vcontrol.conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
-        // if clientStatusModel != nil {
+        
         vcontrol.conferenceStatusModel = clientStatusModel
-        // }
+        
         vcontrol.acceptAndRejectDelegate = self
-        // vcontrol.popupDelegate = self
+        
         present(vcontrol, animated: true, completion: nil)
-        // vendorList(isShow: isShownParti)
+        
     }
+    
     
     @IBAction func btnMoreTapped(_ sender: Any) {
         moreDropDown.show()
         
     }
     
-    @IBOutlet weak var btnSpeak: UIButton!
     @IBAction func btnSpeakTapped(_ sender: Any) {
     }
     
-    @IBOutlet weak var btnCameraFlip: UIButton!
     @IBAction func btnCameraFlipTapped(_ sender: Any) {
         flipCamera()
     }
@@ -631,6 +644,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     func doConnectTwilio(twilioToken: String){
         prepareLocalMedia()
         let connectionOption = ConnectOptions.init(token: twilioToken) { builder in
+            builder.isDominantSpeakerEnabled = true
             builder.roomName = self.roomID
             if let audioTrack = self.localAudioTrack {
                 builder.audioTracks = [audioTrack]
@@ -648,8 +662,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
             if (localAudioTrack == nil) {
                 self.view.makeToast("Failed to create audio track")
-                
-            }
+           }
         }
         // Create a video track which captures from the camera.
         if (localVideoTrack == nil) {
@@ -664,12 +677,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             myAudio.stop()
             timer.invalidate()
             ringToneTimer.invalidate()
-            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+            dismissViewControllers()
+            //self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
         }
     }
     
-    
-    // MARK:- Private
+// MARK:- Private
     func startPreview(localView: VideoView) {
         
         if PlatformUtils.isSimulator {
@@ -695,7 +708,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
             camera!.startCapture(device: frontCamera != nil ? frontCamera! : backCamera!) { (captureDevice, videoFormat, error) in
                 if let error = error {
-                    // self.view.makeToast("Capture failed with error.\ncode = \((error as NSError).code) error = \(error.localizedDescription)")
+                    
                     
                 } else {
                     
@@ -705,7 +718,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }
         else {
             self.view.makeToast("No front or back capture device found!")
-            // self.logMessage(messageText:"No front or back capture device found!")
+            
         }
         
     }
@@ -747,9 +760,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         if myAudio != nil{
             myAudio.stop()
         }
-        //        DispatchQueue.main.async {
-        //            self.vdoCollectionView.reloadData()
-        //        }
+        
         lblTotalParticipant.text = "\(remoteParticipantArr.count)"
         return false
     }
@@ -777,7 +788,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     //Mark: setupRemoteVideoView
     func setupRemoteVideoView() {
-        
         self.remoteView = VideoView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         remoteView?.contentMode = UIView.ContentMode.scaleAspectFill
         remoteView?.clipsToBounds = false

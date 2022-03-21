@@ -52,7 +52,7 @@ extension VideoCallViewController:RoomDelegate{
         // self.cleanupRemoteParticipant()
         
         //  self.showRoomUI(inRoom: false)
-        self.callKitCompletionHandler = nil
+      //  self.callKitCompletionHandler = nil
         self.userInitiatedDisconnect = false
         room.disconnect()
         self.room = nil
@@ -66,21 +66,41 @@ extension VideoCallViewController:RoomDelegate{
         if localAudioTrack != nil {
             localAudioTrack = nil
         }
-        updateYourFeedback()
-       // self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        if remoteParticipantArr.count > 0{
+            updateYourFeedback()
+        }
+   
+    }
+    //THis method will call who is speaking
+    func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
+       if participant?.sid != nil {
+            isSpeaking = true
+            isSpeakerSId = participant?.sid ?? ""
+           }
+        else {
+            isSpeaking = false
+            isSpeakerSId = participant?.sid ?? ""
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.vdoCollectionView.reloadData()
+        })
+           
+     
+        print("roodIDDD------>",room.isRecording,"parti--------->", participant?.sid, participant?.identity)
+       //
     }
     
     func roomDidFailToConnect(room: Room, error: Error) {
         //logMessage(messageText: "Failed to connect to room with error: \(error.localizedDescription)")
         self.view.makeToast("Failed to connect to room with error: \(error.localizedDescription)")
-        self.callKitCompletionHandler!(false)
+       // self.callKitCompletionHandler!(false)
         self.room = nil
         // self.showRoomUI(inRoom: false)
     }
     
     func roomIsReconnecting(room: Room, error: Error) {
         self.view.makeToast( "Reconnecting to room internet is too slow..")
-        //  logMessage(messageText: "Reconnecting to room \(room.name), error = \(String(describing: error))")
+      
     }
     
     func roomDidReconnect(room: Room) {

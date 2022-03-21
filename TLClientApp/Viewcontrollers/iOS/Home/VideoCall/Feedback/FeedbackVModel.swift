@@ -11,13 +11,10 @@ class FeedbackVModel {
    // func submitfeedbackMethod(parameter:[String:Any],completion:@escaping(Bool?, ClientStatusModel?) ->()){
     func submitfeedbackMethod(parameter:[String:Any], completionHnadler:@escaping(Bool, Error?) ->()){
         WebServices.postJson(url: APi.addCallFeedback.url, jsonObject: parameter) { response, err in
-           // print("clientStatus----------->",response)
-           // let res = response as! NSArray
+           
             print("feedbackResponse------>",response)
             completionHnadler(true,nil)
-            //let nresult = (res[0] as AnyObject).value(forKey: "ResultData") as! NSArray
-           // let result: ClientStatusModel = ClientStatusModel.getData(dicts: nresult[0] as! NSDictionary)
-           // completion(true, result)
+          
         } failureHandler: { resp, err in
             completionHnadler(false,err as? Error)
         }

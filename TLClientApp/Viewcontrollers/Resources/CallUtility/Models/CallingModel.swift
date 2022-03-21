@@ -46,22 +46,7 @@ struct ConferenceResultModel:Codable {
         tOTALRECORDS = try item.decodeIfPresent(String.self, forKey: .tOTALRECORDS)
     }
 }
-/* ACTUALROOM = 21092529;
- CALL = 1;
- DAILCALL = N;
- EMAIL = "";
- FNAME = "";
- FROMUSERID = 0;
- ID = 35181;
- LNAME = "";
- MUTE = 1;
- PARTSID = PA72be4615c644f55ece7960015443e2cb;
- ROOMNO = "";
- ROOMSID = RM8054049ba2d5fed02a8fa2801f4409ac;
- TOUSERID = 218925;
- TYPE = V;
- UserName = vendor;
- VIDEO = 1;*/
+
 struct ConferenceInfoModel : Codable{
     var ID: String?
     var UserName: String?

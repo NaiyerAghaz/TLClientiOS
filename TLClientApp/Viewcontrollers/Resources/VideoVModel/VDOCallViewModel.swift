@@ -35,6 +35,25 @@ class VDOCallViewModel {
         }
         
     }
+    func customerEndCallRequest(roomID: String) -> [String:Any] {
+        let req:[String:Any] = ["strSearchString":"<Info><roomno>\(roomID)</roomno></Info>"]
+       // NSDictionary *params = @{  @"strSearchString" : [NSString stringWithFormat:@"<Info><roomno>%@</roomno></Info>", self.roomID] };
+        return req
+    }
+    func customerEndCallWithoutConnect( roomID: String,completionBlock:@escaping(Bool?, Error?) ->()){
+       
+        ApiServices.shareInstace.getDataFromApi(url: APi.customerVRIEndCall.url, para: customerEndCallRequest(roomID: roomID)) { response, error in
+            if response != nil {
+                
+               
+                completionBlock(true, nil)
+            }
+            else {
+                completionBlock(false, error)
+            }
+        }
+        
+    }
     func startCallRequest(lid: String,Roomno: String,senderid: String, touserid: String, statustype: String, TLname: String, sLName: String,devicetype: String,calltype: String,patientname: String,patientno: String, Slid: String,companyID: String,checkListFilters: String, callfrom:String, ondemandvendorid: String,CallGetInType: String) -> [String: Any]{
         let para:[String: Any] = ["lid":lid,"Roomno":Roomno,"senderid":senderid,"touserid":touserid,"statustype":statustype,"TLname":TLname,"TLname":TLname,"sLName":sLName,"devicetype":devicetype,"calltype":calltype,"patientname":patientname,"patientno":patientno,"Slid":Slid,"companyID":companyID,"checkListFilters":checkListFilters]
         return para
@@ -86,7 +105,7 @@ class VDOCallViewModel {
                     print("participant added json:------------------>",Json)
                     let newArrDict = Json![0] as! NSDictionary
                     let result = newArrDict.object(forKey: "result") as! String
-                    print("resultresultresult->",result,newArrDict)
+                    print("resultresultresult111->",result,newArrDict)
                     let jsonData = result.data(using: .utf8)
                     if jsonData != nil {
                         let rJson = try JSONSerialization.jsonObject(with: jsonData!, options: []) as? NSArray
@@ -389,6 +408,131 @@ class VDOCallViewModel {
             
         }
     }
+    //MARK: Switch To Audio call
+    func getReqVRICallClient(roomID: String,clientID: String,sourceId: String,targetID: String) -> [String: Any]{
+
+        let searchStr = "<VRICLIENT><ACTION>A</ACTION><ID>0</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"
+        let parameter = ["strSearchString":searchStr]
+        
+        return parameter
+    }
+    
+    func getVRICallClients(req:[String:Any], completionHandler:@escaping([ApiCreateVRICallClientResponseModel], Error?) -> ()){
+        WebServices.postJson(url: APi.createVRICallClient.url, jsonObject: req) { response, err in
+            print("getCreateVRICallClient----------->",response)
+            
+            guard let daata = cEnum.instance.jsonToData(json: response) else { return }
+            do {
+                let jsonDecoder = JSONDecoder()
+                let apiclientDetail = try jsonDecoder.decode([ApiCreateVRICallClientResponseModel].self, from: daata)
+               completionHandler(apiclientDetail, nil)
+                
+            } catch{
+                completionHandler([], err as? Error)
+                print("error block getCommonDetail " ,error)
+            }
+         
+        } failureHandler: { resp, err in
+            print(err)
+        }
+    }
+    
+    func getReqVendorIdForAudioCall(userID: String,sourceID: String,targetID: String,ccid: String) -> [String: Any]{
+
+        let srchString = "<Info><CUSTOMERID>\(userID)</CUSTOMERID><TYPE>O</TYPE><SOURCE>\(sourceID)</SOURCE><TARGET>\(targetID)</TARGET><CC_ID>\(ccid)</CC_ID></Info>"
+        let param = ["strSearchString" :srchString]
+        
+        return param
+    }
+    
+    func getVendorIdForAudioCall(req:[String:Any], completionHandler:@escaping([VendorCallStatusModel]?, Error?) -> ()){
+       
+           // self.apiCheckCallStatusResponseModel.removeAll()
+//            let userID = GetPublicData.sharedInstance.userID
+//            let sourceID = self.sourceID ?? ""
+//            let targetID = self.targetID ?? ""
+//            let ccid = self.ccid
+           print("vendorIDReq:",req)
+        WebServices.postJson(url: APi.getCheckCallStatus.url, jsonObject: req) { response, err in
+            print("vendorIDReqres----------->",response)
+            do {
+                let arr = response as! NSArray
+                let newArrDict = arr[0] as! NSDictionary
+                let result = newArrDict.object(forKey: "result") as! String
+                let jsonData = result.data(using: .utf8)
+                if jsonData != nil {
+                    let decodeData = try JSONDecoder().decode([VendorCallStatusModel].self, from: jsonData!)
+                    completionHandler(decodeData, nil)
+                }
+                else{
+                    completionHandler(nil, err as? Error)
+                }
+            }
+            catch{
+                print(error.localizedDescription)
+            }
+
+         
+        } failureHandler: { resp, err in
+            print(err)
+        }
+        
+          /*  print("Para and url vendorList", param , urlString)
+            AF.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: nil)
+                .validate()
+                .responseData(completionHandler: { (response) in
+                    SwiftLoader.hide()
+                    switch(response.result){
+                    
+                    case .success(_):
+                        guard let daata = response.data else { return }
+                        do {
+                            let jsonDecoder = JSONDecoder()
+                            self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
+                            print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
+                            let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
+                            
+                            print("STRING DATA IS \(str)")
+                            let data = str.data(using: .utf8)!
+                            do {
+                                //
+                                print("DATAAA ISSS \(data)")
+                                if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
+                                {
+                                    
+                                    let newjson = jsonArray.first
+                                    let userInfo = newjson?["UserInfo"] as? [[String:Any]]
+                                    let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
+                                    let userIfo = userInfo?.first
+                                    let vendorId = userIfo?["UserId"] as? Int
+                                    let vendorName = userIfo?["CustomerDisplayName"] as? String
+                                    let vendorimg = userIfo?["CustomerImage"] as? String
+                                    self.vendorID = String(vendorId ?? 0)
+                                    self.vendorName = vendorName ?? ""
+                                    self.vendorImgUrl = vendorimg ?? ""
+                                    print("vendor ID ", vendorId , userIfo ,vendorimg  )
+                                } else {
+                                    print("bad json")
+                                }
+                            } catch let error as NSError {
+                                print(error)
+                            }
+                            self.twilioVoiceView()
+                            
+                            
+                        } catch{
+                            
+                            print("error block getVendorIDs Data  " ,error)
+                        }
+                    case .failure(_):
+                        print("Respose Failure getVendorIDs ")
+                        
+                    }
+                })*/
+        
+    }
+    
+    //END--
     //Reject Invite call
     
    // Convert from JSON to nsdata

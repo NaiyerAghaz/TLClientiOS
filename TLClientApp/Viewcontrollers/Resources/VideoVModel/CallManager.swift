@@ -8,6 +8,8 @@
 import Foundation
 import TwilioVideo
 import TwilioVoice
+import Malert
+import UIKit
 class CallManagerVM {
     
     func getRoomList(complitionBlock: @escaping([RoomResultModel]?, Error?) -> ()){
@@ -178,26 +180,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         if (self.remoteParticipant == nil) {
             _ = renderRemoteParticipant(participant: participant)
         }
-        /*  if remoteParicipantDictionary?.count == 1 {
-         
-         let localParticipant = (self.localParicipantDictionary?.value(forKey: "0") as? NSObject)?.value(forKey: "participant") as? LocalParticipant
-         self.localParicipantDictionary?["0"] = ["participant":localParticipant, "videoTrak":videoTrack]
-         
-         }
-         var saveParticipant = false
-         var index = 0
-         for i in 0...remoteParticipantArr.count{
-         let nParticipant = (self.localParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "participant") as? RemoteParticipant
-         if nParticipant == participant {
-         saveParticipant = true
-         index = i
-         }
-         
-         }
-         if saveParticipant{
-         //remoteParicipantDictionary?["\(index)"] =
-         self.remoteParicipantDictionary?["\(index)"] = ["participant":participant, "videoTrak": videoTrack]
-         }*/
+       
         
         print("didSubscribeToVideoTrack------->", participant.sid)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {[self] in
@@ -254,8 +237,8 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         
     }
     func backToMainController(){
-        remoteParticipantArr.removeAll()
         
+        remoteParticipantArr.removeAll()
         self.room = nil
         if (self.camera != nil){
             camera?.stopCapture()
@@ -267,11 +250,86 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         if localAudioTrack != nil {
             localAudioTrack = nil
         }
-        
         updateYourFeedback()
+    }
+    @objc func participantNotAvailable(noti:Notification){
+        if remoteParticipantArr.count == 0 {
+            timer.invalidate()
+            ringToneTimer.invalidate()
+            if myAudio != nil{
+                myAudio.stop()
+            }
+            if (localVideoTrack != nil){
+                localVideoTrack = nil
+            }
+            
+            switchToAudioMethod()
+            
+            //            if (room != nil){
+            //                room?.disconnect()
+            //                if (self.camera != nil){
+            //                    camera?.stopCapture()
+            //                    camera = nil
+            //                }
+            //                if (localVideoTrack != nil){
+            //                    localVideoTrack = nil
+            //                }
+            //                switchToAudioMethod()
+            //               }
+        }
         
-       // self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+    }
+    //MARK: Switch To AudioCall
+    private func switchToAudioMethod() {
+        let switchToAudioView = SwitchToAudioView.instantiateFromNib()
+        let sT = sourceLangName! + ">>>>>" + targetLangName!
+        switchToAudioView.stLang = sT
+        let alert = Malert(customView: switchToAudioView, tapToDismiss: false)
+        alert.buttonsSpace = 10
+        alert.buttonsAxis = .horizontal
+        alert.textAlign = .center
+        alert.margin = 24
+        alert.buttonsSideMargin = 24
+        alert.buttonsBottomMargin = 16
+        alert.cornerRadius = 12
+        alert.backgroundColor = UIColor(red:25/255, green:157/255, blue:217/255, alpha:1.0)
+        alert.titleFont = UIFont.systemFont(ofSize: 20)
         
+        let laterAction = MalertAction(title: "Switch to OPI")
+        { [self] in SwiftLoader.show(animated: true)
+            let req = vdoCallVM.getReqVRICallClient(roomID: roomID ?? "", clientID: GetPublicData.sharedInstance.userID, sourceId: sourceLangID ?? "", targetID: targetLangID ?? "")
+            vdoCallVM.getVRICallClients(req: req) { response, err in
+                SwiftLoader.hide()
+                let cid = response.first?.id
+                let vendorReq = vdoCallVM.getReqVendorIdForAudioCall(userID: GetPublicData.sharedInstance.userID, sourceID: sourceLangID ?? "", targetID: targetLangID ?? "", ccid: cid!)
+                vdoCallVM.getVendorIdForAudioCall(req: vendorReq) { result, err in
+                    print("vendooooooorid",result?.first?.UserInfo![0].UserId)
+                    dismiss(animated: false, completion: nil)
+                    videocallDelegate?.switchToAudioMethods(roomId: roomID ?? "", sourceLangID: sourceLangID ?? "", targetLangID: targetLangID ?? "", ccid: cid!, sourceLangName: sourceLangName ?? "", targetLangName: targetLangName ?? "", patientno: patientno ?? "", patientname: patientname ?? "",vendorDetails: result?.first?.UserInfo![0])
+                }
+            }
+            
+        }
+        laterAction.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        
+        laterAction.tintColor = UIColor(red:25/255, green:157/255, blue:217/255, alpha:1.0)
+        laterAction.cornerRadius = 5
+        alert.addAction(laterAction)
+        
+        let nothanks = MalertAction(title: "No, Thanks"){
+            self.dismissViewControllers()
+            
+        }
+        nothanks.backgroundColor = UIColor(red:25/255, green:157/255, blue:217/255, alpha:1.0)
+        nothanks.tintColor = .white
+        nothanks.cornerRadius = 5
+        nothanks.borderColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:1.0)
+        nothanks.borderWidth = 1
+        alert.addAction(nothanks)
+        // for no thanks rgb 25,157,217
+        
+        present(alert, animated: true, completion: nil)
+        // examples.append(Example(title: "Example 4", malert: alert))
     }
     
     func didSubscribeToAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {
@@ -305,7 +363,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: vdo) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index + 1, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                       
                     }
                 }
             }
@@ -317,7 +378,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: vdo) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                        
                     }
                 }
             }
@@ -340,7 +404,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: vdo) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index + 1, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
                     }
                 }
             }
@@ -352,7 +418,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: vdo) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
                     }
                 }
             }
@@ -373,7 +441,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: audio) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index + 1, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
                     }
                 }
             }
@@ -385,7 +455,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: audio) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                       
                     }
                 }
             }
@@ -404,7 +477,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: audio) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index + 1, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                       
                     }
                 }
             }
@@ -416,7 +492,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     if let index = remoteParticipantArr.firstIndex(of: audio) {
                         //  remoteParticipantArr.remove(at: index)
                         let indexPath = IndexPath(item: index, section: 0)
-                        vdoCollectionView.reloadItems(at: [indexPath])
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                        
                     }
                 }
             }

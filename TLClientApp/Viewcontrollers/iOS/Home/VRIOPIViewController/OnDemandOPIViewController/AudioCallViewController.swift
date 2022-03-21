@@ -18,8 +18,7 @@ class AddParticipantsCollectionsViewCell : UICollectionViewCell {
 }
 class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountryPickerDelegate  {
     
-    
-    @IBOutlet weak var participentListView: UIView!
+   @IBOutlet weak var participentListView: UIView!
     @IBOutlet weak var showParticipantsListCV: UICollectionView!
     @IBOutlet weak var callRatingSlider: SteppableSlider!
     @IBOutlet weak var translationlbl: UILabel!
@@ -94,7 +93,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     var callSIDList = [String]()
     var conferenceSIDList = [String]()
     var participantsList = [ParticipantsList]()
-    let callKitCallController = CXCallController()
+    var callKitCallController = CXCallController()
     @IBOutlet weak var addParticipantsBtn: UIButton!
     var apiAddparticipantsOPIResponseModle:ApiAddparticipantsOPIResponseModle?
     override func viewDidLoad() {
@@ -115,7 +114,8 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         callExperienceSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         callRatingSlider.addTarget(self, action: #selector(slider2ValueChanged(_:)), for: .valueChanged)
         NotificationCenter.default.addObserver(self, selector: #selector(self.vendorAnswered(notification:)), name: Notification.Name("vendorAnswered"), object: nil)
-        
+        callRatingSlider.value = 2
+        callExperienceSlider.value = 2
         NotificationCenter.default.addObserver(self, selector: #selector(self.removeParticipants(notification:)), name: Notification.Name("removeParticipants"), object: nil)
         
         self.hostImg.layer.cornerRadius = self.hostImg.bounds.height / 2
@@ -168,6 +168,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.countryCodeTF.rightViewMode = .always
         self.countryCodeTF.rightView = btnView
    }
+    //MARK:recallVendor
     @objc func recallVendor(){
         if self.isVoiceConnected {
             self.notLifttimerDuration.invalidate()
@@ -185,11 +186,16 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                         let uuid = self.activeCall?.uuid ?? UUID()
                         self.performEndCallAction(uuid: uuid)
                     }
-                      self.dismiss(animated: true, completion: nil)
+                   
+                    UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
                   }))
                 self.present(refreshAlert, animated: true, completion: nil)
             }else {
-                getVendorID()
+                if isClientDisconnectCall == false {
+                    getVendorID()
+                }
+           
+                
             }
         }
     }
@@ -381,7 +387,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         }
     }
     @IBAction func actionRatingCancelBtn(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
     }
     @IBAction func actionMicBtn(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
@@ -507,7 +513,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 switch(response.result){
                 
                 case .success(_):
-                    print("call getfeedbackDatils")
+                    print("call getfeedbackDatils",response)
 
                     guard let daata = response.data else { return }
                     do {
@@ -550,7 +556,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             if completion ?? false {
                 self.view.makeToast("You have rated successfully")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    self.dismiss(animated: true, completion: nil)
+                    UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
                 }
             }else {
                 self.view.makeToast("please try after sometime.")
@@ -606,9 +612,16 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 print("completion true  end vri call ")
                 self.timerDuration.invalidate()
                 self.isVoiceConnected = false
-                self.ratingView.isHidden = false
-                self.getfeedbackDatils()
+               
                 self.audioCallView.isHidden = true
+                if self.participantsList.count > 0 {
+                    self.ratingView.isHidden = false
+                    self.getfeedbackDatils()
+                }
+                else {
+                    
+                    UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+                }
         
             }else{
                 print("completion false")
@@ -691,10 +704,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                                 let jsonDecoder = JSONDecoder()
                                 self.apiGetProfileResponseModel = try jsonDecoder.decode(ApiGetProfileResponseModel.self, from: daata)
                                print("Success")
-                             let baseUrl = "https://lsp.totallanguage.com/"
+                            // let baseUrl = "https://lsp.totallanguage.com"
                                 let postUrl = self.apiGetProfileResponseModel?.uSERLOGOS?.first?.imageData ?? ""
-                                let imgUrl = baseUrl + postUrl
-                                let vendorImgUrl = baseUrl + self.vendorImg
+                                let imgUrl = nBaseUrl + postUrl
+                                let vendorImgUrl = nBaseUrl + self.vendorImg
                                 self.hostImg.sd_setImage(with: URL(string: imgUrl), completed: nil)
                                // self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), completed: nil)
                                 print("vendorImg",vendorImgUrl)
@@ -720,21 +733,27 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         }
      }
     @IBAction func actionBtnDisconnect(_ sender: UIButton) {
-        let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to Discoonect ?", preferredStyle: UIAlertController.Style.alert)
-
-        refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+        let refreshAlert = UIAlertController(title: "OPI call END", message: "Are you sure you want to Discoonect?", preferredStyle: UIAlertController.Style.alert)
+       // showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Delete", distrutiveButton: "End Call", otherButtons: nil)
+        refreshAlert.addAction(UIAlertAction(title: "End Call", style: .default, handler: { (action: UIAlertAction!) in
           print("Handle Ok logic here")
-            
                self.endVRICallOPI()
                self.opiEndCall()
                self.ringToneTimer.invalidate()
                self.isClientDisconnectCall = true
+            DispatchQueue.main.async {
+                if (self.callKitProvider != nil) {
+                    self.callKitProvider?.invalidate()
+                }
+                self.audioDevice.isEnabled = false
                
+            }
+            
                let uuid = self.activeCall?.uuid ?? UUID()
                self.performEndCallAction(uuid: uuid)
           }))
 
-        refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
           print("Handle Cancel Logic here")
           }))
 
@@ -753,11 +772,12 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                        self.notLifttimerDuration.invalidate()
                        self.ringToneTimer.invalidate()
                     if self.activeCall != nil{
-                        print("active call is not empty ")
+                       
                         let uuid = self.activeCall?.uuid ?? UUID()
                         self.performEndCallAction(uuid: uuid)
                     }
-                       self.dismiss(animated: true, completion: nil)
+                    UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+                   // self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
                   }))
                 self.present(refreshAlert, animated: true, completion: nil)
             }
@@ -831,10 +851,11 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 
                 case .success(_):
                     
-                    print("call start Audio Controller ")
+                    print("call start Audio Controller ",response)
                     completionHandler(true , nil)
 
                 case .failure(_):
+                    completionHandler(false , nil)
                     print("Respose Failure getCreateVRICallClient ")
                    
                 }
@@ -1030,10 +1051,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             }
         }
     }
-    @IBAction func actionEndCall(_ sender: UIButton) {
-        print("end call")
-        self.dismiss(animated: true, completion: nil)
-    }
+  
     func getTwillioToken(completionHandler:@escaping(Bool?, String?,Error?) -> ()){
         
         let urlString = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken?identity=USER_ID&deviceType=clientIos"
@@ -1126,7 +1144,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         completion()
     }
     func performEndCallAction(uuid: UUID) {
-
+print("end call UDID:", uuid)
         let endCallAction = CXEndCallAction(call: uuid)
         let transaction = CXTransaction(action: endCallAction)
 
@@ -1181,7 +1199,7 @@ extension AudioCallViewController : CallDelegate{
         if isCallReceivedNotify {
             
         }else {
-            // call connected here 
+            // call connected here
         }
     }
     
@@ -1222,13 +1240,13 @@ extension AudioCallViewController : CallDelegate{
 
         callDisconnected(call: call)
         
-        self.endVRICallOPI()
-        self.opiEndCall()
-        self.ringToneTimer.invalidate()
-        self.isClientDisconnectCall = true
+//        self.endVRICallOPI()
+//        self.opiEndCall()
+//        self.ringToneTimer.invalidate()
+//        self.isClientDisconnectCall = true
         
-        let uuid = self.activeCall?.uuid ?? UUID()
-        self.performEndCallAction(uuid: uuid)
+       // let uuid = self.activeCall?.uuid ?? UUID()
+      //  self.performEndCallAction(uuid: uuid)
         
         
         
@@ -1276,9 +1294,8 @@ extension AudioCallViewController : CallDelegate{
             myAudio.stop()
             timer.invalidate()
             ringToneTimer.invalidate()
-            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
-            
-        }
+           dismissViewControllers()
+          }
         
     }
 }
@@ -1287,7 +1304,7 @@ extension AudioCallViewController : CallDelegate{
 extension AudioCallViewController : CXProviderDelegate {
     func providerDidReset(_ provider: CXProvider) {
         NSLog("providerDidReset:")
-        self.audioDevice.isEnabled = true 
+        self.audioDevice.isEnabled = true
     }
     func providerDidBegin(_ provider: CXProvider) {
         NSLog("providerDidBegin")
@@ -1302,6 +1319,7 @@ extension AudioCallViewController : CXProviderDelegate {
     }
     func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {
         NSLog("provider:timedOutPerformingAction:")
+        audioDevice.isEnabled = false
     }
     func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
         NSLog("provider:performStartCallAction:")
@@ -1338,11 +1356,13 @@ extension AudioCallViewController : CXProviderDelegate {
     }
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
         NSLog("provider:performEndCallAction:")
-        
+        audioDevice.isEnabled = false
         if let invite = activeCallInvites[action.callUUID.uuidString] {
+            NSLog("invite.reject() provider:performEndCallAction:")
             invite.reject()
             activeCallInvites.removeValue(forKey: action.callUUID.uuidString)
         } else if let call = activeCalls[action.callUUID.uuidString] {
+            NSLog("call.disconnect() provider:performEndCallAction:")
             call.disconnect()
         } else {
             NSLog("Unknown UUID to perform end-call action with")

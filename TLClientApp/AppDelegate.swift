@@ -43,11 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         self.window?.makeKeyAndVisible()
         }
         
-        
-        
-        
-        
-        if #available(iOS 13.0, *) {
+         if #available(iOS 13.0, *) {
                          window?.overrideUserInterfaceStyle = .light
                          UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).overrideUserInterfaceStyle = .light
         }
@@ -214,6 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     if roomNo == roomIDAppdel {
                         
                     }
+                    NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
                 }
                 
                 // CommonMethods.playSounds(audioName: "cyanping")

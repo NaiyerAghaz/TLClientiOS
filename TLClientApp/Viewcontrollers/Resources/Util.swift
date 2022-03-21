@@ -88,4 +88,15 @@ class cEnum: NSObject {
         return nil;
     }
 }
+extension UIViewController {
+    func dismissViewControllers() {
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+         //  self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+   //        guard let vc = self.presentingViewController else { return }
+   //
+   //        while (vc.presentingViewController != nil) {
+   //            vc.dismiss(animated: true, completion: nil)
+   //        }
+       }
+}
 

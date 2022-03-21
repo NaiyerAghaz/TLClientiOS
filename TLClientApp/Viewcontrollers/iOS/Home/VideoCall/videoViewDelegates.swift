@@ -115,11 +115,19 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
                         for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
                             let participantSID = pObj as! ConferenceInfoModels
                             if participantSID.PARTSID == pSID {
+                                if pSID == isSpeakerSId && isSpeaking{
+                                    cell.lblNameSpeaker.isHidden = false
+                                    cell.lblNameSpeaker.text = "\(obj.UserName!) is  speaking"
+                                }
+                                else {
+                                    cell.lblNameSpeaker.isHidden = true
+                                }
                                 cell.participantName.isHidden = false
                                 cell.participantName.text = participantSID.UserName
                               
                                 cell.configure(obj: participantSID)
                             }
+                    
                         }
                         
 
@@ -180,10 +188,17 @@ extension VideoCallViewController: UICollectionViewDelegate, UICollectionViewDat
             if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
                 let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
                 if pSID == obj.PARTSID {
+                    
                     cell.participantName.text = obj.UserName
                     cell.configure(obj: obj)
                 }
-                
+                if (obj.PARTSID == isSpeakerSId) && isSpeaking == true{
+                    cell.lblNameSpeaker.isHidden = false
+                    cell.lblNameSpeaker.text = "\(obj.UserName!) is  speaking.."
+                }
+                else {
+                    cell.lblNameSpeaker.isHidden = true
+                }
             }
             
             return cell

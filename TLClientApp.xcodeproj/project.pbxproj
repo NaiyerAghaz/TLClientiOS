@@ -162,6 +162,12 @@
 		738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738878F127D8AE4100C7614B /* FeedbackVModel.swift */; };
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
+		73BAF2E227DF759500AAF30C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
+		73BAF2E427DF75A600AAF30C /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
+		73BAF2E627DF75B600AAF30C /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
+		73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2EC27E1EACB00AAF30C /* SwitchToAudioView.xib */; };
+		73BAF2EF27E1EADF00AAF30C /* SwitchToAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2EE27E1EADF00AAF30C /* SwitchToAudioView.swift */; };
+		73BAF2F127E3380500AAF30C /* VendorCallStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */; };
 		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
 		73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */; };
 		73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB308227D9C90D006A17DE /* FeedbackModel.swift */; };
@@ -416,6 +422,12 @@
 		738878F127D8AE4100C7614B /* FeedbackVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVModel.swift; sourceTree = "<group>"; };
 		73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		73A1A76527C36921007281DC /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
+		73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Medium.ttf"; sourceTree = "<group>"; };
+		73BAF2EC27E1EACB00AAF30C /* SwitchToAudioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchToAudioView.xib; sourceTree = "<group>"; };
+		73BAF2EE27E1EADF00AAF30C /* SwitchToAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchToAudioView.swift; sourceTree = "<group>"; };
+		73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorCallStatusModel.swift; sourceTree = "<group>"; };
 		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
 		73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationBlockedAppointmentWork.swift; sourceTree = "<group>"; };
 		73CB308227D9C90D006A17DE /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
@@ -955,6 +967,7 @@
 		73165B6D27D793EB008FCCC2 /* VideoCall */ = {
 			isa = PBXGroup;
 			children = (
+				73BAF2E727E1E2B900AAF30C /* SwitchToAudioVC */,
 				738878F027D8AE0D00C7614B /* Feedback */,
 				29F8CFE7274E76BA006243EC /* CallingPopUpVC.swift */,
 				29F8CFDD274E762C006243EC /* VideoCallViewController.swift */,
@@ -993,6 +1006,16 @@
 				73A1A76527C36921007281DC /* FeedbackVC.swift */,
 			);
 			path = FeedbackVC;
+			sourceTree = "<group>";
+		};
+		73BAF2E727E1E2B900AAF30C /* SwitchToAudioVC */ = {
+			isa = PBXGroup;
+			children = (
+				73BAF2EC27E1EACB00AAF30C /* SwitchToAudioView.xib */,
+				73BAF2EE27E1EADF00AAF30C /* SwitchToAudioView.swift */,
+				73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */,
+			);
+			path = SwitchToAudioVC;
 			sourceTree = "<group>";
 		};
 		73C059F827BA5B5100BCA88F /* OnsiteInterpretation  */ = {
@@ -1250,6 +1273,9 @@
 		CE74B2BA26BE5E17008BBA8C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */,
+				73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */,
+				73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */,
 				CE74B2BD26BE6607008BBA8C /* Neuton-Bold.ttf */,
 				CE74B2C326BE6663008BBA8C /* Neuton-Light.ttf */,
 				CE74B2C126BE662C008BBA8C /* Neuton-Regular.ttf */,
@@ -1539,11 +1565,15 @@
 				04BDA09F27450EF700A40B84 /* Home.storyboard in Resources */,
 				048AE80B26E08D8700FB9309 /* ringtone.wav in Resources */,
 				CE74B2C026BE661A008BBA8C /* Neuton-ExtraBold.ttf in Resources */,
+				73BAF2E227DF759500AAF30C /* OpenSans-Bold.ttf in Resources */,
 				CE2704B526BCE7C000009E77 /* LaunchScreen.storyboard in Resources */,
 				29B3C74E274CD61F006345E0 /* call.gif in Resources */,
 				CE74B2BE26BE6607008BBA8C /* Neuton-Bold.ttf in Resources */,
+				73BAF2E427DF75A600AAF30C /* OpenSans-Regular.ttf in Resources */,
+				73BAF2E627DF75B600AAF30C /* OpenSans-Medium.ttf in Resources */,
 				CE74B2C426BE6663008BBA8C /* Neuton-Light.ttf in Resources */,
 				CE74B2BC26BE5E26008BBA8C /* Neuton-Extralight.ttf in Resources */,
+				73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */,
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
 				CE74B2C226BE662C008BBA8C /* Neuton-Regular.ttf in Resources */,
@@ -1818,6 +1848,7 @@
 				046334EE272825F40079CFCB /* ApiGetCategoryResponseData.swift in Sources */,
 				04BFEDE327202A1E00EB38B7 /* ApiCustomerDetailResponseModel.swift in Sources */,
 				C6EAE8CB27D21823009F7261 /* TelephonicRecurrenceNewVC.swift in Sources */,
+				73BAF2EF27E1EADF00AAF30C /* SwitchToAudioView.swift in Sources */,
 				29CAFF3327831DE400FA3DCA /* ApiUpdateTimeZoneResponse.swift in Sources */,
 				CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */,
 				29328241276A062800698592 /* ApiCreateVRICallClientResponseModel.swift in Sources */,
@@ -1861,6 +1892,7 @@
 				C6EAE8C527D2177E009F7261 /* TelephonicConferenceParentVC.swift in Sources */,
 				29F8CFED274E7731006243EC /* ChatManager.swift in Sources */,
 				04E701832732714200C57A8E /* AppointmentsCreatedDataModel.swift in Sources */,
+				73BAF2F127E3380500AAF30C /* VendorCallStatusModel.swift in Sources */,
 				C63805CF2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift in Sources */,
 				C6EAE8D727D21B82009F7261 /* OnsiteRecurringAppointmentVC.swift in Sources */,
 				04C2F49727300460007C0ED9 /* RPicker.swift in Sources */,
@@ -2099,7 +2131,7 @@
 				DEVELOPMENT_TEAM = 6Z22496273;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2124,7 +2156,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6Z22496273;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

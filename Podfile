@@ -45,6 +45,8 @@ pod 'GoogleMaps'
 pod 'DateTimePicker'
 pod 'SwiftMessages'
 pod 'BottomPopup'
+pod 'Malert'
+
   target 'TLClientAppTests' do
     inherit! :search_paths
     # Pods for testing
