@@ -36,10 +36,10 @@ public class GetPublicData {
                         
                         case .success(_):
                             print("Respose Success language data ")
-                            guard let daata = response.data else { return }
+                            guard let daataM = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetAllLanguageResponse = try jsonDecoder.decode(ApiGetAllLanguageResponse.self, from: daata)
+                                self.apiGetAllLanguageResponse = try jsonDecoder.decode(ApiGetAllLanguageResponse.self, from: daataM)
                                print("Success language ")
                                 self.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
                                        let languageString = languageData.languageName ?? ""

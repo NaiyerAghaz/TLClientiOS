@@ -156,6 +156,7 @@
 		29F8D001274E79F6006243EC /* InviteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F8D000274E79F6006243EC /* InviteModel.swift */; };
 		29F8D006274E7D2D006243EC /* MoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F8D005274E7D2D006243EC /* MoreCell.xib */; };
 		29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 29F8D00A274E7DA7006243EC /* VendorTVCell.xib */; };
+		730E258727E9C9E600CAEE8D /* RadiantColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730E258627E9C9E600CAEE8D /* RadiantColor.swift */; };
 		73165B6F27D7946A008FCCC2 /* videoViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */; };
 		73165B7127D79473008FCCC2 /* RoomDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B7027D79473008FCCC2 /* RoomDelegates.swift */; };
 		7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7320F73E27B6740D00E8049F /* Chat.storyboard */; };
@@ -163,14 +164,18 @@
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
 		73BAF2E227DF759500AAF30C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
-		73BAF2E427DF75A600AAF30C /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
-		73BAF2E627DF75B600AAF30C /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
 		73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2EC27E1EACB00AAF30C /* SwitchToAudioView.xib */; };
 		73BAF2EF27E1EADF00AAF30C /* SwitchToAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2EE27E1EADF00AAF30C /* SwitchToAudioView.swift */; };
 		73BAF2F127E3380500AAF30C /* VendorCallStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */; };
+		73BAF2F327E8A69600AAF30C /* DraggedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F227E8A69600AAF30C /* DraggedView.swift */; };
 		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
 		73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */; };
 		73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB308227D9C90D006A17DE /* FeedbackModel.swift */; };
+		73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
+		73CE641327F1883F00A82685 /* Neuton-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2C126BE662C008BBA8C /* Neuton-Regular.ttf */; };
+		73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
+		73CE641727F18C5900A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73CE641527F18C5800A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf */; };
+		73CE641827F18C5900A82685 /* OpenSans-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73CE641627F18C5800A82685 /* OpenSans-VariableFont_wdth,wght.ttf */; };
 		73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFFC7427BB896C007EE602 /* ConstantString.swift */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
 		C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */; };
@@ -222,7 +227,6 @@
 		CE74B2BC26BE5E26008BBA8C /* Neuton-Extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2BB26BE5E26008BBA8C /* Neuton-Extralight.ttf */; };
 		CE74B2BE26BE6607008BBA8C /* Neuton-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2BD26BE6607008BBA8C /* Neuton-Bold.ttf */; };
 		CE74B2C026BE661A008BBA8C /* Neuton-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2BF26BE661A008BBA8C /* Neuton-ExtraBold.ttf */; };
-		CE74B2C226BE662C008BBA8C /* Neuton-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2C126BE662C008BBA8C /* Neuton-Regular.ttf */; };
 		CE74B2C426BE6663008BBA8C /* Neuton-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2C326BE6663008BBA8C /* Neuton-Light.ttf */; };
 		CE74B2C726BE6A87008BBA8C /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2C626BE6A87008BBA8C /* Constant.swift */; };
 		CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2C826BE7378008BBA8C /* Navigator.swift */; };
@@ -416,6 +420,7 @@
 		50963BC388A4FE8B123C6D8B /* Pods-TLClientApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp.debug.xcconfig"; path = "Target Support Files/Pods-TLClientApp/Pods-TLClientApp.debug.xcconfig"; sourceTree = "<group>"; };
 		685003B7CBCB0EBE976CE665 /* Pods-TLClientApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientApp.release.xcconfig"; path = "Target Support Files/Pods-TLClientApp/Pods-TLClientApp.release.xcconfig"; sourceTree = "<group>"; };
 		7175F38E6A47EB062D2D2BDB /* Pods_TLClientApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		730E258627E9C9E600CAEE8D /* RadiantColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadiantColor.swift; sourceTree = "<group>"; };
 		73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = videoViewDelegates.swift; sourceTree = "<group>"; };
 		73165B7027D79473008FCCC2 /* RoomDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDelegates.swift; sourceTree = "<group>"; };
 		7320F73E27B6740D00E8049F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
@@ -428,9 +433,12 @@
 		73BAF2EC27E1EACB00AAF30C /* SwitchToAudioView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SwitchToAudioView.xib; sourceTree = "<group>"; };
 		73BAF2EE27E1EADF00AAF30C /* SwitchToAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchToAudioView.swift; sourceTree = "<group>"; };
 		73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorCallStatusModel.swift; sourceTree = "<group>"; };
+		73BAF2F227E8A69600AAF30C /* DraggedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggedView.swift; sourceTree = "<group>"; };
 		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
 		73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationBlockedAppointmentWork.swift; sourceTree = "<group>"; };
 		73CB308227D9C90D006A17DE /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
+		73CE641527F18C5800A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
+		73CE641627F18C5800A82685 /* OpenSans-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		73DFFC7427BB896C007EE602 /* ConstantString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantString.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -561,6 +569,7 @@
 		0439C7992710324600DA3D61 /* Schedule Appointment Detail */ = {
 			isa = PBXGroup;
 			children = (
+				CE74B2CA26BE7D77008BBA8C /* Resources */,
 				0439C79A2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift */,
 				C6EAE8D827D21CF2009F7261 /* BlockedAppointmentDetailVC.swift */,
 			);
@@ -970,6 +979,7 @@
 				73BAF2E727E1E2B900AAF30C /* SwitchToAudioVC */,
 				738878F027D8AE0D00C7614B /* Feedback */,
 				29F8CFE7274E76BA006243EC /* CallingPopUpVC.swift */,
+				73BAF2F227E8A69600AAF30C /* DraggedView.swift */,
 				29F8CFDD274E762C006243EC /* VideoCallViewController.swift */,
 				29F8CFFB274E7991006243EC /* InviteParticipantVC.swift */,
 				29F8CFEC274E7731006243EC /* ChatManager.swift */,
@@ -1223,7 +1233,6 @@
 			isa = PBXGroup;
 			children = (
 				0439C7992710324600DA3D61 /* Schedule Appointment Detail */,
-				CE74B2CA26BE7D77008BBA8C /* Resources */,
 				CE2704D926BCED6400009E77 /* iOS */,
 				CE74B2C826BE7378008BBA8C /* Navigator.swift */,
 				048AE80726DF51BC00FB9309 /* Network.swift */,
@@ -1274,6 +1283,8 @@
 			isa = PBXGroup;
 			children = (
 				73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */,
+				73CE641527F18C5800A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf */,
+				73CE641627F18C5800A82685 /* OpenSans-VariableFont_wdth,wght.ttf */,
 				73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */,
 				73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */,
 				CE74B2BD26BE6607008BBA8C /* Neuton-Bold.ttf */,
@@ -1300,6 +1311,7 @@
 				CE1844B026C3977100E9E84E /* TLCKeychain.swift */,
 				73DFFC7427BB896C007EE602 /* ConstantString.swift */,
 				73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */,
+				730E258627E9C9E600CAEE8D /* RadiantColor.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1569,17 +1581,19 @@
 				CE2704B526BCE7C000009E77 /* LaunchScreen.storyboard in Resources */,
 				29B3C74E274CD61F006345E0 /* call.gif in Resources */,
 				CE74B2BE26BE6607008BBA8C /* Neuton-Bold.ttf in Resources */,
-				73BAF2E427DF75A600AAF30C /* OpenSans-Regular.ttf in Resources */,
-				73BAF2E627DF75B600AAF30C /* OpenSans-Medium.ttf in Resources */,
+				73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */,
 				CE74B2C426BE6663008BBA8C /* Neuton-Light.ttf in Resources */,
+				73CE641827F18C5900A82685 /* OpenSans-VariableFont_wdth,wght.ttf in Resources */,
 				CE74B2BC26BE5E26008BBA8C /* Neuton-Extralight.ttf in Resources */,
 				73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */,
+				73CE641727F18C5900A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf in Resources */,
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
-				CE74B2C226BE662C008BBA8C /* Neuton-Regular.ttf in Resources */,
 				CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */,
 				29B3C754274CF255006345E0 /* incoming.mp3 in Resources */,
 				7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */,
+				73CE641327F1883F00A82685 /* Neuton-Regular.ttf in Resources */,
+				73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */,
 				CE2704AD26BCE7BE00009E77 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1763,6 +1777,7 @@
 				04CB27C7273E6EB300E54408 /* ApiAppointmentDetailResponseModel.swift in Sources */,
 				CE3FE08D26C90210000BD19F /* CalendarTVCell.swift in Sources */,
 				04C17E5E273154A800297528 /* DocumentTranslationJobTypeDataModel.swift in Sources */,
+				73BAF2F327E8A69600AAF30C /* DraggedView.swift in Sources */,
 				04E7017E2732541200C57A8E /* ApiGetSpecialityDataModel.swift in Sources */,
 				04CB27CA273E763700E54408 /* Extension UITextField.swift in Sources */,
 				04E701882732782D00C57A8E /* CancelledAppointmentDataModel.swift in Sources */,
@@ -1879,6 +1894,7 @@
 				04CBAD7B271D495B00055797 /* SupportViewController.swift in Sources */,
 				0439C79B2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift in Sources */,
 				04E701872732782D00C57A8E /* ApiCancelAppointmentResponseModel.swift in Sources */,
+				730E258727E9C9E600CAEE8D /* RadiantColor.swift in Sources */,
 				04B225C626EF137F0063129C /* MembberListM.swift in Sources */,
 				29981FDB27721419003DF75E /* ApiGetMemberResponseModel.swift in Sources */,
 				04C07812274243A7000750C1 /* ApiSelectedAppointmentDetailResponse.swift in Sources */,
@@ -2054,7 +2070,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2109,7 +2125,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -2131,15 +2147,16 @@
 				DEVELOPMENT_TEAM = 6Z22496273;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.34;
+				MARKETING_VERSION = 1.45;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2156,15 +2173,17 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 6Z22496273;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.34;
+				MARKETING_VERSION = 1.45;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

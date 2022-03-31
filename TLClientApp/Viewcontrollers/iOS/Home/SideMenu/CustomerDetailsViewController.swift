@@ -216,10 +216,10 @@ class CustomerDetailsViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata76 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetClassificationDetails = try jsonDecoder.decode(ApiGetClassificationDetails.self, from: daata)
+                                self.apiGetClassificationDetails = try jsonDecoder.decode(ApiGetClassificationDetails.self, from: daata76)
                                print("Success")
                                                                 
                                 self.apiGetClassificationDetails?.cLASSIFICATION?.forEach({ classificationData in
@@ -263,10 +263,10 @@ class CustomerDetailsViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata77 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiCustomerDetailResponseModel = try jsonDecoder.decode(ApiCustomerDetailResponseModel.self, from: daata)
+                                self.apiCustomerDetailResponseModel = try jsonDecoder.decode(ApiCustomerDetailResponseModel.self, from: daata77)
                                print("Success")
                                 let content = self.apiCustomerDetailResponseModel?.customerDetails
                                 updateSwitchState(switchh: prioritySwitch, previousState: content?.priority ?? false)

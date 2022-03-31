@@ -13,7 +13,7 @@ pod 'RxCocoa', '~> 5'
 #https://cocoapods.org/pods/RxCocoa
 pod 'FSCalendar'
 #https://github.com/WenchaoD/FSCalendar
-pod 'XLPagerTabStrip'
+pod 'XLPagerTabStrip', '~> 9.0'
 #https://github.com/xmartlabs/XLPagerTabStrip
 pod 'TwilioVideo'
 #pod 'TwilioVideo', '~> 4.4'

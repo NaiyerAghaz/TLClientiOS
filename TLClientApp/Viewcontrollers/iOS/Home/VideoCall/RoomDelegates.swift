@@ -12,6 +12,7 @@ import CallKit
 //MARK: RoomDelegate
 extension VideoCallViewController:RoomDelegate{
     func roomDidConnect(room: Room) {
+        // TwilioVideoSDK.audioDevice = audioDevice
         // At the moment, this example only supports rendering one Participant at a time.
         // self.view.makeToast("Connected to room \(room.name) as \(room.localParticipant?.identity ?? "")")
         
@@ -40,7 +41,7 @@ extension VideoCallViewController:RoomDelegate{
         // logMessage(messageText: "Disconnected from room \(room.name), error = \(String(describing: error))")
         recordTime.invalidate()
         if !self.userInitiatedDisconnect, let uuid = room.uuid, let error = error as? TwilioVideoSDK.Error {
-        var reason = CXCallEndedReason.remoteEnded
+            var reason = CXCallEndedReason.remoteEnded
             
             if error.code != .roomRoomCompletedError {
                 reason = .failed
@@ -52,7 +53,7 @@ extension VideoCallViewController:RoomDelegate{
         // self.cleanupRemoteParticipant()
         
         //  self.showRoomUI(inRoom: false)
-      //  self.callKitCompletionHandler = nil
+        //  self.callKitCompletionHandler = nil
         self.userInitiatedDisconnect = false
         room.disconnect()
         self.room = nil
@@ -69,38 +70,133 @@ extension VideoCallViewController:RoomDelegate{
         if remoteParticipantArr.count > 0{
             updateYourFeedback()
         }
-   
+        
     }
     //THis method will call who is speaking
     func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
-       if participant?.sid != nil {
-            isSpeaking = true
-            isSpeakerSId = participant?.sid ?? ""
-           }
-        else {
-            isSpeaking = false
-            isSpeakerSId = participant?.sid ?? ""
+       print("participantisSpeakerSId:", participant?.sid)
+        currentSpeakerParticipant = participant
+        if remoteParticipantArr.count > 1 {
+        if previousSpeakerParticipant == nil && participant != nil{
+           print("pp----------------01")
+            for newP in remoteParticipantArr {
+                if newP == currentSpeakerParticipant {
+                    if let index = remoteParticipantArr.firstIndex(of: newP) {
+                        //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                        previousSpeakerParticipant = participant
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+                }
+            }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            self.vdoCollectionView.reloadData()
-        })
+        else if previousSpeakerParticipant != nil && participant != nil{
+            
+            if currentSpeakerParticipant != previousSpeakerParticipant {
+                for newP in remoteParticipantArr {
+                    if newP == currentSpeakerParticipant {
+                        if let index = remoteParticipantArr.firstIndex(of: newP) {
+                          previousSpeakerParticipant = participant
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                        }
+                    }
+                }
+                for newP in remoteParticipantArr {
+                    if newP == previousSpeakerParticipant {
+                        if let index = remoteParticipantArr.firstIndex(of: newP) {
+                            //  remoteParticipantArr.remove(at: index)
+                            
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                           
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                        }
+                    }
+                }
+               
+            }
+            else {
+                for newP in remoteParticipantArr {
+                    if newP == currentSpeakerParticipant {
+                        if let index = remoteParticipantArr.firstIndex(of: newP) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                            self.previousSpeakerParticipant = participant
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                        }
+                    }
+                }
+               
+            }
+        }
+        else {
+            for newP in remoteParticipantArr {
+                if newP == previousSpeakerParticipant {
+                    if let index = remoteParticipantArr.firstIndex(of: newP) {
+                        //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index, section: 0)
+                        previousSpeakerParticipant = participant
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+                }
+            }
            
-     
-        print("roodIDDD------>",room.isRecording,"parti--------->", participant?.sid, participant?.identity)
-       //
-    }
+        }
+        }
+        else {
+            if participant != nil {
+                
+                for newP in remoteParticipantArr {
+                    if newP == currentSpeakerParticipant {
+                        if let index = remoteParticipantArr.firstIndex(of: newP) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index, section: 0)
+                            self.previousSpeakerParticipant = participant
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                for newP in remoteParticipantArr {
+                    if newP == previousSpeakerParticipant {
+                        if let index = remoteParticipantArr.firstIndex(of: newP) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index, section: 0)
+                            currentSpeakerParticipant = participant
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                        }
+                    }
+                }
+            }
+         }}
+
     
     func roomDidFailToConnect(room: Room, error: Error) {
         //logMessage(messageText: "Failed to connect to room with error: \(error.localizedDescription)")
         self.view.makeToast("Failed to connect to room with error: \(error.localizedDescription)")
-       // self.callKitCompletionHandler!(false)
+        // self.callKitCompletionHandler!(false)
         self.room = nil
         // self.showRoomUI(inRoom: false)
     }
     
     func roomIsReconnecting(room: Room, error: Error) {
         self.view.makeToast( "Reconnecting to room internet is too slow..")
-      
+        
     }
     
     func roomDidReconnect(room: Room) {
@@ -112,28 +208,7 @@ extension VideoCallViewController:RoomDelegate{
         callStartTime = cEnum.instance.getCurrentDateAndTime()
         print("participant added times---------------:",participant.remoteAudioTracks.count)
         recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
-        /*  participant.delegate = self
-         // Listen for events from all Participants to decide which RemoteVideoTrack to render.
-         
-         // self.view.makeToast( "Participant \(participant.identity) connected with \(participant.remoteAudioTracks.count) audio and \(participant.remoteVideoTracks.count) video tracks")
-         var saveParticipant = true
-         var index = 0
-         for i in 0...self.remoteParticipantArr.count
-         {
-         //(self.localParicipantDictionary?.value(forKey: "0") as? NSObject)?.value(forKey: "participant") as?
-         let newParticipant = (remoteParicipantDictionary?.value(forKey: "\(i)") as? NSObject)?.value(forKey: "participant") as? RemoteParticipant
-         
-         if newParticipant == participant {
-         saveParticipant = false
-         }
-         index = i + 1
-         }
-         if saveParticipant{
-         self.remoteParticipantArr.append(participant)
-         participant.delegate = self
-         self.remoteParicipantDictionary?["\(index)"] = ["participant":participant]
-         
-         }*/
+        
         participant.delegate = self
         self.remoteParticipantArr.append(participant)
     }
@@ -142,7 +217,7 @@ extension VideoCallViewController:RoomDelegate{
         recordTime.invalidate()
         timer.invalidate()
         if myAudio != nil{
-            myAudio.stop()
+            myAudio!.stop()
         }
     }
     

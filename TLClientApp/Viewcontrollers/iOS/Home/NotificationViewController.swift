@@ -163,10 +163,10 @@ class NotificationViewController: UIViewController ,UISearchBarDelegate{
                         
                         case .success(_):
                             print("Respose Success Notification Data ")
-                            guard let daata = response.data else { return }
+                            guard let daataA = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiNotificationDetailResponseModel = try jsonDecoder.decode(ApiNotificationDetailResponseModel.self, from: daata)
+                                self.apiNotificationDetailResponseModel = try jsonDecoder.decode(ApiNotificationDetailResponseModel.self, from: daataA)
                                print("Success notification Model ")
                                 let count = self.apiNotificationDetailResponseModel?.notificationsByUsername?.count ?? 0
                                 
@@ -413,7 +413,7 @@ struct FilterSearch{
     var name: String = ""
     var searchSelect : Bool = false
 }
-class TestNav : UINavigationController{
+class InitialNav : UINavigationController{
     override func viewDidLoad() {
         super.viewDidLoad()
     }

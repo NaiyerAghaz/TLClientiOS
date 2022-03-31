@@ -20,9 +20,18 @@ struct TxtRequest {
 }
 
 struct ValidationReq {
-    func validate(txtfield:TxtRequest) -> ValidationResult {
+    func tValidate(txtfield:TxtRequest) -> ValidationResult {
         if txtfield.txt!.isEmpty {
-            return ValidationResult(error: "Please fill Target Language", success: false)
+            return ValidationResult(error: "Please fill target language", success: false)
+        }
+        else {
+            return ValidationResult(error: "", success: true)
+        }
+        
+    }
+    func sValidate(txtfield:TxtRequest) -> ValidationResult {
+        if txtfield.txt!.isEmpty {
+            return ValidationResult(error: "Please fill source language", success: false)
         }
         else {
             return ValidationResult(error: "", success: true)

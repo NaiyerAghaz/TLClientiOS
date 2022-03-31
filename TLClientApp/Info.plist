@@ -50,6 +50,14 @@
 	<string>This app requires access for client location to make sure vendors are in there specified location from their profile to attend video remote interpretation(VRI) and over the phone interpretation (OPI).</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to access your microphone</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Medium.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-Italic-VariableFont_wdth,wght.ttf</string>
+		<string>OpenSans-VariableFont_wdth,wght.ttf</string>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

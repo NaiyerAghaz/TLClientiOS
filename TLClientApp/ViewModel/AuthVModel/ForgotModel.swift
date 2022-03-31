@@ -44,8 +44,8 @@ class ForgotUser: NSObject {
             item.SuccessErrorDetails?.add(newItem)
         }
     item.UserDetails = NSMutableArray()
-    let arr2 : NSArray = dicts["UserDetails"] as! NSArray
-    for obj in arr2 {
+    let arrZ : NSArray = dicts["UserDetails"] as! NSArray
+    for obj in arrZ {
         let newItem: userDetailsModel = userDetailsModel.getUserDetails(dicts: obj as! NSDictionary)
         item.UserDetails?.add(newItem)
     }

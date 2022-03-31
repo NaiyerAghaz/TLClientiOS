@@ -32,17 +32,17 @@ class LoginVC: UIViewController {
         }
     }
     
-    
-    override func viewDidLoad() {
+override func viewDidLoad() {
         super.viewDidLoad()
-        //userNameTF.text = "Naiyer_customer1"
-        //passwordTF.text = "Total@user2020"
-        loginUpdate()
+       
+     loginUpdate()
     }
     
     func loginUpdate() {
-        userNameTF.rx.text.map { $0 ?? ""}.bind(to: loginVModel.userNameTFPublishObject).disposed(by: disposebag)
-        passwordTF.rx.text.map{$0 ?? ""}.bind(to: loginVModel.emailTFPublishObject).disposed(by: disposebag)
+        userNameTF.textColor = UIColor.white
+        passwordTF.textColor = UIColor.white
+      //  userNameTF.rx.text.map { $0 ?? ""}.bind(to: loginVModel.userNameTFPublishObject).disposed(by: disposebag)
+       // passwordTF.rx.text.map{$0 ?? ""}.bind(to: loginVModel.emailTFPublishObject).disposed(by: disposebag)
         //        loginVModel.isValid().bind(to: btnLogin.rx.isEnabled).disposed(by: disposebag)
         //        loginVModel.isValid().map{$0 ? 1: 0.1}.bind(to: btnLogin.rx.alpha).disposed(by: disposebag)
     }

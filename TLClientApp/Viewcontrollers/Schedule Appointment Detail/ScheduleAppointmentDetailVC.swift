@@ -209,10 +209,10 @@ class ScheduleAppointmentDetailVC: UIViewController {
                         
                         case .success(_):
                             print("Respose Success get appointment data  ")
-                            guard let daata = response.data else { return }
+                            guard let daata1 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiAppointmentDetailResponseModel = try jsonDecoder.decode(ApiAppointmentDetailResponseModel.self, from: daata)
+                                self.apiAppointmentDetailResponseModel = try jsonDecoder.decode(ApiAppointmentDetailResponseModel.self, from: daata1)
                                    updateUI()
                                 
                             } catch{
@@ -246,10 +246,10 @@ class ScheduleAppointmentDetailVC: UIViewController {
                         
                         case .success(_):
                             print("Respose Success cancel request  ")
-                            guard let daata = response.data else { return }
+                            guard let daata2 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiCancelRequestResponseModel = try jsonDecoder.decode(ApiCancelRequestResponseModel.self, from: daata)
+                                self.apiCancelRequestResponseModel = try jsonDecoder.decode(ApiCancelRequestResponseModel.self, from: daata2)
                                 let status = self.apiCancelRequestResponseModel?.cancelledData?.first?.success ?? 0
                                 print(self.apiCancelRequestResponseModel?.cancelledData)
                                 if status == 1 {
@@ -306,11 +306,11 @@ extension String {
                 .joined()
         }
     private var convertHtmlToNSAttributedString: NSAttributedString? {
-        guard let data = data(using: .utf8) else {
+        guard let sdata = data(using: .utf8) else {
             return nil
         }
         do {
-            return try NSAttributedString(data: data,options: [.documentType: NSAttributedString.DocumentType.html,.characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSAttributedString(data: sdata,options: [.documentType: NSAttributedString.DocumentType.html,.characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
         }
         catch {
             print(error.localizedDescription)
@@ -327,11 +327,11 @@ extension String {
             return convertHtmlToNSAttributedString
         }
         let modifiedString = "<style>body{font-family: '\(font.fontName)'; font-size:\(font.pointSize)px; color: \(csscolor); line-height: \(lineheight)px; text-align: \(csstextalign); }</style>\(self)";
-        guard let data = modifiedString.data(using: .utf8) else {
+        guard let htmldata = modifiedString.data(using: .utf8) else {
             return nil
         }
         do {
-            return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSAttributedString(data: htmldata, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
         }
         catch {
             print(error)

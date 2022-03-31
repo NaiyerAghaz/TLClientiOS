@@ -9,7 +9,7 @@
 import UIKit
 import TwilioVideo
 class VendorTVCell: UITableViewCell {
-
+   
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var btnAudio: UIButton!
     @IBOutlet weak var btnVideo: UIButton!
@@ -53,11 +53,11 @@ class VDOCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var btnMic: UIButton!
     @IBOutlet weak var remoteView: VideoView!
     @IBOutlet weak var imgRemotePrivacy: UIImageView!
-    
-    @IBOutlet weak var lblNameSpeaker: UILabel!
     @IBOutlet weak var lblVideo: PaddingLabel!
     @IBOutlet weak var audioLbl: PaddingLabel!
     @IBOutlet weak var participantName: PaddingLabel!
+    
+    @IBOutlet weak var isSpeakingLbl: PaddingLabel!
     func configure(obj: ConferenceInfoModels){
         
        

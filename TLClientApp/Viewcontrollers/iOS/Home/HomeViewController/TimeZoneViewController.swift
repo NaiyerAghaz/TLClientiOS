@@ -42,10 +42,10 @@ class TimeZoneViewController: UIViewController {
                 
                 case .success(_):
                     print("Respose getCurrentTimeZone ")
-                    guard let daata = response.data else { return }
+                    guard let daata100 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiUpdateTimeZoneResponse = try jsonDecoder.decode(ApiUpdateTimeZoneResponse.self, from: daata)
+                        self.apiUpdateTimeZoneResponse = try jsonDecoder.decode(ApiUpdateTimeZoneResponse.self, from: daata100)
                         let success = self.apiUpdateTimeZoneResponse?.uPDATETIMEZONE?.first?.success ?? 0
                         if success == 1 {
                             userDefaults.set(self.currentTimeZone, forKey: "TimeZone")

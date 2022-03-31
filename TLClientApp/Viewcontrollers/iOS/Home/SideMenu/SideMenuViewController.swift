@@ -31,9 +31,11 @@ class SideMenuViewController: UIViewController {
    
     var apiGetProfileResponseModel:ApiGetProfileResponseModel?
 //open var leftMenuNavigationController: SideMenuNavigationController?
-   let titleSectionArr = ["Dash Board","Controls","VPI and OPI Logs","Support" , "userName"]
-    let titleArr = [[""],[ "Customer Details", "Venues"],[""],[""],["Logout"]
-    ]
+   //let titleSectionArr = ["Dash Board","Controls","VPI and OPI Logs","Support" , "userName"]
+    // let titleArr = [[""],["Customer Details", "Venues"],[""],[""],["Logout"]]
+    let titleSectionArr = ["Dashboard","Controls", "userName"]
+    let titleArr = [[""],["Customer Details", "Venues"],["Logout"]]
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -75,15 +77,15 @@ class SideMenuViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata80 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetProfileResponseModel = try jsonDecoder.decode(ApiGetProfileResponseModel.self, from: daata)
-                               print("Success")
-                             let baseUrl = "https://lsp.totallanguage.com/"
+                                self.apiGetProfileResponseModel = try jsonDecoder.decode(ApiGetProfileResponseModel.self, from: daata80)
                                 let postUrl = self.apiGetProfileResponseModel?.uSERLOGOS?.first?.imageData ?? ""
-                                let imgUrl = baseUrl + postUrl
-                                self.userImg.sd_setImage(with: URL(string: imgUrl), completed: nil)
+                                let imgUrl = nBaseUrl + postUrl
+                              
+                                self.userImg.sd_setImage(with: URL(string: imgUrl), placeholderImage: UIImage(named: "person.circle"))
+                             
                                  userImageURl = imgUrl
                             } catch{
                                 
@@ -111,13 +113,14 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
                 }else {
                     return 0
                 }
-            }else if section == 4 {
+            }else if section == 2 {
                 if isRow4open {
                     return titleArr[section].count
                 }else {
                     return 0
                 }
-            }else {
+            }
+            else {
                 return 0 
             }
             
@@ -136,7 +139,7 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
             }else {
                 
             }
-        }else if indexPath.section == 4 {
+        }else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 isLogoutPressed = true
                 let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to Logout?", preferredStyle: UIAlertController.Style.alert)
@@ -160,7 +163,7 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let returnedView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 80))
+        let returnedView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
                 returnedView.backgroundColor = .clear
               let tap = UITapGestureRecognizer(target: self, action:#selector(self.sectionTap(_:)))
                returnedView.addGestureRecognizer(tap)
@@ -171,9 +174,10 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
         
              let label = UILabel(frame: CGRect(x: 20, y: 20, width: view.frame.size.width, height:25))
            let username = userDefaults.string(forKey: "username")
-            if section == 4 {
+            if section == 2 {
                   label.text =  username
-             }else {
+             }
+        else {
                    label.text =  self.titleSectionArr[section]
              }
                        label.textColor = .white
@@ -183,7 +187,7 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
                  returnedView.addSubview(label)
                returnedView.addSubview(label2)
         
-            if section == 1 || section == 4 {
+            if section == 1 || section == 2 {
                       returnedView.addSubview(image)
             }
               
@@ -200,10 +204,11 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
         if newSection == 1 {
             print("ControlR")
             self.isRow1Open = !self.isRow1Open
-        }else if newSection == 4{
+        }else if newSection == 2{
             print("userName")
             self.isRow4open = !self.isRow4open
-        }else if newSection == 3 {
+        }
+       /* else if newSection == 3 {
             print("Support option" )
             let vc = storyboard?.instantiateViewController(identifier: "SupportViewController") as! SupportViewController
             self.navigationController?.pushViewController(vc, animated: true)
@@ -211,7 +216,8 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
             print("Vri opi call log history")
             let vc = storyboard?.instantiateViewController(identifier: "VRIAndOPILogsViewController") as! VRIAndOPILogsViewController
             self.navigationController?.pushViewController(vc, animated: true)
-        }else if newSection == 0 {
+        }*/
+        else if newSection == 0 {
             self.dismiss(animated: true, completion: nil)
         }else {
             self.isRow1Open = false
@@ -228,8 +234,8 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sideMenuTableViewCell") as! sideMenuTableViewCell
         cell.titleLbl.text = titleArr[indexPath.section][indexPath.row]
-        if indexPath.row == 2 || indexPath.row == 4 {
-            cell.downArrowImg.isHidden = false
+        if indexPath.row == 1 || indexPath.row == 2 {
+            cell.downArrowImg.isHidden = true
         }else{
             cell.downArrowImg.isHidden = true
         }
@@ -237,7 +243,7 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 1 || indexPath.section == 4 {
+        if indexPath.section == 1 || indexPath.section == 2 {
             return UITableView.automaticDimension
         }else {
             return 0

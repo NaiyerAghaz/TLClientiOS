@@ -105,28 +105,28 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
         
         if indexPath.section == 0
         {
-            guard let cell = tblView.dequeueReusableCell(withIdentifier: VendorIdentityCell.vendorCell.rawValue, for: indexPath) as? VendorParticipantTVCell else { return UITableViewCell() }
+            guard let cellt = tblView.dequeueReusableCell(withIdentifier: VendorIdentityCell.vendorCell.rawValue, for: indexPath) as? VendorParticipantTVCell else { return UITableViewCell() }
             let obj = conferrenceInfoArr![indexPath.row] as! ConferenceInfoModels
-            cell.lblName.text = obj.UserName
-            cell.btnAudio.tag = indexPath.row
-            obj.VIDEO == "1" ? (cell.btnVideo.isSelected = false) : (cell.btnVideo.isSelected = true)
-            obj.MUTE == "1" ? (cell.btnAudio.isSelected = false) : (cell.btnAudio.isSelected = true)
-            cell.btnAudio.addTarget(self, action: #selector(audioPressed), for: .touchUpInside)
-            cell.btnVideo.tag = indexPath.row
-            cell.btnVideo.addTarget(self, action: #selector(videoPressed), for: .touchUpInside)
-            cell.btnDisconnect.tag = indexPath.row
-            cell.btnDisconnect.addTarget(self, action: #selector(participantCallEnded), for: .touchUpInside)
-            return cell
+            cellt.lblName.text = obj.UserName
+            cellt.btnAudio.tag = indexPath.row
+            obj.VIDEO == "1" ? (cellt.btnVideo.isSelected = false) : (cellt.btnVideo.isSelected = true)
+            obj.MUTE == "1" ? (cellt.btnAudio.isSelected = false) : (cellt.btnAudio.isSelected = true)
+            cellt.btnAudio.addTarget(self, action: #selector(audioPressed), for: .touchUpInside)
+            cellt.btnVideo.tag = indexPath.row
+            cellt.btnVideo.addTarget(self, action: #selector(videoPressed), for: .touchUpInside)
+            cellt.btnDisconnect.tag = indexPath.row
+            cellt.btnDisconnect.addTarget(self, action: #selector(participantCallEnded), for: .touchUpInside)
+            return cellt
         }
         else {
-            guard let cell = tblView.dequeueReusableCell(withIdentifier: VendorIdentityCell.lobbyCell.rawValue, for: indexPath) as? LobbyParicipantListCell else { return UITableViewCell() }
+            guard let celln = tblView.dequeueReusableCell(withIdentifier: VendorIdentityCell.lobbyCell.rawValue, for: indexPath) as? LobbyParicipantListCell else { return UITableViewCell() }
             let obj = conferenceStatusModel?.INVITEDATA![indexPath.row] as! INVITEDATAMODEL
-            cell.lobbyName.text = obj.name
-            cell.btnAccept.tag = indexPath.row
-            cell.btnAccept.addTarget(self, action: #selector(acceptPressed), for: .touchUpInside)
-            cell.btnReject.tag = indexPath.row
-            cell.btnReject.addTarget(self, action: #selector(rejectPressed), for: .touchUpInside)
-            return cell
+            celln.lobbyName.text = obj.name
+            celln.btnAccept.tag = indexPath.row
+            celln.btnAccept.addTarget(self, action: #selector(acceptPressed), for: .touchUpInside)
+            celln.btnReject.tag = indexPath.row
+            celln.btnReject.addTarget(self, action: #selector(rejectPressed), for: .touchUpInside)
+            return celln
         }
         
         return UITableViewCell()

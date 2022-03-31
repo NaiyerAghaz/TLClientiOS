@@ -108,10 +108,10 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
                         
                         case .success(_):
                             print("Respose Success Add venue ")
-                            guard let daata = response.data else { return }
+                            guard let daata81 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata)
+                                self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata81)
                                print("Success")
                                 self.apiGetAllVenueDataResponseModel?.states?.forEach { stateData in
                                     let state =  stateData.stateName ?? ""
@@ -214,10 +214,10 @@ class AddNewVenueViewController: UIViewController , UITextFieldDelegate{
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata81 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiAddVenueResponse = try jsonDecoder.decode(ApiAddVenueResponse.self, from: daata)
+                                self.apiAddVenueResponse = try jsonDecoder.decode(ApiAddVenueResponse.self, from: daata81)
                                 let status = self.apiAddVenueResponse?.venues?.first?.success ?? 0
                                 if status == 1 {
                                     print("Success")

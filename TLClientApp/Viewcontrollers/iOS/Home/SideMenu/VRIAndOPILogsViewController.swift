@@ -124,10 +124,10 @@ class VRIAndOPILogsViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success Vri log ")
-                            guard let daata = response.data else { return }
+                            guard let daata75 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiVRIOPICallLogResponseModel = try jsonDecoder.decode(ApiVRIOPICallLogResponseModel.self, from: daata)
+                                self.apiVRIOPICallLogResponseModel = try jsonDecoder.decode(ApiVRIOPICallLogResponseModel.self, from: daata75)
                                print("Success vri opi log ")
                                 DispatchQueue.main.async {
                                     self.callHistoryTV.reloadData()

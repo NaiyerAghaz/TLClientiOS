@@ -14,16 +14,17 @@ import TwilioChatClient
 import Malert
 
 
-class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHChannelDelegate,TwilioChatClientDelegate,AcceptAndRejectDelegate {
+class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHChannelDelegate,TwilioChatClientDelegate,AcceptAndRejectDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     // Video SDK components
     /**
      * We will create an audio device and manage it's lifecycle in response to CallKit events.
      */
     
+    
     @IBOutlet weak var lblParticipantTalking: UILabel!
     @IBOutlet weak var lblTotalParticipant: UILabel!
     @IBOutlet weak var userRemoteView: UIView!
-    var audioDevice: DefaultAudioDevice = DefaultAudioDevice()
+    var audioDevice = DefaultAudioDevice()
     var camera: CameraSource?
     var localVideoTrack: LocalVideoTrack?
     var room: Room?
@@ -48,7 +49,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
     var ringToneTimer = Timer()
-    var ringingTime = 45
+    var ringingTime = 46
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
@@ -83,9 +84,17 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var channels :NSMutableOrderedSet?
     var videocallDelegate: VideocallDelegate?
     var isSpeaking = false
-    var isSpeakerSId = ""
+    var currentSpeakerParticipant :RemoteParticipant?
+    var previousSpeakerParticipant : RemoteParticipant?
+    var isParticipanthasAdded = false
+    var isTapGesture = false
     //More dropdown
-    
+    //dragged view
+    var panGesture       = UIPanGestureRecognizer()
+    @IBOutlet weak var mainPreview: UIView!
+    let imageView = UIImageView()
+    var lblParticipantSearching = UILabel()
+    //end--
     let moreDropDown = DropDown()
     lazy var dropDowns: [DropDown] = {
         return [
@@ -93,8 +102,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         ]
     }()
     var lView = VideoView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainPreview.frame = CGRect(x: self.view.frame.size.width - 140, y: 60, width: 160, height: 160)
+        preview.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
+        mainPreview.addSubview(preview)
+        imgLocalPrivacy.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
+        mainPreview.addSubview(imgLocalPrivacy)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(participantNotAvailable(noti:)), name: Notification.Name("notAvailableParticipant"), object: nil)
         if ifComeFromMeet {
             if ifTimereach {
@@ -130,24 +146,24 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             vdoCollectionView.isHidden = true
             self.vdoCollectionView.delegate = self
             self.vdoCollectionView.dataSource = self
+            
             self.vdoCollectionView.bounces = false
             genarateChatTokenCreate()
         }
         
-        // print("roomID------------>2:", self.roomID)
-        // Do any additional setup after loading the view.
     }
     
     //MARK: Configure With Twilio
     
     
     func configure(){
+        self.mainPreview.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handler)))
+        mainPreview.isUserInteractionEnabled = true
         customizeDropDown()
         setupChooseDropDown()
         ringingView(ishide: true)
         vdoCallVM.getTwilioToken { model, err in
             if err == nil {
-                
                 self.twilioToken = model?.token
                 // self.startPreview()
                 // myAudio.stop()
@@ -155,16 +171,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 self.doConnectTwilio(twilioToken: (model?.token)!)
             }
         }
-        // CEnumClass.share.playSounds(audioName: "incoming")
-        self.ringToneTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { timer in
-            DispatchQueue.main.async {
-                CEnumClass.share.playSounds(audioName: "incoming")
-            }
-            
-        })
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.ringingCallStart), userInfo: nil, repeats: true)
-        }
+        CEnumClass.share.playSounds(audioName: "incoming")
+        
+        self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.ringingCallStart), userInfo: nil, repeats: true)
+        
         vendorTbl.frame = CGRect(x: 0, y: 55, width: self.view.bounds.size.width, height: 200)
         vendorTbl.backgroundColor = UIColor.clear
         vendorTbl.separatorStyle = .none
@@ -174,9 +184,49 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vendorTbl.register(cellNib, forCellReuseIdentifier: cellIndentifier.vendorTVCell.rawValue)
         
     }
-    
-    func ringingView(ishide: Bool){
-        
+   
+  
+    @objc func handler(gesture: UIPanGestureRecognizer){
+        isTapGesture = true
+        topView.isHidden = true
+        bottomView.isHidden = true
+        let location = gesture.location(in: self.view)
+        let draggedView = gesture.view
+        draggedView?.center = location
+       
+        if gesture.state == .ended {
+            print("location--",location.x, location.y)
+            print("location.y:",location.y, "location.x")
+            if self.mainPreview.frame.midX >= self.view.layer.frame.width / 2 {
+                print("01------",self.mainPreview.frame.midX,self.view.layer.frame.width)
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+                    self.mainPreview.center.x = self.view.layer.frame.width - 60
+                    if location.y < 20 {
+                        self.mainPreview.center.y = 60
+                    }
+                    else if location.y > self.view.frame.size.height - 20 {
+                        self.mainPreview.center.y = self.view.frame.size.height - 60
+                    }
+                }, completion: nil)
+            }
+            
+            else{
+                print("02------",self.mainPreview.frame.midX,self.view.layer.frame.width)
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+                    self.mainPreview.center.x = 60
+                    if location.y < 20 {
+                        self.mainPreview.center.y = 60
+                    }
+                    else if location.y > self.view.frame.size.height - 20 {
+                        self.mainPreview.center.y = self.view.frame.size.height - 60
+                    }
+                    // self.mainPreview.center.y = 40
+                }, completion: nil)
+            }
+        }
+    }
+func ringingView(ishide: Bool){
+        mainPreview.isHidden = ishide
         preview.contentMode = .scaleToFill
         preview.clipsToBounds = true
         preview.isHidden = ishide
@@ -224,7 +274,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             "Meeting Settings"
         ]
         
-        // Action triggered on selection
         moreDropDown.selectionAction = { (index, item) in
             print("Index seletected more:", index, item)
             if index == 0 {
@@ -236,7 +285,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }else if index == 3 {
                 print(item)
             }
-            // self?.chooseButton.setTitle(item, for: .normal)
+            
         }
     }
     func customizeDropDown() {
@@ -265,10 +314,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             $0.cellNib = UINib(nibName: "MoreCell", bundle: nil)
             
             $0.customCellConfiguration = { (index: Index, item: String, cell: DropDownCell) -> Void in
-                guard let cell = cell as? MoreCell else { return }
+                guard let cell11 = cell as? MoreCell else { return }
                 
                 // Setup your custom UI components
-                cell.logoImageView.image = UIImage(named: "ic_more\(index % 10)")
+                cell11.logoImageView.image = UIImage(named: "ic_more\(index % 10)")
             }
             /*** ---------------- ***/
         }
@@ -515,8 +564,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }
         
     }
-    
-    
     @IBAction func btnStopVideoTapped(_ sender: Any) {
         
         if localVideoTrack != nil {
@@ -525,8 +572,11 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
             btnCameraFlip.isEnabled = !btnCameraFlip.isEnabled
             if remoteParticipantArr.count > 1 {
+                DispatchQueue.main.async {
+                    self.vdoCollectionView.reloadData()
+                }
                 
-                self.vdoCollectionView.reloadData()
+                
             }
             else {
                 vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: imgLocalPrivacy)
@@ -536,9 +586,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         UIAlertController.showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Delete", distrutiveButton: "End Call", otherButtons: nil) { [self] index, _ in
             if index == 0 {
                 timer.invalidate()
-                ringToneTimer.invalidate()
+                // ringToneTimer.invalidate()
                 if myAudio != nil{
-                    myAudio.stop()
+                    myAudio!.stop()
                 }
                 if (room != nil){
                     room?.disconnect()
@@ -571,7 +621,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                             }
                             self.view.makeToast("Please try again to hangup this call")
                         }
-                       
+                        
                     }
                     
                 }
@@ -586,6 +636,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         fb.targetLang = targetLangName
         fb.duration = lblTimeSpeak.text//callStartTime
         fb.dateAndTime = callStartTime
+        fb.calltype = "V"
         fb.modalPresentationStyle = .overFullScreen
         // SwiftLoader.hide()
         self.present(fb, animated: true, completion: nil)
@@ -617,17 +668,34 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         present(vcontrol, animated: true, completion: nil)
         
     }
-    
-    
     @IBAction func btnMoreTapped(_ sender: Any) {
         moreDropDown.show()
+    }
+    
+    @IBAction func btnSpeakTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        self.audioDevice.block = {
+            do {
+                
+                let audioSession = AVAudioSession.sharedInstance()
+                
+                if(!sender.isSelected) {
+                    try audioSession.setMode(AVAudioSession.Mode.videoChat)
+                } else {
+                    try audioSession.setMode(AVAudioSession.Mode.voiceChat)
+                }
+                
+            } catch {
+                print("Fail: \(error.localizedDescription)")
+            }
+        }
+        
+        self.audioDevice.block()
         
     }
     
-    @IBAction func btnSpeakTapped(_ sender: Any) {
-    }
-    
-    @IBAction func btnCameraFlipTapped(_ sender: Any) {
+    @IBAction func btnCameraFlipTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
         flipCamera()
     }
     
@@ -662,27 +730,35 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
             if (localAudioTrack == nil) {
                 self.view.makeToast("Failed to create audio track")
-           }
+            }
         }
         // Create a video track which captures from the camera.
         if (localVideoTrack == nil) {
+            
+            
             self.startPreview(localView: preview)
         }
     }
     //====================END=============================
     @objc  func ringingCallStart(){
         
-        ringingTime -= 1
+        ringingTime -= 2
         if ringingTime <= 0 {
-            myAudio.stop()
+            myAudio!.stop()
             timer.invalidate()
-            ringToneTimer.invalidate()
+            if (self.camera != nil){
+                camera?.stopCapture()
+                camera = nil
+            }
             dismissViewControllers()
-            //self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+            
+        }
+        else {
+            CEnumClass.share.playSounds(audioName: "incoming")
         }
     }
     
-// MARK:- Private
+    // MARK:- Private
     func startPreview(localView: VideoView) {
         
         if PlatformUtils.isSimulator {
@@ -751,17 +827,299 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }
         }
     }
+    
+    //MARK: Collectionview Delegate and Datasource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if remoteParticipantArr.count > 1 {
+            
+            return remoteParticipantArr.count + 1
+        }
+        else {
+            return remoteParticipantArr.count
+        }
+    }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: indexPath) as!  VDOCollectionViewCell
+        cell.remoteView?.contentMode = .scaleAspectFill
+        cell.remoteView.layer.cornerRadius = 0
+        cell.remoteView.clipsToBounds = false
+        cell.remoteView.frame.size.width = vdoCollectionView.bounds.width
+        cell.remoteView.frame.size.height = vdoCollectionView.bounds.height
+        
+        if remoteParticipantArr.count > 1 {
+            if indexPath.row == 0 {
+                
+                cell.btnMic.isHidden = true
+                preview.isHidden = true
+                mainPreview.isHidden = true
+                isAttendMultiPart = true
+                self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
+                self.lView.contentMode = .scaleAspectFill
+                self.lView.clipsToBounds = false
+                localVideoTrack!.addRenderer(lView)
+                vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
+                cell.audioLbl.isHidden = true
+                cell.lblVideo.isHidden = true
+                cell.isSpeakingLbl.isHidden = true
+                cell.participantName.isHidden = true
+                cell.remoteView.addSubview(lView)
+                
+                return cell
+            }
+            else {
+                if  indexPath.row > 0 {
+                    cell.btnMic.isHidden = false
+                    
+                    let videoPublications = remoteParticipantArr[indexPath.row - 1].remoteVideoTracks
+                    let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row - 1] as! ConferenceInfoModels
+                    let objSID = remoteParticipantArr[indexPath.row - 1].sid
+                    for publication in videoPublications {
+                        print("vdoTrackSid:", publication.trackSid, publication.trackName)
+                        if let subscribedVideoTrack = publication.remoteTrack,
+                           publication.isTrackSubscribed {
+                            print("vdosubscribedVideoTrack2-------------->:", subscribedVideoTrack.sid)
+                            if subscribedVideoTrack.isEnabled {
+                                cell.imgRemotePrivacy.isHidden = true
+                                let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
+                                remote.contentMode = .scaleAspectFill
+                                remote.clipsToBounds = false
+                                
+                                subscribedVideoTrack.addRenderer(remote)
+                                cell.remoteView.addSubview(remote)
+                            }
+                            else {
+                                vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacy)
+                                let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
+                                remote.backgroundColor = UIColor.black
+                                remote.contentMode = .scaleAspectFill
+                                remote.clipsToBounds = false
+                                cell.remoteView.addSubview(remote)
+                            }
+                            
+                        }}
+                    let audioPublications = remoteParticipantArr[indexPath.row - 1].audioTracks
+                    for audioPub in audioPublications {
+                        print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
+                        if let audio = audioPub.audioTrack {
+                            audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
+                        }
+                        
+                    }
+                    if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
+                        let pSID = remoteParticipantArr[indexPath.row - 1].sid
+                        
+                        for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+                            let participantSID = pObj as! ConferenceInfoModels
+                            if participantSID.PARTSID == pSID {
+                                cell.participantName.isHidden = false
+                                
+                                
+                                cell.participantName.text = participantSID.UserName
+                                cell.configure(obj: participantSID)
+                                
+                            }
+                        }
+                    }
+                    if objSID == currentSpeakerParticipant?.sid{
+                        
+                        cell.isSpeakingLbl.isHidden = false
+                    }
+                    else {
+                        cell.isSpeakingLbl.isHidden = true
+                        
+                    }
+                    return cell
+                }
+            }}
+        else {
+            let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
+            let pSID = remoteParticipantArr[indexPath.row].sid
+            print("vdosubscribedVideoTrack01-------------->:", pSID)
+            if isAttendMultiPart {
+                if (localAudioTrack == nil) {
+                    localAudioTrack = LocalAudioTrack()
+                    if (localAudioTrack == nil) {
+                        self.view.makeToast("Failed to create audio track")
+                    }
+                }
+                self.preview.isHidden = false
+                self.mainPreview.isHidden = false
+                cell.btnMic.isHidden = false
+            }
+            for publication in videoPublications {
+                print("vdoTrackSid2:", publication.trackSid, publication.trackName)
+                if let subscribedVideoTrack = publication.remoteTrack,
+                   publication.isTrackSubscribed {
+                    print("vdosubscribedVideoTrack1-------------->:", subscribedVideoTrack.sid)
+                    if subscribedVideoTrack.isEnabled {
+                        vdoCallVM.videoTrackEnableOrDisable(isenable: subscribedVideoTrack.isEnabled, img: cell.imgRemotePrivacy)
+                        let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
+                        remote.contentMode = .scaleAspectFill
+                        remote.clipsToBounds = false
+                        subscribedVideoTrack.addRenderer(remote)
+                        
+                        cell.remoteView.addSubview(remote)
+                    }
+                    else {
+                        vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacy)
+                        let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
+                        remote.backgroundColor = UIColor.black
+                        remote.contentMode = .scaleAspectFill
+                        remote.clipsToBounds = false
+                        // cell.audioLbl.isHidden = true
+                        //cell.lblVideo.isHidden = true
+                        // cell.participantName.isHidden = true
+                        cell.remoteView.addSubview(remote)
+                    }
+                }}
+            
+            let audioPublications = remoteParticipantArr[indexPath.row].audioTracks
+            for audioPub in audioPublications {
+                print("audioTrackSid2:", audioPub.trackSid, audioPub.trackName)
+                if let audio = audioPub.audioTrack {
+                    audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
+                }
+                if (audioPub.trackSid == currentSpeakerParticipant?.sid) && audioPub.audioTrack?.isEnabled == true{
+                    
+                    cell.isSpeakingLbl.isHidden = false
+                }
+                else {
+                    cell.isSpeakingLbl.isHidden = true
+                    
+                }
+            }
+            if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
+                let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
+               
+                if pSID == obj.PARTSID {
+                    cell.participantName.isHidden = false
+                    cell.participantName.text = "\(obj.UserName!)"
+                    cell.configure(obj: obj)
+                }
+                
+            }
+            if pSID == currentSpeakerParticipant?.sid{
+                
+                cell.isSpeakingLbl.isHidden = false
+            }
+            else {
+                cell.isSpeakingLbl.isHidden = true
+                
+            }
+            
+            
+            return cell
+            
+        }
+        
+        return UICollectionViewCell()
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
+                        UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == vdoCollectionView {
+            if self.remoteParticipantArr.count == 1 {
+                return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height)
+            }
+            else if self.remoteParticipantArr.count == 2 {
+                if indexPath.row == 0 {
+                    return CGSize(width: vdoCollectionView.frame.size.width, height: (vdoCollectionView.frame.size.height/2) - 10)
+                    
+                }
+                else {
+                   
+                    return CGSize(width: (self.vdoCollectionView.frame.size.width/2) - 10, height: (self.vdoCollectionView.frame.size.height/2) - 10)
+                }
+            }
+            else if self.remoteParticipantArr.count == 3 {
+                
+                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/2-10)
+            }
+            else if self.remoteParticipantArr.count == 4 {
+                if indexPath.row == 3 {
+                    return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height/3-6)
+                }
+                else {
+                    
+                    return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
+                }
+            }
+            else if self.remoteParticipantArr.count == 5 {
+                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
+            }
+            else if self.remoteParticipantArr.count == 6 {
+                
+                if indexPath.row == 5 {
+                    return CGSize(width: vdoCollectionView.frame.size.width/3-6, height: vdoCollectionView.frame.size.height/3-6)
+                }
+                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
+                
+            }
+            else if self.remoteParticipantArr.count == 7 {
+                if indexPath.row == 6 {
+                    return CGSize(width: vdoCollectionView.frame.size.width/3-5, height: vdoCollectionView.frame.size.height/3-5)
+                }
+                
+                return CGSize(width: vdoCollectionView.frame.size.width/2-5, height: vdoCollectionView.frame.size.height/3-5)
+            }
+            else if self.remoteParticipantArr.count == 8 {
+                return CGSize(width: vdoCollectionView.frame.size.width/3-5, height: vdoCollectionView.frame.size.height/3-5)
+            }
+            return CGSize(width: vdoCollectionView.frame.size.width/2 - 5, height: vdoCollectionView.frame.size.height/2-5)
+            
+        }
+        else {
+            return CGSize(width: 370, height: 490)
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if bottomView.isHidden != true && topView.isHidden != true {
+            bottomView.isHidden = true
+            topView.isHidden = true
+        }
+        else {
+            bottomView.isHidden = false
+            topView.isHidden = false
+//            if isTapGesture {
+//                print("originX11->",self.mainPreview.frame.origin.x,"originY11:",self.mainPreview.frame.origin.y)
+//            }
+        // print("originX11->",self.mainPreview.frame.origin.x,"originY11:",self.mainPreview.frame.origin.y)
+//            if self.mainPreview.frame.midX >= self.view.layer.frame.width / 2 {
+//                
+//            }
+//            
+//            else{
+//                
+//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+//                    print("originX->",self.mainPreview.frame.origin.x,"originY:",self.mainPreview.frame.origin.y)
+////                    self.mainPreview.center.x = 60
+////                    if location.y < 20 {
+////                        self.mainPreview.center.y = 60
+////                    }
+////                    else if location.y > self.view.frame.size.height - 20 {
+////                        self.mainPreview.center.y = self.view.frame.size.height - 60
+////                    }
+//                    // self.mainPreview.center.y = 40
+//                }, completion: nil)
+//            }
+        }
+    }
+    
     //MARK: Remote Participant add
     func renderRemoteParticipant(participant : RemoteParticipant) -> Bool {
         print("renderParticipant Call:")
         ringingView(ishide: false)
         timer.invalidate()
-        ringToneTimer.invalidate()
+        //  ringToneTimer.invalidate()
         if myAudio != nil{
-            myAudio.stop()
+            myAudio!.stop()
         }
         
         lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+        
         return false
     }
     

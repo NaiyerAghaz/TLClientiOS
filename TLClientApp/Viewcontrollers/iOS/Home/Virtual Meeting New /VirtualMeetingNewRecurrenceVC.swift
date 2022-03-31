@@ -412,10 +412,10 @@ extension VirtualMeetingNewRecurrenceVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata24 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata24)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -487,10 +487,10 @@ extension VirtualMeetingNewRecurrenceVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata25 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata25)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -571,10 +571,10 @@ extension VirtualMeetingNewRecurrenceVC{
                         
                     case .success(_):
                         print("Respose Success getCommonDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata26 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata26)
                             print("Success getCommonDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -746,10 +746,10 @@ extension VirtualMeetingNewRecurrenceVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata27 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata27)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -818,10 +818,10 @@ extension VirtualMeetingNewRecurrenceVC{
                     
                 case .success(_):
                     print("Respose Success apiEncryptedDataResponse ")
-                    guard let daata = response.data else { return }
+                    guard let daata28 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
+                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata28)
                         print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
                         let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
                         encryptedValue(true , encrypValue)

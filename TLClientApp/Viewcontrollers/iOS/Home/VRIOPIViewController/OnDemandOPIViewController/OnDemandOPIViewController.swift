@@ -8,7 +8,7 @@
 import UIKit
 import XLPagerTabStrip
 import iOSDropDown
-class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPickerViewDelegate,UIPickerViewDataSource, UITextFieldDelegate {
+class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider {
     @IBOutlet weak var txtTargetlanguage: iOSDropDown!
     @IBOutlet weak var txtSourceLanguage: iOSDropDown!
     
@@ -16,10 +16,16 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
     var sourceLang = true
     var languageViewModel = LanguageVM()
     var onDemandOPIVM = OnDemandOPIVM()
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
-    {
+    var itemInfo = IndicatorInfo(title: "view2")
+    init(itemInfo: IndicatorInfo)  {
+        super.init(nibName: nil, bundle: nil)
+        self.itemInfo = itemInfo
         
-        return IndicatorInfo(title:"Ondemand OPI")
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+      //  fatalError("init(coder:) has not been implemented")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,8 +76,7 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
                 SwiftLoader.hide()
                //
                 self.txtSourceLanguage.text = "English"
-                //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
-                //
+               
                 
             }}}else {
                 self.view.makeToast(ConstantStr.noItnernet.val)
@@ -79,47 +84,28 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
 
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == txtSourceLanguage{
-            sourceLang = true
-         }
-        else {
-            sourceLang = false
-        }
-        vriPickerView.delegate = self
-        vriPickerView.dataSource = self
-    }
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView( _ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        return languageViewModel.totalNumberOfrow()
-    }
-    
-    func pickerView( _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        return languageViewModel.titleForList(row: row)
-        
-    }
-    
-    func pickerView( _ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-     
-       
-        if sourceLang {
-            
-            languageViewModel.titleToTxtField(row: row, txtField: txtSourceLanguage)
-        }
-        else {
-            languageViewModel.titleToTxtField(row: row, txtField: txtTargetlanguage)
-        }
-    }
+  
+   
     @IBAction func btnCallNowTapped(_ sender: Any) {
-        print("LANGUAGE LIST ARRAY IS \(languageViewModel.languageListArr)")
+      
         let request = TxtRequest(txt: txtTargetlanguage.text)
-        let validate = ValidationReq().validate(txtfield: request)
-        if validate.success {
+        let t = ValidationReq().tValidate(txtfield: request)
+        let sReq = TxtRequest(txt: txtSourceLanguage.text)
+        let s = ValidationReq().sValidate(txtfield: sReq)
+        
+        if !s.success {
+           return self.view.makeToast(s.error, duration: 1, position: .center)
+        }
+        if !t.success {
+           return self.view.makeToast(t.error, duration: 1, position: .center)
+        }
+        if languageViewModel.getSournceSelectedLID(stlanguage: txtSourceLanguage.text!) == "" {
+            return self.view.makeToast("Please select valid source language", position: .center)
+        }
+        else if languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!) == ""{
+            return self.view.makeToast("Please select valid target language",position: .center)
+        }
+        else {
             let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: viewIndentifier.CallingPopupVC.rawValue) as! CallingPopupVC
             
@@ -128,16 +114,18 @@ class OnDemandOPIViewController: UIViewController,IndicatorInfoProvider,UIPicker
             vcontrol.sourceName = txtSourceLanguage.text!
             vcontrol.targetID = languageViewModel.getSournceSelectedLID(stlanguage: txtTargetlanguage.text!)
             vcontrol.targetName = txtTargetlanguage.text!
-            print("Language ID for call is ,",vcontrol.sourceID , vcontrol.targetID)
+           
             vcontrol.modalPresentationStyle = .overFullScreen
             self.present(vcontrol, animated: true, completion: nil)
         }
-        else {
-            self.view.makeToast(validate.error, duration: 1, position: .center)
-        }
+       
     }
     
-    
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
+    {
+        
+        return IndicatorInfo(title:"Ondemand OPI")
+    }
 }
 
 /*

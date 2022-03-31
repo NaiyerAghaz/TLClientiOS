@@ -20,7 +20,7 @@ class FeedbackVModel {
         }
         
     }
-    func requestFeedback(callquality: String,VendID: String,roomno: String,CustID: String,LID: String,rating: Int) -> [String: Any]{
+    func requestFeedback(callquality: String,VendID: String,roomno: String,CustID: String,LID: String,rating: Int,calltype:String) -> [String: Any]{
         let parameter = [
             "callquality":callquality,
             "VendID":VendID,
@@ -28,7 +28,7 @@ class FeedbackVModel {
             "CustID":CustID,
             "LID":LID,
             "rating":rating,
-            "calltype":"V",
+            "calltype":calltype,//"V",
             "uType":"C"] as [String : Any]
         return parameter
     }
@@ -36,10 +36,10 @@ class FeedbackVModel {
         WebServices.postJson(url: APi.getFeedbackDetails.url, jsonObject: parameter) { response, err in
             print("getFeedbackDetails----------->",response)
             
-            guard let daata = cEnum.instance.jsonToData(json: response) else { return }
+            guard let daata6 = cEnum.instance.jsonToData(json: response) else { return }
             do {
                 let jsonDecoder = JSONDecoder()
-                let apiGetfeedbackDetail = try jsonDecoder.decode(APIGetfeedbackDetail.self, from: daata)
+                let apiGetfeedbackDetail = try jsonDecoder.decode(APIGetfeedbackDetail.self, from: daata6)
                completionHandler(apiGetfeedbackDetail, nil)
                 
             } catch{
@@ -51,10 +51,10 @@ class FeedbackVModel {
             print(err)
         }
     }
-    func feedbackReq(roomId: String) -> [String:Any]{
+    func feedbackReq(roomId: String,calltype:String) -> [String:Any]{
         let parameter = [
             "RoomId":roomId,
-            "calltype":"V"
+            "calltype":calltype
         ]
         return parameter
     }

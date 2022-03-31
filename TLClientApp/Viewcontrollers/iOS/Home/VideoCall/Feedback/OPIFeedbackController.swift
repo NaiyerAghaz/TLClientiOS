@@ -23,6 +23,7 @@ class VRIOPIFeedbackController: UIViewController {
     @IBOutlet weak var lblRating: UILabel!
     @IBOutlet weak var lblExpr: UILabel!
     var feedbackVM = FeedbackVModel()
+    var calltype : String = ""
     var roomID :String?
     var duration : String?
     var dateAndTime: String?
@@ -33,6 +34,7 @@ class VRIOPIFeedbackController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
+        
         getFeedback()
         
     }
@@ -40,18 +42,24 @@ class VRIOPIFeedbackController: UIViewController {
         lblDuration.text = duration
         lblRoomId.text = roomID
         lblDateTime.text = dateAndTime
-        lblVoice.text = "Video"
+        if calltype == "O"{
+            lblVoice.text = "Voice"
+        }
+        else {
+            lblVoice.text = "Video"
+        }
         
-        lblUserName.text = apiGetfeedbackDetail?.getMembers![0].customerName ?? ""
         
-        let custImage = apiGetfeedbackDetail?.getMembers![0].custImg ?? ""
+        lblUserName.text = apiGetfeedbackDetail?.getMembers?[0].customerName ?? ""
+        
+        let custImage = apiGetfeedbackDetail?.getMembers?[0].custImg ?? ""
         
         imgViewCaller.sd_setImage(with: URL(string: nBaseUrl + custImage), placeholderImage: UIImage(named: "ic_user"))
         expSlider.value = 2
         overallRatingSlider.value = 2
         expSlider.layer.cornerRadius = expSlider.frame.height/2
         overallRatingSlider.layer.cornerRadius = overallRatingSlider.frame.height/2
-        let lng = "English >> \(apiGetfeedbackDetail?.getMembers![0].languageName ?? "")"
+        let lng = "English >> \(apiGetfeedbackDetail?.getMembers?[0].languageName ?? "")"
        
         lblTranslate.text = lng
         expSlider.addTarget(self, action: #selector(expSliderValueChanged(_:)), for: .valueChanged)
@@ -61,7 +69,7 @@ class VRIOPIFeedbackController: UIViewController {
     
     func getFeedback(){
         SwiftLoader.show(animated: true)
-        let req = feedbackVM.feedbackReq(roomId: roomID ?? "")
+        let req = feedbackVM.feedbackReq(roomId: roomID ?? "", calltype: calltype)
         feedbackVM.getFeedbackDetails(parameter: req) { details, err in
             self.apiGetfeedbackDetail = details
             SwiftLoader.hide()
@@ -137,7 +145,7 @@ extension VRIOPIFeedbackController {
     @IBAction func clickOnSubmit(_ sender: UIButton) {
         SwiftLoader.show(title: "Submit..", animated: true)
         
-        let reqparameter = feedbackVM.requestFeedback(callquality:  lblExpr.text ?? "", VendID: "\(apiGetfeedbackDetail?.getMembers![0].vendID ?? 0)", roomno: roomID!, CustID: "\(apiGetfeedbackDetail?.getMembers![0].custID ?? 0)", LID: "\(apiGetfeedbackDetail?.getMembers![0].lID ?? 0)", rating: ratingValue)
+        let reqparameter = feedbackVM.requestFeedback(callquality:  lblExpr.text ?? "", VendID: "\(apiGetfeedbackDetail?.getMembers![0].vendID ?? 0)", roomno: roomID!, CustID: "\(apiGetfeedbackDetail?.getMembers![0].custID ?? 0)", LID: "\(apiGetfeedbackDetail?.getMembers![0].lID ?? 0)", rating: ratingValue, calltype: calltype)
         print("para-->",reqparameter)
         feedbackVM.submitfeedbackMethod(parameter: reqparameter) { success, err in
             SwiftLoader.hide()

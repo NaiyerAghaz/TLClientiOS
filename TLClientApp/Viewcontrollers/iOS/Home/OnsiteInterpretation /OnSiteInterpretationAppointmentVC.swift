@@ -758,39 +758,7 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
             self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
-    /*func getAllLanguage(){
-     SwiftLoader.show(animated: true)
-     
-     
-     let urlString  = "https://lsp.totallanguage.com/Security/GetData?methodType=LanguageData"
-     AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
-     .validate()
-     .responseData(completionHandler: { [self] (response) in
-     SwiftLoader.hide()
-     switch(response.result){
-     
-     case .success(_):
-     print("Respose Success ")
-     guard let daata = response.data else { return }
-     do {
-     let jsonDecoder = JSONDecoder()
-     self.apiGetAllLanguageResponse = try jsonDecoder.decode(ApiGetAllLanguageResponse.self, from: daata)
-     print("Success")
-     self.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
-     let languageString = languageData.languageName ?? ""
-     languageDataSource.append(languageString)
-     })
-     
-     } catch{
-     
-     print("error block forgot password " ,error)
-     }
-     case .failure(_):
-     print("Respose Failure ")
-     
-     }
-     })
-     }*/
+    
     func getAuthCode(){
         if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
@@ -811,10 +779,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     
                 case .success(_):
                     print("Respose Success get auth code ")
-                    guard let daata = response.data else { return }
+                    guard let daata64 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetAuthCoderesponseModel = try jsonDecoder.decode(ApiGetAuthCoderesponseModel.self, from: daata)
+                        self.apiGetAuthCoderesponseModel = try jsonDecoder.decode(ApiGetAuthCoderesponseModel.self, from: daata64)
                         print("Success")
                         self.authCode = apiGetAuthCoderesponseModel?.authenticationCode?.first?.authCode ?? ""
                         
@@ -876,10 +844,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     
                 case .success(_):
                     print("Respose Success ")
-                    guard let daata = response.data else { return }
+                    guard let daata65 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata)
+                        self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata65)
                         print("Success")
                         let btnTitle = self.apiGetSpecialityDataModel?.speciality?.first?.displayValue ?? ""
                         //self.erviceTypebtn.setTitle(btnTitle, for: .normal)
@@ -922,10 +890,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     
                 case .success(_):
                     print("Respose Success venue")
-                    guard let daata = response.data else { return }
+                    guard let daata66 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata)
+                        self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata66)
                         print("Success")
                         self.apiGetAllVenueDataResponseModel?.venueData?.forEach({ venueData in
                             let venueString = venueData.venueName ?? ""
@@ -979,10 +947,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     
                 case .success(_):
                     print("Respose Success update department Detail ")
-                    guard let daata = response.data else { return }
+                    guard let daata67 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiAddDepartmentDataResponse = try jsonDecoder.decode(ApiAddDepartmentDataResponse.self, from: daata)
+                        self.apiAddDepartmentDataResponse = try jsonDecoder.decode(ApiAddDepartmentDataResponse.self, from: daata67)
                         let status = self.apiAddDepartmentDataResponse?.departments?.first?.success ?? 0
                         if status == 2 {
                             print("Success")
@@ -1134,10 +1102,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     
                 case .success(_):
                     print("Respose Success for create request ")
-                    guard let daata = response.data else { return }
+                    guard let daata68 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiCreateAppointmentResponseModel = try jsonDecoder.decode(ApiCreateAppointmentResponseModel.self, from: daata)
+                        self.apiCreateAppointmentResponseModel = try jsonDecoder.decode(ApiCreateAppointmentResponseModel.self, from: daata68)
                         let status = self.apiCreateAppointmentResponseModel?.appointments?.first?.success ?? 0
                         if status == 1 {
                             print("Success")
@@ -1185,10 +1153,10 @@ class OnSiteInterpretationAppointmentVC: UIViewController , UITextFieldDelegate 
                     
                 case .success(_):
                     print("Respose Success ")
-                    guard let daata = response.data else { return }
+                    guard let daata69 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiAddProviderDataresponse = try jsonDecoder.decode(ApiAddProviderDataresponse.self, from: daata)
+                        self.apiAddProviderDataresponse = try jsonDecoder.decode(ApiAddProviderDataresponse.self, from: daata69)
                         let status = self.apiAddProviderDataresponse?.providers?.first?.success ?? 0
                         if status == 2 {
                             print("Success")

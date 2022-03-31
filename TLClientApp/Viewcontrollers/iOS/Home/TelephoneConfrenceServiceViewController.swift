@@ -465,10 +465,10 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daataC = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetAuthCoderesponseModel = try jsonDecoder.decode(ApiGetAuthCoderesponseModel.self, from: daata)
+                                self.apiGetAuthCoderesponseModel = try jsonDecoder.decode(ApiGetAuthCoderesponseModel.self, from: daataC)
                                print("Success")
                                 self.authCode = apiGetAuthCoderesponseModel?.authenticationCode?.first?.authCode ?? ""
                         
@@ -527,10 +527,10 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daataD = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata)
+                                self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daataD)
                                print("Success")
                                 let btnTitle = self.apiGetSpecialityDataModel?.speciality?.first?.displayValue ?? ""
                                 self.erviceTypebtn.setTitle(btnTitle, for: .normal)
@@ -572,10 +572,10 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                         
                         case .success(_):
                             print("Respose Success venue")
-                            guard let daata = response.data else { return }
+                            guard let daataE = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata)
+                                self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daataE)
                                print("Success")
                                 self.apiGetAllVenueDataResponseModel?.venueData?.forEach({ venueData in
                                     let venueString = venueData.venueName ?? ""
@@ -711,10 +711,10 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                         
                         case .success(_):
                             print("Respose Success  create appointment ")
-                            guard let daata = response.data else { return }
+                            guard let daataF = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiCreateAppointmentResponseModel = try jsonDecoder.decode(ApiCreateAppointmentResponseModel.self, from: daata)
+                                self.apiCreateAppointmentResponseModel = try jsonDecoder.decode(ApiCreateAppointmentResponseModel.self, from: daataF)
                                 let status = self.apiCreateAppointmentResponseModel?.appointments?.first?.success ?? 0
                                 if status == 1 {
                                     print("Success")
@@ -778,10 +778,10 @@ class TelephoneConfrenceServiceViewController: UIViewController, UITextFieldDele
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daataG = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiAddProviderDataresponse = try jsonDecoder.decode(ApiAddProviderDataresponse.self, from: daata)
+                                self.apiAddProviderDataresponse = try jsonDecoder.decode(ApiAddProviderDataresponse.self, from: daataG)
                                 let status = self.apiAddProviderDataresponse?.providers?.first?.success ?? 0
                                 if status == 2 {
                                     print("Success")

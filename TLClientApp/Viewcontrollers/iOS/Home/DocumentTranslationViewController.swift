@@ -90,10 +90,10 @@ class DocumentTranslationViewController: UIViewController, UIDocumentPickerDeleg
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daataB = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetAllLanguageResponse = try jsonDecoder.decode(ApiGetAllLanguageResponse.self, from: daata)
+                                self.apiGetAllLanguageResponse = try jsonDecoder.decode(ApiGetAllLanguageResponse.self, from: daataB)
                                print("Success")
                                 self.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
                                     let languageString = languageData.languageName ?? ""

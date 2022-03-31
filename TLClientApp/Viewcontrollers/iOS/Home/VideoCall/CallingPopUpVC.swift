@@ -8,48 +8,24 @@
 import UIKit
 import Alamofire
 protocol VideocallDelegate {
-    func switchToAudioMethods(roomId:String,sourceLangID: String,targetLangID:String,ccid:String,sourceLangName:String,targetLangName: String,patientno: String,patientname: String, vendorDetails: VendorCallUserInfoModel?)
+    func switchToAudioMethods(roomId:String,sourceLangID: String,targetLangID:String,ccid:String,sourceLangName:String,targetLangName: String,patientno: String,patientname: String)
 }
 class CallingPopupVC: UIViewController,VideocallDelegate {
-    func switchToAudioMethods(roomId:String,sourceLangID: String,targetLangID:String,ccid:String,sourceLangName:String,targetLangName: String,patientno: String,patientname: String,vendorDetails: VendorCallUserInfoModel?) {
-        print("roomId!:",roomId,"sourceLangID:",sourceLangID,"targetLangID:",targetLangID,"ccid:",ccid,"sourceLangName:",sourceLangName,"patientno:",patientno,"patientname:",patientname)
-        let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-        let odoCall = sB.instantiateViewController(identifier: "AudioCallViewController") as! AudioCallViewController
-        odoCall.roomID = roomId
-        odoCall.sourceLangID = sourceLangID
-        odoCall.targetLangID = targetLangID
-        odoCall.ccid = ccid
-        odoCall.isToThirdPartyCall = false
-        odoCall.sourceLangName = sourceLangName
-        odoCall.targetLangName = targetLangName
-        odoCall.patientno = patientno
-        odoCall.patientname = patientname
-        odoCall.vendorID = "\(vendorDetails?.UserId ?? 0)"
-        odoCall.vendorName = vendorDetails?.CustomerDisplayName ?? ""
-        odoCall.vendorImg = vendorDetails?.CustomerImage ?? ""
-        odoCall.modalPresentationStyle = .overFullScreen
+    func switchToAudioMethods(roomId:String,sourceLangID: String,targetLangID:String,ccid:String,sourceLangName:String,targetLangName: String,patientno: String,patientname: String) {
+        print("roomId!:",roomId,"sourceLangID:",sourceLangID,"targetLangID:",targetLangID,"ccid:",ccid,"sourceLangName:",sourceLangName,"targertLangName:", targetLangName,"patientno:",patientno,"patientname:",patientname)
+        self.roomId = roomId
+        self.sourceID = sourceLangID
+        self.targetID = targetLangID
+       // self.vendorName = vendorDetails?.CustomerDisplayName ?? ""
+       // self.vendorImgUrl = vendorDetails?.CustomerImage ?? ""
+        txtPatientClientNumber.text = patientname
+        txtPatientClientNumber.text = patientno
+        let req = callManagerVM.switchCallClientReq(ccid: ccid, clientID: GetPublicData.sharedInstance.userID, roomID: roomId, sourceId: sourceLangID, targetID: targetLangID)
+           
+        self.getVRICallClient(req: req)
+        self.postOPIAcceptCall()
        
-        self.present(odoCall, animated: true, completion: nil)
-        
-//        odoCall.roomID = roomId
-//        odoCall.sourceLangID = sourceID
-//        odoCall.targetLangID = targetID
-//        odoCall.ccid = self.ccid
-//        odoCall.isToThirdPartyCall = false
-//        odoCall.sourceLangName = sourceName
-//        odoCall.targetLangName = targetName
-//        odoCall.patientno = txtPatientClientNumber.text ?? ""
-//        odoCall.patientname = txtPatientClientName.text ?? ""
-        
-//        n.putExtra("tokens", "");
-//                            in.putExtra("statustype", "O");
-//                            in.putExtra("sourceLid", sourceLid);
-//                            in.putExtra("selectedLanguageId", selectedLanguageId);
-//                            in.putExtra("touserid", "0");
-//                            in.putExtra("pClientName", pClientName);
-//                            in.putExtra("pClientNumber", pClientNumber);
-//                            in.putExtra("Type", AppConstants.VRIOPIOndemand);
-//                            in.putExtra("cId", cId);
+    
     }
     
     @IBOutlet weak var txtPatientClientName: ACFloatingTextfield!
@@ -119,9 +95,11 @@ func configureUI(){
                     self.view.makeToast("Room is not being created. Please try again",duration: 1, position: .center)
                 }
             }else if self.calltype == "OPI" {
-                print("OPI call start" , roomId)
+                
                 if roomId != nil {
-                    getVRICallClient()
+                    
+                    let req = callManagerVM.normalCallClientReq( ccid: "0", clientID: GetPublicData.sharedInstance.userID, roomID: self.roomId ?? "", sourceId: self.sourceID ?? "", targetID: self.targetID ?? "")
+                    getVRICallClient(req: req)
                     postOPIAcceptCall()
                 }else {
                     self.view.makeToast("Room is not being created. Please try again",duration: 1, position: .center)
@@ -166,7 +144,8 @@ func configureUI(){
             }else if self.calltype == "OPI" {
                 
                 if roomId != nil {
-                    getVRICallClient()
+                    let req = callManagerVM.normalCallClientReq(ccid: "0", clientID: GetPublicData.sharedInstance.userID, roomID: self.roomId ?? "", sourceId: self.sourceID ?? "", targetID: self.targetID ?? "")
+                    getVRICallClient(req: req)
                     postOPIAcceptCall()
                 }else {
                     self.view.makeToast("No roomID.")
@@ -177,14 +156,28 @@ func configureUI(){
         }
     }
     
-    func getVRICallClient(){
-        let roomID = self.roomId ?? ""
+    func getVRICallClient(req:[String:Any]){
+        print("createVRICallClient------>")
+      /*  let roomID = self.roomId ?? ""
         let clientID = GetPublicData.sharedInstance.userID
         let sourceId = self.sourceID ?? ""
         let targetID = self.targetID ?? ""
-        let searchStr = "<VRICLIENT><ACTION>A</ACTION><ID>0</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"
-        let parameter = ["strSearchString":searchStr]
-        self.getCreateVRICallClient(req: parameter) { (completion, error) in
+        var searchStr = ""
+        //Normal Opi call type = A
+        if actionType == "A" {
+          searchStr = "<VRICLIENT><ACTION>\(actionType)</ACTION><ID>\(callId)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"
+           
+        }
+        else {
+           // <VRICLIENT><ACTION>C</ACTION><ID>" + callid + "</ID><CLIENTID>" + SessionSave.getsession(AppConstants.USER_ID, VRIActivity.this) + "</CLIENTID><ROOMID>" + roomNo + "</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>" + sourceLid + "</SOURCE><TARGET>" + selectedLanguageId + "</TARGET></VRICLIENT>
+            searchStr = "<VRICLIENT><ACTION>\(actionType)</ACTION><ID>\(callId)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"
+            
+        }
+      
+       
+        let parameter = ["strSearchString":searchStr]*/
+    print("getCreateVRICallClient-Parameter:",req)
+        self.getCreateVRICallClient(req: req) { (completion, error) in
             if completion ?? false {
                 print("getVRICallClient true ")
                 // call get vendor id here
@@ -206,6 +199,7 @@ func configureUI(){
             "patientname": self.txtPatientClientName.text ?? "",
             "patientno": self.txtPatientClientNumber.text ?? ""
         ]
+        print("acceptCallPara:",parameter)
         self.postOPIAcceptCallWithCompletion(req: parameter) { (completion, error) in
             if completion ?? false {
                 print("postOPIAcceptCall true ")
@@ -232,10 +226,10 @@ func configureUI(){
                 switch(response.result){
                 
                 case .success(_):
-                    guard let daata = response.data else { return }
+                    guard let daata7 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
+                        self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata7)
                         print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
                         let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
                         
@@ -301,7 +295,7 @@ func configureUI(){
         }
     }
     func getCreateVRICallClient(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-        
+        print("createVRICallClient----------:")
         let urlString = APi.createVRICallClient.url
         self.apiCreateVRICallClientResponseModel.removeAll()
         AF.request(urlString, method: .post, parameters: req, encoding: JSONEncoding.default, headers: nil)
@@ -312,11 +306,11 @@ func configureUI(){
                 
                 case .success(_):
                     
-                    
-                    guard let daata = response.data else { return }
+                    print("createVRICallClientResponse----------:",response)
+                    guard let daata8 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiCreateVRICallClientResponseModel = try jsonDecoder.decode([ApiCreateVRICallClientResponseModel].self, from: daata)
+                        self.apiCreateVRICallClientResponseModel = try jsonDecoder.decode([ApiCreateVRICallClientResponseModel].self, from: daata8)
                         print("Success getCreateVRICallClient Model ",self.apiCreateVRICallClientResponseModel)
                         
                         self.ccid = self.apiCreateVRICallClientResponseModel.first?.id ?? ""

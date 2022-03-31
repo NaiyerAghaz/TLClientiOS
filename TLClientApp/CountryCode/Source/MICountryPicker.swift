@@ -40,8 +40,8 @@ open class MICountryPicker: UITableViewController {
     
     fileprivate lazy var CallingCodes = { () -> [[String: String]] in
         let resourceBundle = Bundle(for: MICountryPicker.classForCoder())
-        guard let path = resourceBundle.path(forResource: "CallingCodes", ofType: "plist") else { return [] }
-        return NSArray(contentsOfFile: path) as! [[String: String]]
+        guard let pathZ = resourceBundle.path(forResource: "CallingCodes", ofType: "plist") else { return [] }
+        return NSArray(contentsOfFile: pathZ) as! [[String: String]]
     }()
     fileprivate var searchController: UISearchController!
     fileprivate var filteredList = [MICountry]()

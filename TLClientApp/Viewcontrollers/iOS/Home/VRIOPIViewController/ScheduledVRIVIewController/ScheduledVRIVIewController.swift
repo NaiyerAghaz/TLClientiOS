@@ -419,10 +419,10 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
                         
                         case .success(_):
                             print("Respose Success  create Meet appointment ")
-                            guard let daata = response.data else { return }
+                            guard let daata85 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiScheduleVRIMeetResponseModel = try jsonDecoder.decode(ApiScheduleVRIMeetResponseModel.self, from: daata)
+                                self.apiScheduleVRIMeetResponseModel = try jsonDecoder.decode(ApiScheduleVRIMeetResponseModel.self, from: daata85)
                                 let status = self.apiScheduleVRIMeetResponseModel?.scheduleVRI?.first?.success ?? 0
                                 if status == 3 {
                                     print("Success Meet Requset ")

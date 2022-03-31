@@ -71,10 +71,10 @@ class VenueListViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata78 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata)
+                                self.apiGetAllVenueDataResponseModel = try jsonDecoder.decode(ApiGetAllVenueDataResponseModel.self, from: daata78)
                                print("Success")
                                 self.apiGetAllVenueDataResponseModel?.states?.forEach { stateData in
                                     let state =  stateData.stateName ?? ""
@@ -131,10 +131,10 @@ class VenueListViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata79 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiAddVenueResponse = try jsonDecoder.decode(ApiAddVenueResponse.self, from: daata)
+                                self.apiAddVenueResponse = try jsonDecoder.decode(ApiAddVenueResponse.self, from: daata79)
                                 let status = self.apiAddVenueResponse?.venues?.first?.success ?? 0
                                 if status == 1 {
                                     print("Success")

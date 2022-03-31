@@ -221,7 +221,7 @@ DEPENDENCIES:
   - TwilioChatClient
   - TwilioVideo
   - TwilioVoice
-  - XLPagerTabStrip
+  - XLPagerTabStrip (~> 9.0)
 
 SPEC REPOS:
   trunk:
@@ -304,6 +304,6 @@ SPEC CHECKSUMS:
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
-PODFILE CHECKSUM: d7c453a99adb67fed2bb0c46a737fc4665aaa870
+PODFILE CHECKSUM: f5135df6e7e82662ba100dbb765273695d255823
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

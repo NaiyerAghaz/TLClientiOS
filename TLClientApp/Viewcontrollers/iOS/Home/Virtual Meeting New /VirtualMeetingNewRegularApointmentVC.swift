@@ -729,10 +729,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata12 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata12)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -819,10 +819,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata13 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata13)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -894,10 +894,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata14 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata14)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -974,10 +974,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata15 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata15)
                             print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -1080,10 +1080,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCommonDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata16 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata16)
                             print("Success getCommonDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -1209,10 +1209,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata17 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata17)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -1282,10 +1282,10 @@ extension VirtualMeetingNewRegularApointmentVC{
                         
                     case .success(_):
                         print("Respose Success apiEncryptedDataResponse ")
-                        guard let daata = response.data else { return }
+                        guard let daata18 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
+                            self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata18)
                             print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
                             let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
                             encryptedValue(true , encrypValue)

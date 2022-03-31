@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if userId != "" {
             let storyboard : UIStoryboard = UIStoryboard(name:Storyboard_name.home, bundle: nil)
 //                        let navigationController : UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "TestNav") as! TestNav
+                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialNav") as! InitialNav
 //                        navigationController.viewControllers = [rootViewController]
                                            //self.window = UIWindow(frame: UIScreen.main.bounds)
                         self.window?.rootViewController = rootViewController
@@ -200,52 +200,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
         let payload = userInfo[AnyHashable("payload")] as? String
-        
+        print("Notification------>", payload, "type------------->", type)
         if type != nil {
            // let dict = convertToDictionary(text: payload!)
             if type == TypeNotification.notavailable.rawValue {
-                print("mytype--->", type)
-                if let roomNo = userInfo[AnyHashable("gcm.notification.Roomno")]  as? String {
-                    print("roommmm---->",roomNo)
-                    if roomNo == roomIDAppdel {
-                        
-                    }
+             
+                if let cid = userInfo[AnyHashable("gcm.notification.callid")]  as? String {
+
+                   callid = cid
                     NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
                 }
-                
-                // CommonMethods.playSounds(audioName: "cyanping")
-               // let timeDisDict = NotificationsTimeForDistance(dictionary: dict!)
-                // let assignedJob = ApiJobListIncomming.JobAssignedDetail(dictionary: dict! as NSDictionary)
-                
-               /* if timeDisDict.valjob == 1 {
-                    //   NotificationCenter.default.post(name: Notification.Name("notificationRegularJob"), object: nil)
-                    /* vc.isValidateStatus = true
-                     vc.jobAssignDic = jobAcceptData */
-                    CommonMethods.playSounds(audioName: "notification_driver")
-                    
-                    if let rootViewController = self.window!.rootViewController as? UINavigationController {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        
-                        if let vc = storyboard.instantiateViewController(withIdentifier: "RegularJobViewController") as? RegularJobViewController {
-                            let assignedJob = ApiJobListIncomming.JobAssignedDetail(dictionary: dict! as NSDictionary)
-                            print("assignedJob!!=",assignedJob)
-                            vc.jobAssignDriverDict = assignedJob
-                            vc.isFromNotification = true
-                            vc.jobId = assignedJob.id
-                            rootViewController.pushViewController(vc, animated: true)
-                        }
-                    }
-                }*/
+                print("notify---------")
+               // NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
+               }
             
             
-            }else if type == "opicall" {
-                
-                print("opi call Start")
+            else if type == "opicall" {
+             
                 
                 NotificationCenter.default.post(name: Notification.Name("vendorAnswered"), object: nil, userInfo: nil)
                 
             }else if type?.contains("ParticipantLeave") ?? false {
-                print("participants leave notify ")
+               
                 let participantsValue = type?.components(separatedBy: ",")
                 if (participantsValue?.count ?? 0 ) > 0 {
                     let participantsStr = participantsValue?[0]

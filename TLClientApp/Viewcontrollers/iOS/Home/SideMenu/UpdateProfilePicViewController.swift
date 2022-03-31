@@ -54,10 +54,10 @@ class UpdateProfilePicViewController: UIViewController {
                     
                     case .success(_):
                         print("Respose Success ")
-                        guard let daata = response.data else { return }
+                        guard let daata82 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiUploadImageOnlyResponse = try jsonDecoder.decode(ApiUploadImageOnlyResponse.self, from: daata)
+                            self.apiUploadImageOnlyResponse = try jsonDecoder.decode(ApiUploadImageOnlyResponse.self, from: daata82)
                            print("Success")
                             let contentType = self.apiUploadImageOnlyResponse?.fileExtension ?? ""
                             let filename = self.apiUploadImageOnlyResponse?.tempFileName ?? ""
@@ -103,10 +103,10 @@ class UpdateProfilePicViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata83 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiUploadImageDataResponse = try jsonDecoder.decode(ApiUploadImageDataResponse.self, from: daata)
+                                self.apiUploadImageDataResponse = try jsonDecoder.decode(ApiUploadImageDataResponse.self, from: daata83)
                                 
                                 if apiUploadImageDataResponse?.fileName ?? "" != "" {
                                     self.dismiss(animated: true, completion: nil)

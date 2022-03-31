@@ -136,10 +136,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         
                         case .success(_):
                             print("Respose Success Notification Count ")
-                            guard let daata = response.data else { return }
+                            guard let daata91 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiNotificationResponseModel = try jsonDecoder.decode(ApiNotificationResponseModel.self, from: daata)
+                                self.apiNotificationResponseModel = try jsonDecoder.decode(ApiNotificationResponseModel.self, from: daata91)
                                print("Success notification count ")
                                 let count = self.apiNotificationResponseModel?.notificationsCounts?.first?.notificationCounts ?? ""
                                 print("notification count\(count)" )
@@ -198,10 +198,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                 
                 case .success(_):
                     print("Respose getCurrentTimeZone ")
-                    guard let daata = response.data else { return }
+                    guard let daata92 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGoogleTimeZoneresponse = try jsonDecoder.decode(ApiGoogleTimeZoneresponse.self, from: daata)
+                        self.apiGoogleTimeZoneresponse = try jsonDecoder.decode(ApiGoogleTimeZoneresponse.self, from: daata92)
                         let status = self.apiGoogleTimeZoneresponse?.status ?? ""
                         if status == "OK" {
                             let timeConverter1 = DateFormatter()
@@ -282,13 +282,13 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         let FirstDate = Date()
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-        guard let result : String = formatter.string(from: FirstDate) as String? else { return }
-        print("selected Date -->",result )
+        guard let result02 : String = formatter.string(from: FirstDate) as String? else { return }
+        print("selected Date -->",result02 )
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let CustomerID = userDefaults.string(forKey: "CustomerID") ?? ""
         let userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
         print("userId is \(userId) , cutomerId is \(CustomerID) , usertypeID is \(userTypeID)")
-        self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: result)
+        self.hitApigetAllScheduleAppointment(date: result02, customerId: userId, selectedDate: result02)
     }
     func updateDeviceToken(){
         if Reachability.isConnectedToNetwork() {
@@ -311,10 +311,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         
                         case .success(_):
                             print("Respose Success update device ")
-                            guard let daata = response.data else { return }
+                            guard let daata93 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiUpdateDeviceTokenRespose = try jsonDecoder.decode(ApiUpdateDeviceTokenRespose.self, from: daata)
+                                self.apiUpdateDeviceTokenRespose = try jsonDecoder.decode(ApiUpdateDeviceTokenRespose.self, from: daata93)
                                 let status = self.apiUpdateDeviceTokenRespose?.table?.first?.success ?? 0
                                 if status == 1 {
                                     print("Success update device token ")
@@ -358,11 +358,11 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         switch(response.result){
                     
                         case .success(_):
-                            guard let daata = response.data else { return }
+                            guard let daata94 = response.data else { return }
                             do {
-                                print("check singel user response ",daata)
+                                print("check singel user response ",daata94)
                                 let jsonDecoder = JSONDecoder()
-                                self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
+                                self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata94)
                                 print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
                                 let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
                         
@@ -437,10 +437,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         
                         case .success(_):
                             print("Respose Success logout ")
-                            guard let daata = response.data else { return }
+                            guard let daata95 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiLogoutResponseModel = try jsonDecoder.decode(ApiLogoutResponseModel.self, from: daata)
+                                self.apiLogoutResponseModel = try jsonDecoder.decode(ApiLogoutResponseModel.self, from: daata95)
                                 let status = self.apiLogoutResponseModel?.table?.first?.success ?? 0
                                 if status == 1 {
                                     print("Success logout ")
@@ -553,11 +553,11 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                 case .success(_):
                     
                     print("hitApiCheckMeetingStatus ")
-                    guard let daata = response.data else { return }
+                    guard let daata96 = response.data else { return }
                     print("response are ", response.data)
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiCheckMeetSatusResponseModel = try jsonDecoder.decode([ApiCheckMeetSatusResponseModel].self, from: daata)
+                        self.apiCheckMeetSatusResponseModel = try jsonDecoder.decode([ApiCheckMeetSatusResponseModel].self, from: daata96)
                         let duration = self.apiCheckMeetSatusResponseModel.first?.resultData?.first?.dURATION ?? 0
                         print("check meet data ", self.apiCheckMeetSatusResponseModel)
                         let roomId = self.apiCheckMeetSatusResponseModel.first?.resultData?.first?.rOOMNO ?? ""
@@ -655,10 +655,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                                             
                                             case .success(_):
                                                 print("Respose Success ")
-                                                guard let daata = response.data else { return }
+                                                guard let daata97 = response.data else { return }
                                                 do {
                                                     let jsonDecoder = JSONDecoder()
-                                                    self.apiScheduleAppointmentResponseModel = try jsonDecoder.decode(ApiScheduleAppointmentResponseModel.self, from: daata)
+                                                    self.apiScheduleAppointmentResponseModel = try jsonDecoder.decode(ApiScheduleAppointmentResponseModel.self, from: daata97)
                                                    print("Success")
                                                     self.showAppointmentArr.removeAll()
                                                     self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in
@@ -708,10 +708,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata98 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata)
+                                self.apiGetSpecialityDataModel = try jsonDecoder.decode(ApiGetSpecialityDataModel.self, from: daata98)
                                print("Success")
                                 GetPublicData.sharedInstance.apiGetSpecialityDataModel = self.apiGetSpecialityDataModel
                                 
@@ -994,17 +994,16 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
-        guard let result : String = formatter.string(from: date) as String? else { return UIImage(named: "")}
+        guard let resultA : String = formatter.string(from: date) as String? else { return UIImage(named: "")}
         var eventCount = 0
-        print("count of appointment \(self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.count ?? 0) for date \(result)")
+        print("count of appointment \(self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.count ?? 0) for date \(resultA)")
         for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
             let rawDate = scheduleAppointment.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
-            if newDate == result {
+            
+            if newDate == resultA {
                 eventCount = eventCount + 1
-                print("event count \(eventCount)")
+               
                 
             }
         }
@@ -1037,14 +1036,13 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-        guard let result : String = formatter.string(from: date) as String? else { return nil }
+        guard let resultB : String = formatter.string(from: date) as String? else { return nil }
         eventColor.removeAll()
         self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in
             let rawDate = appointmentData.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            print("new date is in number of event\(newDate)")
-            print("result date is in number of event  \(result)")
-            if newDate == result {
+            
+            if newDate == resultB {
                 self.apiScheduleAppointmentResponseModel?.appointmentStatus?.forEach({ appointmentStatusData in
                     if  appointmentStatusData.code  == appointmentData.appointmentStatusType
                     {
@@ -1071,13 +1069,13 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         let FirstDate = date.startOfMonth() ?? Date()
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy"
-        guard let result : String = formatter.string(from: FirstDate) as String? else { return }
+        guard let resultC : String = formatter.string(from: FirstDate) as String? else { return }
         guard let selectedDate : String = formatter.string(from: date) as String? else { return }
-                   print("selected Date -->",result )
+                   
         let userId = userDefaults.string(forKey: "userId") ?? ""
         print("userId is \(userId)")
         
-        self.hitApigetAllScheduleAppointment(date: result, customerId: userId, selectedDate: selectedDate)
+        self.hitApigetAllScheduleAppointment(date: resultC, customerId: userId, selectedDate: selectedDate)
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventOffsetFor date: Date) -> CGPoint {

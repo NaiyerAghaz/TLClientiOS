@@ -487,10 +487,10 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
                     
                 case .success(_):
                     print("Respose Success getCustomerDetail ")
-                    guard let daata = response.data else { return }
+                    guard let daata70 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata70)
                         print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                         let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                         let data = str.data(using: .utf8)!
@@ -739,10 +739,10 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
                     
                 case .success(_):
                     print("Respose Success getCustomerDetail ")
-                    guard let daata = response.data else { return }
+                    guard let daata71 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata71)
                         print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                         let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                         let data = str.data(using: .utf8)!

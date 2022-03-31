@@ -554,10 +554,10 @@ extension OnsiteBlockedAppointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata36 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata36)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -629,10 +629,10 @@ extension OnsiteBlockedAppointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata37 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata37)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -713,10 +713,10 @@ extension OnsiteBlockedAppointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCommonDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata38 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata38)
                             print("Success getCommonDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -874,10 +874,10 @@ extension OnsiteBlockedAppointmentVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata39 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata39)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -946,10 +946,10 @@ extension OnsiteBlockedAppointmentVC{
                     
                 case .success(_):
                     print("Respose Success apiEncryptedDataResponse ")
-                    guard let daata = response.data else { return }
+                    guard let daata40 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
+                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata40)
                         print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
                         let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
                         encryptedValue(true , encrypValue)

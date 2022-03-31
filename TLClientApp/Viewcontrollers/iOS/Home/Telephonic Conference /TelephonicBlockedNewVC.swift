@@ -546,10 +546,10 @@ extension TelephonicBlockedNewVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata53 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata53)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -621,10 +621,10 @@ extension TelephonicBlockedNewVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata54 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata54)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -705,10 +705,10 @@ extension TelephonicBlockedNewVC{
                         
                     case .success(_):
                         print("Respose Success getCommonDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata55 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata55)
                             print("Success getCommonDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -866,10 +866,10 @@ extension TelephonicBlockedNewVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata = response.data else { return }
+                        guard let daata56 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata56)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -938,10 +938,10 @@ extension TelephonicBlockedNewVC{
                     
                 case .success(_):
                     print("Respose Success apiEncryptedDataResponse ")
-                    guard let daata = response.data else { return }
+                    guard let daata57 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
+                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata57)
                         print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
                         let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
                         encryptedValue(true , encrypValue)
@@ -1787,10 +1787,10 @@ class TelephonicAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
                     
                 case .success(_):
                     print("Respose Success getCustomerDetail ")
-                    guard let daata = response.data else { return }
+                    guard let daata58 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata58)
                         print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                         let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                         let data = str.data(using: .utf8)!
@@ -1937,10 +1937,10 @@ class TelephonicAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
                     
                 case .success(_):
                     print("Respose Success getCustomerDetail ")
-                    guard let daata = response.data else { return }
+                    guard let daata59 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata59)
                         print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                         let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                         let data = str.data(using: .utf8)!

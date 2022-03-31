@@ -96,10 +96,10 @@ class SupportViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata72 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetGroupDataModel = try jsonDecoder.decode(ApiGetGroupDataModel.self, from: daata)
+                                self.apiGetGroupDataModel = try jsonDecoder.decode(ApiGetGroupDataModel.self, from: daata72)
                                print("Success")
                                 
                                 self.apiGetGroupDataModel?.staffData?.forEach({ groupData in
@@ -134,10 +134,10 @@ class SupportViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata73 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetCategoryResponseData = try jsonDecoder.decode(ApiGetCategoryResponseData.self, from: daata)
+                                self.apiGetCategoryResponseData = try jsonDecoder.decode(ApiGetCategoryResponseData.self, from: daata73)
                               
                                 print("response model is \(self.apiGetCategoryResponseData)")
                                 self.categoryID = self.apiGetCategoryResponseData?.aDDUDATECATEGORY?.first?.categoryid ?? 0
@@ -171,10 +171,10 @@ class SupportViewController: UIViewController {
                         
                         case .success(_):
                             print("Respose Success ")
-                            guard let daata = response.data else { return }
+                            guard let daata74 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiGetSupportMessageModel = try jsonDecoder.decode(ApiGetSupportMessageModel.self, from: daata)
+                                self.apiGetSupportMessageModel = try jsonDecoder.decode(ApiGetSupportMessageModel.self, from: daata74)
                                print("Success")
                                 DispatchQueue.main.async {
                                     self.supportTV.reloadData()

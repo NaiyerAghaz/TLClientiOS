@@ -75,25 +75,25 @@ class AddparticipentstableViewCell:UITableViewCell ,UITextFieldDelegate {
     func textFieldDidEndEditing(_ textView: UITextField) {
             print("Function textViewDidEndEditing ")
                    print("Row index is ",rowIndex)
-                   guard let txt = textView.text else { return }
+                   guard let txtA = textView.text else { return }
                    guard rowIndex != nil else { return }
                    var firstname = ""
                    var lastName = ""
                    var emailId = ""
                    var phNum = ""
                    if textView == self.firstNameTF {
-                        self.firstName = txt
+                        self.firstName = txtA
                    }else if textView == self.lastNameTF {
-                        self.lastName = txt
+                        self.lastName = txtA
                    }else if textView == self.mobileTF {
-                        self.mobileNum = txt
+                        self.mobileNum = txtA
                    }else if textView == self.emailTF {
-                          self.emailID = txt
+                          self.emailID = txtA
                    }else if textView == self.countryCodeTF{
                           //self.countryCode = txt
                    }
-                   print("----text is ", txt)
-                print("all value are ",self.firstName,self.lastName , self.emailID,self.mobileNum,self.countryCode)
+                  
+               
                delegate?.didSave(self, flag: true, firstName: self.firstName, index: rowIndex ?? 0, lastName: self.lastName, emailID: self.emailID, phoneNumber: self.mobileNum , countryCode: self.countryCode  )
   
         }
@@ -288,10 +288,10 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
                         
                         case .success(_):
                             print("Respose Success  create Meet appointment ")
-                            guard let daata = response.data else { return }
+                            guard let daata99 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiScheduleVRIMeetResponseModel = try jsonDecoder.decode(ApiScheduleVRIMeetResponseModel.self, from: daata)
+                                self.apiScheduleVRIMeetResponseModel = try jsonDecoder.decode(ApiScheduleVRIMeetResponseModel.self, from: daata99)
                                 let status = self.apiScheduleVRIMeetResponseModel?.scheduleVRI?.first?.success ?? 0
                                 if status == 1 {
                                     print("Success Meet Requset ")

@@ -57,14 +57,23 @@ class InviteWithEmailVC: UIViewController,IndicatorInfoProvider, UITextFieldDele
         else if isAuthentication == 0 {
             return self.view.makeToast("Please select authentication factor", position: .top)
         }
+        
         if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         //fromUserID ?? "0"
         let reqPara = inviteVmodel.inviteEmailReq(emailID: emailTF.text!, roomNo: actualRoom ?? "0", pid: inviteVmodel.random(digits: 10), mobile: mobileTF.text!, fName: firstNameTF.text!, lName: lastNameTF.text!, fromUserID: GetPublicData.sharedInstance.userID, authFactor: factorStr!, calltype: "vri")
         inviteVmodel.inviteWithEmail(parameter: reqPara) { success, err in
+            SwiftLoader.hide()
+           // checkmark
+           
             if success! {
-                SwiftLoader.hide()
-                self.dismiss(animated: true, completion: nil)
+                
+                self.view.makeToast("Email has been sent", position: .center)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    self.presentingViewController!.presentingViewController!.dismiss(animated: true, completion: nil)
+                }
+               
+                
             }
         }}else {self.view.makeToast(ConstantStr.noItnernet.val)}
        }

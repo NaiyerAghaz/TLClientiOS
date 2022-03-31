@@ -102,10 +102,10 @@ class BlockedAppointmentDetailVC: UIViewController {
                         
                         case .success(_):
                             print("Respose Success cancel request  ")
-                            guard let daata = response.data else { return }
+                            guard let daata4 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
-                                self.apiCancelRequestResponseModel = try jsonDecoder.decode(ApiCancelRequestResponseModel.self, from: daata)
+                                self.apiCancelRequestResponseModel = try jsonDecoder.decode(ApiCancelRequestResponseModel.self, from: daata4)
                                 let status = self.apiCancelRequestResponseModel?.cancelledData?.first?.success ?? 0
                                 print(self.apiCancelRequestResponseModel?.cancelledData)
                                 if status == 1 {
@@ -151,10 +151,10 @@ class BlockedAppointmentDetailVC: UIViewController {
                     
                 case .success(_):
                     print("Respose Success getCommonDetail ")
-                    guard let daata = response.data else { return }
+                    guard let daata5 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
-                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                        self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata5)
                         print("Success getCommonDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                         let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                         let data = str.data(using: .utf8)!

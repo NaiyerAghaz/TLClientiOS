@@ -244,9 +244,9 @@ class SelectRecurringDateVC: UIViewController {
         let FirstDate = Date()
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy hh:mm a"
-        guard let result : String = formatter.string(from: FirstDate) as String? else { return }
-        print("selected Date -->",result )
-        self.firstAppointmentDateTF.text = result
+        guard let result1 : String = formatter.string(from: FirstDate) as String? else { return }
+        print("selected Date -->",result1 )
+        self.firstAppointmentDateTF.text = result1
        // self.selectedDateTF.text =
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let CustomerID = userDefaults.string(forKey: "CustomerID") ?? ""
