@@ -106,39 +106,6 @@ struct ConferenceInfoModel : Codable{
         
     }
 }
-
-
-
-/*[
- {
-     "result": "[{\"CONFERENCEInfo\":[{\"ID\":35138,\"UserName\":\"vendor\",\"EMAIL\":\"\",\"FROMUSERID\":0,\"ACTUALROOM\":\"21092111\",\"PARTSID\":\"PAbfa45f0004b4e57e22b2c2c885f8e61c\",\"ROOMSID\":\"RMe3eea7744963e572a3db850e1dcf7979\",\"TOUSERID\":218925,\"FNAME\":\"\",\"LNAME\":\"\",\"MUTE\":1,\"VIDEO\":1,\"CALL\":1,\"TYPE\":\"V\",\"ROOMNO\":\"\",\"DAILCALL\":\"N\"}],\"TOTALRECORDS\":1}]"
- }
-]*/
-
-/*{
- CONFERENCEInfo =         (
-                 {
-         ACTUALROOM = 21092515;
-         CALL = 1;
-         DAILCALL = N;
-         EMAIL = "";
-         FNAME = "";
-         FROMUSERID = 0;
-         ID = 35176;
-         LNAME = "";
-         MUTE = 1;
-         PARTSID = PA669efb0081be7a6aa503b4f534992844;
-         ROOMNO = "";
-         ROOMSID = RMcac0b76864735ad293cbf9fd563d6a14;
-         TOUSERID = 218925;
-         TYPE = V;
-         UserName = vendor;
-         VIDEO = 1;
-     }
- );
- TOTALRECORDS = 1;
-}*/
-
 class ConferenceInfoResultModel: NSObject {
     var CONFERENCEInfo: NSMutableArray?
     var TOTALRECORDS: String?

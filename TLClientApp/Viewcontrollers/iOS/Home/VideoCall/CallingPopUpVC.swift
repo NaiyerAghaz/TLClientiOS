@@ -64,8 +64,7 @@ func configureUI(){
                     else {
                         SwiftLoader.hide()
                     }
-                    
-                }}
+                   }}
             else {
                 self.view.makeToast(ConstantStr.noItnernet.val)
             }
@@ -89,8 +88,7 @@ func configureUI(){
                 if roomId != nil {
                    self.getCallPriorityVideoWithCompletion()
                     self.addAppCall()
-                    
-                   }
+                    }
                 else {
                     self.view.makeToast("Room is not being created. Please try again",duration: 1, position: .center)
                 }
@@ -202,9 +200,11 @@ func configureUI(){
         print("acceptCallPara:",parameter)
         self.postOPIAcceptCallWithCompletion(req: parameter) { (completion, error) in
             if completion ?? false {
+                SwiftLoader.hide()
                 print("postOPIAcceptCall true ")
                 
             }else {
+                SwiftLoader.hide()
                 print("postOPIAcceptCall false ")
             }
         }
@@ -345,20 +345,23 @@ func configureUI(){
         callManagerVM.addAppCall(req: para) { success, err in
             if success! {
                
-                
+                SwiftLoader.hide()
             }
             else{
+                SwiftLoader.hide()
                 self.view.makeToast("Something is wrong, please try again")
             }
         }
     }
+
     func getCallPriorityVideoWithCompletion() {
+        SwiftLoader.show(animated: true)
         let reqpara = callManagerVM.priorityReqAPI(LtargetId: targetID ?? "", Calltype: "V", Slid: sourceID ?? "")
-        
+      
         callManagerVM.priorityVideoCall(req: reqpara) { success, err in
             if success! {
                 DispatchQueue.main.async {
-                    
+                    SwiftLoader.hide()
                     self.callTOVRI()
                     
                 }
@@ -366,6 +369,7 @@ func configureUI(){
                 print("priority success------>",success)
             }
             else {
+                SwiftLoader.hide()
                 // handler(false, nil)
                 print("priority failed------>",success)
             }

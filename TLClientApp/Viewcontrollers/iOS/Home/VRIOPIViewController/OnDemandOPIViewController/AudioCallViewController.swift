@@ -515,6 +515,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         let roomID = self.roomID ?? ""
         let srchString = "<VRIHANGUP><ACTION>C</ACTION><ROOMID>\(roomID)</ROOMID></VRIHANGUP>"
         let param = ["strSearchString":srchString]
+        
+        if self.timerDuration != nil {
+            self.timerDuration?.invalidate()
+        }
         endVRICallOPI(request: param) { (completion, error) in
             if completion ?? false{
                 print("completion true  end vri call ")
@@ -660,10 +664,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             DispatchQueue.main.async {
                 self.callDisconnetedByVendorAndCustomerEnd()
             }
-            
-            
-            
-        }))
+          }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Handle Cancel Logic here")
@@ -704,7 +705,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         if self.vendorID == "" || self.vendorID == "0" {
             print("alertShow")
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
-                let refreshAlert = UIAlertController(title: "Alert", message: "We couldn't find any vendors at this moment,Please try again.", preferredStyle: UIAlertController.Style.alert)
+                let refreshAlert = UIAlertController(title: "Alert", message: "We couldn't find any vendors at this moment, Please try again.", preferredStyle: UIAlertController.Style.alert)
                 
                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
                     print("Handle Ok logic here")

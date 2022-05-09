@@ -12,7 +12,7 @@ class ApiServices: NSObject {
     func getDataFromApi(url: URL, para: [String:Any], completionHandler:@escaping(NSDictionary?, Error?) -> ()){
         WebServices.postJson(url: url, jsonObject: para,completionHandler: {(response, _) in
             completionHandler(response as? NSDictionary, nil)
-            SwiftLoader.hide()
+            
         }){ (error, _) in
             print(error)
             completionHandler(nil, error as? Error)

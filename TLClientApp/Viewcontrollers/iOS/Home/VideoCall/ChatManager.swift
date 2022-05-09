@@ -7,6 +7,7 @@
 
 import Foundation
 import TwilioChatClient
+import UIKit
 class ChatManager: NSObject, TwilioChatClientDelegate {
     static let share  = ChatManager()
     var client : TwilioChatClient?
@@ -21,12 +22,13 @@ class ChatManager: NSObject, TwilioChatClientDelegate {
             else {
                 handler(false, nil)
             }
-           
-        }
+            }
     }
     func tokenForIdentity(indentity: String,handler:@escaping(Bool?, TwilioChatModel?) ->()){
-        WebServices.get(url: APi.chattoken.url) { (response, _) in
-            print("responseObject:", response)
+        let deviceid = UIDevice.current.identifierForVendor!.uuidString
+        let fullUrl = chatURL + "/chattoken??device=\(deviceid)"
+        WebServices.get(url: URL(string: fullUrl)!) { (response, _) in
+            print("url:\( fullUrl) response:\(response)")
             let twilioData = TwilioChatModel.getData(dicts: response as! NSDictionary)
             print("TWILIO DATA IS \(twilioData.token)")
             TwilioChatClient.chatClient(withToken: twilioData.token!, properties: nil, delegate: self) { result, chatClient in

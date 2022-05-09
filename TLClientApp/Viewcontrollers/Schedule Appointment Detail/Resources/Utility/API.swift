@@ -17,6 +17,9 @@ let twiliBaseURL = "https://sai1.smsionline.com"
 let baseOPI = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken"
 //let baseOPI = "https://lsp.smsionline.com/OPI/GetOPIAccessToken"
 let chatURL = "https://vriservices.totallanguage.com"
+
+
+//https://lsp.totallanguage.com/Voicecall/Logoutfromwebforall
 enum APi{
     case login
     case forgetPassword
@@ -71,6 +74,9 @@ enum APi{
     case encryptdecryptvalue
     case GetBlokedAppointmentDetailApi
     case customerVRIEndCall
+    case logoutfromwebforall
+    case tladdupdateRecurringappointment
+    case getCompanydetails
     var url: URL{
         switch self {
         case .login:
@@ -185,6 +191,12 @@ enum APi{
             return URL(string: baseUrl + "/GetAppointmentBlokedHomeScreenPopupApi")!
         case .customerVRIEndCall:
             return URL(string: nBaseUrl + "/VRICall/customervriendcall")!
+        case .logoutfromwebforall:
+            return URL(string: nBaseUrl + "/Voicecall/Logoutfromwebforall")!
+        case .tladdupdateRecurringappointment:
+            return URL(string: baseUrl + "/tladdupdateRecurringappointment")!
+        case .getCompanydetails:
+            return URL(string: baseUrl + "/GetCompanydetails")!
         }
     }
 }

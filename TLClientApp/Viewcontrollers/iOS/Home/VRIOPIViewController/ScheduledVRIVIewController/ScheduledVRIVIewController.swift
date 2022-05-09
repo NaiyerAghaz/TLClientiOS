@@ -10,8 +10,9 @@ import XLPagerTabStrip
 import iOSDropDown
 import Alamofire
 class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UITextFieldDelegate, MICountryPickerDelegate {
-
-    
+    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
+        print(code)
+    }
     @IBOutlet weak var selectDateTimeTF: UITextField!
     @IBOutlet weak var selectVRIView: UIView!
     @IBOutlet weak var phoneNumberTF: UITextField!
@@ -43,9 +44,12 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
     
     @IBOutlet weak var countryCodeTF: UITextField!
     @IBOutlet weak var minTxt: iOSDropDown!
+    var picker = MICountryPicker()
+    var bundle = "assets.bundle/"
     var apiScheduleVRIMeetResponseModel:ApiScheduleVRIMeetResponseModel?
     var callManagerVM = CallManagerVM()
     var roomId = "0"
+    var languageViewModel = LanguageVM()
     var showFisrtParticipants = true
     var showSecoundparticipants = false
     var showThirdParticipants = false
@@ -67,7 +71,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .green
+       
         // Do any additional setup after loading the view.
         clientPatientName.delegate = self
         HrTxt.optionArray = hourArr
@@ -85,10 +89,8 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         self.minTxt.text = "\(selectedText)"
         
         }
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy h:mm a"
-        let startDate =  dateFormatter.string(from: Date())
-        self.selectDateTimeTF.text = startDate
+       
+        self.selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTime()
         
         
         srcLngTF.optionArray = GetPublicData.sharedInstance.languageArray
@@ -119,53 +121,66 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         SwiftLoader.show(animated: true)
         callManagerVM.getRoomList { roolist, error in
             if error == nil {
+//                self.roomId = roolist?[0].RoomNo ?? "0"
+//                self.roomNoLbl.text = "Room No: \(self.roomId)"
+                
+                
                 self.roomId = roolist?[0].RoomNo ?? "0"
-                self.roomNoLbl.text = "Room No: \(self.roomId)"
+                let mainRoom = "Room No: \(self.roomId)"
+                let range = (mainRoom as NSString).range(of: self.roomId)
+                let mutableStr = NSMutableAttributedString.init(string: mainRoom)
+                mutableStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
+                self.roomNoLbl.attributedText = mutableStr
+                
                 SwiftLoader.hide()
                 
             }
             
         }
+        languageViewModel.languageData { list, err in
+            if err == nil {
+                SwiftLoader.hide()
+               //
+                self.srcLngTF.text = "English"
+                //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
+                //
+                
+            }}
+        let bundle = "assets.bundle/"
+        
+        let image = UIImage( named: bundle + "us.png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+        tempImageView.image = image
          updateUI()
     }
     @IBAction func openCountryCodeAction(_ sender: Any) {
-            self.navigationItem.setHidesBackButton(false, animated: true)
-
-            let picker = MICountryPicker { (name, code ) -> () in
-                
-                print("picked code : ",code)
-                print("PICKED COUNTRY IS \(name)")
-                let bundle = "assets.bundle/"
-                print("IMAGE IS \(UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil))")
-            }
-           
-            picker.delegate = self
-            // Display calling codes
-            picker.showCallingCodes = true
-     
-            // or closure
-            picker.didSelectCountryClosure = { name, code in
-                picker.navigationController?.isNavigationBarHidden=true
-                picker.navigationController?.popViewController(animated: true)
-                print(code)
-            }
-            navigationController?.pushViewController(picker, animated: true)
-        }
-        
-    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String ) {
-                 picker.navigationController?.isNavigationBarHidden=true//?.popViewController(animated: true)
-                self.navigationController?.setNavigationBarHidden(true, animated: true)
-                self.navigationItem.setHidesBackButton(true, animated: true)
-                print("CODE IS \(code)")
-                
-                print("Dial Code ",dialCode)
-                let bundle = "assets.bundle/"
-                print("IMAGE IS \(UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil))")
-                DialCode = "\(dialCode)"
-                countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
-                tempImageView.image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+        picker.showCallingCodes = true
+        picker.didSelectCountryClosure = { [self] name, code in
+            picker.navigationController?.isNavigationBarHidden=true
+            //picker.navigationController?.popViewController(animated: true)
+            picker.dismiss(animated: true, completion: nil)
+          
             
         }
+        picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
+            self.picker.navigationController?.isNavigationBarHidden=true
+            //picker.navigationController?.popViewController(animated: true)
+            print("code is ",code)
+            let bundle = "assets.bundle/"
+            
+            let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+          
+          
+            self.DialCode = "\(dialCode)"
+            self.countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
+            self.tempImageView.image = image
+            
+        }
+        self.present(picker, animated: true, completion: nil)
+       
+            
+        }
+        
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clientPatientName {
 //            let textS = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -485,7 +500,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         self.notesTF.placeholder = "Notes"
         
         self.countryCodeTF.setLeftPaddingPoints(60)
-        self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "(US)+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
         setFlagAndPhoneNumberCodeLeftViewIcon(icon: UIImage(named: "down button arrow")!)
     }
     func setFlagAndPhoneNumberCodeLeftViewIcon(icon: UIImage) {

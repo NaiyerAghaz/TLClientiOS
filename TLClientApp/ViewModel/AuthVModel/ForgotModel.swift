@@ -6,27 +6,7 @@
 //
 
 import Foundation
-/*{
- "SuccessErrorDetails": [
-     {
-         "Status": 1,
-         "Message": "Please check your email inbox for steps to change your password."
-     }
- ],
- "UserDetails": [
-     {
-         "UserName": "Naiyer_customer1",
-         "Email": "naiyer.aghaz@gmail.com",
-         "FirstName": "Naiyer",
-         "LastName": "Aghaz",
-         "EmailActivationKey": "5QC45C45",
-         "MessageActivationKey": null,
-         "CompanyName": "`development ios test company",
-         "CompanyID": 55,
-         "FromEmail": null
-     }
- ]
-}*/
+
 
 class ForgotUser: NSObject {
     var SuccessErrorDetails : NSMutableArray?

@@ -9,16 +9,17 @@ import Foundation
 import UIKit
 class VDOCallViewModel {
     var conferrenceDetail = ConferenceInfoResultModel()
+    var apiCompanyDetailsModel:APICompanyDetailsModel?
     func getTwilioToken(complitionBlock: @escaping(TwilioModel?, Error?) -> ()){
         
         WebServices.get(url: APi.apitoken.url) { (response, _) in
-            
+            print("1.....apitoken--------url:\( APi.apitoken.url)  response:\(response)")
             let twilioData = TwilioModel.getTwilioData(dicts: response as! NSDictionary)
             complitionBlock(twilioData,nil)
-            SwiftLoader.hide()
+           
         } failureHandler: { (error, _) in
             complitionBlock(nil,nil)
-            SwiftLoader.hide()
+            
         }
       }
     func addAppCall( apiReq: [String: Any],completionBlock:@escaping(Bool?, Error?) ->()){
@@ -26,8 +27,7 @@ class VDOCallViewModel {
         ApiServices.shareInstace.getDataFromApi(url: APi.vriCallStart.url, para: apiReq) { response, error in
             if response != nil {
                 
-                print("AddCallResponse-->", response)
-                print("VRI CALL REQUEST AND URL IS \(APi.vricallstart.url) and parameter is \(apiReq)")
+                SwiftLoader.hide()
             }
             else {
                 completionBlock(false, error)
@@ -43,12 +43,14 @@ class VDOCallViewModel {
     func customerEndCallWithoutConnect( roomID: String,completionBlock:@escaping(Bool?, Error?) ->()){
        
         ApiServices.shareInstace.getDataFromApi(url: APi.customerVRIEndCall.url, para: customerEndCallRequest(roomID: roomID)) { response, error in
+            print("End call response--------",response)
             if response != nil {
                 
                
                 completionBlock(true, nil)
             }
             else {
+                
                 completionBlock(false, error)
             }
         }
@@ -70,6 +72,52 @@ class VDOCallViewModel {
             }
         }
     }
+    func companyReqDetails(userID: String) -> [String: Any]{
+        let req:[String:Any] = ["strSearchString":"<INFO><USERID>\(userID)</USERID></INFO>"]
+        return req
+    }
+    //Get participant details
+    func getCompanydetails(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
+        
+            
+            var request = URLRequest(url: APi.getCompanydetails.url)
+            
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            request.addValue("application/json", forHTTPHeaderField: "Content-type")
+            request.httpMethod = "POST"
+            
+            do {
+                
+                request.httpBody = try JSONSerialization.data(withJSONObject: req, options: .prettyPrinted)
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    if let error = error {
+                        completionHandler(false, error)
+                    }
+                    guard let hostdata = data else {return}
+                    do {
+                        let Json = try JSONSerialization.jsonObject(with: hostdata, options: []) as? NSArray
+                       
+                        let newArrDict = Json![0] as! NSDictionary
+                        let newdata = self.jsonToData(json: newArrDict)
+                       // let result = newArrDict.object(forKey: "result") as! String
+                        let jsonDecoder = JSONDecoder()
+                        self.apiCompanyDetailsModel = try jsonDecoder.decode(APICompanyDetailsModel.self, from: newdata!)
+                        print("getCompanydetails response:\(self.apiCompanyDetailsModel?.resultData)")
+                        completionHandler(true, nil)
+                       
+                    }
+                    catch _ {
+                        print ("Oops something happened buddy")
+                    }
+                  }
+                .resume()
+            }
+            catch _ {
+                print ("Oops something happened buddy")
+            }
+        
+    }
+   
     func participantReqApi(roomID: String,participantSID: String,roomSID: String,userID: String) -> [String: Any]{
         let req :[String: Any] = ["strSearchString":"<Info><PID></PID><ACTION>A</ACTION><ID></ID><ACTUALROOM>\(roomID)</ACTUALROOM><PARTSID>\(participantSID)</PARTSID><ROOMSID>\(roomSID)</ROOMSID><USERID>\(userID)</USERID><MUTE>1</MUTE><VIDEO>1</VIDEO><CALL>1</CALL><TYPE>C</TYPE></Info>"]
         debugPrint("conferenceReq--------->", req)
@@ -79,8 +127,11 @@ class VDOCallViewModel {
     }
     func addParticipantReqApi(Lsid:String,roomID: String) -> [String: Any]{
         
-        let req: [String: Any] = ["strSearchString":"<Info><ID>0</ID><ACTUALROOM>\(roomID)</ACTUALROOM><ROOMSID></ROOMSID><PARTSID></PARTSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>\(Lsid)</EXCLUDEPARTSID></Info>"]
-        debugPrint("conferenceReq-222-------->", req)
+        let req: [String: Any] = ["strSearchString":"<Info><ID>0</ID><ACTUALROOM>\(roomID)</ACTUALROOM><ROOMSID></ROOMSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>\(Lsid)</EXCLUDEPARTSID></Info>"]
+        /*
+         old one:    let req: [String: Any] = ["strSearchString":"<Info><ID>0</ID><ACTUALROOM>\(roomID)</ACTUALROOM><ROOMSID></ROOMSID><PARTSID></PARTSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>\(Lsid)</EXCLUDEPARTSID></Info>"]
+         
+         {strSearchString=<Info><ID>0</ID><ACTUALROOM>22040727</ACTUALROOM><ROOMSID></ROOMSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>PA6e92a89ad5fa4247b704355c4f30f267</EXCLUDEPARTSID></Info>}*/
         return req
     }
     func getParticipantList2(lid: String, roomID: String, completionHandler:@escaping(Bool?, Error?) -> ()){
@@ -112,7 +163,7 @@ class VDOCallViewModel {
                         self.conferrenceDetail = ConferenceInfoResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
                         let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
                         
-                        print("ObjectConference!--->", self.conferrenceDetail.CONFERENCEInfo?.count, items.UserName)
+                        print("url-->\(APi.getParticipantByRoom.url) req: \(self.addParticipantReqApi(Lsid: lid, roomID: roomID)) response---Host: \(response)")
                        
                         completionHandler(true, nil)
                     }
@@ -172,6 +223,7 @@ class VDOCallViewModel {
                 }
                 guard let hostdata = data else {return}
                 // do {
+                print("conferrenceParticiapnt Url:\(APi.ConferenceParticipant.url) para:\(para) response:\(response)")
                 completionHandler(true, nil)
                 print("Data---->", hostdata, response)
                 
@@ -308,10 +360,11 @@ class VDOCallViewModel {
     }
     func getMeetingClientStatusLobbyWithCompletion(parameter:[String:Any],completion:@escaping(Bool?, ClientStatusModel?) ->()){
         WebServices.postJson(url: APi.getMeetingClientStatus.url, jsonObject: parameter) { response, err in
-            print("clientStatus----------->",response)
+          
             let res = response as! NSArray
             let nresult = (res[0] as AnyObject).value(forKey: "ResultData") as! NSArray
             let result: ClientStatusModel = ClientStatusModel.getData(dicts: nresult[0] as! NSDictionary)
+            print("url->\(APi.getMeetingClientStatus.url) req:\(parameter) response:\(response)")
             completion(true, result)
         } failureHandler: { resp, err in
             print(err)

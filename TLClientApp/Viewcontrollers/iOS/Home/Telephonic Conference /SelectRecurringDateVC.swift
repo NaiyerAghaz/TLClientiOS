@@ -10,6 +10,7 @@ import FSCalendar
 import iOSDropDown
 protocol SelectDateForRecurrence{
     func SelectAppointmentDate(selectedDateArr: [SelectedDatesModel])
+    func reloadAppointmentData()
 }
 class DatesTableViewCell : UITableViewCell {
     
@@ -21,6 +22,11 @@ class WeekDayCVCell : UICollectionViewCell {
     @IBOutlet weak var selectBtn: UIButton!
     @IBOutlet weak var selectImg: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
+    override  func awakeFromNib() {
+        self.titleLbl.lineBreakMode = .byWordWrapping
+        self.titleLbl.numberOfLines = 0
+        self.titleLbl.fs_width = 80
+    }
 }
 class SelectRecurringDateVC: UIViewController {
 
@@ -33,15 +39,25 @@ class SelectRecurringDateVC: UIViewController {
     @IBOutlet weak var calenderOuterView: UIView!
     @IBOutlet weak var selectedDateLbl: UILabel!
     @IBOutlet weak var selectedDateTFLbl: UILabel!
+    @IBOutlet weak var selectedDateTF: UITextField!
     @IBOutlet weak var weekendSelectionSwitch: UISwitch!
     @IBOutlet weak var dayCountTF: iOSDropDown!
+    var appointmentDate : String?
+    var appointmentStartTime: String?
+    var AppointmentEndTIme: String?
     @IBOutlet weak var weekCv: UICollectionView!
-    
+    let flowLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        return layout
+    }()
     var isWeekCV = false
-    var filterCount = 0
+    var filterCount = 1
     var countArr = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"]
-    let monthArr = ["January","February","March","April","May","June","July","August","September","October","November","December"]
-    var daysArr = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    let monthArr = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    var daysArr = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
     var delegate:SelectDateForRecurrence?
     var dayStringArr = [String]()
     var monthStringArr = [String]()
@@ -52,7 +68,7 @@ class SelectRecurringDateVC: UIViewController {
     var calenderObject = FSCalendar()
     var showSelectedDatArr = [SelectedDatesModel]()
     var selectedDatesArr = [SelectedDatesModel]()
-    var isWeekendON = false
+    var isNotWeekDays = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,11 +83,12 @@ class SelectRecurringDateVC: UIViewController {
         self.dailySelcetionView.isHidden = false
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+       // let dateAndTime = CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate)
         let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())
         let dayString = dateFormatter.string(from: tomorrow ?? Date())
         self.selectedDateLbl.text = "\(dayString) - \(dayString)"
-        self.selectedDateTFLbl.text = "\(dayString) - \(dayString)"
-        self.dateChangeSegment.addUnderlineForSelectedSegment()
+       // self.selectedDateTF.text = "\(dayString) - \(dayString)"
+      //  self.dateChangeSegment.addUnderlineForSelectedSegment()
         self.weekendSelectionSwitch.isOn = false
         self.weekendSelectionSwitch.addTarget(self, action: #selector(selcetWeekendData), for: .valueChanged)
         self.dayCountTF.optionArray = self.countArr
@@ -79,14 +96,14 @@ class SelectRecurringDateVC: UIViewController {
         self.dayCountTF.checkMarkEnabled = false
         self.dayCountTF.arrowSize = 0.2
         
-        self.dayCountTF.isSearchEnable = true
+        self.dayCountTF.isSearchEnable = false
         self.dayCountTF.selectedRowColor = UIColor.clear
         self.dayCountTF.didSelect{(selectedText , index , id) in
             self.dayCountTF.text = "\(selectedText)"
-            self.filterCount = Int(selectedText) ?? 0
-            var count = 0
+            self.filterCount = Int(selectedText)!
+           // var count = 0
             self.showSelectedDatArr.removeAll()
-            let sortedArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
+           /* let sortedArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
 
             sortedArr.forEach { dateModel in
                 if self.isWeekendON {
@@ -113,6 +130,22 @@ class SelectRecurringDateVC: UIViewController {
                     
                 }
                 
+            }*/
+            if !self.isNotWeekDays{
+                for i in stride(from: 0, to: self.selectedDatesArr.count, by: self.filterCount) {
+                    self.showSelectedDatArr.append(self.selectedDatesArr[i])
+                }
+                
+            }
+            else {
+                for i in stride(from: 0, to: self.selectedDatesArr.count, by: self.filterCount) {
+                    if CEnumClass.share.getWeekDaysName(date: self.selectedDatesArr[i].selectedDate) != "sunday" ||  CEnumClass.share.getWeekDaysName(date: self.selectedDatesArr[i].selectedDate) != "saturday" {
+                        self.showSelectedDatArr.append(self.selectedDatesArr[i])
+                    }
+                    
+                   
+                }
+                
             }
             self.datesTV.reloadData()
         }
@@ -127,16 +160,24 @@ class SelectRecurringDateVC: UIViewController {
             
             
             self.showSelectedDatArr.removeAll()
-            let sortedArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
+          /*  let sortedArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
             sortedArr.forEach { DataModel in
                 if (DataModel.selectedDay == "Sunday") || (DataModel.selectedDay == "Saturday") {
                     
                 }else {
                     self.showSelectedDatArr.append(DataModel)
                 }
+            }*/
+            for i in stride(from: 0, to: self.selectedDatesArr.count, by: self.filterCount) {
+                print("")
+                if CEnumClass.share.getWeekDaysName(date: self.selectedDatesArr[i].selectedDate) != "sunday" ||  CEnumClass.share.getWeekDaysName(date: self.selectedDatesArr[i].selectedDate) != "saturday" {
+                    self.showSelectedDatArr.append(self.selectedDatesArr[i])
+                }
+                
+               
             }
             self.datesTV.reloadData()
-            self.isWeekendON = true
+            self.isNotWeekDays = true
             
             
         }else {
@@ -145,18 +186,17 @@ class SelectRecurringDateVC: UIViewController {
             // show sat sunday
             
             self.showSelectedDatArr.removeAll()
-            let sortedArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
-            sortedArr.forEach { DataModel in
-                self.showSelectedDatArr.append(DataModel)
+//            let sortedArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
+//            sortedArr.forEach { DataModel in
+//                self.showSelectedDatArr.append(DataModel)
+//            }
+            for i in stride(from: 0, to: self.selectedDatesArr.count, by: self.filterCount) {
+                self.showSelectedDatArr.append(self.selectedDatesArr[i])
             }
             self.datesTV.reloadData()
             
-            self.isWeekendON = false
-            
-            
-            
-            
-        }
+            self.isNotWeekDays = false
+          }
         
     }
     @IBAction func actionCancelDates(_ sender: UIButton) {
@@ -178,8 +218,8 @@ class SelectRecurringDateVC: UIViewController {
             let monthString = dateFormatter1.string(from: dateElement)
             
             let itemA = SelectedDatesModel(selectedDate: dateElement, selectedDay: dayString, selectedMonth: monthString)
-            print(itemA)
-            if  self.isWeekendON {
+           // print(itemA)
+            if  self.isNotWeekDays {
                 if dayString == "Sunday" || dayString == "Saturday" {
                     
                 }else {
@@ -194,33 +234,34 @@ class SelectRecurringDateVC: UIViewController {
         })
         let SortArr = self.selectedDatesArr.sorted(by: { $0.selectedDate.compare($1.selectedDate) == .orderedAscending })
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        dateFormatter.dateFormat = "MM/dd/yyyy"
         let first = SortArr.first?.selectedDate
         let last = SortArr.last?.selectedDate
         let firstString = dateFormatter.string(from: first ?? Date())
         let lasrString = dateFormatter.string(from: last ?? Date())
-        self.selectedDateLbl.text = "\(firstString) - \(lasrString)"
-        self.selectedDateTFLbl.text = "\(firstString) - \(lasrString)"
+        self.selectedDateLbl.text = "\(firstString) \(appointmentStartTime!) - \(lasrString) \(AppointmentEndTIme!)"
+        self.selectedDateTF.text = "\(firstString) \(appointmentStartTime!) - \(lasrString) \(AppointmentEndTIme!)"
         
         
         self.datesTV.reloadData()
+        self.calenderOuterView.visibility = .gone
     }
     func createCalendar(){
         //calenderView.removeFromSuperview()
         calenderView.subviews.forEach { (item) in
              item.removeFromSuperview()
         }
-        let cwidth = (UIScreen.main.bounds.width) - 50
-        let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: cwidth, height: 300))
+        //let cwidth = (UIScreen.main.bounds.width)
+        let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
         //calendar.removeFromSuperview()+
         calendar.placeholderType = .none
         //calendar.appearance.separators = .interRows
         calendar.appearance.caseOptions = FSCalendarCaseOptions.weekdayUsesSingleUpperCase
-       
+        let nDate = CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)
         let tDate = Date()
-        let intialDate = Calendar.current.date(byAdding: .day, value: 1, to: tDate)!
+        let intialDate = Calendar.current.date(byAdding: .day, value: 1, to: nDate)!
         let formatterTest = DateFormatter()
-        formatterTest.dateFormat = "yyyy/MM/dd"
+        formatterTest.dateFormat = "MM/dd/yyyy"//"yyyy/MM/dd"
         print(formatterTest.string(from: tDate))
         let finalDate = formatterTest.string(from: intialDate)
         
@@ -244,9 +285,12 @@ class SelectRecurringDateVC: UIViewController {
         let FirstDate = Date()
         let formatter = DateFormatter()
             formatter.dateFormat = "MM/dd/yyyy hh:mm a"
-        guard let result1 : String = formatter.string(from: FirstDate) as String? else { return }
-        print("selected Date -->",result1 )
-        self.firstAppointmentDateTF.text = result1
+        guard let result : String = formatter.string(from: FirstDate) as String? else { return }
+      
+        let startDateAndTime = "\(appointmentDate!) \(appointmentStartTime!)"
+        let endDateTime =  "\(appointmentDate!) \(AppointmentEndTIme!)"
+        self.firstAppointmentDateTF.text = "\(startDateAndTime) - \(endDateTime)"//result
+        self.firstAppointmentDateTF.isUserInteractionEnabled = false
        // self.selectedDateTF.text =
         let userId = userDefaults.string(forKey: "userId") ?? ""
         let CustomerID = userDefaults.string(forKey: "CustomerID") ?? ""
@@ -257,9 +301,11 @@ class SelectRecurringDateVC: UIViewController {
    
     @IBAction func actionBackBtn(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+        self.delegate?.reloadAppointmentData()
     }
     @IBAction func actionCancelAppointment(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+        self.delegate?.reloadAppointmentData()
     }
     
     @IBAction func actionSelcetDate(_ sender: UIButton) {
@@ -267,9 +313,15 @@ class SelectRecurringDateVC: UIViewController {
     }
     
     @IBAction func actionAddApointments(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-        
-        self.delegate?.SelectAppointmentDate(selectedDateArr: self.showSelectedDatArr)
+        if selectedDateTF.text != "" {
+            self.dismiss(animated: true, completion: nil)
+            
+            self.delegate?.SelectAppointmentDate(selectedDateArr: self.showSelectedDatArr)
+        }
+        else {
+            self.view.makeToast("Please select date..!")
+        }
+      
     }
     @IBAction func dateChangeSegment(_ sender: UISegmentedControl) {
         print("sender.selectedSegmentIndex",sender.selectedSegmentIndex)
@@ -287,7 +339,9 @@ class SelectRecurringDateVC: UIViewController {
             }
             self.weeklySlecetionView.isHidden = false
             self.dailySelcetionView.isHidden = true
-            self.weekCv.reloadData()
+            DispatchQueue.main.async {
+                self.weekCv.reloadData()
+            }
         }else if sender.selectedSegmentIndex == 2{
             
             isWeekCV = false
@@ -298,7 +352,10 @@ class SelectRecurringDateVC: UIViewController {
             }
             self.weeklySlecetionView.isHidden = false
             self.dailySelcetionView.isHidden = true
-            self.weekCv.reloadData()
+            DispatchQueue.main.async {
+                self.weekCv.reloadData()
+            }
+            
         }else {
             
         }
@@ -314,11 +371,16 @@ extension SelectRecurringDateVC : UICollectionViewDelegate , UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekDayCVCell", for: indexPath) as! WeekDayCVCell
+        cell.titleLbl.adjustsFontSizeToFitWidth = true
         cell.selectBtn.tag = indexPath.row
         
      
         let indx = self.weekDayAndMonthArr[indexPath.row]
-        cell.titleLbl.text = indx.titleName
+       
+            
+            cell.titleLbl.text = indx.titleName
+      
+       // cell.titleLbl.text = indx.titleName
         let isSelect = indx.isSelect
         if isSelect {
             cell.selectImg.image = UIImage(systemName: "checkmark.square.fill")
@@ -328,11 +390,8 @@ extension SelectRecurringDateVC : UICollectionViewDelegate , UICollectionViewDat
             cell.selectImg.tintColor = UIColor.lightGray
         }
         cell.selectBtn.addTarget(self, action: #selector(selectMonthlyData), for: .touchUpInside)
-            
-        
-        
-        return cell
-        
+       
+return cell
     }
     @objc func selectWeeklyData(){
         
@@ -412,7 +471,7 @@ extension SelectRecurringDateVC : UICollectionViewDelegate , UICollectionViewDat
         self.datesTV.reloadData()
         self.weekCv.reloadData()
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    /*func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         print("collection view cell ")
             let noOfCellsInRow = 2
             let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
@@ -420,8 +479,23 @@ extension SelectRecurringDateVC : UICollectionViewDelegate , UICollectionViewDat
                 + flowLayout.sectionInset.right
                 + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
             let size = Int((weekCv.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
-            return CGSize(width: size, height: 40)
+        print("Width of cell is \(size)")
+            return CGSize(width: size, height: 60)
+        }*/
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+          
+        
+        //300 - 2*4 = 292/3 =84
+            let width = collectionView.bounds.width
+            let numberOfItemsPerRow: CGFloat = 3
+            let spacing: CGFloat = flowLayout.minimumInteritemSpacing
+            let availableWidth = width - spacing * (numberOfItemsPerRow + 1)
+            let itemDimension = floor(availableWidth / numberOfItemsPerRow)
+            return CGSize(width: itemDimension, height: 34)
         }
+    
+  
     
     
 }
@@ -434,9 +508,9 @@ extension SelectRecurringDateVC : UITableViewDelegate , UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DatesTableViewCell", for: indexPath) as! DatesTableViewCell
         let selectedDate = self.showSelectedDatArr[indexPath.row].selectedDate
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        dateFormatter.dateFormat = "MM/dd/yyyy"
         let dayString = dateFormatter.string(from: selectedDate)
-        cell.dateTF.text = dayString
+        cell.dateTF.text = "\(dayString) \(appointmentStartTime!) - \(dayString) \(AppointmentEndTIme!)"
         return cell
     }
 }
@@ -513,10 +587,10 @@ extension SelectRecurringDateVC : FSCalendarDataSource, FSCalendarDelegate ,FSCa
     }
     func minimumDate(for calendar: FSCalendar) -> Date {
         
-        return Date()
+        return CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        if date .compare(Date()) == .orderedAscending {
+        if date .compare(CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)) == .orderedAscending {
             return UIColor.lightGray
         }
         else {
@@ -524,7 +598,10 @@ extension SelectRecurringDateVC : FSCalendarDataSource, FSCalendarDelegate ,FSCa
         }
     }
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
-        if date .compare(Date()) == .orderedAscending {
+//        if date .compare(CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)) == .orderedAscending {
+//            return false
+//        }
+        if date == CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!) {
             return false
         }
         else {

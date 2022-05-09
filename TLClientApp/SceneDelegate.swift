@@ -41,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, PKPushRegistryDelegate 
         if  userDefaults.value(forKey: "username") != nil &&  userDefaults.value(forKey: "password") != nil {
             let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
 
-            initialViewController = storyboard.instantiateViewController(identifier: "TabViewController") // here identifier was HomeViewController
+            initialViewController = storyboard.instantiateViewController(identifier: "InitialNav") // here identifier was HomeViewController
         }
         else {
             let storyboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)

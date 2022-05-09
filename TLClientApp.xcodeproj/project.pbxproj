@@ -15,7 +15,6 @@
 		0439C796270EF5F500DA3D61 /* ApiScheduleAppointmentResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439C793270EF5F500DA3D61 /* ApiScheduleAppointmentResponseModel.swift */; };
 		0439C798271008FE00DA3D61 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439C797271008FE00DA3D61 /* UIColor.swift */; };
 		0439C79B2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439C79A2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift */; };
-		045619A827267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045619A727267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift */; };
 		046334DD27280BEC0079CFCB /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046334DC27280BEC0079CFCB /* ApiManager.swift */; };
 		046334E1272813970079CFCB /* ApiGetSupportMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046334DF272813960079CFCB /* ApiGetSupportMessageModel.swift */; };
 		046334E2272813970079CFCB /* ApiNotificationConversionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046334E0272813970079CFCB /* ApiNotificationConversionModel.swift */; };
@@ -160,22 +159,42 @@
 		73165B6F27D7946A008FCCC2 /* videoViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */; };
 		73165B7127D79473008FCCC2 /* RoomDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B7027D79473008FCCC2 /* RoomDelegates.swift */; };
 		7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7320F73E27B6740D00E8049F /* Chat.storyboard */; };
+		7325CDD128168AED003027C4 /* BlockedMV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7325CDD028168AED003027C4 /* BlockedMV.swift */; };
+		7362A7EB281BB56000BBEFB8 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E6281BB56000BBEFB8 /* ActiveType.swift */; };
+		7362A7EC281BB56000BBEFB8 /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E7281BB56000BBEFB8 /* RegexParser.swift */; };
+		7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */; };
+		7362A7EE281BB56000BBEFB8 /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */; };
+		7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */; };
+		7382637427FD589D00FD3695 /* ApiStateListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637127FD589D00FD3695 /* ApiStateListResponseModel.swift */; };
+		7382637527FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637227FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift */; };
+		7382637627FD589D00FD3695 /* ApiStateDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637327FD589D00FD3695 /* ApiStateDataModel.swift */; };
+		7382637C27FD5CF400FD3695 /* UpdateVenueContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637827FD5CE600FD3695 /* UpdateVenueContainerViewController.swift */; };
+		7382637D27FD5CF400FD3695 /* AddVenueContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637927FD5CE700FD3695 /* AddVenueContainerVC.swift */; };
+		7382637E27FD5CF400FD3695 /* AddUpdateVenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637A27FD5CE800FD3695 /* AddUpdateVenueVC.swift */; };
+		7382637F27FD5CF400FD3695 /* UpdateDepartmentAndContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637B27FD5CF100FD3695 /* UpdateDepartmentAndContactVC.swift */; };
 		738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738878F127D8AE4100C7614B /* FeedbackVModel.swift */; };
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
-		73BAF2E227DF759500AAF30C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
+		73ACC5D028040D7800128217 /* APIResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73ACC5CE28040D7800128217 /* APIResultModel.swift */; };
+		73ACC5D128040D7800128217 /* APICompanyDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73ACC5CF28040D7800128217 /* APICompanyDetailsModel.swift */; };
+		73ACC5D22805538400128217 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
+		73ACC5D32805538500128217 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
+		73ACC5D42805538700128217 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
+		73ACC5D52805538C00128217 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
+		73ACC5D62805538D00128217 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
+		73ACC5D72805539100128217 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
+		73ACC5D82805539100128217 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
+		73ACC5DA2806A9AC00128217 /* SchedulingAppointments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 73ACC5D92806A9AB00128217 /* SchedulingAppointments.storyboard */; };
+		73ACC5DC2806D29900128217 /* EditUpdateAnDeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73ACC5DB2806D29800128217 /* EditUpdateAnDeleteVC.swift */; };
+		73ACC5E3280D7AC400128217 /* BookedStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73ACC5E2280D7AC400128217 /* BookedStatusVC.swift */; };
 		73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2EC27E1EACB00AAF30C /* SwitchToAudioView.xib */; };
 		73BAF2EF27E1EADF00AAF30C /* SwitchToAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2EE27E1EADF00AAF30C /* SwitchToAudioView.swift */; };
 		73BAF2F127E3380500AAF30C /* VendorCallStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */; };
 		73BAF2F327E8A69600AAF30C /* DraggedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F227E8A69600AAF30C /* DraggedView.swift */; };
 		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
-		73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */; };
 		73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB308227D9C90D006A17DE /* FeedbackModel.swift */; };
 		73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
-		73CE641327F1883F00A82685 /* Neuton-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2C126BE662C008BBA8C /* Neuton-Regular.ttf */; };
 		73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
-		73CE641727F18C5900A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73CE641527F18C5800A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf */; };
-		73CE641827F18C5900A82685 /* OpenSans-VariableFont_wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73CE641627F18C5800A82685 /* OpenSans-VariableFont_wdth,wght.ttf */; };
 		73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFFC7427BB896C007EE602 /* ConstantString.swift */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
 		C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */; };
@@ -224,10 +243,6 @@
 		CE74B2B426BE5590008BBA8C /* InitialLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2B326BE5590008BBA8C /* InitialLoginVC.swift */; };
 		CE74B2B626BE55A3008BBA8C /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2B526BE55A3008BBA8C /* LoginVC.swift */; };
 		CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2B826BE5A7C008BBA8C /* ForgotPasswordVC.swift */; };
-		CE74B2BC26BE5E26008BBA8C /* Neuton-Extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2BB26BE5E26008BBA8C /* Neuton-Extralight.ttf */; };
-		CE74B2BE26BE6607008BBA8C /* Neuton-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2BD26BE6607008BBA8C /* Neuton-Bold.ttf */; };
-		CE74B2C026BE661A008BBA8C /* Neuton-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2BF26BE661A008BBA8C /* Neuton-ExtraBold.ttf */; };
-		CE74B2C426BE6663008BBA8C /* Neuton-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE74B2C326BE6663008BBA8C /* Neuton-Light.ttf */; };
 		CE74B2C726BE6A87008BBA8C /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2C626BE6A87008BBA8C /* Constant.swift */; };
 		CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2C826BE7378008BBA8C /* Navigator.swift */; };
 		CE74B2CD26BE7DB5008BBA8C /* Storyboard+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE74B2CC26BE7DB5008BBA8C /* Storyboard+.swift */; };
@@ -277,7 +292,6 @@
 		0439C793270EF5F500DA3D61 /* ApiScheduleAppointmentResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiScheduleAppointmentResponseModel.swift; sourceTree = "<group>"; };
 		0439C797271008FE00DA3D61 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		0439C79A2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAppointmentDetailVC.swift; sourceTree = "<group>"; };
-		045619A727267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnSiteInterpretationAppointmentVC.swift; sourceTree = "<group>"; };
 		046334DC27280BEC0079CFCB /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		046334DF272813960079CFCB /* ApiGetSupportMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetSupportMessageModel.swift; sourceTree = "<group>"; };
 		046334E0272813970079CFCB /* ApiNotificationConversionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiNotificationConversionModel.swift; sourceTree = "<group>"; };
@@ -424,9 +438,27 @@
 		73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = videoViewDelegates.swift; sourceTree = "<group>"; };
 		73165B7027D79473008FCCC2 /* RoomDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDelegates.swift; sourceTree = "<group>"; };
 		7320F73E27B6740D00E8049F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		7325CDD028168AED003027C4 /* BlockedMV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedMV.swift; sourceTree = "<group>"; };
+		7362A7E6281BB56000BBEFB8 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
+		7362A7E7281BB56000BBEFB8 /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
+		7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
+		7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveBuilder.swift; sourceTree = "<group>"; };
+		7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
+		7382637127FD589D00FD3695 /* ApiStateListResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiStateListResponseModel.swift; sourceTree = "<group>"; };
+		7382637227FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiAppointmentTypeDattaModel.swift; sourceTree = "<group>"; };
+		7382637327FD589D00FD3695 /* ApiStateDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiStateDataModel.swift; sourceTree = "<group>"; };
+		7382637827FD5CE600FD3695 /* UpdateVenueContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateVenueContainerViewController.swift; sourceTree = "<group>"; };
+		7382637927FD5CE700FD3695 /* AddVenueContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVenueContainerVC.swift; sourceTree = "<group>"; };
+		7382637A27FD5CE800FD3695 /* AddUpdateVenueVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUpdateVenueVC.swift; sourceTree = "<group>"; };
+		7382637B27FD5CF100FD3695 /* UpdateDepartmentAndContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateDepartmentAndContactVC.swift; sourceTree = "<group>"; };
 		738878F127D8AE4100C7614B /* FeedbackVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVModel.swift; sourceTree = "<group>"; };
 		73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		73A1A76527C36921007281DC /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
+		73ACC5CE28040D7800128217 /* APIResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResultModel.swift; sourceTree = "<group>"; };
+		73ACC5CF28040D7800128217 /* APICompanyDetailsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICompanyDetailsModel.swift; sourceTree = "<group>"; };
+		73ACC5D92806A9AB00128217 /* SchedulingAppointments.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SchedulingAppointments.storyboard; sourceTree = "<group>"; };
+		73ACC5DB2806D29800128217 /* EditUpdateAnDeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUpdateAnDeleteVC.swift; sourceTree = "<group>"; };
+		73ACC5E2280D7AC400128217 /* BookedStatusVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookedStatusVC.swift; sourceTree = "<group>"; };
 		73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Medium.ttf"; sourceTree = "<group>"; };
@@ -435,10 +467,7 @@
 		73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorCallStatusModel.swift; sourceTree = "<group>"; };
 		73BAF2F227E8A69600AAF30C /* DraggedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggedView.swift; sourceTree = "<group>"; };
 		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
-		73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteInterpretationBlockedAppointmentWork.swift; sourceTree = "<group>"; };
 		73CB308227D9C90D006A17DE /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
-		73CE641527F18C5800A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
-		73CE641627F18C5800A82685 /* OpenSans-VariableFont_wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-VariableFont_wdth,wght.ttf"; sourceTree = "<group>"; };
 		73DFFC7427BB896C007EE602 /* ConstantString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantString.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -495,11 +524,6 @@
 		CE74B2B326BE5590008BBA8C /* InitialLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialLoginVC.swift; sourceTree = "<group>"; };
 		CE74B2B526BE55A3008BBA8C /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		CE74B2B826BE5A7C008BBA8C /* ForgotPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordVC.swift; sourceTree = "<group>"; };
-		CE74B2BB26BE5E26008BBA8C /* Neuton-Extralight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Neuton-Extralight.ttf"; sourceTree = "<group>"; };
-		CE74B2BD26BE6607008BBA8C /* Neuton-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Neuton-Bold.ttf"; sourceTree = "<group>"; };
-		CE74B2BF26BE661A008BBA8C /* Neuton-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Neuton-ExtraBold.ttf"; sourceTree = "<group>"; };
-		CE74B2C126BE662C008BBA8C /* Neuton-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Neuton-Regular.ttf"; sourceTree = "<group>"; };
-		CE74B2C326BE6663008BBA8C /* Neuton-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Neuton-Light.ttf"; sourceTree = "<group>"; };
 		CE74B2C626BE6A87008BBA8C /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		CE74B2C826BE7378008BBA8C /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		CE74B2CC26BE7DB5008BBA8C /* Storyboard+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storyboard+.swift"; sourceTree = "<group>"; };
@@ -569,9 +593,9 @@
 		0439C7992710324600DA3D61 /* Schedule Appointment Detail */ = {
 			isa = PBXGroup;
 			children = (
+				73432111281925C500A52033 /* ScheduleAppointmentDetailVC */,
+				7325CDCF28168AB4003027C4 /* BlockedAppointmentDetailsVC */,
 				CE74B2CA26BE7D77008BBA8C /* Resources */,
-				0439C79A2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift */,
-				C6EAE8D827D21CF2009F7261 /* BlockedAppointmentDetailVC.swift */,
 			);
 			path = "Schedule Appointment Detail";
 			sourceTree = "<group>";
@@ -1000,6 +1024,56 @@
 			path = ChatView;
 			sourceTree = "<group>";
 		};
+		7325CDCF28168AB4003027C4 /* BlockedAppointmentDetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				C6EAE8D827D21CF2009F7261 /* BlockedAppointmentDetailVC.swift */,
+				7325CDD028168AED003027C4 /* BlockedMV.swift */,
+			);
+			path = BlockedAppointmentDetailsVC;
+			sourceTree = "<group>";
+		};
+		73432111281925C500A52033 /* ScheduleAppointmentDetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				0439C79A2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift */,
+			);
+			path = ScheduleAppointmentDetailVC;
+			sourceTree = "<group>";
+		};
+		7362A7E5281BB53C00BBEFB8 /* ActiveLink */ = {
+			isa = PBXGroup;
+			children = (
+				7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */,
+				7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */,
+				7362A7E6281BB56000BBEFB8 /* ActiveType.swift */,
+				7362A7E7281BB56000BBEFB8 /* RegexParser.swift */,
+				7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */,
+			);
+			path = ActiveLink;
+			sourceTree = "<group>";
+		};
+		7382637027FD586000FD3695 /* StateList Model */ = {
+			isa = PBXGroup;
+			children = (
+				7382637227FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift */,
+				7382637327FD589D00FD3695 /* ApiStateDataModel.swift */,
+				7382637127FD589D00FD3695 /* ApiStateListResponseModel.swift */,
+			);
+			path = "StateList Model";
+			sourceTree = "<group>";
+		};
+		7382637727FD5CBC00FD3695 /* VenueUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				7382637A27FD5CE800FD3695 /* AddUpdateVenueVC.swift */,
+				7382637927FD5CE700FD3695 /* AddVenueContainerVC.swift */,
+				7382637B27FD5CF100FD3695 /* UpdateDepartmentAndContactVC.swift */,
+				7382637827FD5CE600FD3695 /* UpdateVenueContainerViewController.swift */,
+			);
+			path = VenueUpdate;
+			sourceTree = "<group>";
+		};
 		738878F027D8AE0D00C7614B /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -1018,6 +1092,23 @@
 			path = FeedbackVC;
 			sourceTree = "<group>";
 		};
+		73ACC5CD28040D5E00128217 /* CompanyDetailsModel */ = {
+			isa = PBXGroup;
+			children = (
+				73ACC5CF28040D7800128217 /* APICompanyDetailsModel.swift */,
+				73ACC5CE28040D7800128217 /* APIResultModel.swift */,
+			);
+			path = CompanyDetailsModel;
+			sourceTree = "<group>";
+		};
+		73ACC5DD280D584B00128217 /* AppointmentsBookedView */ = {
+			isa = PBXGroup;
+			children = (
+				73ACC5E2280D7AC400128217 /* BookedStatusVC.swift */,
+			);
+			path = AppointmentsBookedView;
+			sourceTree = "<group>";
+		};
 		73BAF2E727E1E2B900AAF30C /* SwitchToAudioVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1031,10 +1122,7 @@
 		73C059F827BA5B5100BCA88F /* OnsiteInterpretation  */ = {
 			isa = PBXGroup;
 			children = (
-				045619A727267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift */,
 				C63805CE2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift */,
-				73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */,
-				73C059FA27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift */,
 				042367882718325B003BC021 /* OnsiteInterpretationHistoryVC.swift */,
 			);
 			path = "OnsiteInterpretation ";
@@ -1104,6 +1192,8 @@
 				C6EAE8D227D21B2D009F7261 /* OnsiteRegularAppointmentVC.swift */,
 				C6EAE8D427D21B58009F7261 /* OnsiteBlockedAppointmentVC.swift */,
 				C6EAE8D627D21B82009F7261 /* OnsiteRecurringAppointmentVC.swift */,
+				73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */,
+				73ACC5DB2806D29800128217 /* EditUpdateAnDeleteVC.swift */,
 			);
 			path = "Onsite Interpreation  new";
 			sourceTree = "<group>";
@@ -1120,6 +1210,8 @@
 		CE0DDFF826D15A1A003D4FC7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				73ACC5CD28040D5E00128217 /* CompanyDetailsModel */,
+				7382637027FD586000FD3695 /* StateList Model */,
 				C63805D027982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift */,
 				C6CA04E8278FEC01003B98DA /* CheckMeetStatus */,
 				C6FDDFE9278C348D00B5F177 /* OPIRoomDetailModel */,
@@ -1139,6 +1231,8 @@
 		CE1844AD26C38F8200E9E84E /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				73ACC5DD280D584B00128217 /* AppointmentsBookedView */,
+				7382637727FD5CBC00FD3695 /* VenueUpdate */,
 				73165B6D27D793EB008FCCC2 /* VideoCall */,
 				C62D0BE527D5E9D90083C337 /* Virtual Meeting New  */,
 				C6EAE8C327D21735009F7261 /* Onsite Interpreation  new */,
@@ -1146,6 +1240,7 @@
 				73A1A76427C368F2007281DC /* FeedbackVC */,
 				73C059F827BA5B5100BCA88F /* OnsiteInterpretation  */,
 				04BDA09E27450EF700A40B84 /* Home.storyboard */,
+				73ACC5D92806A9AB00128217 /* SchedulingAppointments.storyboard */,
 				29F8D00A274E7DA7006243EC /* VendorTVCell.xib */,
 				04CBAD82271D4A5900055797 /* SideMenu */,
 				29F8D005274E7D2D006243EC /* MoreCell.xib */,
@@ -1184,6 +1279,7 @@
 		CE2704A426BCE7BE00009E77 /* TLClientApp */ = {
 			isa = PBXGroup;
 			children = (
+				7362A7E5281BB53C00BBEFB8 /* ActiveLink */,
 				29D1D2EC275F89F000573E58 /* CountryCode */,
 				29B3C752274CF23F006345E0 /* Audio */,
 				29B3C74C274CD605006345E0 /* image */,
@@ -1191,6 +1287,9 @@
 				046334DB27280BC30079CFCB /* API */,
 				049AB17426E74D4C001D5766 /* GoogleService-Info.plist */,
 				CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */,
+				73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */,
+				73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */,
+				73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */,
 				CE0DDFF826D15A1A003D4FC7 /* Models */,
 				04B225C026E9E3FC0063129C /* AppConstants */,
 				CE74B2D026BEED8E008BBA8C /* ViewModel */,
@@ -1282,16 +1381,6 @@
 		CE74B2BA26BE5E17008BBA8C /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */,
-				73CE641527F18C5800A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf */,
-				73CE641627F18C5800A82685 /* OpenSans-VariableFont_wdth,wght.ttf */,
-				73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */,
-				73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */,
-				CE74B2BD26BE6607008BBA8C /* Neuton-Bold.ttf */,
-				CE74B2C326BE6663008BBA8C /* Neuton-Light.ttf */,
-				CE74B2C126BE662C008BBA8C /* Neuton-Regular.ttf */,
-				CE74B2BF26BE661A008BBA8C /* Neuton-ExtraBold.ttf */,
-				CE74B2BB26BE5E26008BBA8C /* Neuton-Extralight.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1569,30 +1658,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73ACC5DA2806A9AC00128217 /* SchedulingAppointments.storyboard in Resources */,
 				29D1D2F1275F89F000573E58 /* assets.bundle in Resources */,
 				29D1D2F3275F89F000573E58 /* CallingCodes.plist in Resources */,
 				29F8D006274E7D2D006243EC /* MoreCell.xib in Resources */,
 				049AB17526E74D4C001D5766 /* GoogleService-Info.plist in Resources */,
 				CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */,
+				73ACC5D42805538700128217 /* OpenSans-Bold.ttf in Resources */,
 				04BDA09F27450EF700A40B84 /* Home.storyboard in Resources */,
 				048AE80B26E08D8700FB9309 /* ringtone.wav in Resources */,
-				CE74B2C026BE661A008BBA8C /* Neuton-ExtraBold.ttf in Resources */,
-				73BAF2E227DF759500AAF30C /* OpenSans-Bold.ttf in Resources */,
 				CE2704B526BCE7C000009E77 /* LaunchScreen.storyboard in Resources */,
 				29B3C74E274CD61F006345E0 /* call.gif in Resources */,
-				CE74B2BE26BE6607008BBA8C /* Neuton-Bold.ttf in Resources */,
 				73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */,
-				CE74B2C426BE6663008BBA8C /* Neuton-Light.ttf in Resources */,
-				73CE641827F18C5900A82685 /* OpenSans-VariableFont_wdth,wght.ttf in Resources */,
-				CE74B2BC26BE5E26008BBA8C /* Neuton-Extralight.ttf in Resources */,
 				73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */,
-				73CE641727F18C5900A82685 /* OpenSans-Italic-VariableFont_wdth,wght.ttf in Resources */,
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
 				CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */,
 				29B3C754274CF255006345E0 /* incoming.mp3 in Resources */,
 				7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */,
-				73CE641327F1883F00A82685 /* Neuton-Regular.ttf in Resources */,
 				73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */,
 				CE2704AD26BCE7BE00009E77 /* Main.storyboard in Resources */,
 			);
@@ -1602,6 +1685,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73ACC5D52805538C00128217 /* OpenSans-Medium.ttf in Resources */,
+				73ACC5D72805539100128217 /* OpenSans-Regular.ttf in Resources */,
+				73ACC5D22805538400128217 /* OpenSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1609,6 +1695,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73ACC5D62805538D00128217 /* OpenSans-Medium.ttf in Resources */,
+				73ACC5D82805539100128217 /* OpenSans-Regular.ttf in Resources */,
+				73ACC5D32805538500128217 /* OpenSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1762,18 +1851,23 @@
 				04C17E62273154A800297528 /* AuthenticationCodeDataModel.swift in Sources */,
 				048AE80626DF434A00FB9309 /* OnDemandOPIVM.swift in Sources */,
 				29B3C748274CC86E006345E0 /* iOSDevCenters+GIF.swift in Sources */,
+				7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */,
 				C6EAE8D527D21B58009F7261 /* OnsiteBlockedAppointmentVC.swift in Sources */,
 				CE74B2E126C0758D008BBA8C /* CommonClass.swift in Sources */,
 				04CBAD7F271D49B800055797 /* CustomerDetailsViewController.swift in Sources */,
 				C6EAE8D327D21B2D009F7261 /* OnsiteRegularAppointmentVC.swift in Sources */,
 				04D867BA271EB4C2004DB0C4 /* AllApointmentInVenuResponse.swift in Sources */,
 				C6EAE8CF27D21A07009F7261 /* ExtensionUISegmentControl.swift in Sources */,
+				7382637627FD589D00FD3695 /* ApiStateDataModel.swift in Sources */,
 				04BFEDE227202A1E00EB38B7 /* CustomerBillingResponseModel.swift in Sources */,
+				7382637427FD589D00FD3695 /* ApiStateListResponseModel.swift in Sources */,
 				04C5E3DA2739399B00C910A5 /* ApiUploadImageDataResponse.swift in Sources */,
 				048AE80826DF51BC00FB9309 /* Network.swift in Sources */,
 				0439C794270EF5F500DA3D61 /* ApiScheduleAppointmentCustomerDataModel.swift in Sources */,
 				04BFEDDF27202A1E00EB38B7 /* CustomerCheckListresponseModel.swift in Sources */,
+				7382637E27FD5CF400FD3695 /* AddUpdateVenueVC.swift in Sources */,
 				CE2704B026BCE7BE00009E77 /* TLClientApp.xcdatamodeld in Sources */,
+				73ACC5E3280D7AC400128217 /* BookedStatusVC.swift in Sources */,
 				04CB27C7273E6EB300E54408 /* ApiAppointmentDetailResponseModel.swift in Sources */,
 				CE3FE08D26C90210000BD19F /* CalendarTVCell.swift in Sources */,
 				04C17E5E273154A800297528 /* DocumentTranslationJobTypeDataModel.swift in Sources */,
@@ -1784,13 +1878,13 @@
 				CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */,
 				04BFEDE127202A1E00EB38B7 /* CustomerAddressResponseModel.swift in Sources */,
 				CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */,
-				73C059FC27BA5BCB00BCA88F /* OnsiteInterpretationBlockedAppointmentWork.swift in Sources */,
 				04BFEDDE27202A1E00EB38B7 /* CustomerdetailResponseModel.swift in Sources */,
 				04C7751F273BDD9600AE934A /* ApiUpdateDeviceTokenRespose.swift in Sources */,
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
 				04CC968B2747B131001D4A65 /* ApiVRIOPICallLogResponseModel.swift in Sources */,
 				C6CA04EC278FEC7E003B98DA /* ApiMeetResultDataModel.swift in Sources */,
 				29F8CFF7274E793A006243EC /* VendorTVCell.swift in Sources */,
+				7382637527FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift in Sources */,
 				04CE547A2715B375002B7288 /* NotificationViewController.swift in Sources */,
 				04D867BD271EB4C2004DB0C4 /* ApiGetAllVenueDataResponseModel.swift in Sources */,
 				29D1D2F2275F89F000573E58 /* MICountryPicker.swift in Sources */,
@@ -1805,10 +1899,10 @@
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
 				CEB2569426C23799007A951E /* APIServices.swift in Sources */,
 				04C91A4F27352E450029FE90 /* AddDepartmentsDetail.swift in Sources */,
-				045619A827267FBE005F9D4F /* OnSiteInterpretationAppointmentVC.swift in Sources */,
 				04CBAD81271D4A4D00055797 /* VenueListViewController.swift in Sources */,
 				CE0DDFFA26D15A34003D4FC7 /* StatusModel.swift in Sources */,
 				CE74B2B426BE5590008BBA8C /* InitialLoginVC.swift in Sources */,
+				73ACC5D128040D7800128217 /* APICompanyDetailsModel.swift in Sources */,
 				04C5E3CF273923EE00C910A5 /* CameraHandler.swift in Sources */,
 				04C77522273BDD9600AE934A /* ApiLogoutTableResponse.swift in Sources */,
 				04CB27C8273E6EB300E54408 /* ApiAppointmentCustomerDataModel.swift in Sources */,
@@ -1821,6 +1915,7 @@
 				29F8CF60274E5FD1006243EC /* ApiNotificationsCountsResponseData.swift in Sources */,
 				2971A9D7276389B70096C730 /* AudioCallViewController.swift in Sources */,
 				29D1D2E0275F59A400573E58 /* VirtualMeetingViewController.swift in Sources */,
+				73ACC5D028040D7800128217 /* APIResultModel.swift in Sources */,
 				29F8D001274E79F6006243EC /* InviteModel.swift in Sources */,
 				292DD08A27588B80003C0829 /* ContentSizedTableView.swift in Sources */,
 				04C5E3CD27390FE400C910A5 /* UpdateProfilePicViewController.swift in Sources */,
@@ -1831,6 +1926,7 @@
 				CE3FE08626C80A6F000BD19F /* HomeViewController.swift in Sources */,
 				04BFEDE027202A1E00EB38B7 /* CustomerSettingsResponseModel.swift in Sources */,
 				04C17E532731474100297528 /* GetPublicDetail.swift in Sources */,
+				7382637D27FD5CF400FD3695 /* AddVenueContainerVC.swift in Sources */,
 				042367892718325B003BC021 /* OnsiteInterpretationHistoryVC.swift in Sources */,
 				048AE80126D64D3600FB9309 /* OPIFeedbackController.swift in Sources */,
 				04D867BB271EB4C2004DB0C4 /* ApiGetAllVenuListResponse.swift in Sources */,
@@ -1853,19 +1949,24 @@
 				049AB16D26E73E95001D5766 /* CallManager.swift in Sources */,
 				04C91A4A27352CD90029FE90 /* ApiAddProviderDataresponse.swift in Sources */,
 				04B225CC26F477730063129C /* TLTimer.swift in Sources */,
+				73ACC5DC2806D29900128217 /* EditUpdateAnDeleteVC.swift in Sources */,
 				CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */,
 				296D81772763609D005ADBB0 /* CallingOPIPopUpVC.swift in Sources */,
+				7362A7EE281BB56000BBEFB8 /* ActiveBuilder.swift in Sources */,
 				CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */,
 				04C17E63273154A800297528 /* GenderDataModel.swift in Sources */,
 				29D5F7AE2754EB2B0015F16B /* MeetingViewController.swift in Sources */,
+				7362A7EB281BB56000BBEFB8 /* ActiveType.swift in Sources */,
 				04D867CD271EEE22004DB0C4 /* ApiAddVenuePayload.swift in Sources */,
 				04D867BF271EC906004DB0C4 /* AddNewVenueViewController.swift in Sources */,
 				046334EE272825F40079CFCB /* ApiGetCategoryResponseData.swift in Sources */,
 				04BFEDE327202A1E00EB38B7 /* ApiCustomerDetailResponseModel.swift in Sources */,
+				7382637C27FD5CF400FD3695 /* UpdateVenueContainerViewController.swift in Sources */,
 				C6EAE8CB27D21823009F7261 /* TelephonicRecurrenceNewVC.swift in Sources */,
 				73BAF2EF27E1EADF00AAF30C /* SwitchToAudioView.swift in Sources */,
 				29CAFF3327831DE400FA3DCA /* ApiUpdateTimeZoneResponse.swift in Sources */,
 				CE2704A626BCE7BE00009E77 /* AppDelegate.swift in Sources */,
+				7382637F27FD5CF400FD3695 /* UpdateDepartmentAndContactVC.swift in Sources */,
 				29328241276A062800698592 /* ApiCreateVRICallClientResponseModel.swift in Sources */,
 				73165B6F27D7946A008FCCC2 /* videoViewDelegates.swift in Sources */,
 				04CE547E2716BC7F002B7288 /* Extention UIView.swift in Sources */,
@@ -1907,6 +2008,7 @@
 				CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */,
 				C6EAE8C527D2177E009F7261 /* TelephonicConferenceParentVC.swift in Sources */,
 				29F8CFED274E7731006243EC /* ChatManager.swift in Sources */,
+				7325CDD128168AED003027C4 /* BlockedMV.swift in Sources */,
 				04E701832732714200C57A8E /* AppointmentsCreatedDataModel.swift in Sources */,
 				73BAF2F127E3380500AAF30C /* VendorCallStatusModel.swift in Sources */,
 				C63805CF2797E53A00A4AB39 /* OnsiteInterpretationNewViewController.swift in Sources */,
@@ -1939,6 +2041,7 @@
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
 				0439C798271008FE00DA3D61 /* UIColor.swift in Sources */,
 				048007BD26D3B9FF00E9E2FB /* OPIViewController.swift in Sources */,
+				7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */,
 				C6EAE8C927D217EF009F7261 /* TelephonicBlockedNewVC.swift in Sources */,
 				04B225C926EF68820063129C /* SharedManager.swift in Sources */,
 				049AB17326E743E3001D5766 /* CallingModel.swift in Sources */,
@@ -1959,6 +2062,7 @@
 				04D867BC271EB4C2004DB0C4 /* ApiAllStateDataResponse.swift in Sources */,
 				C6FDDFED278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift in Sources */,
 				04CC968727479A0F001D4A65 /* MIBadgeButton.swift in Sources */,
+				7362A7EC281BB56000BBEFB8 /* RegexParser.swift in Sources */,
 				C6EAE8C727D217B5009F7261 /* TelephonicNewRegularVC.swift in Sources */,
 				04C91A55273534F30029FE90 /* ApiProviderDetail.swift in Sources */,
 				04CC968C2747B131001D4A65 /* ApiVRIOPICallLogDataModel.swift in Sources */,
@@ -2152,10 +2256,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.45;
+				MARKETING_VERSION = 1.61;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = TLCDev;
+				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2178,10 +2282,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.45;
+				MARKETING_VERSION = 1.61;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = TLCDev;
+				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;

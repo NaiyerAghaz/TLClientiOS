@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import SystemConfiguration
+import Malert
 var myAudio: AVAudioPlayer?
 class CEnumClass: NSObject {
     static let share = CEnumClass()
@@ -18,6 +19,13 @@ class CEnumClass: NSObject {
         let returnDict = self.convertToDictionary(text:jsonString! as String)
         let userData = returnDict as NSDictionary? as? [AnyHashable: Any] ?? [:]
         return userData as NSDictionary
+    }
+    public func activeLinkCall(activeURL : URL) {
+        if #available(iOS 10, *) {
+            UIApplication.shared.open(activeURL, options: [:], completionHandler:nil)
+        } else {
+            UIApplication.shared.openURL(activeURL)
+        }
     }
     
     func convertToJSONFromData(resulTDict:NSData) -> NSDictionary {
@@ -60,12 +68,159 @@ class CEnumClass: NSObject {
         }
         
     }
+    func findTimeDiff(time1Str: String, time2Str: String, isInHours: Bool) -> Int {
+        let timeformatter = DateFormatter()
+        timeformatter.dateFormat = "hh:mm a"
+
+        guard let time1 = timeformatter.date(from: time1Str),
+            let time2 = timeformatter.date(from: time2Str) else { return 0 }
+
+        //You can directly use from here if you have two dates
+
+        let interval = time2.timeIntervalSince(time1)
+        let hour = interval / 3600;
+        let minute = interval.truncatingRemainder(dividingBy: 3600) / 60
+        let intervalInt = Int(interval)
+        if isInHours {
+            return Int(hour)
+        }
+        else {
+            return Int(minute)
+        }
+        //return "\(intervalInt < 0 ? "-" : "+") \(Int(hour)) Hours \(Int(minute)) Minutes"
+    }
+    func getcurrentdateAndTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy h:mm a"
+        let startDate =  dateFormatter.string(from: Date())
+        return startDate
+    }
+    func getCurrentDates2() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        let startDate =  dateFormatter.string(from: Date())
+        return startDate
+    }
+    
+    func getCompleteDateAndTime(dateAndTime: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        let startDate =  dateFormatter.date(from: dateAndTime)
+        return startDate!
+    }
+    func getCompleteTimeToDate(time: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        let startDate =  dateFormatter.date(from: time)
+        return startDate!
+    }
+    func getCompleteNextTimeToString(time: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        let startTime =  dateFormatter.string(from: time)
+        return startTime
+    }
     func transParentNav(nav: UINavigationController?) {
         nav?.setNavigationBarHidden(false, animated: false)
         nav?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
         nav?.navigationBar.shadowImage = UIImage()
         nav?.navigationBar.isTranslucent = true
         nav?.view.backgroundColor = .clear
+    }
+    func getRoundCTime() -> String{
+        let dateFormatterDate = DateFormatter()
+        dateFormatterDate.dateFormat = "MM/dd/yyyy"
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat = "h:00 a"
+        let currentDateTime = Date()
+       let cTime = dateFormatterTime.string(from: currentDateTime)
+        return cTime
+    }
+    func getCurrentTimeToDate(time: String) -> Date{
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat = "h:mm a"
+      //  let currentDateTime = dateFormatterTime.date(from: time)
+        return dateFormatterTime.date(from: time)!
+    }
+    func getCurrentTimeToDatePicker(time: String) -> Date?{
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat = "h:mm a"
+      //  let currentDateTime = dateFormatterTime.date(from: time)
+        return dateFormatterTime.date(from: time)!
+    }
+    func getDateAndTimeFromString(dateStr: String) -> Date {
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat =  "MM/dd/yyyy"
+      //  let currentDateTime = dateFormatterTime.date(from: time)
+        return dateFormatterTime.date(from: dateStr)!
+    }
+    func getTwoHoursDiffer(companyid: String) -> String{
+        let dateFormatterDate = DateFormatter()
+        dateFormatterDate.dateFormat = "MM/dd/yyyy"
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat = "h:00 a"
+        let currentDateTime = Date()
+        if companyid == "62" {
+            return dateFormatterTime.string(from:  currentDateTime.adding(minutes: 60))
+        }
+        else {
+            return dateFormatterTime.string(from:  currentDateTime.adding(minutes: 120))
+        }
+       
+       
+    }
+    func getAppointmentaddingStatus(msz: String) -> Bool {
+        if msz.contains("already exist"){
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    func getWeekDaysName(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: date).lowercased()
+    }
+    func getCurrentDate() -> String{
+        let dateFormatterDate = DateFormatter()
+        dateFormatterDate.dateFormat = "MM/dd/yyyy"
+//        let dateFormatterTime = DateFormatter()
+//        dateFormatterTime.dateFormat = "h:00 a"
+      //  let currentDateTime = Date()
+       let cDate = dateFormatterDate.string(from: Date())
+        return cDate
+    }
+    func getActualDateAndTime() -> String {
+        let dateFormatterr = DateFormatter()
+        dateFormatterr.dateFormat = "MM/dd/yyyy h:mm a"
+        return dateFormatterr.string(from: Date())
+    }
+    func getMinuteDiffers(startTime: String, differ:String, companyId: String) -> String{
+//        let dateFormatterDate = DateFormatter()
+//        dateFormatterDate.dateFormat = "MM/dd/yyyy"
+        let dateFormatterTime = DateFormatter()
+        dateFormatterTime.dateFormat = "h:mm a"
+        let currentDateTime = dateFormatterTime.date(from: startTime)
+        switch differ{
+        case "10":
+            return dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 10))!)
+        case "120":
+            if companyId == "62"{
+               return dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 60))!)
+            }
+            else {
+                return dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 120))!)
+            }
+        case "60":
+            return dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 60))!)
+        default:
+            return dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 120))!)
+        }
+        
+       
+        let time = dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 10))!)
+        return time
     }
     func playSounds(audioName: String) {
        
@@ -92,18 +247,29 @@ class CEnumClass: NSObject {
        } catch {
            //
        }
-   
-}
-    
-    
-    
-}
+    }
+ }
 extension String {
     func isValidEmail() -> Bool {
         // here, `try!` will always succeed because the pattern is valid
         let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
         return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
     }
+    
+        public func trimHTMLTags() -> String? {
+            guard let htmlStringData = self.data(using: String.Encoding.utf8) else {
+                return nil
+            }
+        
+            let options: [NSAttributedString.DocumentReadingOptionKey : Any] = [
+                .documentType: NSAttributedString.DocumentType.html,
+                .characterEncoding: String.Encoding.utf8.rawValue
+            ]
+        
+            let attributedString = try? NSAttributedString(data: htmlStringData, options: options, documentAttributes: nil)
+            return attributedString?.string
+        }
+    
 }
 extension UITextField {
 
@@ -118,7 +284,7 @@ func withImage(direction: Direction, image: UIImage, colorSeparator: UIColor, co
     mainView.layer.cornerRadius = 5
 
     let view = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    view.backgroundColor = .white
+    view.backgroundColor = .black
     view.clipsToBounds = true
    // view.layer.cornerRadius = 5
     //view.layer.borderWidth = CGFloat(0.5)
@@ -222,52 +388,161 @@ public class Reachability {
     }
 }
 
-extension UILabel {
-    private struct AssociatedKeys {
-        static var padding = UIEdgeInsets()
+extension Date {
+    func adding(minutes: Int) -> Date {
+        return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
     }
-
-    public var padding: UIEdgeInsets? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.padding) as? UIEdgeInsets
-        }
-        set {
-            if let newValue = newValue {
-                objc_setAssociatedObject(self, &AssociatedKeys.padding, newValue as UIEdgeInsets?, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            }
-        }
-    }
-
-    override open func draw(_ rect: CGRect) {
-        if let insets = padding {
-            self.drawText(in: rect.inset(by: insets))
-        } else {
-            self.drawText(in: rect)
-        }
-    }
-
-    override open var intrinsicContentSize: CGSize {
-        guard let text = self.text else { return super.intrinsicContentSize }
-
-        var contentSize = super.intrinsicContentSize
-        var textWidth: CGFloat = frame.size.width
-        var insetsHeight: CGFloat = 0.0
-        var insetsWidth: CGFloat = 0.0
-
-        if let insets = padding {
-            insetsWidth += insets.left + insets.right
-            insetsHeight += insets.top + insets.bottom
-            textWidth -= insetsWidth
-        }
-
-        let newSize = text.boundingRect(with: CGSize(width: textWidth, height: CGFloat.greatestFiniteMagnitude),
-                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                        attributes: [NSAttributedString.Key.font: self.font], context: nil)
-
-        contentSize.height = ceil(newSize.size.height) + insetsHeight
-        contentSize.width = ceil(newSize.size.width) + insetsWidth
-
-        return contentSize
-    }
-
 }
+extension String {
+    mutating func add(prefix: String) {
+        self = prefix + self
+    }
+}
+extension UITableView {
+func setEmptyView(title: String, message: String) {
+let emptyView = UIView(frame: CGRect(x: self.center.x, y:self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
+let titleLabel = UILabel()
+let messageLabel = UILabel()
+titleLabel.translatesAutoresizingMaskIntoConstraints = false
+messageLabel.translatesAutoresizingMaskIntoConstraints = false
+titleLabel.textColor = UIColor.black//black
+titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+messageLabel.textColor = UIColor.lightGray
+messageLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
+    
+emptyView.addSubview(titleLabel)
+emptyView.addSubview(messageLabel)
+//titleLabel.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor ).isActive = true
+titleLabel.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor).isActive = true
+    titleLabel.topAnchor.constraint(equalTo: emptyView.topAnchor, constant: self.bounds.size.height - 120).isActive = true
+    
+messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
+messageLabel.leftAnchor.constraint(equalTo: emptyView.leftAnchor, constant: 20).isActive = true
+messageLabel.rightAnchor.constraint(equalTo: emptyView.rightAnchor, constant: -20).isActive = true
+titleLabel.text = title
+messageLabel.text = message
+messageLabel.numberOfLines = 0
+messageLabel.textAlignment = .center
+// The only tricky part is here:
+self.backgroundView = emptyView
+self.separatorStyle = .none
+}
+func restore() {
+self.backgroundView = nil
+self.separatorStyle = .singleLine
+}
+}
+public func print(_ object: Any) {
+    #if DEBUG
+    Swift.print(object)
+    #endif
+}
+
+//MARK: PROTOCOL
+
+protocol delegateScanner {
+    func scannerMethod()
+}
+func getHexaString(status: String) -> String? {
+    switch status {
+    case "booked":
+        return "#31FF98"
+    case "notbooked":
+        return "#f04a65"
+    case "cancelled":
+        return "#827c7c"
+    case "botched":
+        return "#827c7c"
+    case "latecancelled":
+        return "#827c7c"
+    case "invoiceprocessing":
+        return "#2AFFFF"
+    case "assigned":
+        return "#099c2f"
+    case "inprocess":
+        return "#ffa500"
+    case "invoiced":
+        return "#099c2f"
+    case "notbooked1":
+        return "#FF2525"
+    case "confirmed":
+        return "#32ad52"
+    case "pending":
+        return "#B3E9F1"
+    case "finished":
+       return "#41a9c2"
+    case "inpocessclr":
+        return "#ffa500"
+    case "latecusomerreq":
+        return "#acea31"
+    case "couldn`t book":
+        return "#827c7c"
+    default:
+        return "#827c7c"
+    }
+}
+
+
+func hexStringToUIColor (hex:String) -> UIColor {
+    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+    if (cString.hasPrefix("#")) {
+        cString.remove(at: cString.startIndex)
+    }
+
+    if ((cString.count) != 6) {
+        return UIColor.gray
+    }
+
+    var rgbValue:UInt64 = 0
+    Scanner(string: cString).scanHexInt64(&rgbValue)
+
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
+}
+func getAppointmentStatus(appointmentType: String, handler:@escaping(String?,String?,String?) -> ()) {
+    switch appointmentType {
+    case "Booked":
+        
+        handler("Booked Appointment","Booked","#31FF98")
+    case "Not Booked":
+        
+        handler("Not Booked Appointment","Not Booked","#f04a65")
+    case "InProcess":
+        
+        handler("Appointment In-Process","InProcess","#ffa500")
+    case "Pending":
+        
+        handler("Appointment","Authorization Pending","#B3E9F1")
+    case "Couldn`t Book":
+        
+        handler("Appointment Cancelled","Cancelled","#827c7c")
+    case "Cancelled":
+        
+        handler("Appointment Cancelled","Cancelled","#827c7c")
+    case "Botched":
+        
+        handler("Appointment Cancelled","Cancelled","#827c7c")
+    case "Late Cancelled":
+        
+        handler("Appointment Late Cancelled","Late Cancelled","#827c7c")
+    case "Invoice Processing":
+        
+        handler("Appointment","Invoice Processing","#2AFFFF")
+    case "Invoiced":
+        
+        handler("Appointment","Invoiced", "#099c2f")
+    case "confirmed":
+        
+        handler("Request Confirmed","Confirmed","#32ad52")
+    
+        default:
+        
+        handler(appointmentType,appointmentType,"#f04a65")
+    }
+}
+

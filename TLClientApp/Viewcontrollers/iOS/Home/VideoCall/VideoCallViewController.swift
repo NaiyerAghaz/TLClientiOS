@@ -49,7 +49,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
     var ringToneTimer = Timer()
-    var ringingTime = 46
+    var ringingTime = 60
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
@@ -88,6 +88,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var previousSpeakerParticipant : RemoteParticipant?
     var isParticipanthasAdded = false
     var isTapGesture = false
+    var isChangeView = false
     //More dropdown
     //dragged view
     var panGesture       = UIPanGestureRecognizer()
@@ -118,7 +119,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 self.topView.isHidden = false
                 
                 configure()
-                isMeetingCall = true
+               // isMeetingCall = true
                 vdoCollectionView.isHidden = true
                 self.vdoCollectionView.delegate = self
                 self.vdoCollectionView.dataSource = self
@@ -142,7 +143,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
             self.topView.isHidden = false
             configure()
-            isMeetingCall = true
+           // isMeetingCall = true
             vdoCollectionView.isHidden = true
             self.vdoCollectionView.delegate = self
             self.vdoCollectionView.dataSource = self
@@ -154,8 +155,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     
     //MARK: Configure With Twilio
-    
-    
     func configure(){
         self.mainPreview.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handler)))
         mainPreview.isUserInteractionEnabled = true
@@ -174,7 +173,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         CEnumClass.share.playSounds(audioName: "incoming")
         
         self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.ringingCallStart), userInfo: nil, repeats: true)
-        
         vendorTbl.frame = CGRect(x: 0, y: 55, width: self.view.bounds.size.width, height: 200)
         vendorTbl.backgroundColor = UIColor.clear
         vendorTbl.separatorStyle = .none
@@ -184,8 +182,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vendorTbl.register(cellNib, forCellReuseIdentifier: cellIndentifier.vendorTVCell.rawValue)
         
     }
-   
-  
+    
+    
     @objc func handler(gesture: UIPanGestureRecognizer){
         isTapGesture = true
         topView.isHidden = true
@@ -193,7 +191,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         let location = gesture.location(in: self.view)
         let draggedView = gesture.view
         draggedView?.center = location
-       
+        
         if gesture.state == .ended {
             print("location--",location.x, location.y)
             print("location.y:",location.y, "location.x")
@@ -225,7 +223,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }
         }
     }
-func ringingView(ishide: Bool){
+    func ringingView(ishide: Bool){
         mainPreview.isHidden = ishide
         preview.contentMode = .scaleToFill
         preview.clipsToBounds = true
@@ -238,7 +236,7 @@ func ringingView(ishide: Bool){
             //myAudio.stop()
             //timer.invalidate()
             lblParticipant.frame = CGRect(x: 0, y: 0, width: topView.frame.size.width, height: topView.frame.size.height)
-            lblParticipant.text = "Connecting To Interpreters..."
+            lblParticipant.text = "Searching Interpreters.."
             lblParticipant.backgroundColor = UIColor.black
             lblParticipant.textAlignment = .center
             lblParticipant.textColor = .white
@@ -271,7 +269,7 @@ func ringingView(ishide: Bool){
             "Chat",
             "Change View",
             "Pin Video",
-            "Meeting Settings"
+            "Share Screen"
         ]
         
         moreDropDown.selectionAction = { (index, item) in
@@ -279,7 +277,23 @@ func ringingView(ishide: Bool){
             if index == 0 {
                 print(item)
             }else if index == 1{
-                print(item)
+               /* if self.isChangeView == false  {
+                    
+                    DispatchQueue.main.async {
+                        self.remoteParticipantArr.append(self.currentSpeakerParticipant!)
+                        self.isChangeView = true
+                        self.vdoCollectionView.reloadData()
+                    }
+                    
+                }
+                else {
+                   
+                    DispatchQueue.main.async {
+                        self.isChangeView = false
+                        self.remoteParticipantArr.remove(at: 1)
+                        self.vdoCollectionView.reloadData()
+                    }
+                }*/
             }else if index == 2 {
                 print(item)
             }else if index == 3 {
@@ -490,7 +504,7 @@ func ringingView(ishide: Bool){
         
     }
     func showLobbyAlert(){
-        UIAlertController.showAlert(title: "", message: "Participants are waiting in this Lobby", style: .alert, cancelButton: "View Lobby", otherButtons: nil) { [self] index, _ in
+        UIAlertController.showAlert(title: "", message: "Participant(s) are waiting in the lobby.", style: .alert, cancelButton: "View Lobby", otherButtons: nil) { [self] index, _ in
             if index == 0 {
                 getMeetingClientStatusLobby()
             }
@@ -575,15 +589,13 @@ func ringingView(ishide: Bool){
                 DispatchQueue.main.async {
                     self.vdoCollectionView.reloadData()
                 }
-                
-                
-            }
+               }
             else {
                 vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: imgLocalPrivacy)
             }
         }}
     @IBAction func btnEndCallTapped(_ sender: Any) {
-        UIAlertController.showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Delete", distrutiveButton: "End Call", otherButtons: nil) { [self] index, _ in
+        UIAlertController.showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Cancel", distrutiveButton: "End Call", otherButtons: nil) { [self] index, _ in
             if index == 0 {
                 timer.invalidate()
                 // ringToneTimer.invalidate()
@@ -599,15 +611,23 @@ func ringingView(ishide: Bool){
                     if (localVideoTrack != nil){
                         localVideoTrack = nil
                     }
+                    if localAudioTrack != nil {
+                        localAudioTrack = nil
+                    }
                     if remoteParticipantArr.count > 0 {
                         vdoCallVM.customerEndCallWithoutConnect(roomID: roomID ?? "") { success, err in
                             if success! {
+                                SwiftLoader.hide()
                                 DispatchQueue.main.async {
                                     self.updateYourFeedback()
                                 }
                                 
                             }
-                            self.view.makeToast("Please try again to hangup this call")
+                            else {
+                                SwiftLoader.hide()
+                                self.view.makeToast("Please try again to hangup this call")
+                            }
+                            
                         }
                         
                     }
@@ -615,11 +635,16 @@ func ringingView(ishide: Bool){
                         vdoCallVM.customerEndCallWithoutConnect(roomID: roomID ?? "") { success, err in
                             if success! {
                                 DispatchQueue.main.async {
+                                    SwiftLoader.hide()
                                     self.dismissViewControllers()
                                 }
                                 
                             }
-                            self.view.makeToast("Please try again to hangup this call")
+                            else {
+                                SwiftLoader.hide()
+                                self.view.makeToast("Please try again to hangup this call")
+                            }
+                       
                         }
                         
                     }
@@ -712,6 +737,21 @@ func ringingView(ishide: Bool){
     func doConnectTwilio(twilioToken: String){
         prepareLocalMedia()
         let connectionOption = ConnectOptions.init(token: twilioToken) { builder in
+            
+           // builder.preferredVideoCodecs =   [TVIVideoCodec.H264.rawValue]
+            //new added code
+            builder.isNetworkQualityEnabled = true
+            builder.networkQualityConfiguration =
+                    NetworkQualityConfiguration(localVerbosity: .minimal, remoteVerbosity: .minimal)
+            builder.encodingParameters = EncodingParameters(audioBitrate:16, videoBitrate:0)
+                // Enable recommended Collaboration mode Bandwidth Profile Options
+                let videoBandwidthProfileOptions = VideoBandwidthProfileOptions { builder in
+                    builder.mode = .collaboration
+                    builder.dominantSpeakerPriority = .standard
+                }
+                builder.bandwidthProfileOptions = BandwidthProfileOptions(videoOptions: videoBandwidthProfileOptions)
+            builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
+            //end
             builder.isDominantSpeakerEnabled = true
             builder.roomName = self.roomID
             if let audioTrack = self.localAudioTrack {
@@ -750,9 +790,23 @@ func ringingView(ishide: Bool){
                 camera?.stopCapture()
                 camera = nil
             }
-            dismissViewControllers()
-            
-        }
+            if (room != nil){
+                room?.disconnect()
+                if (self.camera != nil){
+                    camera?.stopCapture()
+                    camera = nil
+                }
+                if (localVideoTrack != nil){
+                    localVideoTrack = nil
+                }
+                if localAudioTrack != nil {
+                    localAudioTrack = nil
+                }
+                dismissViewControllers()
+            }
+            else {
+                dismissViewControllers()
+            }}
         else {
             CEnumClass.share.playSounds(audioName: "incoming")
         }
@@ -834,6 +888,7 @@ func ringingView(ishide: Bool){
             
             return remoteParticipantArr.count + 1
         }
+               
         else {
             return remoteParticipantArr.count
         }
@@ -849,7 +904,7 @@ func ringingView(ishide: Bool){
         cell.remoteView.frame.size.width = vdoCollectionView.bounds.width
         cell.remoteView.frame.size.height = vdoCollectionView.bounds.height
         
-        if remoteParticipantArr.count > 1 {
+        if remoteParticipantArr.count > 1{
             if indexPath.row == 0 {
                 
                 cell.btnMic.isHidden = true
@@ -863,7 +918,7 @@ func ringingView(ishide: Bool){
                 vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
                 cell.audioLbl.isHidden = true
                 cell.lblVideo.isHidden = true
-                cell.isSpeakingLbl.isHidden = true
+                //cell.isSpeakingLbl.isHidden = true
                 cell.participantName.isHidden = true
                 cell.remoteView.addSubview(lView)
                 
@@ -874,7 +929,7 @@ func ringingView(ishide: Bool){
                     cell.btnMic.isHidden = false
                     
                     let videoPublications = remoteParticipantArr[indexPath.row - 1].remoteVideoTracks
-                    let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row - 1] as! ConferenceInfoModels
+                  //  let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row - 1] as! ConferenceInfoModels
                     let objSID = remoteParticipantArr[indexPath.row - 1].sid
                     for publication in videoPublications {
                         print("vdoTrackSid:", publication.trackSid, publication.trackName)
@@ -914,30 +969,33 @@ func ringingView(ishide: Bool){
                         for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
                             let participantSID = pObj as! ConferenceInfoModels
                             if participantSID.PARTSID == pSID {
-                                cell.participantName.isHidden = false
-                                
+                               
+                                cell.participantName.adjustsFontSizeToFitWidth = true
                                 
                                 cell.participantName.text = participantSID.UserName
                                 cell.configure(obj: participantSID)
+                                cell.participantName.isHidden = false
                                 
                             }
                         }
                     }
-                    if objSID == currentSpeakerParticipant?.sid{
-                        
-                        cell.isSpeakingLbl.isHidden = false
-                    }
-                    else {
-                        cell.isSpeakingLbl.isHidden = true
-                        
-                    }
+//                    if objSID == currentSpeakerParticipant?.sid{
+//
+//                        cell.isSpeakingLbl.isHidden = false
+//                    }
+//                    else {
+//                        cell.isSpeakingLbl.isHidden = true
+//
+//                    }
                     return cell
-                }
-            }}
+                }}
+        }
+
         else {
+            print("count--------->",remoteParticipantArr.count)
             let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
             let pSID = remoteParticipantArr[indexPath.row].sid
-            print("vdosubscribedVideoTrack01-------------->:", pSID)
+            
             if isAttendMultiPart {
                 if (localAudioTrack == nil) {
                     localAudioTrack = LocalAudioTrack()
@@ -982,33 +1040,34 @@ func ringingView(ishide: Bool){
                 if let audio = audioPub.audioTrack {
                     audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
                 }
-                if (audioPub.trackSid == currentSpeakerParticipant?.sid) && audioPub.audioTrack?.isEnabled == true{
-                    
-                    cell.isSpeakingLbl.isHidden = false
-                }
-                else {
-                    cell.isSpeakingLbl.isHidden = true
-                    
-                }
+//                if (audioPub.trackSid == currentSpeakerParticipant?.sid) && audioPub.audioTrack?.isEnabled == true{
+//
+//                    cell.isSpeakingLbl.isHidden = false
+//                }
+//                else {
+//                    cell.isSpeakingLbl.isHidden = true
+//
+//                }
             }
             if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
                 let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
-               
+                
                 if pSID == obj.PARTSID {
+                    cell.participantName.adjustsFontSizeToFitWidth = true
                     cell.participantName.isHidden = false
                     cell.participantName.text = "\(obj.UserName!)"
                     cell.configure(obj: obj)
                 }
                 
             }
-            if pSID == currentSpeakerParticipant?.sid{
-                
-                cell.isSpeakingLbl.isHidden = false
-            }
-            else {
-                cell.isSpeakingLbl.isHidden = true
-                
-            }
+//            if pSID == currentSpeakerParticipant?.sid{
+//
+//                cell.isSpeakingLbl.isHidden = false
+//            }
+//            else {
+//                cell.isSpeakingLbl.isHidden = true
+//
+//            }
             
             
             return cell
@@ -1020,22 +1079,26 @@ func ringingView(ishide: Bool){
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
                         UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == vdoCollectionView {
-            if self.remoteParticipantArr.count == 1 {
+            if self.remoteParticipantArr.count == 1 {//&& isChangeView == false{
                 return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height)
             }
+//            else if self.remoteParticipantArr.count == 2 && isChangeView == true {
+//
+//                return CGSize(width: (self.vdoCollectionView.frame.size.width/2) - 10, height: (self.vdoCollectionView.frame.size.height/2) - 10)
+//            }
             else if self.remoteParticipantArr.count == 2 {
                 if indexPath.row == 0 {
-                    return CGSize(width: vdoCollectionView.frame.size.width, height: (vdoCollectionView.frame.size.height/2) - 10)
+                    return CGSize(width: vdoCollectionView.frame.size.width, height: (vdoCollectionView.frame.size.height/2) - 6)
                     
                 }
                 else {
-                   
-                    return CGSize(width: (self.vdoCollectionView.frame.size.width/2) - 10, height: (self.vdoCollectionView.frame.size.height/2) - 10)
+                    
+                    return CGSize(width: (self.vdoCollectionView.frame.size.width/2) - 6, height: (self.vdoCollectionView.frame.size.height/2) - 6)
                 }
             }
             else if self.remoteParticipantArr.count == 3 {
                 
-                return CGSize(width: vdoCollectionView.frame.size.width/2-10, height: vdoCollectionView.frame.size.height/2-10)
+                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/2-6)
             }
             else if self.remoteParticipantArr.count == 4 {
                 if indexPath.row == 3 {
@@ -1059,15 +1122,15 @@ func ringingView(ishide: Bool){
             }
             else if self.remoteParticipantArr.count == 7 {
                 if indexPath.row == 6 {
-                    return CGSize(width: vdoCollectionView.frame.size.width/3-5, height: vdoCollectionView.frame.size.height/3-5)
+                    return CGSize(width: vdoCollectionView.frame.size.width/3-6, height: vdoCollectionView.frame.size.height/3-6)
                 }
                 
-                return CGSize(width: vdoCollectionView.frame.size.width/2-5, height: vdoCollectionView.frame.size.height/3-5)
+                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
             }
             else if self.remoteParticipantArr.count == 8 {
-                return CGSize(width: vdoCollectionView.frame.size.width/3-5, height: vdoCollectionView.frame.size.height/3-5)
+                return CGSize(width: vdoCollectionView.frame.size.width/3-6, height: vdoCollectionView.frame.size.height/3-6)
             }
-            return CGSize(width: vdoCollectionView.frame.size.width/2 - 5, height: vdoCollectionView.frame.size.height/2-5)
+            return CGSize(width: vdoCollectionView.frame.size.width/2 - 6, height: vdoCollectionView.frame.size.height/2-6)
             
         }
         else {
@@ -1083,29 +1146,7 @@ func ringingView(ishide: Bool){
         else {
             bottomView.isHidden = false
             topView.isHidden = false
-//            if isTapGesture {
-//                print("originX11->",self.mainPreview.frame.origin.x,"originY11:",self.mainPreview.frame.origin.y)
-//            }
-        // print("originX11->",self.mainPreview.frame.origin.x,"originY11:",self.mainPreview.frame.origin.y)
-//            if self.mainPreview.frame.midX >= self.view.layer.frame.width / 2 {
-//                
-//            }
-//            
-//            else{
-//                
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-//                    print("originX->",self.mainPreview.frame.origin.x,"originY:",self.mainPreview.frame.origin.y)
-////                    self.mainPreview.center.x = 60
-////                    if location.y < 20 {
-////                        self.mainPreview.center.y = 60
-////                    }
-////                    else if location.y > self.view.frame.size.height - 20 {
-////                        self.mainPreview.center.y = self.view.frame.size.height - 60
-////                    }
-//                    // self.mainPreview.center.y = 40
-//                }, completion: nil)
-//            }
-        }
+            }
     }
     
     //MARK: Remote Participant add

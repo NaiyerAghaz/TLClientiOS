@@ -310,7 +310,7 @@ public class SwiftLoader: UIView {
         /**
          *  Color of spinner view
          */
-        public var spinnerColor = UIColor.black
+        public var spinnerColor = UIColor.white
         
         /**
          *  S
@@ -320,7 +320,7 @@ public class SwiftLoader: UIView {
         /**
          *  Color of title text
          */
-        public var titleTextColor = UIColor.black
+        public var titleTextColor = UIColor.white
         
         /**
          *  Speed of the spinner
@@ -335,7 +335,7 @@ public class SwiftLoader: UIView {
         /**
          *  Background color for loader
          */
-        public var backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+        public var backgroundColor = UIColor(red: 20/255, green: 20/255, blue: 20/255, alpha: 0.7)
         
         /**
          *  Foreground color

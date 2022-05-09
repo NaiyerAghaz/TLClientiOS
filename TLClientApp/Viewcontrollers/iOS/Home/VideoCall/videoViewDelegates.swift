@@ -25,12 +25,21 @@ extension VideoCallViewController:VideoViewDelegate {
     //When new client added in call this method will call
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         // print("call-----------------------------101")
-        //print("message body:", message.body)
+       print("message body:", message.body)
         let messString = message.body!
-        if messString.contains("meetingfrominvitenotification") {
-            DispatchQueue.main.async {
-                self.showLobbyAlert()
+        if remoteParticipantArr.count >= 3 {
+            return self.view.makeToast("You have reached maximum participants limit", position: .center)
+        }
+        else {
+            if messString.contains("meetingfrominvitenotification") {
+                DispatchQueue.main.async {
+                    self.showLobbyAlert()
+                }
+                
             }
-            
-        }}}
+        }
+        
+     
+        
+    }}
 

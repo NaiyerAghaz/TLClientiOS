@@ -15,6 +15,7 @@ class CallManagerVM {
     func getRoomList(complitionBlock: @escaping([RoomResultModel]?, Error?) -> ()){
         WebServices.postJson(url: APi.getRoomId.url, jsonObject: roomCreateReq()) { response, error in
             do {
+                print("roomidurl:\(APi.getRoomId.url), req:\(self.roomCreateReq()) response:\(response)")
                 let arr = response as! NSArray
                 let newArrDict = arr[0] as! NSDictionary
                 let result = newArrDict.object(forKey: "result") as! String
@@ -56,8 +57,10 @@ class CallManagerVM {
     func getTwilioWithCompletion(userID: String,deviceToken: Data,completionBlock: @escaping(Bool?) -> ()){
         getTwilioTokenWithCompletion(userID: userID) { accessToken, err in
             if err == nil {
+                print("twilio register--",userID)
                 TwilioVoiceSDK.register(accessToken: accessToken!, deviceToken: deviceToken) { err in
                     if err == nil {
+                        print("twilio accesstoken--",accessToken)
                         completionBlock(true)
                     }
                 }
@@ -87,7 +90,8 @@ class CallManagerVM {
     func addAppCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.vricallstart.url, para: req) { response, err in
-            print("reponse---------->",response)
+            print("1.....vricallstart--------url:\( APi.vricallstart.url)   request:\(req) response:\(response)")
+           
             if response != nil {
                 print("VRI CALL REQUEST AND URL IS \(APi.vricallstart.url) and parameter is \(req)")
                 completionHandler(true, nil)
@@ -100,9 +104,9 @@ class CallManagerVM {
     
     func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String) -> [String: Any]{
         var parameter:[String:Any] = [:]
-        
-        parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":GetPublicData.sharedInstance.userID ,"touserid":0,"statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":"","patientno":"","Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
-        
+       
+        parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":userDefaults.string(forKey: .kUSER_ID)! ,"touserid":"","statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":"","patientno":"","Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
+        print("addAppcall parameter:",parameter)
         
         return parameter
     }
@@ -112,9 +116,9 @@ class CallManagerVM {
         return parameter
     }
     func priorityVideoCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-        
+     
         ApiServices.shareInstace.getDataFromApi(url: APi.getVriVendorsbyLid.url, para: req) { response, err in
-            
+            print("1.....priorityVideoCall--------url:\( APi.getVriVendorsbyLid.url)   request:\(req) response:\(response)")
             if response != nil {
                 completionHandler(true, nil)
             }
@@ -194,10 +198,8 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         if (self.remoteParticipant == nil) {
             _ = renderRemoteParticipant(participant: participant)
         }
-       
-        
-        print("didSubscribeToVideoTrack------->", participant.sid)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {[self] in
+       print("didSubscribeToVideoTrack------->", participant.sid)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {[self] in
             self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
                 DispatchQueue.main.async {
                     self.vdoCollectionView.reloadData()
@@ -236,14 +238,14 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             lblTotalParticipant.text = "\(remoteParticipantArr.count)"
             DispatchQueue.global(qos: .background).async { [self] in
                 vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
-                    if success == true && vdoCallVM.conferrenceDetail.TOTALRECORDS != "0"{
+                    if success == true && self.vdoCallVM.conferrenceDetail.TOTALRECORDS != "0"{
                         DispatchQueue.main.async {
                             self.vdoCollectionView.reloadData()
                         }
                     }
                     else {
                         isFeedback = true
-                        backToMainController()
+                        self.backToMainController()
                     }
                 }
             } }
@@ -278,10 +280,15 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             if (localVideoTrack != nil){
                 localVideoTrack = nil
             }
+            if localAudioTrack != nil {
+                localAudioTrack = nil
+            }
             
             camera?.stopCapture()
+            DispatchQueue.main.async {
+                self.switchToAudioMethod()
+            }
             
-            switchToAudioMethod()
             
             //            if (room != nil){
             //                room?.disconnect()
@@ -337,19 +344,6 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 
             }
             
-           
-            
-           /* let req = vdoCallVM.getReqVRICallClient(roomID: roomID ?? "", clientID: GetPublicData.sharedInstance.userID, sourceId: sourceLangID ?? "", targetID: targetLangID ?? "")
-            vdoCallVM.getVRICallClients(req: req) { [self] response, err in
-                SwiftLoader.hide()
-                let cid = response.first?.id
-                let vendorReq = vdoCallVM.getReqVendorIdForAudioCall(userID: GetPublicData.sharedInstance.userID, sourceID: sourceLangID ?? "", targetID: targetLangID ?? "", ccid: cid!)
-                vdoCallVM.getVendorIdForAudioCall(req: vendorReq) { [self] result, err in
-                    dismiss(animated: false, completion: nil)
-                    videocallDelegate?.switchToAudioMethods(roomId: roomID ?? "", sourceLangID: sourceLangID ?? "", targetLangID: targetLangID ?? "", ccid: cid!, sourceLangName: sourceLangName ?? "", targetLangName: targetLangName ?? "", patientno: patientno ?? "", patientname: patientname ?? "")
-                   
-                }
-            }*/
             
         }
         laterAction.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)

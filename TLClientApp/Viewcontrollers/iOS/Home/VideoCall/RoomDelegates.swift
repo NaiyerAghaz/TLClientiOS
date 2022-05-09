@@ -12,6 +12,7 @@ import CallKit
 //MARK: RoomDelegate
 extension VideoCallViewController:RoomDelegate{
     func roomDidConnect(room: Room) {
+       let vModel = VDOCallViewModel()
         // TwilioVideoSDK.audioDevice = audioDevice
         // At the moment, this example only supports rendering one Participant at a time.
         // self.view.makeToast("Connected to room \(room.name) as \(room.localParticipant?.identity ?? "")")
@@ -35,6 +36,11 @@ extension VideoCallViewController:RoomDelegate{
             
             //  }
         }
+        let req = vModel.participantReqApi(roomID: self.roomID ?? "", participantSID: (room.localParticipant?.sid)!, roomSID: room.sid, userID: userDefaults.string(forKey: .kUSER_ID)!)
+        vModel.participantUserActionDetails(req: req) { success, err in
+            print("reposen : \(success) url: \( APi.ConferenceParticipant.url) request:\(req)")
+        }
+        
     }
     
     func roomDidDisconnect(room: Room, error: Error?) {
@@ -75,7 +81,7 @@ extension VideoCallViewController:RoomDelegate{
     //THis method will call who is speaking
     func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
        print("participantisSpeakerSId:", participant?.sid)
-        currentSpeakerParticipant = participant
+       /* currentSpeakerParticipant = participant
         if remoteParticipantArr.count > 1 {
         if previousSpeakerParticipant == nil && participant != nil{
            print("pp----------------01")
@@ -183,7 +189,9 @@ extension VideoCallViewController:RoomDelegate{
                     }
                 }
             }
-         }}
+         }*/
+        
+    }
 
     
     func roomDidFailToConnect(room: Room, error: Error) {
@@ -205,12 +213,36 @@ extension VideoCallViewController:RoomDelegate{
     }
     
     func participantDidConnect(room: Room, participant: RemoteParticipant) {
-        callStartTime = cEnum.instance.getCurrentDateAndTime()
-        print("participant added times---------------:",participant.remoteAudioTracks.count)
-        recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
+        if !recordTime.isValid {
+            callStartTime = cEnum.instance.getCurrentDateAndTime()
+            recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
+        }
+       
+//        let vdoModel = VDOCallViewModel()
+//        let req = vdoModel.companyReqDetails(userID: userDefaults.string(forKey: .kUSER_ID)!)
+//        print("participantDidConnectCount----->",self.remoteParticipantArr.count)
+//        vdoModel.getCompanydetails(req: req) { success, err in
+//            print("getCompanydetails:",success,(vdoModel.apiCompanyDetailsModel?.resultData![0].pARTCOUNT)!)
+//            if (vdoModel.apiCompanyDetailsModel?.resultData![0].pARTCOUNT)! > self.remoteParticipantArr.count {
+//                print("getCompanydetails 11111:")
+//                DispatchQueue.main.async {
+//
+//                    self.remoteParticipantArr.append(participant)
+//                }
+//
+//            }
+//            else {
+//                self.view.makeToast("You have reached maximum participants limit", position: .center)
+//            }
+//        }
         
         participant.delegate = self
         self.remoteParticipantArr.append(participant)
+        print("participantDidConnect----->",participant)
+       
+//        participant.delegate = self
+//        self.remoteParticipantArr.append(participant)
+        
     }
     
     func participantDidDisconnect(room: Room, participant: RemoteParticipant) {

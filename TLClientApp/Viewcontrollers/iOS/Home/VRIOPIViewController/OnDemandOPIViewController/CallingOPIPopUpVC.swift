@@ -98,13 +98,14 @@ class CallingOPIPopUpVC: UIViewController {
     func addAppCall(){
         let para = callManagerVM.addAppCallReqAPI(sourceID: sourceID ?? "", targetID: targetID ?? "", roomId: roomId ?? "", targetName: targetName ?? "", sourceName: sourceName ?? "", patientName: txtPatientClientName.text!,patientNo: txtPatientClientNumber.text!)
         callManagerVM.addAppCall(req: para) { success, err in
-            debugPrint("success------------>", success)
+            SwiftLoader.hide()
         }
     }
     func getCallPriorityVideoWithCompletion() {
         let reqpara = callManagerVM.priorityReqAPI(LtargetId: targetID ?? "", Calltype: "V", Slid: sourceID ?? "")
         
         callManagerVM.priorityVideoCall(req: reqpara) { success, err in
+            SwiftLoader.hide()
             if success! {
                print("priority success------>",success)
             }

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     var inHouseValue, inBoostlingoValue, isBoostlingoAccess: String?
     var slangNameAppdel, slangIDAppdel, tlangIDAppdel, tlangNameAppdel, tokenAppdel, initalCallType, roomIDAppdel, callTypeAppdel, patientnameAppdel, patientnoAppdel, myIDAppdel: String?
+    private let loginVModels = LoginVM()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared().isEnabled = true
         FirebaseApp.configure()
@@ -191,7 +192,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let userInfo = notification.request.content.userInfo
         
-        print("new notification ",userInfo.values)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -200,16 +200,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
         let payload = userInfo[AnyHashable("payload")] as? String
-        print("Notification------>", payload, "type------------->", type)
+       
         if type != nil {
            // let dict = convertToDictionary(text: payload!)
             if type == TypeNotification.notavailable.rawValue {
-             
-                if let cid = userInfo[AnyHashable("gcm.notification.callid")]  as? String {
+                if userInfo[AnyHashable("gcm.notification.Callstatus")]  != nil{
+                    let status = userInfo[AnyHashable("gcm.notification.Callstatus")] as? NSNumber
+                    print("status?.intValue->",status?.intValue)
+                    if Int(truncating: status ?? 0) == 1 {
+                     let cid = userInfo[AnyHashable("gcm.notification.callid")]  as? String
 
-                   callid = cid
-                    NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
+                       callid = cid
+                        NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
+                    
+                    }
+                    else if  Int(truncating: status ?? 0) == 2 {
+                        window?.makeToast("Sorry the booked interpreter is not available to take the call", position: .center)
+                    }
+                    print("callstatus---------",userInfo[AnyHashable("gcm.notification.Callstatus")] ,"status---",status)
                 }
+                
                 print("notify---------")
                // NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
                }
@@ -234,20 +244,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 
                 
             }else if type == "tokenupdate" {
-                if isLogoutPressed {
-                    //isLogoutPressed = false
-                }else {
-                    self.window?.makeToast("This customer already logged-in on another device")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
-                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
-                        navigationController.viewControllers = [rootViewController]
-                        appDelegate.window!.rootViewController = navigationController
-                        appDelegate.window!.makeKeyAndVisible()
+               if Reachability.isConnectedToNetwork() {
+                   userDefaults.removeObject(forKey: "isDeclineTimeZone")
+                   
+                        loginVModels.checkSingleSigninToUser { success, err in
+                           
+                            if success == false{
+                                print("checkSingleSigninToUser--status2:",success)
+                                DispatchQueue.main.async {
+                                    let refreshAlert = UIAlertController(title: "Someone Logged in", message: "The customer already logged-in on another device.", preferredStyle: UIAlertController.Style.alert)
+                                    userDefaults.removeObject(forKey: "userId")
+                                    refreshAlert.addAction(UIAlertAction(title: "Login", style: .default, handler: { (action: UIAlertAction!) in
+                                        
+                                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
+                                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                                        navigationController.viewControllers = [rootViewController]
+                                        appDelegate.window!.rootViewController = navigationController
+                                        appDelegate.window!.makeKeyAndVisible()
+                                       }))
+
+                                    if let window = self.window, let rootViewController = window.rootViewController {
+                                        var currentController = rootViewController
+                                        while let presentedController = currentController.presentedViewController {
+                                            currentController = presentedController
+                                        }
+                                        currentController.present(refreshAlert, animated: true, completion: nil)
+                                    }
+                                
+                                }
+
+                                   // present(refreshAlert, animated: true, completion: nil)
+                                }
+                          
+                        }
                     }
-                }
+                    else {
+                        self.window?.makeToast(ConstantStr.noItnernet.val)
+                    }
+//                    self.window?.makeToast("This customer already logged-in on another device")
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
+//                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+//                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+//                        navigationController.viewControllers = [rootViewController]
+//                        appDelegate.window!.rootViewController = navigationController
+//                        appDelegate.window!.makeKeyAndVisible()
+//                    }
+             
                 
             }
         }

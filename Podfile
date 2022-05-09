@@ -15,7 +15,8 @@ pod 'FSCalendar'
 #https://github.com/WenchaoD/FSCalendar
 pod 'XLPagerTabStrip', '~> 9.0'
 #https://github.com/xmartlabs/XLPagerTabStrip
-pod 'TwilioVideo'
+pod 'TwilioVideo', '~> 5'
+pod 'TwilioVoice', '~> 6.3.0'
 #pod 'TwilioVideo', '~> 4.4'
 #pod 'TwilioVoice'
 #pod 'TwilioVoice', '~> 6.3.0'
@@ -32,10 +33,6 @@ pod 'MaterialComponents/TextControls+OutlinedTextFields'
 
 pod 'SDWebImage'
 pod 'HSSearchable'
-#pod 'TwilioVideo', '~> 4.4'
-  # Pods for TLClientApp
-#pod 'TwilioVoice', '~> 6.3.0'
-pod 'TwilioVoice'
 pod 'ReachabilitySwift'
 pod 'Firebase/Core'
 pod 'Firebase/Messaging'

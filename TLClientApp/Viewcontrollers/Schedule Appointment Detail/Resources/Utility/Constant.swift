@@ -11,6 +11,7 @@ import UIKit
 struct Storyboard_name {
     static let login = "Auth"
     static let home = "Home"
+    static let scheduleApnt = "SchedulingAppointments"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"

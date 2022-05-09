@@ -85,10 +85,6 @@
                                                                         <state key="normal" title="Sign in">
                                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </state>
-                                                                        <userDefinedRuntimeAttributes>
-                                                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="20"/>
-                                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
-                                                                        </userDefinedRuntimeAttributes>
                                                                         <connections>
                                                                             <action selector="btnLoginTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="awZ-ei-a5i"/>
                                                                         </connections>
@@ -318,6 +314,9 @@
                                                                 <state key="normal" title="Sign in">
                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </state>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.corner" value="YES"/>
+                                                                </userDefinedRuntimeAttributes>
                                                                 <connections>
                                                                     <action selector="btnLoginTabbed:" destination="fbP-7f-xrM" eventType="touchUpInside" id="1f1-LM-uuB"/>
                                                                 </connections>

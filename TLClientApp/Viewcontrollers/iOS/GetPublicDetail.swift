@@ -23,15 +23,16 @@ public class GetPublicData {
     
     public var apiGetAllLanguageResponse:ApiGetAllLanguageResponse?
     public func getAllLanguage(){
-        SwiftLoader.show(animated: true)
-             
-        //languageArray.removeAll()
+    SwiftLoader.show(animated: true)
+       
+       languageArray.removeAll()
         //self.apiGetAllLanguageResponse = nil
+    
         let urlString = "https://lsp.totallanguage.com/Security/GetData?methodType=LanguageData"
                 AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                     .validate()
                     .responseData(completionHandler: { [self] (response) in
-                        SwiftLoader.hide()
+                       // SwiftLoader.hide()
                         switch(response.result){
                         
                         case .success(_):

@@ -13,16 +13,52 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 struct ApiAddProviderDataresponse : Codable {
-	let providers : [AddProviderDetail]?
+    let providers : [AddProviderDetail]?
 
-	enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
 
-		case providers = "Providers"
-	}
+        case providers = "Providers"
+    }
 
-	init(from decoder: Decoder) throws {
-		let values = try decoder.container(keyedBy: CodingKeys.self)
-		providers = try values.decodeIfPresent([AddProviderDetail].self, forKey: .providers)
-	}
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        providers = try values.decodeIfPresent([AddProviderDetail].self, forKey: .providers)
+    }
+
+}
+
+struct ApiAddOneTimeVenueDataResponse : Codable {
+    let venues : [AddOneTimeVenueDetail]?
+
+    enum CodingKeys: String, CodingKey {
+
+        case venues = "Venues"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        venues = try values.decodeIfPresent([AddOneTimeVenueDetail].self, forKey: .venues)
+    }
+
+}
+
+struct AddOneTimeVenueDetail : Codable {
+    let status : Int?
+    let message : String?
+    let success : Int?
+
+    enum CodingKeys: String, CodingKey {
+
+        case status = "Status"
+        case message = "Message"
+        case success = "success"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        status = try values.decodeIfPresent(Int.self, forKey: .status)
+        message = try values.decodeIfPresent(String.self, forKey: .message)
+        success = try values.decodeIfPresent(Int.self, forKey: .success)
+    }
 
 }

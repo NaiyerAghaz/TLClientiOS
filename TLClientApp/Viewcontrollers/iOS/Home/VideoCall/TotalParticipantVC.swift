@@ -38,12 +38,9 @@ class TotalParticipantVC: BottomPopupViewController {
     var popupDismisAlphaVal : CGFloat?
     var conferenceStatusModel: ClientStatusModel?
     var pid: String?
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tblView.separatorStyle = .none
+       tblView.separatorStyle = .none
         tblView.layoutSubviews()
         tblView.tableFooterView = UIView(frame: .zero)
         /// let cellNib = UINib(nibName: "VendorTVCell", bundle: nil)
@@ -55,20 +52,23 @@ class TotalParticipantVC: BottomPopupViewController {
             self.lblParticipants.text = "Participants(\(self.conferrenceInfoArr?.count ?? 0))"
             self.tblView.reloadData()
         }
-        
-    }
-    
-    @IBAction func btnInviteTapped(_ sender: Any) {
+      }
+  @IBAction func btnInviteTapped(_ sender: Any) {
         // dismiss(animated: true, completion: nil)
-        DispatchQueue.main.async {
-            self.inviteParticipantCall()
-        }
+      if conferrenceInfoArr!.count >= 3 {
+          return self.view.makeToast("You have reached maximum participants limit", position: .center)
+      }
+      else {
+          DispatchQueue.main.async {
+              self.inviteParticipantCall()
+          }
+      }
         
-    }
+     }
     func inviteParticipantCall(){
         let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let vcontrol = callVC.instantiateViewController(identifier: "InviteParticipantVC") as! InviteParticipantVC
-        vcontrol.height = 500
+        vcontrol.height = 580
         vcontrol.topCornerRadius = 30
         vcontrol.presentDuration = 0.5
         vcontrol.dismissDuration = 0.5
@@ -111,10 +111,11 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
             cellt.btnAudio.tag = indexPath.row
             obj.VIDEO == "1" ? (cellt.btnVideo.isSelected = false) : (cellt.btnVideo.isSelected = true)
             obj.MUTE == "1" ? (cellt.btnAudio.isSelected = false) : (cellt.btnAudio.isSelected = true)
-            cellt.btnAudio.addTarget(self, action: #selector(audioPressed), for: .touchUpInside)
             cellt.btnVideo.tag = indexPath.row
-            cellt.btnVideo.addTarget(self, action: #selector(videoPressed), for: .touchUpInside)
+            cellt.btnAudio.addTarget(self, action: #selector(audioPressed), for: .touchUpInside)
             cellt.btnDisconnect.tag = indexPath.row
+            cellt.btnVideo.addTarget(self, action: #selector(videoPressed), for: .touchUpInside)
+           
             cellt.btnDisconnect.addTarget(self, action: #selector(participantCallEnded), for: .touchUpInside)
             return cellt
         }
@@ -143,242 +144,245 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
     
     @objc func acceptPressed(_ sender: UIButton){
         if Reachability.isConnectedToNetwork() {
-        DispatchQueue.main.async {
-            SwiftLoader.show(animated: true)}
-        let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
-        let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
-        let req = vdoCallVM.reqAccept(pid: conferrenceItem.pid!, roomid: (conferrence?.ACTUALROOM)!)
-        vdoCallVM.acceptInvitation(parameter: req) { success in
-            if success! {
-                
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                    self.acceptAndRejectDelegate?.refresh(isaccept: true, pid: conferrenceItem.pid!)
-                    self.dismiss(animated: true, completion: nil)
-                }
-                
+            DispatchQueue.main.async {
+                SwiftLoader.show(animated: true)}
+            let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
+            let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
+            let req = vdoCallVM.reqAccept(pid: conferrenceItem.pid!, roomid: (conferrence?.ACTUALROOM)!)
+            vdoCallVM.acceptInvitation(parameter: req) { success in
+                if success! {
+                    
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                        self.acceptAndRejectDelegate?.refresh(isaccept: true, pid: conferrenceItem.pid!)
+                        self.dismiss(animated: true, completion: nil)
+                    }
+               }
+            }}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
             }
-        }}else {
-            self.view.makeToast(ConstantStr.noItnernet.val)
-        }
     }
     
     @objc func rejectPressed(_ sender: UIButton){
         if Reachability.isConnectedToNetwork() {
-        SwiftLoader.show(animated: true)
-        let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
-        let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
-        let req = vdoCallVM.rejectRequest(pid: conferrenceItem.pid!, roomid: (conferrence?.ACTUALROOM)!)
-        vdoCallVM.rejectInvitation(parameter: req) { success in
-            if success! {
-                
-                DispatchQueue.main.async {
-                    SwiftLoader.hide()
-                    self.acceptAndRejectDelegate?.refresh(isaccept: false, pid: conferrenceItem.pid!)
+            SwiftLoader.show(animated: true)
+            let conferrenceItem = conferenceStatusModel?.INVITEDATA![sender.tag] as! INVITEDATAMODEL
+            let conferrence = conferrenceInfoArr![0] as? ConferenceInfoModels
+            let req = vdoCallVM.rejectRequest(pid: conferrenceItem.pid!, roomid: (conferrence?.ACTUALROOM)!)
+            vdoCallVM.rejectInvitation(parameter: req) { success in
+                if success! {
                     
-                    self.dismiss(animated: true, completion: nil)
-                }
-                
+                    DispatchQueue.main.async {
+                        SwiftLoader.hide()
+                        self.acceptAndRejectDelegate?.refresh(isaccept: false, pid: conferrenceItem.pid!)
+                        
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    }
+            }}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
             }
-        }}else {
-            self.view.makeToast(ConstantStr.noItnernet.val)
-        }
         
     }
     //End:
     
     @objc func audioPressed(_ sender: UIButton){
         if Reachability.isConnectedToNetwork() {
-        SwiftLoader.show(animated: true)
-        
-        //let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
-        let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
-        var channelBody = ""
-        if vdoIndex.MUTE == "1" {
-            
-            vdoCallVM.audioVideoHostControl(audioVal: 0, partSID: vdoIndex.PARTSID!, isAudio: true) { success, err in
-                if success == true {
-                    SwiftLoader.hide()
-                    DispatchQueue.global(qos: .background).async {[self] in
-                        vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
-                            conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                            self.acceptAndRejectDelegate?.getHostControl(obj: vdoCallVM.conferrenceDetail)
-                            DispatchQueue.main.async {
-                                tblView.reloadData()
-                            }
-                          }}
-                   print("audio host OFF")
-                }
-                else{
-                    SwiftLoader.hide()
-                    print("oops something is missing OFF")
-                }
-                
+            DispatchQueue.main.async {
+                SwiftLoader.show(animated: true)
             }
-            channelBody = "PartSid-\(vdoIndex.PARTSID!)-AUDIO-OFF-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
-        }
-        else {
-            
-            vdoCallVM.audioVideoHostControl(audioVal: 1, partSID: vdoIndex.PARTSID!,isAudio: true) { success, err in
-                if success == true {
-                    SwiftLoader.hide()
-                    DispatchQueue.global(qos: .background).async {[self] in
-                        vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
-                            print("success----------Participant list")
-                            conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                            self.acceptAndRejectDelegate?.getHostControl(obj: vdoCallVM.conferrenceDetail)
-                            DispatchQueue.main.async {
-                                tblView.reloadData()
+           //let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
+            let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
+            var channelBody = ""
+            if vdoIndex.MUTE == "1" {
+                
+                vdoCallVM.audioVideoHostControl(audioVal: 0, partSID: vdoIndex.PARTSID!, isAudio: true) { success, err in
+                    if success == true {
+                        
+                        DispatchQueue.global(qos: .background).async {[self] in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                                self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
+                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                                DispatchQueue.main.async {
+                                    SwiftLoader.hide()
+                                    self.tblView.reloadData()
+                                }
+                            }}
+                        print("audio host OFF")
+                    }
+                    else{
+                        SwiftLoader.hide()
+                        print("oops something is missing OFF")
+                    }
+                    
+                }
+                channelBody = "PartSid-\(vdoIndex.PARTSID!)-AUDIO-OFF-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
+            }
+            else {
+                
+                vdoCallVM.audioVideoHostControl(audioVal: 1, partSID: vdoIndex.PARTSID!,isAudio: true) { success, err in
+                    if success == true {
+                        
+                        DispatchQueue.global(qos: .background).async {[self] in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                                print("success----------Participant list")
+                                self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
+                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                                DispatchQueue.main.async {
+                                    SwiftLoader.hide()
+                                    self.tblView.reloadData()
+                                }
                             }
                         }
+                        print("audio host ON")
                     }
-                    print("audio host ON")
+                    else{
+                        SwiftLoader.hide()
+                        print("oops something is missing ON")
+                    }
                 }
-                else{
-                    SwiftLoader.hide()
-                    print("oops something is missing ON")
+                channelBody = "PartSid-\(vdoIndex.PARTSID!)-AUDIO-ON-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
+            }
+            let mszOption = TCHMessageOptions.init()
+            mszOption.withBody(channelBody)
+            self.callChannel?.messages?.sendMessage(with: mszOption, completion: { chResult, chMessage in
+                if chResult.isSuccessful() {
+                    
+                    debugPrint("Channel has updated----------------->>")
                 }
+            })}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
             }
-            channelBody = "PartSid-\(vdoIndex.PARTSID!)-AUDIO-ON-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
-        }
-        let mszOption = TCHMessageOptions.init()
-        mszOption.withBody(channelBody)
-        self.callChannel?.messages?.sendMessage(with: mszOption, completion: { chResult, chMessage in
-            if chResult.isSuccessful() {
-                
-                debugPrint("Channel has updated----------------->>")
-            }
-        })}else {
-            self.view.makeToast(ConstantStr.noItnernet.val)
-        }
     }
     @objc func videoPressed(_ sender: UIButton){
         if Reachability.isConnectedToNetwork() {
-        SwiftLoader.show(animated: true)
-        
-       // let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
-        let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
-        var channelBody = ""
-        if vdoIndex.VIDEO == "1" {
-            
-            vdoCallVM.audioVideoHostControl(audioVal: 0, partSID: vdoIndex.PARTSID!, isAudio: false) { success, err in
-                if success == true {
-                    DispatchQueue.global(qos: .background).async {[self] in
-                        vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
-                            
-                            conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                            self.acceptAndRejectDelegate?.getHostControl(obj: vdoCallVM.conferrenceDetail)
-                            DispatchQueue.main.async {
-                                
-                                tblView.reloadData()
-                            }
-                            
-                        }
-                    }
-                    SwiftLoader.hide()
-                    print("audio host OFF")
-                }
-                else{
-                    SwiftLoader.hide()
-                    print("oops something is missing OFF")
-                }}
-            
-            channelBody = "PartSid-\(vdoIndex.PARTSID!)-VIDEO-OFF-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
-        }
-        else {
-            
-            vdoCallVM.audioVideoHostControl(audioVal: 1, partSID: vdoIndex.PARTSID!,isAudio: false) { success, err in
-                if success == true {
-                    SwiftLoader.hide()
-                    DispatchQueue.global(qos: .background).async {[self] in
-                        vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
-                            conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                            self.acceptAndRejectDelegate?.getHostControl(obj: vdoCallVM.conferrenceDetail)
-                            
-                            DispatchQueue.main.async {
-                                
-                                tblView.reloadData()
-                            }
-                        }}
-                    
-                }
-                else{
-                    SwiftLoader.hide()
-                    print("oops something is missing ON")
-                }
+            DispatchQueue.main.async {
+                SwiftLoader.show(animated: true)
             }
-            channelBody = "PartSid-\(vdoIndex.PARTSID!)-VIDEO-ON-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
-        }
-        let mszOption = TCHMessageOptions.init()
-        mszOption.withBody(channelBody)
-        self.callChannel?.messages?.sendMessage(with: mszOption, completion: { chResult, chMessage in
-            if chResult.isSuccessful() {
+           // let cell = tblView.cellForRow(at: IndexPath.init(row: sender.tag, section: 0)) as! VendorParticipantTVCell
+            let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
+            var channelBody = ""
+            if vdoIndex.VIDEO == "1" {
                 
-                debugPrint("Channel has updated----------------->>")
+                vdoCallVM.audioVideoHostControl(audioVal: 0, partSID: vdoIndex.PARTSID!, isAudio: false) { success, err in
+                    if success == true {
+                        DispatchQueue.global(qos: .background).async {[self] in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                                
+                                self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
+                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                                DispatchQueue.main.async {
+                                    SwiftLoader.hide()
+                                    self.tblView.reloadData()
+                                }
+                                
+                            }
+                        }
+                        
+                        print("audio host OFF")
+                    }
+                    else{
+                        SwiftLoader.hide()
+                        print("oops something is missing OFF")
+                    }}
+                
+                channelBody = "PartSid-\(vdoIndex.PARTSID!)-VIDEO-OFF-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
             }
-        })}else {
-            self.view.makeToast(ConstantStr.noItnernet.val)
-        }
+            else {
+                
+                vdoCallVM.audioVideoHostControl(audioVal: 1, partSID: vdoIndex.PARTSID!,isAudio: false) { success, err in
+                    if success == true {
+                        
+                        DispatchQueue.global(qos: .background).async {[self] in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                                self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
+                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                                
+                                DispatchQueue.main.async {
+                                    SwiftLoader.hide()
+                                    self.tblView.reloadData()
+                                }
+                            }}
+                        
+                    }
+                    else{
+                        SwiftLoader.hide()
+                        print("oops something is missing ON")
+                    }
+                }
+                channelBody = "PartSid-\(vdoIndex.PARTSID!)-VIDEO-ON-\(userDefaults.string(forKey: "username")!)-\(vdoIndex.UserName!)"
+            }
+            let mszOption = TCHMessageOptions.init()
+            mszOption.withBody(channelBody)
+            self.callChannel?.messages?.sendMessage(with: mszOption, completion: { chResult, chMessage in
+                if chResult.isSuccessful() {
+                    
+                    debugPrint("Channel has updated----------------->>")
+                }
+            })}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
+            }
     }
     @objc func participantCallEnded(_ sender: UIButton){
         if Reachability.isConnectedToNetwork() {
-        SwiftLoader.show(animated: true)
-        
-        let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
-        if conferrenceInfoArr!.count == 1 {
-            
-            vdoCallVM.participantEndCall(roomID: vdoIndex.ACTUALROOM!) { success, err in
-                if success == true {
+            DispatchQueue.main.async {
+                SwiftLoader.show(animated: true)
+            }
+            let vdoIndex = conferrenceInfoArr![sender.tag] as! ConferenceInfoModels
+            if conferrenceInfoArr!.count == 1 {
+                
+                vdoCallVM.participantEndCall(roomID: vdoIndex.ACTUALROOM!) { success, err in
+                    if success == true {
+                        
+                        DispatchQueue.main.async {[self] in
+                            SwiftLoader.hide()
+                            if (room != nil){
+                                room?.disconnect()
+                                if (self.camera != nil){
+                                    camera?.stopCapture()
+                                    camera = nil
+                                }
+                                if (localVideoTrack != nil){
+                                    localVideoTrack = nil
+                                }
+                                self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+                            }
+                        }}
                     
-                    DispatchQueue.main.async {[self] in
+                    else{
                         SwiftLoader.hide()
-                        if (room != nil){
-                            room?.disconnect()
-                            if (self.camera != nil){
-                                camera?.stopCapture()
-                                camera = nil
-                            }
-                            if (localVideoTrack != nil){
-                                localVideoTrack = nil
-                            }
-                            self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
-                        }
+                        print("oops something is missing OFF")
                     }}
                 
-                else{
-                    SwiftLoader.hide()
-                    print("oops something is missing OFF")
-                }}
-            
-        }
-        else {
-            vdoCallVM.participantEndMethod1(partSID: vdoIndex.PARTSID!) { success, err in
-                if success == true {
-                    self.vdoCallVM.participantEndMethod2(roomSID: vdoIndex.ROOMSID!, partSID: vdoIndex.PARTSID!) { success, err in
-                        if success == true {
-                            
-                            DispatchQueue.main.async {[self] in
-                                SwiftLoader.hide()
-                                dismiss(animated: true, completion: nil)
-                                //tblView.reloadData()
-                            }}
-                        else {
-                            DispatchQueue.main.async {
-                                SwiftLoader.hide()
+            }
+            else {
+                vdoCallVM.participantEndMethod1(partSID: vdoIndex.PARTSID!) { success, err in
+                    if success == true {
+                        self.vdoCallVM.participantEndMethod2(roomSID: vdoIndex.ROOMSID!, partSID: vdoIndex.PARTSID!) { success, err in
+                            if success == true {
+                                
+                                DispatchQueue.main.async {[self] in
+                                    SwiftLoader.hide()
+                                    dismiss(animated: true, completion: nil)
+                                    //tblView.reloadData()
+                                }}
+                            else {
+                                DispatchQueue.main.async {
+                                    SwiftLoader.hide()
+                                }
                             }
                         }
                     }
-                }
-                else {
-                    DispatchQueue.main.async {
-                        SwiftLoader.hide()
+                    else {
+                        DispatchQueue.main.async {
+                            SwiftLoader.hide()
+                        }
                     }
                 }
+                
+            }}else {
+                self.view.makeToast(ConstantStr.noItnernet.val)
             }
-            
-        }}else {
-            self.view.makeToast(ConstantStr.noItnernet.val)
-        }
-        }
+    }
 }
 

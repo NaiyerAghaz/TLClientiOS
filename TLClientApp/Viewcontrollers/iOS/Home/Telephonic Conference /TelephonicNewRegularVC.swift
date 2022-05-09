@@ -8,6 +8,7 @@
 import UIKit
 import iOSDropDown
 import Alamofire
+import DropDown
 class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     @IBOutlet weak var serviceTypeTF: iOSDropDown!
     @IBOutlet weak var specialityTF: iOSDropDown!
@@ -16,36 +17,26 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     @IBOutlet weak var subCustomerNameTF: iOSDropDown!
     @IBOutlet weak var customerNameTF: UITextField!
     @IBOutlet weak var optiontitleLbl: UILabel!
-    
     @IBOutlet weak var activateOptionView: UIView!
-    
     @IBOutlet weak var contactNameTF: iOSDropDown!
-    
     @IBOutlet weak var appointmentDateTF: UITextField!
-   
     @IBOutlet weak var caseRefrenceTF: UITextField!
     @IBOutlet weak var patientIntialTF: UITextField!
-  
     @IBOutlet weak var starttimeTF: UITextField!
     @IBOutlet weak var loadedOnTF: UITextField!
     @IBOutlet weak var cancelledOnTF: UITextField!
     @IBOutlet weak var bookedONTF: UITextField!
     @IBOutlet weak var requestedONTF: UITextField!
-   
-    @IBOutlet weak var patientNameTF: UITextField!
+   @IBOutlet weak var patientNameTF: UITextField!
     @IBOutlet weak var languageTF: iOSDropDown!
     @IBOutlet weak var endTimeTF: UITextField!
-    
-    @IBOutlet weak var editContactNameTF: UITextField!
+   @IBOutlet weak var editContactNameTF: UITextField!
     @IBOutlet weak var genderTF: iOSDropDown!
     @IBOutlet weak var locationTF: UITextField!
     @IBOutlet weak var specialNotesTF: UITextField!
-    
     @IBOutlet weak var departmentOptionView: UIView!
     @IBOutlet weak var departmentOptionMajorView: UIView!
-    
     @IBOutlet weak var contactUpdateView: UIView!
-    
     @IBOutlet weak var DeactivateOptionView: UIView!
     
     var specialityDetail = [SpecialityData]()
@@ -57,7 +48,7 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var venueArray :[String] = []
     var departmentArray :[String] = []
     var providerArray :[String] = []
-    
+    var dropDown = DropDown()
     var genderDetail = [GenderData]()
     var venueDetail = [VenueData]()
     var subcustomerList = [SubCustomerListData]()
@@ -81,6 +72,7 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var venueID = "0"
     var genderID = ""
     var customerID = ""
+    var masterCustomerID = ""
     var providerID = 0
     var departmentID = 0
     var languageName = ""
@@ -98,7 +90,7 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var userTypeID = ""
     
     var selectedStartTimeForPicker = Date().nearestHour()!
-    var selectedEndTimeForPicker = Date().adding(minutes: 120).nearestHour()!
+    var selectedEndTimeForPicker = Date().adding(minutes: 10).nearestHour()!
     
     var isGenderSelect = false
     var isProviderSelect = false
@@ -107,7 +99,7 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var isSpecialitySelect = false
     var isServiceSelect = false
     var isContactOption = false
-    
+    var loginUserID = ""
     var apiEncryptedDataResponse:ApiEncryptedDataResponse?
     var apiGetCustomerDetailResponseModel = [ApiGetCustomerDetailResponseModel]()
     var apiAddUpdateDepartmentResponseModel=[ApiAddUpdateDepartmentResponseModel]()
@@ -115,6 +107,12 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.departmentOptionMajorView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        self.loginUserID = userDefaults.string(forKey: "LoginUserTypeID") ?? ""
+        if self.loginUserID == "10" || self.loginUserID == "7" || self.loginUserID == "8" || self.loginUserID == "11" {
+            self.subCustomerNameTF.isUserInteractionEnabled = false
+        }else {
+            self.subCustomerNameTF.isUserInteractionEnabled = true
+        }
         self.departmentOptionMajorView.isHidden = true
         self.departmentOptionView.layer.cornerRadius = 15
         self.departmentOptionView.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMinYCorner]
@@ -126,39 +124,122 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         
         contactUpdateView.visibility = .gone
         self.patientNameTF.delegate = self
+        caseRefrenceTF.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateVenueList), name: Notification.Name("updateVenueList"), object: nil)
         
-        let dateFormatterDate = DateFormatter()
-        dateFormatterDate.dateFormat = "MM/dd/yyyy"
-        let dateFormatterTime = DateFormatter()
-        dateFormatterTime.dateFormat = "h:mm a"
-        let currentDateTime = Date().nearestHour() ?? Date()
-        print("current time before \(currentDateTime)")
-        let tempTime = dateFormatterTime.string(from: currentDateTime)
-        print("TEMP TIME : \(tempTime)")
+//        let dateFormatterDate = DateFormatter()
+//        dateFormatterDate.dateFormat = "MM/dd/yyyy"
+//        let dateFormatterTime = DateFormatter()
+//        dateFormatterTime.dateFormat = "h:00 a"
+//        let currentDateTime = Date()//.nearestHour() ?? Date()
+//        print("current time before \(currentDateTime)")
+//        let tempTime = dateFormatterTime.string(from: currentDateTime)
+//        print("TEMP TIME : \(tempTime)")
         
-        self.starttimeTF.text = dateFormatterTime.string(from: currentDateTime)
+        self.starttimeTF.text = CEnumClass.share.getRoundCTime()//dateFormatterTime.string(from: currentDateTime)
         
-        let endTimee = Date().adding(minutes: 120).nearestHour() ?? Date()
-        self.appointmentDateTF.text = dateFormatterDate.string(from: currentDateTime)
-        self.endTimeTF.text = dateFormatterTime.string(from: endTimee)
+       // let endTimee = Date().adding(minutes: 10)//.nearestHour() ?? Date()
+        self.appointmentDateTF.text = CEnumClass.share.getCurrentDate()//dateFormatterDate.string(from: currentDateTime)
+        self.endTimeTF.text = CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "10", companyId: self.companyID)//dateFormatterTime.string(from: endTimee)
         
-        let dateFormatterr = DateFormatter()
-        dateFormatterr.dateFormat = "MM/dd/yyyy h:mm a"
-        let startDatee =  dateFormatterr.string(from: Date().nearestHour() ?? Date ())
+      //  let dateFormatterr = DateFormatter()
+       // dateFormatterr.dateFormat = "MM/dd/yyyy h:mm a"
+      //  let startDatee =  dateFormatterr.string(from: Date().nearestHour() ?? Date ())
         
-        self.requestedONTF.text = dateFormatterr.string(from: Date())
-        self.loadedOnTF.text = dateFormatterr.string(from: Date())
+        self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
+        self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
         getCommonDetail()
         getCustomerDetail()
         
         // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRegularScreen(notification:)), name: Notification.Name("updateTelephonicRegularScreen"), object: nil)
+
+    }
+    @objc func updateTelephonicRegularScreen(notification: Notification){
+        print("refreshing data in Onsite regular ")
+        getCommonDetail()
+        getCustomerDetail()
     }
     @objc func updateVenueList(){
        getCustomerDetail()
         
+    }
+    
+    //MARK: - CommonDropdown
+    @IBAction func actionSpecialityDropDown(_ sender: UIButton) {
+        dropDown.anchorView = sender //5
+        dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height) //6
+        
+        dropDown.backgroundColor = UIColor.white
+        dropDown.layer.cornerRadius = 20
+        dropDown.clipsToBounds = true
+        dropDown.show() //7
+        dropDown.dataSource = self.specialityArray
+       
+      dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+          self?.specialityTF.text = "\(item)"
+          self?.specialityDetail.forEach({ languageData in
+              print("specialityDetail data \(languageData.DisplayValue ?? "")")
+              if item == languageData.DisplayValue ?? "" {
+                  self?.specialityID = "\(languageData.SpecialityID ?? 0)"
+                  print("specialityDetail id \(self?.specialityID)")
+                  self?.isSpecialitySelect = true
+              }
+          })
+
+         
+      }
+    }
+    @IBAction func actionServiceDropDown(_ sender: UIButton) {
+        dropDown.anchorView = sender //5
+        dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height) //6
+        
+        dropDown.backgroundColor = UIColor.white
+        dropDown.layer.cornerRadius = 20
+        dropDown.clipsToBounds = true
+        dropDown.show() //7
+        dropDown.dataSource = self.serviceArr
+       
+      dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+          self?.serviceTypeTF.text = "\(item)"
+          self?.serviceDetail.forEach({ languageData in
+              print("serviceDetail data \(languageData.DisplayValue ?? "")")
+              if item == languageData.DisplayValue ?? "" {
+                  self?.serviceId = "\(languageData.SpecialityID ?? 0)"
+                  print("serviceDetail ID \(self?.serviceId)")
+                  self?.isServiceSelect = true
+              }
+          })
+         
+      }
+    }
+    @IBAction func actionSubCustomerDropDown(_ sender: UIButton) {
+        dropDown.anchorView = sender //5
+        dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height) //6
+        
+        dropDown.backgroundColor = UIColor.white
+        dropDown.layer.cornerRadius = 20
+        dropDown.clipsToBounds = true
+        dropDown.show() //7
+        dropDown.dataSource = self.subcustomerArr
+       
+        dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+          self?.subCustomerNameTF.text = "\(item)"
+          self?.subcustomerList.forEach({ languageData in
+              print("subcustomerList data \(languageData.CustomerFullName ?? "")")
+              if item == languageData.CustomerFullName ?? "" {
+                  //self.languageID = "\(languageData.languageID ?? 0)"
+                  let cID = "\(languageData.CustomerID ?? 0 )"
+                  self?.customerID = cID
+                  self?.getVenueDetail(customerId: cID)
+                  print("subcustomerList id \(languageData.UniqueID )")
+                  
+                  
+              }
+          })
+      }
     }
     //MARK: - Text field Delegates
     
@@ -214,114 +295,30 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         
         print("OPTIONS NEW ARRAY \(languageTF.optionArray)")
         
-        genderTF.checkMarkEnabled = true
-        genderTF.isSearchEnable = true
+        genderTF.checkMarkEnabled = false
+        genderTF.isSearchEnable = false
         genderTF.selectedRowColor = UIColor.clear
         genderTF.didSelect{(selectedText , index , id) in
             self.genderTF.text = "\(selectedText)"
             self.genderDetail.forEach({ languageData in
-                print("gender data  \(languageData.Value ?? "")")
-                if selectedText == languageData.Value ?? "" {
-                    self.genderID = languageData.Code ?? ""
+                print("gender data  \(languageData.Value )")
+                if selectedText == languageData.Value {
+                    self.genderID = languageData.Code
                     print("genderId \(self.genderID)")
                     self.isGenderSelect = true
+                }else if selectedText == "Select Gender"{
+                    self.genderID = ""
+                    self.isGenderSelect = false
                 }
             })
         }
     }
     
-    func updateServiceAndSpeciality(){
-        serviceTypeTF.optionArray = self.serviceArr
-        print("OPTIONS NEW ARRAY \(serviceTypeTF.optionArray)")
-        serviceTypeTF.checkMarkEnabled = true
-        serviceTypeTF.isSearchEnable = true
-        serviceTypeTF.selectedRowColor = UIColor.clear
-        serviceTypeTF.didSelect{(selectedText , index , id) in
-            self.serviceTypeTF.text = "\(selectedText)"
-            self.serviceDetail.forEach({ languageData in
-                print("serviceDetail data \(languageData.DisplayValue ?? "")")
-                if selectedText == languageData.DisplayValue ?? "" {
-                    self.serviceId = "\(languageData.SpecialityID ?? 0)"
-                    print("serviceDetail ID \(self.serviceId)")
-                    self.isServiceSelect = true
-                }
-            })
-        }
-        
-        
-        
-        
-        specialityTF.optionArray = self.specialityArray
-        print("OPTIONS NEW ARRAY \(specialityTF.optionArray)")
-        specialityTF.checkMarkEnabled = true
-        specialityTF.isSearchEnable = true
-        specialityTF.selectedRowColor = UIColor.clear
-        specialityTF.didSelect{(selectedText , index , id) in
-            self.specialityTF.text = "\(selectedText)"
-            self.specialityDetail.forEach({ languageData in
-                print("specialityDetail data \(languageData.DisplayValue ?? "")")
-                if selectedText == languageData.DisplayValue ?? "" {
-                    self.specialityID = "\(languageData.SpecialityID ?? 0)"
-                    print("specialityDetail id \(self.specialityID)")
-                    self.isSpecialitySelect = true
-                }
-            })
-        }
-    }
-    func showVenueDropDown(){
-        
-        
-        
-        oneTimeContactArr.forEach { oneTimeDepart in
-            self.providerDetail.append(oneTimeDepart)
-            self.providerArray.append(oneTimeDepart.ProviderName ?? "")
-        }
-        
-        contactNameTF.optionArray = self.providerArray
-        print("OPTIONS NEW ARRAY \(contactNameTF.optionArray)")
-        contactNameTF.checkMarkEnabled = true
-        contactNameTF.isSearchEnable = true
-        contactNameTF.selectedRowColor = UIColor.clear
-        contactNameTF.didSelect{(selectedText , index , id) in
-            self.selectedContact = "\(selectedText)"
-            self.contactNameTF.text = "\(selectedText)"
-            //self.editContactNameTF.text = "\(selectedText)"
-            self.contactUpdateView.visibility = .gone
-            self.providerDetail.forEach({ languageData in
-                print("providerDetail data \(languageData.ProviderName ?? "")")
-                if selectedText == languageData.ProviderName ?? "" {
-                    self.providerID = languageData.ProviderID ?? 0
-                    print("providerDetail id \(self.providerID)")
-                    self.isProviderSelect = true
-                }
-            })
-        }
-        
-        
-    }
-    func showSubcustomerDropDown(){
-        subCustomerNameTF.optionArray = self.subcustomerArr
-        
-        print("OPTIONS NEW ARRAY \(subCustomerNameTF.optionArray)")
-        subCustomerNameTF.checkMarkEnabled = true
-        subCustomerNameTF.isSearchEnable = true
-        subCustomerNameTF.selectedRowColor = UIColor.clear
-        subCustomerNameTF.didSelect{(selectedText , index , id) in
-            self.subCustomerNameTF.text = "\(selectedText)"
-            self.subcustomerList.forEach({ languageData in
-                print("subcustomerList data \(languageData.CustomerFullName ?? "")")
-                if selectedText == languageData.CustomerFullName ?? "" {
-                    //self.languageID = "\(languageData.languageID ?? 0)"
-                    print("subcustomerList id \(languageData.UniqueID)")
-                }
-            })
-        }
-    }
     func showLnaguageDropdown(){
         languageTF.optionArray = self.languageArray
         print("OPTIONS ARRYA \(GetPublicData.sharedInstance.languageArray)")
         print("OPTIONS NEW ARRAY \(languageTF.optionArray)")
-        languageTF.checkMarkEnabled = true
+        languageTF.checkMarkEnabled = false
         languageTF.isSearchEnable = true
         languageTF.selectedRowColor = UIColor.clear
         languageTF.didSelect{(selectedText , index , id) in
@@ -344,13 +341,16 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
 
     @IBAction func selectStartDate(_ sender: UIButton) {
         let minDate = Date().dateByAddingYears(-5)
+        
+        
+        
         RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedStartTimeForPicker, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.selectedStartTimeForPicker = selectedDate
-            print("selectedStartTimeForPicker \(self?.selectedStartTimeForPicker)")
-            self?.selectedEndTimeForPicker = selectedDate.adding(minutes: 120)
+           // print("selectedStartTimeForPicker \(self?.selectedStartTimeForPicker)")
+            self?.selectedEndTimeForPicker = selectedDate.adding(minutes: 10)
             let  roundoff = selectedDate//.nearestHour() ?? selectedDate
-            let endTimee = roundoff.adding(minutes: 120)
+            let endTimee = roundoff.adding(minutes: 10)
             self?.starttimeTF.text = roundoff.dateString("hh:mm a")
              
             self?.endTimeTF.text = endTimee.dateString("hh:mm a")
@@ -358,7 +358,9 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         
     }
     @IBAction func selectEndTime(_ sender: UIButton) {
-        let minDate = selectedStartTimeForPicker.adding(minutes: 120)//Date().adding(minutes: 120)
+        let minDate = selectedStartTimeForPicker.adding(minutes: 10)//Date().adding(minutes: 120)
+        
+        
         RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedEndTimeForPicker,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.selectedEndTimeForPicker = selectedDate
@@ -403,20 +405,34 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     
     @IBAction func addOneTimeDepartment(_ sender: UIButton) {
         
-        
+        let storyboard = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "UpdateDepartmentAndContactVC") as! UpdateDepartmentAndContactVC
+        vc.modalPresentationStyle = .overCurrentContext
+        if self.isContactOption {
+            vc.isdepartSelect = false
+            vc.contactActiontype = 5
+        }else {
+            vc.isdepartSelect = true
+            vc.depatmrntActionType = 5
+        }
+        vc.tableDelegate = self
+        vc.actionType = "Add"
+        vc.isAddOneTime = 1
+        self.present(vc, animated: true, completion: nil)
+        self.departmentOptionMajorView.isHidden = true
        
-            if isContactOption {
-                self.departmentOptionMajorView.isHidden = true
-                self.contactActiontype = 5
-                // 5 for Add one time  Department
-                self.editContactNameTF.text = ""
-                self.contactUpdateView.visibility = .visible
-            }else {
-                self.departmentOptionMajorView.isHidden = true
-                self.depatmrntActionType = 5
-                // 5 for Add one time  Department
-                
-            }
+//            if isContactOption {
+//                self.departmentOptionMajorView.isHidden = true
+//                self.contactActiontype = 5
+//                // 5 for Add one time  Department
+//                self.editContactNameTF.text = ""
+//                self.contactUpdateView.visibility = .visible
+//            }else {
+//                self.departmentOptionMajorView.isHidden = true
+//                self.depatmrntActionType = 5
+//                // 5 for Add one time  Department
+//
+//            }
         
         
     }
@@ -478,16 +494,18 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
 //        }
     }
     @IBAction func actiopnDeleteDepartment(_ sender: UIButton) {
-       
+            self.departmentOptionMajorView.isHidden = true
             if isContactOption {
                 self.contactActiontype = 2
                 if  contactNameTF.text == ""{
                     self.view.makeToast("Please add Contact Name. ")
                     return
-                }else if self.departmentID == 0 {
-                    self.view.makeToast("Please select Department Name. ")
-                    return
-                }else {
+                }
+//                else if self.departmentID == 0 {
+//                    self.view.makeToast("Please select Department Name. ")
+//                    return
+//                }
+                else {
                     let contactName = contactNameTF.text ?? ""
                     self.hitApiAddDepartment(id: self.providerID, departmentName: contactName, flag: "Delete", isOneTime: 0, deptID: self.departmentID, type: "Contact", isChangeParameter: true)
                     //self.actionDepartmentType = 0
@@ -501,22 +519,79 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     }
     
     @IBAction func actionEditDepartment(_ sender: UIButton) {
+        /*changes start*/
         
-       
-            if isContactOption {
-                self.contactActiontype = 1
-                self.editContactNameTF.text = self.selectedContact
-                self.contactUpdateView.visibility = .visible
-            }else {
-                self.departmentOptionMajorView.isHidden = true
-                self.depatmrntActionType = 1
-               
+        if isContactOption {
+            if self.contactNameTF.text != "" && self.contactNameTF.text != "Select Contact" {
+                let storyboard = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "UpdateDepartmentAndContactVC") as! UpdateDepartmentAndContactVC
+                vc.modalPresentationStyle = .overCurrentContext
+                if oneTimeContactArr.count != 0 {
+                    if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderName == self.contactNameTF.text }){
+                        vc.elementID = oneTimeContactArr[obj].ProviderID!
+                        vc.isdepartSelect = false
+                        vc.contactActiontype = 5
+                        vc.elementName = self.contactNameTF.text!
+                        vc.actionType = "Update"
+                        vc.DeptID = oneTimeContactArr[obj].ProviderID!
+                        vc.tableDelegate = self
+                        self.present(vc, animated: true, completion: nil)
+                        self.departmentOptionMajorView.isHidden = true
+                        
+                    }
+                    else {
+                        vc.elementID = self.providerID
+                        vc.isdepartSelect = false
+                        vc.contactActiontype = 1
+                        vc.elementName = self.contactNameTF.text!
+                        vc.actionType = "Update"
+                        vc.DeptID = self.providerID
+                        vc.tableDelegate = self
+                        self.present(vc, animated: true, completion: nil)
+                        self.departmentOptionMajorView.isHidden = true
+                    }
+                }
+                else {
+                    vc.elementID = self.providerID
+                    vc.isdepartSelect = false
+                    vc.contactActiontype = 1
+                    vc.elementName = self.contactNameTF.text!
+                    vc.actionType = "Update"
+                    vc.DeptID = self.providerID
+                    vc.tableDelegate = self
+                    self.present(vc, animated: true, completion: nil)
+                    self.departmentOptionMajorView.isHidden = true
+                }
+                }
+            else {
+                self.showAlertwithmessage(message: "Please Select any Contact.")
             }
+        }
+       
+//            if isContactOption {
+//                self.contactActiontype = 1
+//                self.editContactNameTF.text = self.selectedContact
+//                self.contactUpdateView.visibility = .visible
+//                self.departmentOptionMajorView.isHidden = true
+//            }else {
+//                self.departmentOptionMajorView.isHidden = true
+//                self.depatmrntActionType = 1
+//
+//            }
             
         
     }
    
-    
+    func showAlertwithmessage(message :String){
+       
+        let  refreshAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertController.Style.alert)
+
+                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                    print("Handle Ok logic here")
+                   
+                  }))
+        self.present(refreshAlert, animated: true, completion: nil)
+    }
     //MARK: - Contact Action method
     
     @IBAction func actionClearContactField(_ sender: UIButton) {
@@ -529,10 +604,12 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
             if  editContactNameTF.text == ""{
                 self.view.makeToast("Please add Contact Name. ")
                 return
-            }else if self.departmentID == 0 {
-                self.view.makeToast("Please select Department Name. ")
-                return
-            } else {
+            }
+//            else if self.departmentID == 0 {
+//                self.view.makeToast("Please select Department Name. ")
+//                return
+//            }
+            else {
                 let contactName = editContactNameTF.text ?? ""
                 self.hitApiAddDepartment(id: 0, departmentName: contactName, flag: "Add", isOneTime: 0, deptID: self.departmentID, type: "Contact", isChangeParameter: false)
                 //self.actionDepartmentType = 0
@@ -541,10 +618,12 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
             if  editContactNameTF.text == ""{
                 self.view.makeToast("Please add Contact Name. ")
                 return
-            }else if self.departmentID == 0 {
-                self.view.makeToast("Please select Department Name. ")
-                return
-            }else {
+            }
+//            else if self.departmentID == 0 {
+//                self.view.makeToast("Please select Department Name. ")
+//                return
+//            }
+            else {
                 let contactName = editContactNameTF.text ?? ""
                 self.hitApiAddDepartment(id: self.providerID, departmentName: contactName, flag: "Update", isOneTime: 0, deptID: self.departmentID, type: "Contact", isChangeParameter: false)
                 //self.actionDepartmentType = 0
@@ -554,10 +633,9 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
             if  editContactNameTF.text == ""{
                 self.view.makeToast("Please add Contact Name. ")
                 return
-            }else if self.departmentID == 0 {
-                self.view.makeToast("Please select Department Name. ")
-                return
-            } else {
+            }
+
+            else {
                 let contactName = editContactNameTF.text ?? ""
                 self.hitApiAddDepartment(id: 0, departmentName: contactName, flag: "Add", isOneTime: 1, deptID: self.departmentID, type: "Contact", isChangeParameter: false)
                 //self.actionDepartmentType = 0
@@ -569,15 +647,24 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
    
    
     @IBAction func actionAddContact(_ sender: UIButton) {
-        print("show contact  ")
-        self.contactActiontype = 0
-        self.editContactNameTF.text = ""
-        self.contactUpdateView.visibility = .visible
+        let storyboard = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "UpdateDepartmentAndContactVC") as! UpdateDepartmentAndContactVC
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.isdepartSelect = false
+        vc.tableDelegate = self
+        vc.actionType = "Add"
+        vc.contactActiontype = 0
+        self.present(vc, animated: true, completion: nil)
+        
+//        print("show contact  ")
+//        self.contactActiontype = 0
+//        self.editContactNameTF.text = ""
+//        self.contactUpdateView.visibility = .visible
     }
     
     
     @IBAction func actionOpenContactOPtion(_ sender: UIButton) {
-        
+       
         self.departmentOptionMajorView.isHidden = false
         self.optiontitleLbl.text = "Contact"
         self.isContactOption = true
@@ -588,7 +675,8 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     
     //MARK: - Add venue Method
     @IBAction func actionAddVenue(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "AddNewVenueViewController") as! AddNewVenueViewController
+        let storyboard = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "AddNewVenueViewController") as! AddNewVenueViewController
         vc.modalPresentationStyle = .overCurrentContext
         self.present(vc, animated: true, completion: nil)
     }
@@ -694,14 +782,104 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
             
         }else {
             
-            self.hitApiCreateRequest(masterCustomerID: userId, authCode: authCode, SpecialityID: self.specialityID, ServiceType: self.serviceId, startTime: startDate, endtime: endDate, gender: self.genderID , caseNumber: self.cRefrence, clientName: self.clinetName, clientIntial: self.CIntials, location: location, textNote: textnote, SendingEndTimes: false, Travelling: "", CallTime: "", requestedOn: requestedOn, LoginUserId: userId, parameter: "")
+            self.hitApiCreateRequest(masterCustomerID: self.masterCustomerID, authCode: authCode, SpecialityID: self.specialityID, ServiceType: self.serviceId, startTime: startDate, endtime: endDate, gender: self.genderID , caseNumber: self.cRefrence, clientName: self.clinetName, clientIntial: self.CIntials, location: location, textNote: textnote, SendingEndTimes: false, Travelling: "", CallTime: "", requestedOn: requestedOn, LoginUserId: userId, parameter: "")
             //self.createRequestForAppointment(userID: userId, companyID: companyID, AuthCode: authCode, AppointStatusID: appointStatusID, startDate: startDate, EndDate: endDate, AppointTypeID: appointTypeId, languageID: languageID, userTypeID: userTypeID, jobType: jobType, clientName: clientName, venueID: self.venueID, updatedOn: updatedOn, requestedON: requestedOn, loadedON: loadedOn, cpInitials: cpIntial, serviceTypeID: serviceId, genderID: genderId, userName: userName)
         }
     }
-
+    @IBAction func actionConatctDropDown(_ sender: UIButton) {
+        
+        dropDown.anchorView = sender //5
+        dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height) //6
+        
+        dropDown.backgroundColor = UIColor.white
+        dropDown.layer.cornerRadius = 20
+        dropDown.clipsToBounds = true
+        dropDown.show() //7
+        dropDown.dataSource = providerArray
+       
+      dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+          
+          self?.selectedContact = "\(item)"
+          self?.contactNameTF.text = "\(item)"
+          //self.editContactNameTF.text = "\(selectedText)"
+          self?.contactUpdateView.visibility = .gone
+          self?.providerDetail.forEach({ languageData in
+              print("providerDetail data \(languageData.ProviderName ?? "")")
+              if item == languageData.ProviderName ?? "" {
+                  self?.providerID = languageData.ProviderID ?? 0
+                  print("providerDetail id \(self?.providerID)")
+                  self?.isProviderSelect = true
+              }
+          })
+      }
+    }
+    
 }
 //MARK: - Api methoda
-extension TelephonicNewRegularVC{
+extension TelephonicNewRegularVC:ReloadBlockedTable{
+    func didReloadTable(performTableReload: Bool, elemntID: Int, isConatctUpdate: Bool) {
+        if isConatctUpdate {
+            self.contactNameTF.text = ""
+        }
+        
+        getVenueDetail(customerId: self.customerID)
+    }
+    
+    func didopenMoreoption(action: Bool, type: String) {
+        print("")
+    }
+    
+    func updateOneTimeDepartment(departmentData: DepartmentData, isDelete: Bool) {
+        print("")
+    }
+    
+    func updateOneTimeConatct(ConatctData: ProviderData, isDelete: Bool) {
+       
+            
+            if oneTimeContactArr.count != 0 {
+                if isDelete {
+                    if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                        oneTimeContactArr.remove(at: obj)
+                    }
+                    
+                    self.contactNameTF.text = ""
+                    getVenueDetail(customerId: self.customerID)
+                    
+                }
+                else {
+                    if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                        oneTimeContactArr.remove(at: obj)
+                    }
+                    self.contactNameTF.text = ""
+                    
+                    
+                    self.oneTimeContactArr.append(ConatctData)
+                    getVenueDetail(customerId: self.customerID)
+                }
+            }
+            else {
+                if isDelete {
+                    self.contactNameTF.text = ""
+                    getVenueDetail(customerId: self.customerID)
+                }
+                else {
+                    self.contactNameTF.text = ""
+                    
+                    self.oneTimeContactArr.append(ConatctData)
+                    getVenueDetail(customerId: self.customerID)
+                }
+            }
+        
+    }
+    
+    func showAlertWithMessageInTable(message: String) {
+        print("")
+    }
+    
+    func bookedAppointment() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     
         func hitApiAddDepartment(id : Int, departmentName : String, flag: String, isOneTime:Int, deptID :Int , type :String, isChangeParameter : Bool){
             if Reachability.isConnectedToNetwork() {
@@ -729,10 +907,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata46 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata46)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -762,6 +940,37 @@ extension TelephonicNewRegularVC{
                                             if contactActiontype == 5 {
                                                 let itemA = ProviderData(ProviderID: status, ProviderName: departmentName)
                                                 oneTimeContactArr.append(itemA)
+                                            }else  if contactActiontype == 2 {
+                                                print("Delete Action ")
+                                                
+                                                for (indexx , itemm) in oneTimeContactArr.enumerated() {
+                                                    if itemm.ProviderID == id {
+                                                        self.oneTimeContactArr.remove(at: indexx)
+                                                        
+                                                    }else {
+                                                        
+                                                    }
+                                                    
+                                                    
+                                                }
+                                                for (indexx , itemm) in providerDetail.enumerated() {
+                                                    if itemm.ProviderID == id {
+                                                        self.providerDetail.remove(at: indexx)
+                                                        
+                                                    }else {
+                                                        
+                                                    }
+                                                    
+                                                    
+                                                }
+                                                
+                                                if let index = providerArray.firstIndex(of: departmentName) {
+                                                    //index has the position of first match
+                                                    self.providerArray.remove(at: index)
+                                                } else {
+                                                    //element is not present in the array
+                                                }
+                                                
                                             }else {
                                                 
                                             }
@@ -773,7 +982,7 @@ extension TelephonicNewRegularVC{
                                         
                                         
                                         
-                                        getVenueDetail()
+                                        getVenueDetail(customerId: self.customerID)
                                     }else {
                                         self.view.makeToast("Please try after sometime.",duration: 2, position: .center)
                                     }
@@ -819,10 +1028,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata47 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata47)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -848,13 +1057,23 @@ extension TelephonicNewRegularVC{
                                         let CustomerUserName = subcustomerData["CustomerUserName"] as? String
                                         let Mobile = subcustomerData["Mobile"] as? String
                                    //  print("user sub customerlist \(userInfo), customerName is \(CustomerUserName)")
-                                        
+                                        if self.loginUserID == "10" || self.loginUserID == "7" || self.loginUserID == "8" || self.loginUserID == "11" {
+                                            self.subCustomerNameTF.text = CustomerFullName ?? ""
+                                            let customerID = "\(CustomerID ?? 0)"
+                                            print("venue Function call for subcustom er ")
+                                           // self.customerID = customerID
+                                            
+                                        }else {
+                                            print("venue Function call for non subcustomer  ")
+                                            self.subCustomerNameTF.text = ""
+                                            
+                                        }
                                         let itemA = SubCustomerListData(UniqueID: UniqueID ?? 0, Email: Email ?? "", CustomerUserName: CustomerUserName ?? "", Priority: Priority ?? 0, MasterUsertype: MasterUsertype ?? 0, Mobile: Mobile ?? "", PurchaseOrderNote: PurchaseOrderNote ?? "", CustomerID: CustomerID ?? 0, CustomerFullName: CustomerFullName ?? "", EmailToRequestor: EmailToRequestor ?? 0)
                                         self.subcustomerArr.append(CustomerFullName ?? "")
                                         self.subcustomerList.append(itemA)
                                     })
-                                   
-                                    showSubcustomerDropDown()
+                                    getVenueDetail(customerId: self.customerID)
+                                    //showSubcustomerDropDown()
                                 } else {
                                     print("bad json")
                                 }
@@ -877,11 +1096,14 @@ extension TelephonicNewRegularVC{
         func getCustomerDetail(){
             if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
+                self.subcustomerArr.removeAll()
+                self.subcustomerList.removeAll()
             let urlString = APi.GetCustomerDetail.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
             let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-            let searchString = "<INFO><COMPANYID>\(companyID)</COMPANYID><LOGINUSERID>\(userID)</LOGINUSERID><LOGINUSERTYPEID>\(userTypeId)</LOGINUSERTYPEID><USERTYPEID>\(userTypeId)</USERTYPEID><APPTYPE>1</APPTYPE><EDIT>1</EDIT><AUTHFLAG>2</AUTHFLAG></INFO>"
+                let loginUserTypeId = userDefaults.string(forKey: "LoginUserTypeID")
+                let searchString = "<INFO><COMPANYID>\(companyID)</COMPANYID><LOGINUSERID>\(userID)</LOGINUSERID><LOGINUSERTYPEID>\(loginUserTypeId ?? "")</LOGINUSERTYPEID><USERTYPEID>4</USERTYPEID><APPTYPE>1</APPTYPE><EDIT>1</EDIT><AUTHFLAG>2</AUTHFLAG></INFO>"
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
@@ -894,10 +1116,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata48 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata48)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -916,17 +1138,21 @@ extension TelephonicNewRegularVC{
                                     let customerFullName = userIfo?["CustomerFullName"] as? String
                                     let customerID = userIfo?["CustomerID"] as? Int
                                     self.customerID = "\(customerID ?? 0)"
+                                    self.masterCustomerID = "\(customerID ?? 0)"
                                     GetPublicData.sharedInstance.TempCustomerID = "\(customerID ?? 0)"
                                    // print("userInfo ", userInfo,customerUserName , customerEmail , customerFullName)
-                                    getVenueDetail()
+                                    //getVenueDetail()
+                                    let itemA = SubCustomerListData(UniqueID:  0, Email: "", CustomerUserName: "", Priority: 0, MasterUsertype: 0, Mobile: "", PurchaseOrderNote: "", CustomerID: customerID, CustomerFullName:  "Select Sub customer", EmailToRequestor: 0)
+                                    self.subcustomerArr.append("Select Sub customer")
+                                    self.subcustomerList.append(itemA)
                                     getSubcustomerList()
                                     self.customerNameTF.text = customerFullName
-                                    self.subCustomerNameTF.text = ""
-                                    if (userID == "10") || (userID == "7") || (userID == "8") || (userID == "11") {
-                                        self.subCustomerNameTF.isUserInteractionEnabled = false
-                                    }else {
-                                        self.subCustomerNameTF.isUserInteractionEnabled = true
-                                    }
+//                                    self.subCustomerNameTF.text = ""
+//                                    if (userID == "10") || (userID == "7") || (userID == "8") || (userID == "11") {
+//                                        self.subCustomerNameTF.isUserInteractionEnabled = false
+//                                    }else {
+//                                        self.subCustomerNameTF.isUserInteractionEnabled = true
+//                                    }
                                     
                                     //    updateUI(customerName: customerFullName ?? "", subcustomerName: "Select Subcustomer Name")
                                 } else {
@@ -948,7 +1174,7 @@ extension TelephonicNewRegularVC{
                     self.view.makeToast(ConstantStr.noItnernet.val)
                 }
         }
-        func getVenueDetail(){
+    func getVenueDetail(customerId: String){
             if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             self.venueArray.removeAll()
@@ -957,11 +1183,36 @@ extension TelephonicNewRegularVC{
             self.departmentDetail.removeAll()
             self.providerArray.removeAll()
             self.providerDetail.removeAll()
+                
+                let itemA = VenueData(Address: "", Address2: "", City: "", CompanyID: 0, CustomerCompany: "", CustomerName: "", Notes: "", State: "", StateID: 0, VenueID: 0, VenueName: "Select Venue", ZipCode: "")
+                self.venueDetail.append(itemA)
+                self.venueArray.append("Select Venue")
+                    
+                let itemD = DepartmentData(DeActive: 0, DepartmentID: 0, DepartmentName: "Select Department",isOneTime: false)
+                self.departmentDetail.append(itemD)
+                self.departmentArray.append( "Select Department")
+                    
+                let itemP = ProviderData(ProviderID: 0, ProviderName: "Select Contact",isOneTime: false)
+                self.providerDetail.append(itemP)
+                self.providerArray.append("Select Contact")
+                
+                oneTimeContactArr.forEach { oneTimeDepart in
+                        self.providerDetail.append(oneTimeDepart)
+                        self.providerArray.append(oneTimeDepart.ProviderName ?? "")
+                }
+                    
+                oneTimeDepartmentArr.forEach { oneTimeDepart in
+                        self.departmentDetail.append(oneTimeDepart)
+                        self.departmentArray.append(oneTimeDepart.DepartmentName ?? "")
+                }
+                
+                
+                
             let urlString = APi.GetVenueCommanddl.url
             let companyID = self.companyID //GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
             let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-            let searchString = "<INFO><CUSTOMERID>\(self.customerID)</CUSTOMERID><USERTYPEID>\(userTypeId)</USERTYPEID><LOGINUSERID>\(userID)</LOGINUSERID><COMPANYID>\(companyID)</COMPANYID><FLAG>1</FLAG><AppointmentID>0</AppointmentID></INFO>"
+            let searchString = "<INFO><CUSTOMERID>\(customerId)</CUSTOMERID><USERTYPEID>\(userTypeId)</USERTYPEID><LOGINUSERID>\(userID)</LOGINUSERID><COMPANYID>\(companyID)</COMPANYID><FLAG>1</FLAG><AppointmentID>0</AppointmentID></INFO>"
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
@@ -974,10 +1225,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata49 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata49)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
                             print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -1031,7 +1282,7 @@ extension TelephonicNewRegularVC{
                                         self.providerDetail.append(itemA)
                                         self.providerArray.append(providerName ?? "")
                                     })
-                                  showVenueDropDown()
+                                  //showVenueDropDown()
                                 } else {
                                     print("bad json")
                                 }
@@ -1080,10 +1331,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success getCommonDetail ")
-                        guard let daata50 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata50)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
                             print("Success getCommonDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -1118,9 +1369,14 @@ extension TelephonicNewRegularVC{
                                         let DisplayValue = specialData["DisplayValue"] as? String
                                         let Duration = specialData["Duration"] as? Int
                                         //print("specialityID : \(specialityID) \n  DisplayValue : \(DisplayValue) \n  Duration : \(Duration) \n")
-                                        let ItemA = SpecialityData(SpecialityID: specialityID ?? 0 , DisplayValue: DisplayValue ?? "", Duration: Duration ?? 0)
-                                        specialityDetail.append(ItemA)
-                                        specialityArray.append(DisplayValue ?? "")
+                                        if  DisplayValue == "Conference Call" || DisplayValue == "Virtual Meeting" || DisplayValue == "Select Specialty" {
+                                            let ItemA = SpecialityData(SpecialityID: specialityID ?? 0 , DisplayValue: DisplayValue ?? "", Duration: Duration ?? 0)
+                                            specialityDetail.append(ItemA)
+                                            specialityArray.append(DisplayValue ?? "")
+                                        }else {
+                                            
+                                        }
+                                        
                                     })
                                     
                                     
@@ -1130,6 +1386,9 @@ extension TelephonicNewRegularVC{
                                         let Duration = specialData["Duration"] as? Int
                                         //print("specialityID : \(specialityID) \n  DisplayValue : \(DisplayValue) \n  Duration : \(Duration) \n")
                                         let ItemA = ServiceData(SpecialityID: specialityID ?? 0 , DisplayValue: DisplayValue ?? "", Duration: Duration ?? 0)
+                                        if DisplayValue == "Consecutive Interpretation" {
+                                            self.serviceTypeTF.text = DisplayValue ?? ""
+                                        }
                                         serviceDetail.append(ItemA)
                                         serviceArr.append(DisplayValue ?? "")
                                     })
@@ -1142,9 +1401,11 @@ extension TelephonicNewRegularVC{
                                         self.languageDetail.append(ItemA)
                                         
                                     })
+                                    let itemD = GenderData(Id: 0, Code: "", Value: "Select Gender", type: "")
                                     let itemA = GenderData(Id: 19, Code: "M", Value: "Male", type: "Gender")
                                     let itemB = GenderData(Id: 18, Code: "F", Value: "Female", type: "Gender")
                                     let itemC = GenderData(Id: 28, Code: "NB", Value: "Non-binary", type: "Gender")
+                                    genderDetail.append(itemD)
                                     genderDetail.append(itemA)
                                     genderDetail.append(itemB)
                                     genderDetail.append(itemC)
@@ -1156,7 +1417,7 @@ extension TelephonicNewRegularVC{
                                     print(specialityArray)
                                     showGenderDropDown()
                                     showLnaguageDropdown()
-                                    updateServiceAndSpeciality()
+                                    //updateServiceAndSpeciality()
                                     self.authCodeTF.text = authcode ?? ""
                                     self.jobTypeTF.text = "Telephone Conference"
                                     //updateAuthCode(authCode: authcode kk?? "")
@@ -1192,10 +1453,15 @@ extension TelephonicNewRegularVC{
             let urlString = APi.tladdupdateappointment.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
-            let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-            
-               
-                let searchString = "<INFO><CustomerUserID>0</CustomerUserID><Action>A</Action><AppointmentID>0</AppointmentID><CustomerID>\(self.customerID)</CustomerID><Company>\(companyID)</Company><MasterCustomerID>\(masterCustomerID)</MasterCustomerID><AppointmentTypeID>2</AppointmentTypeID><AuthCode>\(authCode)</AuthCode><SpecialityID>\(SpecialityID)</SpecialityID><ServiceType>\(ServiceType)</ServiceType><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(endtime)</EndDateTime><Distance>0.00</Distance><AppointmentFlag>R</AppointmentFlag><LanguageID>\(self.languageID)</LanguageID><Gender>\(gender)</Gender><CaseNumber>\(caseNumber)</CaseNumber>\(clientName)<ClientName></ClientName><cPIntials>\(clientIntial)</cPIntials><VenueID>\(self.venueID)</VenueID><VendorID></VendorID><DepartmentID>\(self.departmentID)</DepartmentID><ProviderID>\(self.providerID)</ProviderID><Location>\(location)</Location><Text>\(textNote)</Text><SendingEndTimes>\(SendingEndTimes)</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><AppointmentStatusID>2</AppointmentStatusID><Travelling>\(Travelling)</Travelling><Ranking></Ranking><ConfirmationBit>false</ConfirmationBit><VendorMileage>false</VendorMileage><Priority>false</Priority><CallServiceBit>false</CallServiceBit><Office></Office><Home></Home><Cell></Cell><Purpose></Purpose><CallTime>\(CallTime)</CallTime><AdditionTravelTimePay>00:00</AdditionTravelTimePay><ArrivalTime></ArrivalTime><DepartureTime></DepartureTime><RequestedOn>\(requestedOn)</RequestedOn><ConfirmedOn></ConfirmedOn><BookedOn></BookedOn><CancelledOn></CancelledOn><RequestedBy>\(userID)</RequestedBy><ConfirmedBy></ConfirmedBy><BookedBy></BookedBy><CancelledBy></CancelledBy><LoadedBy>\(userID)</LoadedBy><RequestorName></RequestorName><MgemilRist>false</MgemilRist><isChanged>false</isChanged><oneHremail></oneHremail><LoginUserId>\(LoginUserId)</LoginUserId><ReasonforBotch></ReasonforBotch><PurchaseOrder></PurchaseOrder><Claim></Claim><Reference></Reference><SecurityClearence></SecurityClearence><ExperienceOfVendor></ExperienceOfVendor><InterpreterType></InterpreterType><AssignToFieldStaff></AssignToFieldStaff><RequestorName></RequestorName><RequestorEmail></RequestorEmail><TierName>W</TierName><WaitingList></WaitingList><overrideSatus></overrideSatus><overrideauth></overrideauth><SaveFlag>0</SaveFlag><SUBAPPOINTMENT></SUBAPPOINTMENT><InterpreterBookedId></InterpreterBookedId></INFO>"
+                var customerUserID = ""
+                if self.userTypeID == "4" || self.userTypeID == "10" {
+                    customerUserID = "0"
+                }
+                else {
+                    customerUserID = userID
+                }
+                
+                let searchString = "<INFO><CustomerUserID>\(customerUserID)</CustomerUserID><Action>A</Action><AppointmentID>0</AppointmentID><CustomerID>\(self.customerID)</CustomerID><Company>\(companyID)</Company><MasterCustomerID>\(masterCustomerID)</MasterCustomerID><AppointmentTypeID>2</AppointmentTypeID><AuthCode>\(authCode)</AuthCode><SpecialityID>\(SpecialityID)</SpecialityID><ServiceType>\(ServiceType)</ServiceType><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(endtime)</EndDateTime><Distance>0.00</Distance><AppointmentFlag>R</AppointmentFlag><LanguageID>\(self.languageID)</LanguageID><Gender>\(gender)</Gender><CaseNumber>\(caseNumber)</CaseNumber><ClientName>\(clientName)</ClientName><cPIntials>\(clientIntial)</cPIntials><VenueID>\(self.venueID)</VenueID><VendorID></VendorID><DepartmentID>\(self.departmentID)</DepartmentID><ProviderID>\(self.providerID)</ProviderID><Location>\(location)</Location><Text>\(textNote)</Text><SendingEndTimes>\(SendingEndTimes)</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><AppointmentStatusID>2</AppointmentStatusID><Travelling>\(Travelling)</Travelling><Ranking></Ranking><ConfirmationBit>false</ConfirmationBit><VendorMileage>false</VendorMileage><Priority>false</Priority><CallServiceBit>false</CallServiceBit><Office></Office><Home></Home><Cell></Cell><Purpose></Purpose><CallTime>\(CallTime)</CallTime><AdditionTravelTimePay>00:00</AdditionTravelTimePay><ArrivalTime></ArrivalTime><DepartureTime></DepartureTime><RequestedOn>\(requestedOn)</RequestedOn><ConfirmedOn></ConfirmedOn><BookedOn></BookedOn><CancelledOn></CancelledOn><RequestedBy>\(userID)</RequestedBy><ConfirmedBy></ConfirmedBy><BookedBy></BookedBy><CancelledBy></CancelledBy><LoadedBy>\(userID)</LoadedBy><RequestorName></RequestorName><MgemilRist>false</MgemilRist><isChanged>false</isChanged><oneHremail></oneHremail><LoginUserId>\(LoginUserId)</LoginUserId><ReasonforBotch></ReasonforBotch><PurchaseOrder></PurchaseOrder><Claim></Claim><Reference></Reference><SecurityClearence></SecurityClearence><ExperienceOfVendor></ExperienceOfVendor><InterpreterType></InterpreterType><AssignToFieldStaff></AssignToFieldStaff><RequestorName></RequestorName><RequestorEmail></RequestorEmail><TierName>W</TierName><WaitingList></WaitingList><overrideSatus></overrideSatus><overrideauth></overrideauth><SaveFlag>0</SaveFlag><SUBAPPOINTMENT></SUBAPPOINTMENT><InterpreterBookedId></InterpreterBookedId></INFO>"
             
             let parameter = [
                 "strSearchString" : searchString
@@ -1209,10 +1475,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success getCustomerDetail ")
-                        guard let daata51 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata51)
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
                             print("Success getCustomerDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
@@ -1224,18 +1490,24 @@ extension TelephonicNewRegularVC{
 
                                     let newjson = jsonArray.first
                                     let userInfo = newjson?["AppointmentResponce"] as? [[String:Any]]
+                                    let emailResponse = newjson?["EmailNotification"] as? [[String:Any]]
+                                    let matchAuth = emailResponse?.first!["AuthCode"] as? String
                                     //let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
                                     let userIfo = userInfo?.first
                                     let AppointmentID = userIfo?["AppointmentID"] as? Int
                                     let success = userIfo?["success"] as? Int
-                                    let Message = userIfo?["Message"] as? String
+                                    let message = userIfo?["Message"] as? String
                                     let AuthCode = userIfo?["AuthCode"] as? String
                                   
                                     if success == 1 {
-                                        self.view.makeToast(Message,duration: 1, position: .center)
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                            self.navigationController?.popViewController(animated: true)
+                                        DispatchQueue.main.async {
+                                            self.appointmentBookedCalls(message: message ?? "", authcode: matchAuth!)
                                         }
+                                        
+//                                        self.view.makeToast(Message,duration: 1, position: .center)
+//                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
+//                                            self.navigationController?.popViewController(animated: true)
+                                        //}
                                     }else {
                                         self.view.makeToast("Please try after sometime.",duration: 1, position: .center)
                                     }
@@ -1282,10 +1554,10 @@ extension TelephonicNewRegularVC{
                         
                     case .success(_):
                         print("Respose Success apiEncryptedDataResponse ")
-                        guard let daata52 = response.data else { return }
+                        guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
-                            self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata52)
+                            self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
                             print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
                             let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
                             encryptedValue(true , encrypValue)
@@ -1303,6 +1575,24 @@ extension TelephonicNewRegularVC{
                 self.view.makeToast(ConstantStr.noItnernet.val)
             }
         }
+    func appointmentBookedCalls(message: String, authcode: String){
+        
+      
+            let callVC = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+            let vcontrol = callVC.instantiateViewController(identifier: "BookedStatusVC") as! BookedStatusVC
+            vcontrol.height = 230
+            vcontrol.topCornerRadius = 30
+            vcontrol.presentDuration = 0.5
+            vcontrol.dismissDuration = 0.5
+            vcontrol.shouldDismissInteractivelty = false
+            vcontrol.popupDismisAlphaVal = 0.4
+        vcontrol.msz = message
+        vcontrol.delegate = self
+        vcontrol.authcode = authcode
+            
+            present(vcontrol, animated: true, completion: nil)
+  }
         
     
 }
+

@@ -59,52 +59,24 @@ class VDOCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var isSpeakingLbl: PaddingLabel!
     func configure(obj: ConferenceInfoModels){
-        
-       
-        if obj.VIDEO == "1" && obj.MUTE == "1" {
-           
-            lblVideo.isHidden = true
-            audioLbl.isHidden = true
-        }
-        else if obj.VIDEO == "0" && obj.MUTE == "0"{
-            
+       print("val_vdo:",obj.VIDEO, "val_audio:",obj.MUTE)
+        audioLbl.adjustsFontSizeToFitWidth = true
+        lblVideo.adjustsFontSizeToFitWidth = true
+        if obj.VIDEO == "0" {
             lblVideo.isHidden = false
-            audioLbl.isHidden = false
             lblVideo.text = "You have paused \(obj.UserName!)'s video"
-            audioLbl.text = "You have muted \(obj.UserName!)'s audio"
-           
         }
-        else if obj.VIDEO == "0" {
-            
-            lblVideo.isHidden = false
-            audioLbl.isHidden = true
-            audioLbl.text = ""
-            lblVideo.text = "You have paused \(obj.UserName!)'s video"
-           
-        }
-        else if obj.MUTE == "0" {
-           
+        else {
             lblVideo.isHidden = true
+        }
+        if obj.MUTE == "0" {
             audioLbl.isHidden = false
-            lblVideo.text = ""
             audioLbl.text = "You have muted \(obj.UserName!)'s audio"
-           
         }
-        else if obj.MUTE == "1" {
-           
-           
+        else {
             audioLbl.isHidden = true
-           
         }
-        else if obj.VIDEO == "1" {
-           
-            lblVideo.isHidden = true
-           
-        }
-
-        
-       
-    }
+       }
 }
 //
 

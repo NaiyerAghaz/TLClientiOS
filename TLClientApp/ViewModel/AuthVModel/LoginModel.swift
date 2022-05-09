@@ -54,6 +54,7 @@ class DetailsModal: NSObject {
     var decline: Bool
     var usertoken: String
     var timeZone: String
+    var zoneShortForm: String
     var proZUUID, prozImgurl: String
     var passwordResetStatus: String
     var deviceType, companyNameTemp, companyPhone, loginWay: String
@@ -73,15 +74,14 @@ class DetailsModal: NSObject {
     var dateFormat, dateTimeFormate: String
     var isSupportPermission: String
     var NewRegFlag: String?
+    var LoginUserTypeID : String
     override init() {
         Message = ""
         UserID = ""
         userTypeID = ""
         companyID = ""
-        
         userName = ""
         password = ""
-        
         status = false
         email = ""
         firstName = ""
@@ -149,6 +149,8 @@ class DetailsModal: NSObject {
         dateTimeFormate = ""
         isSupportPermission = ""
         NewRegFlag = ""
+        LoginUserTypeID = ""
+        zoneShortForm = ""
         
     }
     class func getUserDetailsData(dicts: NSDictionary) -> DetailsModal {
@@ -159,7 +161,7 @@ class DetailsModal: NSObject {
         item.companyID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CompanyID") ?? "") as String
         
         item.userName = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "UserName") ?? "") as String
-       
+        item.LoginUserTypeID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "LoginUserTypeID") ?? "") as String
         item.password = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Password") ?? "") as String
         if let status = dicts.value(forKey: "Status") as? Bool {
             item.status = status
@@ -229,6 +231,7 @@ class DetailsModal: NSObject {
         }
         item.usertoken = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "usertoken") ?? "") as String
         item.timeZone = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "TimeZone") ?? "") as String
+        item.zoneShortForm = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "ZoneShortForm") ?? "") as String
         item.proZUUID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "ProZ_UUID") ?? "") as String
         item.prozImgurl = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Proz_imgurl") ?? "") as String
         item.passwordResetStatus = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "PasswordResetStatus") ?? "") as String

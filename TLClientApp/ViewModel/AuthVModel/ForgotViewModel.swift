@@ -14,10 +14,10 @@ class ForgotViewModel {
     public func userForgotPWD(Email: String,UserName: String, complitionBlock: @escaping(Bool?, Error?) -> ()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.forgetPassword.url, para: ApiServices.shareInstace.forgotReq(email: Email, userName: UserName)) {(response, error) in
-           
+            SwiftLoader.hide()
             print("forgotUser->", response)
             if response != nil {
-                SwiftLoader.hide()
+                
                 self.user = ForgotUser.getForgotData(dicts: response!)
                 
                 let userDict = self.user.SuccessErrorDetails![0] as! ErrorModel

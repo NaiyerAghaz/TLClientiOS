@@ -21,7 +21,7 @@ class sideMenuTableViewCell :UITableViewCell{
     }
 }
 class SideMenuViewController: UIViewController {
-
+    var delegateScanner: delegateScanner?
     @IBOutlet var userNameLbl: UILabel!
     @IBOutlet var userImg: UIImageView!
     @IBOutlet var sideMenuTv: UITableView!
@@ -43,19 +43,29 @@ class SideMenuViewController: UIViewController {
         // Do any additional setup after loading the view.
         sideMenuTv.delegate = self
         sideMenuTv.dataSource = self
-        let userName = userDefaults.string(forKey: "username")
-        self.userNameLbl.text = userName
+       
+        let firstName = userDefaults.string(forKey: "firstName") ?? ""
+               let lastName = userDefaults.string(forKey: "lastName") ?? ""
+               let userName   = "\(String(describing: firstName)) \(lastName)"
+               
+               self.userNameLbl.text = userName
         self.userImg.layer.cornerRadius = self.userImg.bounds.height / 2 
         getProfileimg()
         //leftMenuNavigationController?.menuWidth = 350
     }
     
     @IBAction func uploadProfileImg(_ sender: UIButton) {
-
+        let dict :[String:String] = ["val": "1"]
         self.dismiss(animated: false, completion: nil)
-        NotificationCenter.default.post(name: Notification.Name("UpdateProfilePic"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("UpdateProfilePic"), object: nil, userInfo: dict)
         
     }
+    @IBAction func btnScanTapped(_ sender: Any) {
+        let dict :[String:String] = ["val": "2"]
+        self.dismiss(animated: false, completion: nil)
+        NotificationCenter.default.post(name: Notification.Name("UpdateProfilePic"), object: nil, userInfo: dict)
+    }
+    
     @IBAction func actionBackButton(_ sender: Any) {
         self.dismiss(animated: false, completion: nil)
     }
@@ -141,6 +151,7 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
             }
         }else if indexPath.section == 2 {
             if indexPath.row == 0 {
+                userDefaults.removeObject(forKey: "isDeclineTimeZone")
                 isLogoutPressed = true
                 let refreshAlert = UIAlertController(title: "Alert", message: "Are you sure you want to Logout?", preferredStyle: UIAlertController.Style.alert)
 
@@ -169,17 +180,20 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
                returnedView.addGestureRecognizer(tap)
                 returnedView.tag = section
         print("view for section ",view.frame.size.width)
-        let image = UIImageView(frame: CGRect(x: view.frame.size.width - 50, y: 20, width: 20, height: 20))
+        let image = UIImageView(frame: CGRect(x: view.frame.size.width - 30, y: 20, width: 20, height: 20))
         image.image = UIImage(named: "ic_downarrow")
         
-             let label = UILabel(frame: CGRect(x: 20, y: 20, width: view.frame.size.width, height:25))
-           let username = userDefaults.string(forKey: "username")
-            if section == 2 {
-                  label.text =  username
-             }
-        else {
-                   label.text =  self.titleSectionArr[section]
-             }
+             let label = UILabel(frame: CGRect(x: 20, y: 20, width: view.frame.size.width - 60, height:25))
+        let firstName = userDefaults.string(forKey: "firstName") ?? ""
+                let lastName = userDefaults.string(forKey: "lastName") ?? ""
+                let username   = "\(String(describing: firstName)) \(lastName)"
+                    if section == 2 {
+                          label.text =  username
+                        label.adjustsFontSizeToFitWidth = true
+                     }
+                else {
+                           label.text =  self.titleSectionArr[section]
+                     }
                        label.textColor = .white
                  label.font =  UIFont.boldSystemFont(ofSize: 22.0)
                let label2 = UILabel(frame: CGRect(x: 0, y: 50, width: view.frame.size.width, height:1))
