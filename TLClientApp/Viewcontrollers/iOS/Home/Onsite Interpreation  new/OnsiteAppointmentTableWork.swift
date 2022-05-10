@@ -599,10 +599,10 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
                 oneTimeContactArr.remove(at: obj)
             }
            
-           /* for  itemm in blockedAppointmentArr {
+           for  itemm in blockedAppointmentArr {
                 itemm.conatctName = ""
                 itemm.contactID = 0
-              }*/
+              }
             getVenueDetail(customerId: self.customerID)
            
         }
@@ -612,12 +612,12 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
             if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
                 oneTimeContactArr.remove(at: obj)
             }
-           /* for  itemm in blockedAppointmentArr {
+            for  itemm in blockedAppointmentArr {
                  itemm.conatctName = ""
                  itemm.contactID = 0
                         
              
-            }*/
+            }
                self.oneTimeContactArr.append(ConatctData)
                 getVenueDetail(customerId: self.customerID)
            
@@ -632,12 +632,12 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
             if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
                 oneTimeContactArr.remove(at: obj)
             }
-            /*for  itemm in blockedAppointmentArr {
+            for  itemm in blockedAppointmentArr {
                 itemm.conatctName = ""
                 itemm.contactID = 0
                         
              
-            }*/
+            }
             getVenueDetail(customerId: self.customerID)
         }
         else {
@@ -1280,7 +1280,7 @@ class BlockedAppointmentData {
     var languageID : Int?
     var genderID : String?
     var showClientName : String?
-    var showClientIntials : String
+    var showClientIntials : String?
     var showClientRefrence : String?
     
     var clientName : String?

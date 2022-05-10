@@ -37,7 +37,8 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
                 print("TEMP TIME : \(tempTime)")
                 let endTimee = itemm.selectedDate.adding(minutes: 120)//.nearestHour() ?? Date()
                 
-            let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime:self.blockedAppointmentArr[0].startTime!, endTime: self.blockedAppointmentArr[0].endTime!, languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: indxx + 1, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: "" , showClientIntials:"" , showClientRefrence: "", isDepartmentSelect: false,isConatctSelect : false)
+           // let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime:self.blockedAppointmentArr[0].startTime!, endTime: self.blockedAppointmentArr[0].endTime!, languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: indxx + 1, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: "" , showClientIntials:"" , showClientRefrence: "", isDepartmentSelect: false,isConatctSelect : false)
+            let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime:self.blockedAppointmentArr[0].startTime!, endTime: self.blockedAppointmentArr[0].endTime!, languageID: self.blockedAppointmentArr[0].languageID!, genderID: self.blockedAppointmentArr[0].genderID ?? "0", clientName: self.blockedAppointmentArr[0].clientName ?? "", ClientIntials: self.blockedAppointmentArr[0].ClientIntials ?? "", ClientRefrence: self.blockedAppointmentArr[0].ClientRefrence ?? "", venueID: self.blockedAppointmentArr[0].venueID ?? "", DepartmentID: self.blockedAppointmentArr[0].DepartmentID ?? 0, contactID: self.blockedAppointmentArr[0].contactID ?? 0, location: self.blockedAppointmentArr[0].location ?? "", SpecialNotes: self.blockedAppointmentArr[0].SpecialNotes ?? "", rowIndex: indxx + 1, languageName: self.blockedAppointmentArr[0].languageName ?? "",venueName: self.blockedAppointmentArr[0].venueName ?? "", DepartmentName: self.blockedAppointmentArr[0].DepartmentName ?? "", genderType: self.blockedAppointmentArr[0].genderType ?? "", conatctName: self.blockedAppointmentArr[0].conatctName ?? "", isVenueSelect:  self.blockedAppointmentArr[0].isVenueSelect ?? false , venueTitleName : self.blockedAppointmentArr[0].venueTitleName ?? "" , addressname : self.blockedAppointmentArr[0].addressname ?? "" , cityName : self.blockedAppointmentArr[0].cityName ?? "" , stateName : self.blockedAppointmentArr[0].stateName ?? "" , zipcode: self.blockedAppointmentArr[0].zipcode ?? "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: self.blockedAppointmentArr[0].showClientName ?? "" , showClientIntials:self.blockedAppointmentArr[0].showClientIntials ?? "" , showClientRefrence: self.blockedAppointmentArr[0].showClientRefrence ?? "", isDepartmentSelect: self.blockedAppointmentArr[0].isDepartmentSelect ?? false ,isConatctSelect :  self.blockedAppointmentArr[0].isConatctSelect ?? false)
                 self.blockedAppointmentArr.append(itemA)
             
             self.recuringAppointmentTV.reloadData()
@@ -120,6 +121,7 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
         
         self.recuringAppointmentTV.delegate = self
         self.recuringAppointmentTV.dataSource = self
+        
         self.departmentOptionMajorView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.departmentOptionMajorView.isHidden = true
         self.departmentOptionView.layer.cornerRadius = 15
@@ -1406,7 +1408,9 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BlockedAppointmentTVCell", for: indexPath) as! BlockedAppointmentTVCell
         cell.AppointmentTitleLbl.text = "Appointment \(indexPath.row + 1) (\(self.authCode)-\(indexPath.row + 1))"
-        cell.appointmentCancelBtn.tag = indexPath.row
+        cell.appointmentCancelBtn.isHidden = true
+        cell.cancelImg.isHidden = true
+       /* cell.appointmentCancelBtn.tag = indexPath.row
         cell.appointmentCancelBtn.addTarget(self, action: #selector(CancelApt), for: .touchUpInside)
         if indexPath.row == 0 {
             cell.cancelImg.isHidden = true
@@ -1414,7 +1418,7 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
         }else {
             cell.cancelImg.isHidden = false
             cell.appointmentCancelBtn.isHidden = false
-        }
+        }*/
         cell.appointmentDateBtn.tag = indexPath.row
         cell.appointmentDateBtn.addTarget(self, action: #selector(showAppointmentDate), for: .touchUpInside)
         
@@ -1706,8 +1710,10 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
         var selectedDateforPicker = self.blockedAppointmentArr[sender.tag].startTimeForPicker ?? Date()
         let cell = recuringAppointmentTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! BlockedAppointmentTVCell
         let minDate = Date().dateByAddingYears(-5)
+        let selectedDateAntime = blockedAppointmentArr[sender.tag].AppointmentDate! + " \(blockedAppointmentArr[sender.tag].startTime!)"
+        let selectDate = CEnumClass.share.getCompleteDateAndTime(dateAndTime: selectedDateAntime)
         
-        RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedDateforPicker, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectDate, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.blockedAppointmentArr[sender.tag].startTimeForPicker = selectedDate
             self?.blockedAppointmentArr[sender.tag].endTimeForPicker = selectedDate.adding(minutes: 120)
@@ -1738,7 +1744,11 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
         let cell = recuringAppointmentTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! BlockedAppointmentTVCell
         var selectedDateforPicker = self.blockedAppointmentArr[sender.tag].endTimeForPicker ?? Date()
         let minDate = Date().dateByAddingYears(-5)
-        RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedDateforPicker,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        
+        let selectedDateAntime = blockedAppointmentArr[sender.tag].AppointmentDate! + " \(blockedAppointmentArr[sender.tag].endTime!)"
+        let selectDate = CEnumClass.share.getCompleteDateAndTime(dateAndTime: selectedDateAntime)
+        
+        RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectDate,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.blockedAppointmentArr[sender.tag].endTimeForPicker = selectedDate
             let  roundoff = selectedDate//.nearestHour() ?? selectedDate

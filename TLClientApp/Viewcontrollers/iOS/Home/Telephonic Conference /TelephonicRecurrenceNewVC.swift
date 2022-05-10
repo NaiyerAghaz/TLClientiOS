@@ -10,29 +10,30 @@ import Alamofire
 import DropDown
 import iOSDropDown
 class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
-   
+    
     
     func SelectAppointmentDate(selectedDateArr: [SelectedDatesModel]) {
         for (indxx, itemm) in selectedDateArr.enumerated() {
-          
-                
+            
+            
             btnAddRecurrance.setTitle("Edit Recurrence", for: .normal)
-                let dateFormatterDate = DateFormatter()
-                dateFormatterDate.dateFormat = "MM/dd/yyyy"
-                let dateFormatterTime = DateFormatter()
-                dateFormatterTime.dateFormat = "h:mm a"
-                let currentDateTime = itemm.selectedDate.nearestHour() ?? Date()
-                print("current time before \(currentDateTime)")
-                let tempTime = dateFormatterTime.string(from: currentDateTime)
-                print("TEMP TIME : \(tempTime)")
-                let endTimee = itemm.selectedDate.adding(minutes: 10).nearestHour() ?? Date()
-                
-                let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime: dateFormatterTime.string(from: currentDateTime), endTime: dateFormatterTime.string(from: endTimee), languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: indxx + 1, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: "" , showClientIntials:"" , showClientRefrence: "", isDepartmentSelect: false,isConatctSelect : false)
-                self.blockedAppointmentArr.append(itemA)
+            let dateFormatterDate = DateFormatter()
+            dateFormatterDate.dateFormat = "MM/dd/yyyy"
+            let dateFormatterTime = DateFormatter()
+            dateFormatterTime.dateFormat = "h:mm a"
+            let currentDateTime = itemm.selectedDate.nearestHour() ?? Date()
+            print("current time before \(currentDateTime)")
+            let tempTime = dateFormatterTime.string(from: currentDateTime)
+            print("TEMP TIME : \(tempTime)")
+            let endTimee = itemm.selectedDate.adding(minutes: 10).nearestHour() ?? Date()
+            
+            let data = self.blockedAppointmentArr[0]
+            let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime: data.startTime ?? "", endTime:data.endTime ?? "", languageID: data.languageID ?? 0, genderID: data.genderID ?? "", clientName: data.clientName ?? "", ClientIntials: data.ClientIntials ?? "", ClientRefrence: data.ClientRefrence ?? "", venueID: data.venueID ?? "", DepartmentID: data.DepartmentID ?? 0, contactID: data.contactID ?? 0, location: data.location ?? "", SpecialNotes: data.SpecialNotes ?? "", rowIndex: indxx + 1, languageName: data.languageName ?? "",venueName: data.venueName ?? "", DepartmentName: data.DepartmentName ?? "", genderType: data.genderType ?? "", conatctName: data.conatctName ?? "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: data.showClientName ?? "" , showClientIntials:data.showClientIntials ?? "" , showClientRefrence: data.showClientRefrence ?? "", isDepartmentSelect: false,isConatctSelect : data.isConatctSelect ?? false)
+            self.blockedAppointmentArr.append(itemA)
             
             self.recuringAppointmentTV.reloadData()
         }
-       
+        
         
     }
     func reloadAppointmentData() {
@@ -54,7 +55,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     @IBOutlet weak var requestedONTF: UITextField!
     @IBOutlet weak var departmentOptionView: UIView!
     @IBOutlet weak var departmentOptionMajorView: UIView!
-   
+    
     @IBOutlet weak var recuringAppointmentTV: UITableView!
     @IBOutlet weak var DeactivateOptionView: UIView!
     @IBOutlet weak var activateOptionView: UIView!
@@ -68,7 +69,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     var dropDown = DropDown()
     var loginUserID = ""
     var subcustomerList = [SubCustomerListData]()
-   
+    
     var subcustomerArr = [String]()
     var blockedAppointmentArr = [BlockedAppointmentData]()
     
@@ -78,7 +79,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     var specialityID = ""
     var customerID = ""
     var masterCustomerID = ""
-   
+    
     var isSpecialitySelect = false
     var isServiceSelect = false
     var isContactOption = false
@@ -105,6 +106,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         
         self.recuringAppointmentTV.delegate = self
         self.recuringAppointmentTV.dataSource = self
+        
         self.departmentOptionMajorView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.departmentOptionMajorView.isHidden = true
         self.departmentOptionView.layer.cornerRadius = 15
@@ -114,14 +116,14 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         self.userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(updateVenueList), name: Notification.Name("updateVenueList"), object: nil)
         
-       
+        
         self.loginUserID = userDefaults.string(forKey: "LoginUserTypeID") ?? ""
         if self.loginUserID == "10" || self.loginUserID == "7" || self.loginUserID == "8" || self.loginUserID == "11" {
             self.subCustomerNameTF.isUserInteractionEnabled = false
         }else {
             self.subCustomerNameTF.isUserInteractionEnabled = true
         }
-      
+        
         
         
         let dateFormatterr = DateFormatter()
@@ -131,12 +133,12 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
-      
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRecurrencScreen(notification:)), name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVenueInList(notification:)), name: Notification.Name("updateVenueInList"), object: nil)
-  
+        
     }
     @objc func updateVenueInList(notification: Notification){
         self.blockedAppointmentArr.forEach { BlockedAppointmentData in
@@ -158,7 +160,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         getCustomerDetail()
     }
     @objc func updateVenueList(){
-       getCustomerDetail()
+        getCustomerDetail()
         
     }
     
@@ -172,20 +174,20 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         dropDown.clipsToBounds = true
         dropDown.show() //7
         dropDown.dataSource = self.subcustomerArr
-       
+        
         dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
-          self?.subCustomerNameTF.text = "\(item)"
-          self?.subcustomerList.forEach({ languageData in
-              print("subcustomerList data \(languageData.CustomerFullName ?? "")")
-              if item == languageData.CustomerFullName ?? "" {
-                  //self.languageID = "\(languageData.languageID ?? 0)"
-                  let customerID = "\(languageData.CustomerID ?? 0 )"
-                  self?.customerID = customerID
-                  self?.getVenueDetail(customerId: customerID)
-                //  print("subcustomerList id \(languageData.UniqueID)")
-              }
-          })
-      }
+            self?.subCustomerNameTF.text = "\(item)"
+            self?.subcustomerList.forEach({ languageData in
+                print("subcustomerList data \(languageData.CustomerFullName ?? "")")
+                if item == languageData.CustomerFullName ?? "" {
+                    //self.languageID = "\(languageData.languageID ?? 0)"
+                    let customerID = "\(languageData.CustomerID ?? 0 )"
+                    self?.customerID = customerID
+                    self?.getVenueDetail(customerId: customerID)
+                    //  print("subcustomerList id \(languageData.UniqueID)")
+                }
+            })
+        }
     }
     @IBAction func actionSpecialityDropDown(_ sender: UIButton) {
         dropDown.anchorView = sender //5
@@ -196,20 +198,20 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         dropDown.clipsToBounds = true
         dropDown.show() //7
         dropDown.dataSource = self.specialityArray
-       
-      dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
-          self?.specialityTF.text = "\(item)"
-          self?.specialityDetail.forEach({ languageData in
-              print("specialityDetail data \(languageData.DisplayValue ?? "")")
-              if item == languageData.DisplayValue ?? "" {
-                  self?.specialityID = "\(languageData.SpecialityID ?? 0)"
-                  print("specialityDetail id \(self?.specialityID)")
-                  self?.isSpecialitySelect = true
-              }
-          })
-
-         
-      }
+        
+        dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+            self?.specialityTF.text = "\(item)"
+            self?.specialityDetail.forEach({ languageData in
+                print("specialityDetail data \(languageData.DisplayValue ?? "")")
+                if item == languageData.DisplayValue ?? "" {
+                    self?.specialityID = "\(languageData.SpecialityID ?? 0)"
+                    print("specialityDetail id \(self?.specialityID)")
+                    self?.isSpecialitySelect = true
+                }
+            })
+            
+            
+        }
     }
     @IBAction func actionServiceDropDown(_ sender: UIButton) {
         dropDown.anchorView = sender //5
@@ -220,27 +222,27 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         dropDown.clipsToBounds = true
         dropDown.show() //7
         dropDown.dataSource = self.serviceArr
-       
-      dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
-          self?.serviceTypeTF.text = "\(item)"
-          self?.serviceDetail.forEach({ languageData in
-              print("serviceDetail data \(languageData.DisplayValue ?? "")")
-              if item == languageData.DisplayValue ?? "" {
-                  self?.serviceId = "\(languageData.SpecialityID ?? 0)"
-                  print("serviceDetail ID \(self?.serviceId)")
-                  self?.isServiceSelect = true
-              }
-          })
-         
-      }
+        
+        dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+            self?.serviceTypeTF.text = "\(item)"
+            self?.serviceDetail.forEach({ languageData in
+                print("serviceDetail data \(languageData.DisplayValue ?? "")")
+                if item == languageData.DisplayValue ?? "" {
+                    self?.serviceId = "\(languageData.SpecialityID ?? 0)"
+                    print("serviceDetail ID \(self?.serviceId)")
+                    self?.isServiceSelect = true
+                }
+            })
+            
+        }
     }
     //MARK: - show  Drop downs
     
-   
     
- 
-   
-
+    
+    
+    
+    
     //MARK: - Processing Detail Action
     @IBAction func actionProcessingDetail(_ sender: UIButton) {
         
@@ -265,18 +267,18 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     //MARK: - Create Request
     @IBAction func actionCreateRequest(_ sender: UIButton) {
         if Reachability.isConnectedToNetwork() {
-        
+            
             createBlockedAppointment()
-        
+            
         }else {
             self.view.makeToast(ConstantStr.noItnernet.val)
         }
-     
+        
     }
     func createBlockedAppointment(){
         //"\(self.startDateTF.text ?? "") \(self.startTimeTimeTF.text ?? "")"
         
-       
+        
         
         if isSpecialitySelect {
             
@@ -297,12 +299,12 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
                 print("serviceDetail data \(languageData.DisplayValue ?? "")")
                 if serviceTypeTF.text ?? "" == languageData.DisplayValue ?? "" {
                     self.serviceId = "\(languageData.SpecialityID ?? 0)"
-                   
+                    
                 }
             })
         }
         
-       
+        
         let userId = self.userID
         
         let newAuthCode = self.authCodeTF.text ?? ""
@@ -314,7 +316,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
             self.view.makeToast("Please fill  Details of atleast one Appointment.",duration: 1, position: .center)
             return
         }else {
-             
+            
             if self.blockedAppointmentArr.contains(where: {$0.languageID == 0 }){
                 self.showAlertwithmessage(message: "Please fill Language name.")
             }else {
@@ -332,7 +334,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
                 let temArr:BlockedAppointmentData = self.blockedAppointmentArr.first!
                 self.blockedAppointmentArr.removeAll()
                 self.blockedAppointmentArr.append(temArr)
-
+                
                 self.getRecurrenceData()
                 
             }))
@@ -351,10 +353,10 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
         }
         
         //old
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "SelectRecurringDateVC") as! SelectRecurringDateVC
-//        vc.modalPresentationStyle = .overCurrentContext
-//        vc.delegate = self
-//        self.present(vc, animated: true, completion: nil)
+        //        let vc = storyboard?.instantiateViewController(withIdentifier: "SelectRecurringDateVC") as! SelectRecurringDateVC
+        //        vc.modalPresentationStyle = .overCurrentContext
+        //        vc.delegate = self
+        //        self.present(vc, animated: true, completion: nil)
     }
     
     func getRecurrenceData(){
@@ -392,47 +394,47 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     @IBAction func actionDeactivateDepartment(_ sender: UIButton) {
         
         
-            let type : [String : String] = ["actionType" : "Deactivate"]
-            NotificationCenter.default.post(name: Notification.Name("selectActionType"), object: nil, userInfo: type)
-            self.departmentOptionMajorView.isHidden = true
+        let type : [String : String] = ["actionType" : "Deactivate"]
+        NotificationCenter.default.post(name: Notification.Name("selectActionType"), object: nil, userInfo: type)
+        self.departmentOptionMajorView.isHidden = true
         
         
         
         
         
         // 4 for deactivate Department
-//        if  editDepartmentNameTF.text == ""{
-//            self.view.makeToast("Please add Department Name. ")
-//            return
-//        } else {
-//            //self.actionDepartmentType = 3
-//            let departmentName = editDepartmentNameTF.text ?? ""
-//           // self.addDepartmentData(Active: false, venueID: self.venueIDForDepartment, DepartmentName: departmentName, DeActive: true, departmentID: Int(self.departmentID) ?? 0)
-//        }
+        //        if  editDepartmentNameTF.text == ""{
+        //            self.view.makeToast("Please add Department Name. ")
+        //            return
+        //        } else {
+        //            //self.actionDepartmentType = 3
+        //            let departmentName = editDepartmentNameTF.text ?? ""
+        //           // self.addDepartmentData(Active: false, venueID: self.venueIDForDepartment, DepartmentName: departmentName, DeActive: true, departmentID: Int(self.departmentID) ?? 0)
+        //        }
     }
     
     @IBAction func actionActivateDepartment(_ sender: UIButton) {
         
-       
-            let type : [String : String] = ["actionType" : "Activate"]
-            NotificationCenter.default.post(name: Notification.Name("selectActionType"), object: nil, userInfo: type)
-            self.departmentOptionMajorView.isHidden = true
+        
+        let type : [String : String] = ["actionType" : "Activate"]
+        NotificationCenter.default.post(name: Notification.Name("selectActionType"), object: nil, userInfo: type)
+        self.departmentOptionMajorView.isHidden = true
         
         
         
         
         
         // 3 for activate Department
-//        if  editDepartmentNameTF.text == ""{
-//            self.view.makeToast("Please add Department Name. ")
-//            return
-//        } else {
-//
-//            let departmentString = editDepartmentNameTF.text ?? ""
-//
-//            let departmentName = departmentString.replacingOccurrences(of: "(DeActivated)", with: "")
-//            //self.addDepartmentData(Active: true, venueID: self.venueIDForDepartment, DepartmentName: departmentName, DeActive: false, departmentID: Int(self.departmentID) ?? 0)
-//        }
+        //        if  editDepartmentNameTF.text == ""{
+        //            self.view.makeToast("Please add Department Name. ")
+        //            return
+        //        } else {
+        //
+        //            let departmentString = editDepartmentNameTF.text ?? ""
+        //
+        //            let departmentName = departmentString.replacingOccurrences(of: "(DeActivated)", with: "")
+        //            //self.addDepartmentData(Active: true, venueID: self.venueIDForDepartment, DepartmentName: departmentName, DeActive: false, departmentID: Int(self.departmentID) ?? 0)
+        //        }
     }
     @IBAction func actiopnDeleteDepartment(_ sender: UIButton) {
         
@@ -463,14 +465,14 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
             self.present(vc, animated: true, completion: nil)
             self.departmentOptionMajorView.isHidden = true
         }
-       
         
-       
+        
+        
     }
     
     @IBAction func actionEditDepartment(_ sender: UIButton) {
         
-       
+        
         if self.elementName == "" || self.elementName == "Select Contact" || self.elementName == "Select Department" {
             if self.isContactOption {
                 self.showAlertwithmessage(message: "Please Select any Contact.")
@@ -497,105 +499,105 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
             vc.DeptID = self.DepartmentIDForOperation
             self.present(vc, animated: true, completion: nil)
             self.departmentOptionMajorView.isHidden = true
-           
+            
         }
-       
-       
+        
+        
     }
 }
 //MARK: - Api methoda
 extension TelephonicRecurrenceNewVC{
     func getVenueDetail(customerId: String){
-           if Reachability.isConnectedToNetwork() {
-           SwiftLoader.show(animated: true)
-           
-           self.providerArray.removeAll()
-           self.providerDetail.removeAll()
-               
-               
-                   
-               let itemP = ProviderData(ProviderID: 0, ProviderName: "Select Contact",isOneTime: false)
-               self.providerDetail.append(itemP)
-               self.providerArray.append("Select Contact")
-               
-               oneTimeContactArr.forEach { oneTimeDepart in
-                       self.providerDetail.append(oneTimeDepart)
-                       self.providerArray.append(oneTimeDepart.ProviderName ?? "")
-               }
-                   
-               
-               
-               
-           let urlString = APi.GetVenueCommanddl.url
-           let companyID = self.companyID //GetPublicData.sharedInstance.companyID
-           let userID = self.userID//GetPublicData.sharedInstance.userID
-           let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-           let searchString = "<INFO><CUSTOMERID>\(customerId)</CUSTOMERID><USERTYPEID>\(userTypeId)</USERTYPEID><LOGINUSERID>\(userID)</LOGINUSERID><COMPANYID>\(companyID)</COMPANYID><FLAG>1</FLAG><AppointmentID>0</AppointmentID></INFO>"
-           let parameter = [
-               "strSearchString" : searchString
-           ] as [String : String]
-           print("url and parameter for venue ", urlString, parameter)
-           AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
-               .validate()
-               .responseData(completionHandler: { [self] (response) in
-                   SwiftLoader.hide()
-                   switch(response.result){
-                       
-                   case .success(_):
-                       print("Respose Success getCustomerDetail ")
-                       guard let daata = response.data else { return }
-                       do {
-                           let jsonDecoder = JSONDecoder()
-                           self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
-                           print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
-                           let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
-                           let data = str.data(using: .utf8)!
-                           do {
-   //
-                               print("DATAAA ISSS \(data)")
-                               if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
-                               {
-
-                                   let newjson = jsonArray.first
-                                   let venueList = newjson?["Venuelist"] as? [[String:Any]]
-                                   
-                                   let departmentList = newjson?["DepartmentList"] as? [[String:Any]] // use the json here
-                                   let providerList = newjson?["ProviderNameList"] as? [[String:Any]]
-                                   let customerPermision = newjson?["customerPermission"] as? [[String:Any]]
-                                   //let customerUserName = userIfo?["CustomerUserName"] as? String
-                                   print("venue Detail is ",newjson)
-                                   
-                                  
-                                 
-                                   providerList?.forEach({ providerData in
-                                       let providerID = providerData["ProviderID"] as? Int
-                                       let providerName = providerData["ProviderName"] as? String
-                                       let itemA = ProviderData(ProviderID: providerID, ProviderName: providerName)
-                                       self.providerDetail.append(itemA)
-                                       self.providerArray.append(providerName ?? "")
-                                   })
-                                   
-                               } else {
-                                   print("bad json")
-                               }
-                           } catch let error as NSError {
-                               print(error)
-                           }
-                       } catch{
-                           
-                           print("error block getCustomerDetail " ,error)
-                       }
-                   case .failure(_):
-                       print("Respose getCustomerDetail ")
-                       
-                   }
-               })}
-           else {
-               self.view.makeToast(ConstantStr.noItnernet.val)
-           }
-       }
-        func getSubcustomerList(){
-            if Reachability.isConnectedToNetwork() {
+        if Reachability.isConnectedToNetwork() {
+            SwiftLoader.show(animated: true)
+            
+            self.providerArray.removeAll()
+            self.providerDetail.removeAll()
+            
+            
+            
+            let itemP = ProviderData(ProviderID: 0, ProviderName: "Select Contact",isOneTime: false)
+            self.providerDetail.append(itemP)
+            self.providerArray.append("Select Contact")
+            
+            oneTimeContactArr.forEach { oneTimeDepart in
+                self.providerDetail.append(oneTimeDepart)
+                self.providerArray.append(oneTimeDepart.ProviderName ?? "")
+            }
+            
+            
+            
+            
+            let urlString = APi.GetVenueCommanddl.url
+            let companyID = self.companyID //GetPublicData.sharedInstance.companyID
+            let userID = self.userID//GetPublicData.sharedInstance.userID
+            let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
+            let searchString = "<INFO><CUSTOMERID>\(customerId)</CUSTOMERID><USERTYPEID>\(userTypeId)</USERTYPEID><LOGINUSERID>\(userID)</LOGINUSERID><COMPANYID>\(companyID)</COMPANYID><FLAG>1</FLAG><AppointmentID>0</AppointmentID></INFO>"
+            let parameter = [
+                "strSearchString" : searchString
+            ] as [String : String]
+            print("url and parameter for venue ", urlString, parameter)
+            AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+                .validate()
+                .responseData(completionHandler: { [self] (response) in
+                    SwiftLoader.hide()
+                    switch(response.result){
+                        
+                    case .success(_):
+                        print("Respose Success getCustomerDetail ")
+                        guard let daata = response.data else { return }
+                        do {
+                            let jsonDecoder = JSONDecoder()
+                            self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
+                            print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
+                            let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
+                            let data = str.data(using: .utf8)!
+                            do {
+                                //
+                                print("DATAAA ISSS \(data)")
+                                if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
+                                {
+                                    
+                                    let newjson = jsonArray.first
+                                    let venueList = newjson?["Venuelist"] as? [[String:Any]]
+                                    
+                                    let departmentList = newjson?["DepartmentList"] as? [[String:Any]] // use the json here
+                                    let providerList = newjson?["ProviderNameList"] as? [[String:Any]]
+                                    let customerPermision = newjson?["customerPermission"] as? [[String:Any]]
+                                    //let customerUserName = userIfo?["CustomerUserName"] as? String
+                                    print("venue Detail is ",newjson)
+                                    
+                                    
+                                    
+                                    providerList?.forEach({ providerData in
+                                        let providerID = providerData["ProviderID"] as? Int
+                                        let providerName = providerData["ProviderName"] as? String
+                                        let itemA = ProviderData(ProviderID: providerID, ProviderName: providerName)
+                                        self.providerDetail.append(itemA)
+                                        self.providerArray.append(providerName ?? "")
+                                    })
+                                    
+                                } else {
+                                    print("bad json")
+                                }
+                            } catch let error as NSError {
+                                print(error)
+                            }
+                        } catch{
+                            
+                            print("error block getCustomerDetail " ,error)
+                        }
+                    case .failure(_):
+                        print("Respose getCustomerDetail ")
+                        
+                    }
+                })}
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
+        }
+    }
+    func getSubcustomerList(){
+        if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             let urlString = APi.GetCustomerDetail.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
@@ -622,11 +624,11 @@ extension TelephonicRecurrenceNewVC{
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
                             do {
-    //
+                                //
                                 print("DATAAA ISSS \(data)")
                                 if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
                                 {
-
+                                    
                                     let newjson = jsonArray.first
                                     let userInfo = newjson?["Userdata"] as? [[String:Any]]
                                     //let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
@@ -642,13 +644,13 @@ extension TelephonicRecurrenceNewVC{
                                         let Priority = subcustomerData["Priority"] as? Int
                                         let CustomerUserName = subcustomerData["CustomerUserName"] as? String
                                         let Mobile = subcustomerData["Mobile"] as? String
-                                   //  print("user sub customerlist \(userInfo), customerName is \(CustomerUserName)")
+                                        //  print("user sub customerlist \(userInfo), customerName is \(CustomerUserName)")
                                         print("Login user Type ID \(self.loginUserID)")
                                         if self.loginUserID == "10" || self.loginUserID == "7" || self.loginUserID == "8" || self.loginUserID == "11" {
                                             self.subCustomerNameTF.text = CustomerFullName ?? ""
-//                                            let customerID = "\(CustomerID ?? 0)"
-//                                            print("venue Function call for subcustom er ")
-//                                            self.customerID = customerID
+                                            //                                            let customerID = "\(CustomerID ?? 0)"
+                                            //                                            print("venue Function call for subcustom er ")
+                                            //                                            self.customerID = customerID
                                             
                                         }else {
                                             print("venue Function call for non subcustomer  ")
@@ -677,21 +679,21 @@ extension TelephonicRecurrenceNewVC{
                         
                     }
                 })}
-                else {
-                    self.view.makeToast(ConstantStr.noItnernet.val)
-                }
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
-        func getCustomerDetail(){
-            if Reachability.isConnectedToNetwork() {
+    }
+    func getCustomerDetail(){
+        if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
-                self.subcustomerArr.removeAll()
-                self.subcustomerList.removeAll()
+            self.subcustomerArr.removeAll()
+            self.subcustomerList.removeAll()
             let urlString = APi.GetCustomerDetail.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
             let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-                let loginUserTypeId = userDefaults.string(forKey: "LoginUserTypeID")
-                let searchString = "<INFO><COMPANYID>\(companyID)</COMPANYID><LOGINUSERID>\(userID)</LOGINUSERID><LOGINUSERTYPEID>\(loginUserTypeId ?? "")</LOGINUSERTYPEID><USERTYPEID>4</USERTYPEID><APPTYPE>1</APPTYPE><EDIT>1</EDIT><AUTHFLAG>2</AUTHFLAG></INFO>"
+            let loginUserTypeId = userDefaults.string(forKey: "LoginUserTypeID")
+            let searchString = "<INFO><COMPANYID>\(companyID)</COMPANYID><LOGINUSERID>\(userID)</LOGINUSERID><LOGINUSERTYPEID>\(loginUserTypeId ?? "")</LOGINUSERTYPEID><USERTYPEID>4</USERTYPEID><APPTYPE>1</APPTYPE><EDIT>1</EDIT><AUTHFLAG>2</AUTHFLAG></INFO>"
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
@@ -712,11 +714,11 @@ extension TelephonicRecurrenceNewVC{
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
                             do {
-    //
+                                //
                                 print("DATAAA ISSS \(data)")
                                 if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
                                 {
-
+                                    
                                     let newjson = jsonArray.first
                                     let userInfo = newjson?["Userdata"] as? [[String:Any]]
                                     //let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
@@ -748,23 +750,23 @@ extension TelephonicRecurrenceNewVC{
                         
                     }
                 })}
-                else {
-                    self.view.makeToast(ConstantStr.noItnernet.val)
-                }
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
-     
-        func getCommonDetail(){
-            if Reachability.isConnectedToNetwork() {
+    }
+    
+    func getCommonDetail(){
+        if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             self.specialityArray.removeAll()
             self.specialityDetail.removeAll()
             self.serviceDetail.removeAll()
             self.serviceArr.removeAll()
-           
+            
             self.languageArray.removeAll()
-           
+            
             self.genderArray.removeAll()
-           
+            
             let urlString = APi.GetCommonDetail.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = userDefaults.string(forKey: "userId") ?? ""//GetPublicData.sharedInstance.userID
@@ -790,11 +792,11 @@ extension TelephonicRecurrenceNewVC{
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
                             do {
-    //
+                                //
                                 print("DATAAA ISSS \(data)")
                                 if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
                                 {
-
+                                    
                                     let newjson = jsonArray.first
                                     let getAuthCode = newjson?["GetAuthCode"] as? [[String:Any]]
                                     let SpecialityList = newjson?["SpecialityList"] as? [[String:Any]]// use the json here ServiceTypeList
@@ -810,21 +812,21 @@ extension TelephonicRecurrenceNewVC{
                                     let getAuthCodeDetail = getAuthCode?.first
                                     let authcode = getAuthCodeDetail?["authcode"] as? String
                                     let appointmentid = getAuthCodeDetail?["appointmentid"] as? String
-                                   
+                                    
                                     print("get AuthCode Detail Info ", SpecialityList,serviceTypeList ,languageList,AppointmentStatus , stateList , vendorRanking , travelMiles, companyData)
                                     
                                     //let dateFormatterDate = DateFormatter()
-                                   // dateFormatterDate.dateFormat = "MM/dd/yyyy"
-                                   // let dateFormatterTime = DateFormatter()
-                                   // dateFormatterTime.dateFormat = "h:mm a"
-                                   // let currentDateTime = Date().nearestHour() ?? Date()
-                                   // print("current time before \(currentDateTime)")
-                                   // let tempTime = dateFormatterTime.string(from: currentDateTime)
-                                  //  print("TEMP TIME : \(tempTime)")
+                                    // dateFormatterDate.dateFormat = "MM/dd/yyyy"
+                                    // let dateFormatterTime = DateFormatter()
+                                    // dateFormatterTime.dateFormat = "h:mm a"
+                                    // let currentDateTime = Date().nearestHour() ?? Date()
+                                    // print("current time before \(currentDateTime)")
+                                    // let tempTime = dateFormatterTime.string(from: currentDateTime)
+                                    //  print("TEMP TIME : \(tempTime)")
                                     
-                                   
                                     
-                                   // let endTimee = Date().adding(minutes: 10).nearestHour() ?? Date()
+                                    
+                                    // let endTimee = Date().adding(minutes: 10).nearestHour() ?? Date()
                                     let authCodeNew = "\(authcode ?? "")-1"
                                     let itemA = BlockedAppointmentData(AppointmentDate: CEnumClass.share.getCurrentDate(), startTime: CEnumClass.share.getRoundCTime(), endTime:CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "10", companyId: self.companyID), languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: 0, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: authCodeNew,showClientName: "" , showClientIntials:"" , showClientRefrence: "",isDepartmentSelect: false,isConatctSelect : false)
                                     
@@ -863,7 +865,7 @@ extension TelephonicRecurrenceNewVC{
                                         let rate = languageData["Rate"] as? Double
                                         let ItemA = LanguageData(languageID: languageID ?? 0, languageName: languageName ?? "", rate: rate)
                                         self.languageArray.append(languageName ?? "")
-                                       
+                                        
                                         
                                     })
                                     let itemD = GenderData(Id: 0, Code: "", Value: "Select Gender", type: "")
@@ -880,7 +882,7 @@ extension TelephonicRecurrenceNewVC{
                                     }
                                     print("Language Array from common ",languageArray)
                                     print(specialityArray)
-                                   
+                                    
                                     //updateServiceAndSpeciality()
                                     self.authCodeTF.text = authcode?.replacingOccurrences(of: "-TC", with: "-TCRC") ?? ""
                                     self.authCode = self.authCodeTF.text ?? ""
@@ -904,12 +906,12 @@ extension TelephonicRecurrenceNewVC{
                         
                     }
                 })}
-            else {
-                self.view.makeToast(ConstantStr.noItnernet.val)
-            }
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
-        func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
-            if Reachability.isConnectedToNetwork() {
+    }
+    func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
+        if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             // start time 01/10/2022 3:00 PM
             //end time  01/10/2022 5:00 PM
@@ -923,53 +925,53 @@ extension TelephonicRecurrenceNewVC{
             let userID = self.userID//GetPublicData.sharedInstance.userID
             //let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
             let arrayValue = self.blockedAppointmentArr.first
-                
-                let startTime = "\(arrayValue?.AppointmentDate ?? "") \(arrayValue?.startTime ?? "")"
-                let endTime = "\(arrayValue?.AppointmentDate ?? "") \(arrayValue?.endTime ?? "")"
-                print("auth code is \(arrayValue?.authCode ?? "")")
-                var customerUserID = ""
-                if self.userTypeID == "4" || self.userTypeID == "10" {
-                    customerUserID = "0"
-                }
-                else {
-                    customerUserID = userID
-                }
-                let prefixSrch = "<INFO><CustomerUserID>\(customerUserID)</CustomerUserID><Action>A</Action><AppointmentID>0</AppointmentID><CustomerID>\(self.customerID)</CustomerID><Company>\(companyID)</Company><MasterCustomerID>\(masterCustomerID)</MasterCustomerID><AppointmentTypeID>2</AppointmentTypeID><AuthCode>\(authCode) </AuthCode><SpecialityID>\(SpecialityID)</SpecialityID><ServiceType>\(ServiceType)</ServiceType><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(endTime)</EndDateTime><Distance>0.0</Distance><AppointmentFlag>RC</AppointmentFlag><LanguageID>\(arrayValue?.languageID ?? 0)</LanguageID><Gender>\(arrayValue?.genderID ?? "" )</Gender><CaseNumber>\(arrayValue?.ClientRefrence ?? "")</CaseNumber><ClientName>\(arrayValue?.clientName ?? "")</ClientName><cPIntials>\(arrayValue?.ClientIntials ?? "")</cPIntials><VenueID></VenueID><VendorID></VendorID><DepartmentID></DepartmentID><ProviderID>\(arrayValue?.contactID ?? 0)</ProviderID><Location>\(arrayValue?.location ?? "")</Location><Text>\(arrayValue?.SpecialNotes ?? "")</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><AppointmentStatusID>2</AppointmentStatusID><Travelling>\(Travelling)</Travelling><Ranking></Ranking><ConfirmationBit>false</ConfirmationBit><VendorMileage>false</VendorMileage><Priority>false</Priority><CallServiceBit>false</CallServiceBit><Office></Office><Home></Home><Cell></Cell><Purpose></Purpose><CallTime>\(CallTime)</CallTime><AdditionTravelTimePay>00:00</AdditionTravelTimePay><ArrivalTime></ArrivalTime><DepartureTime></DepartureTime><RequestedOn>\(requestedOn)</RequestedOn><ConfirmedOn></ConfirmedOn><BookedOn></BookedOn><CancelledOn></CancelledOn><RequestedBy></RequestedBy><ConfirmedBy></ConfirmedBy><BookedBy></BookedBy><CancelledBy></CancelledBy><LoadedBy>\(userID)</LoadedBy><RequestorName></RequestorName><MgemilRist>false</MgemilRist><isChanged>false</isChanged><oneHremail></oneHremail><LoginUserId>\(LoginUserId)</LoginUserId><ReasonforBotch></ReasonforBotch><PurchaseOrder></PurchaseOrder><Claim></Claim><Reference></Reference><SecurityClearence></SecurityClearence><ExperienceOfVendor></ExperienceOfVendor><InterpreterType></InterpreterType><AssignToFieldStaff></AssignToFieldStaff><RequestorName></RequestorName><RequestorEmail></RequestorEmail><TierName>W</TierName><WaitingList></WaitingList><overrideSatus></overrideSatus><overrideauth></overrideauth><InterpreterBookedId></InterpreterBookedId><RECURRAPPOINTMENT>"
-                var middelePart = ""
-                for (indexx, AptData) in blockedAppointmentArr.enumerated(){
-                    if indexx == 0 {
-                        
+            
+            let startTime = "\(arrayValue?.AppointmentDate ?? "") \(arrayValue?.startTime ?? "")"
+            let endTime = "\(arrayValue?.AppointmentDate ?? "") \(arrayValue?.endTime ?? "")"
+            print("auth code is \(arrayValue?.authCode ?? "")")
+            var customerUserID = ""
+            if self.userTypeID == "4" || self.userTypeID == "10" {
+                customerUserID = "0"
+            }
+            else {
+                customerUserID = userID
+            }
+            let prefixSrch = "<INFO><CustomerUserID>\(customerUserID)</CustomerUserID><Action>A</Action><AppointmentID>0</AppointmentID><CustomerID>\(self.customerID)</CustomerID><Company>\(companyID)</Company><MasterCustomerID>\(masterCustomerID)</MasterCustomerID><AppointmentTypeID>2</AppointmentTypeID><AuthCode>\(authCode) </AuthCode><SpecialityID>\(SpecialityID)</SpecialityID><ServiceType>\(ServiceType)</ServiceType><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(endTime)</EndDateTime><Distance>0.0</Distance><AppointmentFlag>RC</AppointmentFlag><LanguageID>\(arrayValue?.languageID ?? 0)</LanguageID><Gender>\(arrayValue?.genderID ?? "" )</Gender><CaseNumber>\(arrayValue?.ClientRefrence ?? "")</CaseNumber><ClientName>\(arrayValue?.clientName ?? "")</ClientName><cPIntials>\(arrayValue?.ClientIntials ?? "")</cPIntials><VenueID></VenueID><VendorID></VendorID><DepartmentID></DepartmentID><ProviderID>\(arrayValue?.contactID ?? 0)</ProviderID><Location>\(arrayValue?.location ?? "")</Location><Text>\(arrayValue?.SpecialNotes ?? "")</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><AppointmentStatusID>2</AppointmentStatusID><Travelling>\(Travelling)</Travelling><Ranking></Ranking><ConfirmationBit>false</ConfirmationBit><VendorMileage>false</VendorMileage><Priority>false</Priority><CallServiceBit>false</CallServiceBit><Office></Office><Home></Home><Cell></Cell><Purpose></Purpose><CallTime>\(CallTime)</CallTime><AdditionTravelTimePay>00:00</AdditionTravelTimePay><ArrivalTime></ArrivalTime><DepartureTime></DepartureTime><RequestedOn>\(requestedOn)</RequestedOn><ConfirmedOn></ConfirmedOn><BookedOn></BookedOn><CancelledOn></CancelledOn><RequestedBy></RequestedBy><ConfirmedBy></ConfirmedBy><BookedBy></BookedBy><CancelledBy></CancelledBy><LoadedBy>\(userID)</LoadedBy><RequestorName></RequestorName><MgemilRist>false</MgemilRist><isChanged>false</isChanged><oneHremail></oneHremail><LoginUserId>\(LoginUserId)</LoginUserId><ReasonforBotch></ReasonforBotch><PurchaseOrder></PurchaseOrder><Claim></Claim><Reference></Reference><SecurityClearence></SecurityClearence><ExperienceOfVendor></ExperienceOfVendor><InterpreterType></InterpreterType><AssignToFieldStaff></AssignToFieldStaff><RequestorName></RequestorName><RequestorEmail></RequestorEmail><TierName>W</TierName><WaitingList></WaitingList><overrideSatus></overrideSatus><overrideauth></overrideauth><InterpreterBookedId></InterpreterBookedId><RECURRAPPOINTMENT>"
+            var middelePart = ""
+            for (indexx, AptData) in blockedAppointmentArr.enumerated(){
+                if indexx == 0 {
+                    
+                }else {
+                    AptData.authCode = "\(authCode)-\(indexx + 1)"
+                    let languageID = AptData.languageID ?? 0
+                    let departmentID = AptData.DepartmentID ?? 0
+                    let contactID = AptData.contactID ?? 0
+                    let startTime = "\(AptData.AppointmentDate ?? "") \(AptData.startTime ?? "")"
+                    let EndTime = "\(AptData.AppointmentDate ?? "") \(AptData.endTime ?? "")"
+                    var vID = ""
+                    var lID = ""
+                    var cID = ""
+                    if languageID == 0 {
+                        lID = ""
                     }else {
-                        AptData.authCode = "\(authCode)-\(indexx + 1)"
-                        let languageID = AptData.languageID ?? 0
-                        let departmentID = AptData.DepartmentID ?? 0
-                        let contactID = AptData.contactID ?? 0
-                        let startTime = "\(AptData.AppointmentDate ?? "") \(AptData.startTime ?? "")"
-                        let EndTime = "\(AptData.AppointmentDate ?? "") \(AptData.endTime ?? "")"
-                        var vID = ""
-                        var lID = ""
-                        var cID = ""
-                        if languageID == 0 {
-                            lID = ""
-                        }else {
-                            lID = "\(languageID)"
-                        }
-                        if departmentID == 0 {
-                            vID = ""
-                        }else {
-                            vID = "\(departmentID)"
-                        }
-                        if contactID == 0 {
-                            cID = ""
-                        }else {
-                            cID = "\(contactID)"
-                        }
-                        let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
-                         middelePart = middelePart + AptString
+                        lID = "\(languageID)"
                     }
+                    if departmentID == 0 {
+                        vID = ""
+                    }else {
+                        vID = "\(departmentID)"
+                    }
+                    if contactID == 0 {
+                        cID = ""
+                    }else {
+                        cID = "\(contactID)"
+                    }
+                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                    middelePart = middelePart + AptString
                 }
-                let postFixSrch = "</RECURRAPPOINTMENT></INFO>"
-                let searchString = prefixSrch + middelePart + postFixSrch
+            }
+            let postFixSrch = "</RECURRAPPOINTMENT></INFO>"
+            let searchString = prefixSrch + middelePart + postFixSrch
             
             let parameter = [
                 "strSearchString" : searchString
@@ -991,26 +993,26 @@ extension TelephonicRecurrenceNewVC{
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
                             do {
-    //
+                                //
                                 print("DATAAA ISSS \(data)")
                                 if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
                                 {
-
+                                    
                                     let newjson = jsonArray.first
                                     let userInfo = newjson?["AppointmentResponce"] as? [[String:Any]]
                                     let emailResponse = newjson?["EmailNotification"] as? [[String:Any]]
                                     let matchAuth = emailResponse?.first!["AuthCode"] as? String
                                     let userIfo = userInfo?.first
-                                   // let AppointmentID = userIfo?["AppointmentID"] as? Int
+                                    // let AppointmentID = userIfo?["AppointmentID"] as? Int
                                     let success = userIfo?["success"] as? Int
                                     let message = userIfo?["Message"] as? String
                                     //let AuthCode = userIfo?["AuthCode"] as? String
-                                  
+                                    
                                     if success == 1 {
                                         DispatchQueue.main.async {
                                             self.appointmentBookedCalls(message: message ?? "", authcode: matchAuth ?? "", totalAppointment: blockedAppointmentArr.count)
                                         }
-                                       
+                                        
                                     }else {
                                         self.view.makeToast("Please try after sometime.",duration: 1, position: .center)
                                     }
@@ -1031,48 +1033,48 @@ extension TelephonicRecurrenceNewVC{
                         
                     }
                 })}
-            else {
-                self.view.makeToast(ConstantStr.noItnernet.val)
-            }
+        else {
+            self.view.makeToast(ConstantStr.noItnernet.val)
         }
+    }
     func hitApiEncryptValue(value : String , encryptedValue : @escaping(Bool? , String?) -> ()){
         if Reachability.isConnectedToNetwork() {
-        SwiftLoader.show(animated: true)
-        
-        let urlString = APi.encryptdecryptvalue.url
-        let companyID = self.companyID//GetPublicData.sharedInstance.companyID
-        let userID = self.userID//GetPublicData.sharedInstance.userID
-        let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-    
-        let parameter = [
-            "value": value, "key": "Ecrpt"
-        ] as [String : Any]
-        print("url and parameter apiEncryptedDataResponse ", urlString, parameter)
-        AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
-            .validate()
-            .responseData(completionHandler: { [self] (response) in
-                SwiftLoader.hide()
-                switch(response.result){
-                    
-                case .success(_):
-                    print("Respose Success apiEncryptedDataResponse ")
-                    guard let daata = response.data else { return }
-                    do {
-                        let jsonDecoder = JSONDecoder()
-                        self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
-                        print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
-                        let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
-                        encryptedValue(true , encrypValue)
+            SwiftLoader.show(animated: true)
+            
+            let urlString = APi.encryptdecryptvalue.url
+            let companyID = self.companyID//GetPublicData.sharedInstance.companyID
+            let userID = self.userID//GetPublicData.sharedInstance.userID
+            let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
+            
+            let parameter = [
+                "value": value, "key": "Ecrpt"
+            ] as [String : Any]
+            print("url and parameter apiEncryptedDataResponse ", urlString, parameter)
+            AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
+                .validate()
+                .responseData(completionHandler: { [self] (response) in
+                    SwiftLoader.hide()
+                    switch(response.result){
                         
-                    } catch{
+                    case .success(_):
+                        print("Respose Success apiEncryptedDataResponse ")
+                        guard let daata = response.data else { return }
+                        do {
+                            let jsonDecoder = JSONDecoder()
+                            self.apiEncryptedDataResponse = try jsonDecoder.decode(ApiEncryptedDataResponse.self, from: daata)
+                            print("Success apiEncryptedDataResponse Model ",self.apiEncryptedDataResponse)
+                            let encrypValue = self.apiEncryptedDataResponse?.value ?? ""
+                            encryptedValue(true , encrypValue)
+                            
+                        } catch{
+                            
+                            print("error block getCommonDetail " ,error)
+                        }
+                    case .failure(_):
+                        print("Respose getCommonDetail ")
                         
-                        print("error block getCommonDetail " ,error)
                     }
-                case .failure(_):
-                    print("Respose getCommonDetail ")
-                    
-                }
-            })}
+                })}
         else {
             self.view.makeToast(ConstantStr.noItnernet.val)
         }
@@ -1080,8 +1082,8 @@ extension TelephonicRecurrenceNewVC{
     func appointmentBookedCalls(message: String, authcode: String, totalAppointment: Int){
         
         let splitArr = authcode.components(separatedBy: ",")
-            let callVC = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
-            let vcontrol = callVC.instantiateViewController(identifier: "BookedStatusVC") as! BookedStatusVC
+        let callVC = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+        let vcontrol = callVC.instantiateViewController(identifier: "BookedStatusVC") as! BookedStatusVC
         
         if totalAppointment == 1 {
             vcontrol.height = 310
@@ -1116,20 +1118,20 @@ extension TelephonicRecurrenceNewVC{
         }
         
         vcontrol.apntArr = splitArr
-        vcontrol.ismultiple = false
-            vcontrol.topCornerRadius = 30
-            vcontrol.presentDuration = 0.5
-            vcontrol.dismissDuration = 0.5
-            vcontrol.shouldDismissInteractivelty = true
-            vcontrol.popupDismisAlphaVal = 0.4
+        vcontrol.ismultiple = true
+        vcontrol.topCornerRadius = 30
+        vcontrol.presentDuration = 0.5
+        vcontrol.dismissDuration = 0.5
+        vcontrol.shouldDismissInteractivelty = true
+        vcontrol.popupDismisAlphaVal = 0.4
         vcontrol.msz = message.trimHTMLTags()
         vcontrol.delegate = self
-       
-       
-            
-            present(vcontrol, animated: true, completion: nil)
-  }
         
+        
+        
+        present(vcontrol, animated: true, completion: nil)
+    }
+    
     
 }
 //MARK: - Recurring Table work
@@ -1142,16 +1144,16 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         if isDelete {
             
             for (indexx , itemm) in blockedAppointmentArr.enumerated() {
-               if itemm.DepartmentID == departmentData.DepartmentID {
-                   self.blockedAppointmentArr[indexx].DepartmentID = 0
-                   self.blockedAppointmentArr[indexx].DepartmentName = ""
-                   self.blockedAppointmentArr[indexx].isDepartmentSelect = false
-               }else {
-                   
-               }
-               
-               
-           }
+                if itemm.DepartmentID == departmentData.DepartmentID {
+                    self.blockedAppointmentArr[indexx].DepartmentID = 0
+                    self.blockedAppointmentArr[indexx].DepartmentName = ""
+                    self.blockedAppointmentArr[indexx].isDepartmentSelect = false
+                }else {
+                    
+                }
+                
+                
+            }
             
             
             
@@ -1161,15 +1163,15 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             //self.oneTimeDepartmentArr.append(departmentData)
             getVenueDetail(customerId: self.customerID)
         }
-   
+        
     }
     
     func updateOneTimeConatct(ConatctData: ProviderData, isDelete: Bool) {
         
         if isDelete {
-              
-                print("Delete Action ")
-             for (indexx , itemm) in blockedAppointmentArr.enumerated() {
+            
+            print("Delete Action ")
+            for (indexx , itemm) in blockedAppointmentArr.enumerated() {
                 if itemm.contactID == ConatctData.ProviderID {
                     self.blockedAppointmentArr[indexx].contactID = 0
                     self.blockedAppointmentArr[indexx].conatctName = ""
@@ -1180,33 +1182,33 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
                 
                 
             }
-                for (indexx , itemm) in oneTimeContactArr.enumerated() {
-                    if itemm.ProviderID == ConatctData.ProviderID {
-                        self.oneTimeContactArr.remove(at: indexx)
-                        
-                    }else {
-                        
-                    }
+            for (indexx , itemm) in oneTimeContactArr.enumerated() {
+                if itemm.ProviderID == ConatctData.ProviderID {
+                    self.oneTimeContactArr.remove(at: indexx)
                     
-                    
-                }
-                for (indexx , itemm) in providerDetail.enumerated() {
-                    if itemm.ProviderID == ConatctData.ProviderID {
-                        self.providerDetail.remove(at: indexx)
-                        
-                    }else {
-                        
-                    }
-                    
+                }else {
                     
                 }
                 
-            if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
-                    //index has the position of first match
-                    self.providerArray.remove(at: index)
-                } else {
-                    //element is not present in the array
+                
+            }
+            for (indexx , itemm) in providerDetail.enumerated() {
+                if itemm.ProviderID == ConatctData.ProviderID {
+                    self.providerDetail.remove(at: indexx)
+                    
+                }else {
+                    
                 }
+                
+                
+            }
+            
+            if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
+                //index has the position of first match
+                self.providerArray.remove(at: index)
+            } else {
+                //element is not present in the array
+            }
             self.recuringAppointmentTV.reloadData()
             
         }else {
@@ -1215,15 +1217,15 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         }
     }
     
-   
+    
     func showAlertWithMessageInTable(message: String) {
         self.showAlertwithmessage(message: message)
     }
     
     
-     
+    
     func didopenMoreoption(action : Bool , type : String) {
-         
+        
         if type == "Contact" {
             self.departmentOptionMajorView.isHidden = false
             self.optiontitleLbl.text = "Contact"
@@ -1237,7 +1239,7 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             self.activateOptionView.visibility = .visible
             self.DeactivateOptionView.visibility = .visible
         }
-    
+        
     }
     
     func didReloadTable(performTableReload: Bool,elemntID: Int,isConatctUpdate: Bool) {
@@ -1250,19 +1252,19 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
                 
                 if isConatctUpdate {
                     //if itemm.contactID == elemntID { }
-                        itemm.conatctName = ""
-                        itemm.contactID = 0
+                    itemm.conatctName = ""
+                    itemm.contactID = 0
                     
                 }else {
-                   // if itemm.DepartmentID == elemntID { }
-                        itemm.DepartmentName = ""
-                        itemm.DepartmentID = 0
-                        
+                    // if itemm.DepartmentID == elemntID { }
+                    itemm.DepartmentName = ""
+                    itemm.DepartmentID = 0
+                    
                     
                 }
             }
             self.recuringAppointmentTV.reloadData()
-           getVenueDetail(customerId: self.customerID)
+            getVenueDetail(customerId: self.customerID)
         }
     }
     
@@ -1271,9 +1273,9 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         
         print("Delegate  working \(languageID)")
         print("DATA IS THERE \(languageID)on index ")
-    let BookedAppoinmentData = BlockedAppointmentData(AppointmentDate: AppointmentDate, startTime: startTime, endTime: EndTime, languageID: languageID, genderID: GenderID, clientName: ClientName, ClientIntials: clientIntials, ClientRefrence: clientRefrence, venueID: venueID, DepartmentID: departmentID, contactID: contactID, location: location, SpecialNotes: Notes, rowIndex: index, languageName: languageName,venueName: venueName, DepartmentName: DepartmentName, genderType: genderType, conatctName: conatctName, isVenueSelect: isVenueSelect,venueTitleName: venueTitleName, addressname: addressname, cityName: cityName, stateName: stateName, zipcode: zipcode,startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: ClientName , showClientIntials:clientIntials , showClientRefrence: clientRefrence,isDepartmentSelect: isDepartmentSlecet,isConatctSelect : isproviderSelect)
+        let BookedAppoinmentData = BlockedAppointmentData(AppointmentDate: AppointmentDate, startTime: startTime, endTime: EndTime, languageID: languageID, genderID: GenderID, clientName: ClientName, ClientIntials: clientIntials, ClientRefrence: clientRefrence, venueID: venueID, DepartmentID: departmentID, contactID: contactID, location: location, SpecialNotes: Notes, rowIndex: index, languageName: languageName,venueName: venueName, DepartmentName: DepartmentName, genderType: genderType, conatctName: conatctName, isVenueSelect: isVenueSelect,venueTitleName: venueTitleName, addressname: addressname, cityName: cityName, stateName: stateName, zipcode: zipcode,startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: ClientName , showClientIntials:clientIntials , showClientRefrence: clientRefrence,isDepartmentSelect: isDepartmentSlecet,isConatctSelect : isproviderSelect)
         
-           
+        
         
         if self.blockedAppointmentArr.count == 0 {
             self.blockedAppointmentArr.append(BookedAppoinmentData)
@@ -1326,14 +1328,14 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
                     }else {
                         print("Index not found ")
                     }
-                   
+                    
                 }
             }else {
                 // not found
                 print("new entry append ")
                 self.blockedAppointmentArr.append(BookedAppoinmentData)
             }
-
+            
         }
         if isCleintNameEnterd {
             for item in blockedAppointmentArr {
@@ -1355,35 +1357,35 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
                     
                 }
             }
-         }else if isClientRefrenceEnyterd {
-             for item in blockedAppointmentArr {
-                 if item.rowIndex == index {
-                     hitApiEncryptValue(value: item.ClientRefrence ?? "") { completionc, encrptValue in
-                         if completionc ?? false {
-                             item.ClientRefrence = encrptValue
-                             print("encryptedValue ",item.ClientRefrence  )
-                         }
-                     }
-                 }
-             }
-         }
-   // let newIndexPath = IndexPath(row: index, section: 0)
-   // self.blockedAppointmentTV.reloadRows(at: [newIndexPath], with: .automatic)
-    
-}
+        }else if isClientRefrenceEnyterd {
+            for item in blockedAppointmentArr {
+                if item.rowIndex == index {
+                    hitApiEncryptValue(value: item.ClientRefrence ?? "") { completionc, encrptValue in
+                        if completionc ?? false {
+                            item.ClientRefrence = encrptValue
+                            print("encryptedValue ",item.ClientRefrence  )
+                        }
+                    }
+                }
+            }
+        }
+        // let newIndexPath = IndexPath(row: index, section: 0)
+        // self.blockedAppointmentTV.reloadRows(at: [newIndexPath], with: .automatic)
+        
+    }
     
     func showAlertwithmessage(message :String){
         print("Alert printing ")
         let  refreshAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertController.Style.alert)
-
-                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-                    print("Handle Ok logic here")
-                   
-                  }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            print("Handle Ok logic here")
+            
+        }))
         self.present(refreshAlert, animated: true, completion: nil)
     }
     
-   
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.blockedAppointmentArr.count //blockedAtCount
@@ -1392,15 +1394,17 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TelephonicAppointmentTVCell", for: indexPath) as! TelephonicAppointmentTVCell
         cell.AppointmentTitleLbl.text = "Appointment \(indexPath.row + 1) (\(self.authCode)-\(indexPath.row + 1))"
-        cell.appointmentCancelBtn.tag = indexPath.row
-        cell.appointmentCancelBtn.addTarget(self, action: #selector(CancelApt), for: .touchUpInside)
-        if indexPath.row == 0 {
-            cell.cancelImg.isHidden = true
-            cell.appointmentCancelBtn.isHidden = true
-        }else {
-            cell.cancelImg.isHidden = false
-            cell.appointmentCancelBtn.isHidden = false
-        }
+        // cell.appointmentCancelBtn.tag = indexPath.row
+        // cell.appointmentCancelBtn.addTarget(self, action: #selector(CancelApt), for: .touchUpInside)
+        cell.cancelImg.isHidden = true
+        cell.appointmentCancelBtn.isHidden = true
+        //        if indexPath.row == 0 {
+        //            cell.cancelImg.isHidden = true
+        //            cell.appointmentCancelBtn.isHidden = true
+        //        }else {
+        //            cell.cancelImg.isHidden = false
+        //            cell.appointmentCancelBtn.isHidden = false
+        //        }
         cell.appointmentDateBtn.tag = indexPath.row
         cell.appointmentDateBtn.addTarget(self, action: #selector(showAppointmentDate), for: .touchUpInside)
         
@@ -1417,7 +1421,7 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         
         
         let aptNumber = indexPath.row + 1
-       // cell.AppointmentTitleLbl.text = "Appointment \(aptNumber)"
+        // cell.AppointmentTitleLbl.text = "Appointment \(aptNumber)"
         
         let BlockedData = self.blockedAppointmentArr[indexPath.row]
         cell.rowIndex = BlockedData.rowIndex ?? 0
@@ -1454,15 +1458,15 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         
     }
     @objc func openConatctOption(sender : UIButton){
-       
-            self.departmentOptionMajorView.isHidden = false
-            self.optiontitleLbl.text = "Contact"
-            self.isContactOption = true
-            self.activateOptionView.visibility = .gone
-            self.DeactivateOptionView.visibility = .gone
-            self.elementName = blockedAppointmentArr[sender.tag].conatctName ?? ""
-            self.elementID = blockedAppointmentArr[sender.tag].contactID ?? 0
-            self.DepartmentIDForOperation = blockedAppointmentArr[sender.tag].DepartmentID ?? 0
+        
+        self.departmentOptionMajorView.isHidden = false
+        self.optiontitleLbl.text = "Contact"
+        self.isContactOption = true
+        self.activateOptionView.visibility = .gone
+        self.DeactivateOptionView.visibility = .gone
+        self.elementName = blockedAppointmentArr[sender.tag].conatctName ?? ""
+        self.elementID = blockedAppointmentArr[sender.tag].contactID ?? 0
+        self.DepartmentIDForOperation = blockedAppointmentArr[sender.tag].DepartmentID ?? 0
         
         
     }
@@ -1477,15 +1481,15 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         dropDown.show() //7
         dropDown.dataSource = providerArray
         dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
-          self?.blockedAppointmentArr[sender.tag].conatctName = item
-          self?.providerDetail.forEach({ languageData in
-              print("providerDetail data \(languageData.ProviderName ?? "")")
-              if item == languageData.ProviderName ?? "" {
-                  self?.blockedAppointmentArr[sender.tag].contactID = languageData.ProviderID ?? 0
-              }
-          })
+            self?.blockedAppointmentArr[sender.tag].conatctName = item
+            self?.providerDetail.forEach({ languageData in
+                print("providerDetail data \(languageData.ProviderName ?? "")")
+                if item == languageData.ProviderName ?? "" {
+                    self?.blockedAppointmentArr[sender.tag].contactID = languageData.ProviderID ?? 0
+                }
+            })
             self?.recuringAppointmentTV.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
-      }
+        }
     }
     @objc func actionSelectGender(sender : UIButton){
         dropDown.anchorView = sender //5
@@ -1496,20 +1500,20 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         dropDown.clipsToBounds = true
         dropDown.show() //7
         dropDown.dataSource = self.genderArray
-       
-       dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
-           self?.blockedAppointmentArr[sender.tag].genderType = item
-           self?.genderDetail.forEach({ languageData in
-               print("gender data  \(languageData.Value )")
-               
-               if item == languageData.Value {
-                   self?.blockedAppointmentArr[sender.tag].genderID = languageData.Code
-               }else if item == "Select Gender"{
-                   self?.blockedAppointmentArr[sender.tag].genderID = ""
-               }
-           })
-           self?.recuringAppointmentTV.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
-      }
+        
+        dropDown.selectionAction = { [weak self] (indselectedDataex: Int, item: String) in //8
+            self?.blockedAppointmentArr[sender.tag].genderType = item
+            self?.genderDetail.forEach({ languageData in
+                print("gender data  \(languageData.Value )")
+                
+                if item == languageData.Value {
+                    self?.blockedAppointmentArr[sender.tag].genderID = languageData.Code
+                }else if item == "Select Gender"{
+                    self?.blockedAppointmentArr[sender.tag].genderID = ""
+                }
+            })
+            self?.recuringAppointmentTV.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+        }
         
     }
     @objc func actionAddContact(sender : UIButton){
@@ -1532,7 +1536,7 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             print("selected startDat e",selectedDate)
             let  roundoff = selectedDate//.nearestHour() ?? selectedDate
             cell.appointmentDateTF.text = roundoff.dateString("MM/dd/YYYY")
-           
+            
             self?.blockedAppointmentArr.forEach({ BlockedAppointmentData in
                 
                 if BlockedAppointmentData.rowIndex == sender.tag {
@@ -1546,52 +1550,60 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         var selectedDateforPicker = self.blockedAppointmentArr[sender.tag].startTimeForPicker ?? Date()
         let cell = recuringAppointmentTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! TelephonicAppointmentTVCell
         let minDate = Date().dateByAddingYears(-5)
-        RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedDateforPicker, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        
+        let selectedDateAntime = blockedAppointmentArr[sender.tag].AppointmentDate! + " \(blockedAppointmentArr[sender.tag].startTime!)"
+        let selectDate = CEnumClass.share.getCompleteDateAndTime(dateAndTime: selectedDateAntime)
+        
+        RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectDate, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.blockedAppointmentArr[sender.tag].startTimeForPicker = selectedDate
             self?.blockedAppointmentArr[sender.tag].endTimeForPicker = selectedDate.adding(minutes: 10)
             let  roundoff = selectedDate//.nearestHour() ?? selectedDate
             let endTimee = roundoff.adding(minutes: 10)
             self?.blockedAppointmentArr[sender.tag].startTimeForPicker = selectedDate
-
-                print("do nothing")
-                cell.startTimeTf.text = roundoff.dateString("hh:mm a")
-                 
-                cell.endTimeTF.text = endTimee.dateString("hh:mm a")
-                if self?.blockedAppointmentArr.count != 0 {
-                    self?.blockedAppointmentArr.forEach({ BlockedAppointmentData in
-                        if BlockedAppointmentData.rowIndex == sender.tag {
-                            BlockedAppointmentData.startTime = roundoff.dateString("hh:mm a")
-                            cell.startTime = roundoff.dateString("hh:mm a")
-                        }
-                    })
-                }else {
-                    
-                }
-
+            
+            print("do nothing")
+            cell.startTimeTf.text = roundoff.dateString("hh:mm a")
+            
+            cell.endTimeTF.text = endTimee.dateString("hh:mm a")
+            if self?.blockedAppointmentArr.count != 0 {
+                self?.blockedAppointmentArr.forEach({ BlockedAppointmentData in
+                    if BlockedAppointmentData.rowIndex == sender.tag {
+                        BlockedAppointmentData.startTime = roundoff.dateString("hh:mm a")
+                        cell.startTime = roundoff.dateString("hh:mm a")
+                    }
+                })
+            }else {
+                
+            }
+            
             
             
         })
         
     }
     @objc func showEndTime(sender : UIButton){
-       
+        
         let cell = recuringAppointmentTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! TelephonicAppointmentTVCell
         var selectedDateforPicker = self.blockedAppointmentArr[sender.tag].endTimeForPicker ?? Date()
         let minDate = Date().dateByAddingYears(-5)
-        RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedDateforPicker,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        
+        let selectedDateAntime = blockedAppointmentArr[sender.tag].AppointmentDate! + " \(blockedAppointmentArr[sender.tag].endTime!)"
+        let selectDate = CEnumClass.share.getCompleteDateAndTime(dateAndTime: selectedDateAntime)
+        
+        RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectDate,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.blockedAppointmentArr[sender.tag].endTimeForPicker = selectedDate
             let  roundoff = selectedDate//.nearestHour() ?? selectedDate
-           
             
-                cell.endTimeTF.text = roundoff.dateString("hh:mm a")
-                self?.blockedAppointmentArr.forEach({ BlockedAppointmentData in
-                    if BlockedAppointmentData.rowIndex == sender.tag {
-                        BlockedAppointmentData.endTime = roundoff.dateString("hh:mm a")
-                        cell.endTime = roundoff.dateString("hh:mm a")
-                    }
-                })
+            
+            cell.endTimeTF.text = roundoff.dateString("hh:mm a")
+            self?.blockedAppointmentArr.forEach({ BlockedAppointmentData in
+                if BlockedAppointmentData.rowIndex == sender.tag {
+                    BlockedAppointmentData.endTime = roundoff.dateString("hh:mm a")
+                    cell.endTime = roundoff.dateString("hh:mm a")
+                }
+            })
         })
     }
     
@@ -1603,7 +1615,7 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             if  self.blockedAppointmentArr.contains(where: {$0.rowIndex == sender.tag}){
                 self.blockedAppointmentArr.remove(at: sender.tag)
             }else {
-               
+                
                 print("no index found ")
             }
             
@@ -1616,10 +1628,10 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         let dateAsString = time12
         let df = DateFormatter()
         df.dateFormat = "hh:mm a"
-
+        
         let date = df.date(from: dateAsString)
         df.dateFormat = "HH:mm"
-
+        
         let time24 = df.string(from: date!)
         //print(time24)
         return time24

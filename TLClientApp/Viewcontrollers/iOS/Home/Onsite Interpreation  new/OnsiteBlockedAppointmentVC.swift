@@ -92,6 +92,7 @@ class OnsiteBlockedAppointmentVC: UIViewController {
         
         self.blockedAppointmentTV.delegate = self
         self.blockedAppointmentTV.dataSource = self
+        self.blockedAppointmentTV.separatorStyle = .none
         self.departmentOptionMajorView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.departmentOptionMajorView.isHidden = true
         self.departmentOptionView.layer.cornerRadius = 15

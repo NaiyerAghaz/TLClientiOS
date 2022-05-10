@@ -24,8 +24,8 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence {
                 let tempTime = dateFormatterTime.string(from: currentDateTime)
                 print("TEMP TIME : \(tempTime)")
                 let endTimee = itemm.selectedDate.adding(minutes: 60).nearestHour() ?? Date()
-                
-                let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime: dateFormatterTime.string(from: currentDateTime), endTime: dateFormatterTime.string(from: endTimee), languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: indxx + 1, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: "" , showClientIntials:"" , showClientRefrence: "",isDepartmentSelect: false,isConatctSelect : false)
+                let data = blockedAppointmentArr[0]
+            let itemA = BlockedAppointmentData(AppointmentDate: dateFormatterDate.string(from: currentDateTime), startTime: data.startTime ?? "", endTime: data.endTime ?? "", languageID: data.languageID ?? 0, genderID: data.genderID ?? "", clientName: data.clientName ?? "", ClientIntials: data.ClientIntials ?? "", ClientRefrence: data.ClientRefrence ?? "", venueID: data.venueID ?? "", DepartmentID: data.DepartmentID ?? 0, contactID: data.contactID ?? 0, location: data.location ?? "", SpecialNotes: data.SpecialNotes ?? "", rowIndex: indxx + 1, languageName: data.languageName ?? "",venueName: data.venueName ?? "", DepartmentName: data.DepartmentName ?? "", genderType: data.genderType ?? "", conatctName: data.conatctName ?? "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: data.showClientName ?? "" , showClientIntials:data.showClientIntials ?? "" , showClientRefrence: data.showClientRefrence ?? "",isDepartmentSelect: false,isConatctSelect : data.isConatctSelect ?? false)
                 self.blockedAppointmentArr.append(itemA)
             
             self.recuringAppointmentTV.reloadData()
@@ -103,6 +103,7 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence {
         
         self.recuringAppointmentTV.delegate = self
         self.recuringAppointmentTV.dataSource = self
+        
         self.departmentOptionMajorView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.departmentOptionMajorView.isHidden = true
         self.departmentOptionView.layer.cornerRadius = 15
@@ -907,13 +908,7 @@ extension VirtualMeetingNewRecurrenceVC{
         func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
             if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
-            // start time 01/10/2022 3:00 PM
-            //end time  01/10/2022 5:00 PM
-            //caseNumber = !=!enc!=!3zDmVRxZfFGKEYuhfLH2eg==
-            //clientName !=!enc!=!zU1WqmB1oAz4eTSjWS+okA==
-            //clientintial !=!enc!=!Gtw5BSTuJr7hSqaNje7nyg==
-            // call time  01/10/2022 12:00 AM
-            // requested on 01/10/2022 03:14 PM
+           
             let urlString = APi.tladdupdateRecurringappointment.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
@@ -1075,7 +1070,7 @@ extension VirtualMeetingNewRecurrenceVC{
     }
         
     func appointmentBookedCalls(message: String, authcode: String, totalAppointment: Int){
-        print("authcode::--->",authcode)
+       
         let splitArr = authcode.components(separatedBy: ",")
             let callVC = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
             let vcontrol = callVC.instantiateViewController(identifier: "BookedStatusVC") as! BookedStatusVC
@@ -1105,13 +1100,13 @@ extension VirtualMeetingNewRecurrenceVC{
             vcontrol.tblHeighConstant = 250
         }
         if totalAppointment > 1 {
-            print("splitArr.first--",splitArr.first)
+           
             vcontrol.authcode = splitArr.first
         }
         else {
             vcontrol.authcode = authcode
         }
-        print("splitArr--->", splitArr)
+        
         vcontrol.apntArr = splitArr
         vcontrol.ismultiple = true
             vcontrol.topCornerRadius = 30
@@ -1339,7 +1334,7 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
                     hitApiEncryptValue(value: item.clientName ?? "") { completionc, encrptValue in
                         if completionc ?? false {
                             item.clientName = encrptValue
-                            print("encryptedValue ",item.ClientRefrence  )
+                            
                         }
                     }
                     
@@ -1347,7 +1342,7 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
                     hitApiEncryptValue(value: item.ClientIntials ?? "") { completionc, encrptValue in
                         if completionc ?? false {
                             item.ClientIntials = encrptValue
-                            print("encryptedValue ",item.ClientRefrence  )
+                          
                         }
                     }
                     
@@ -1359,7 +1354,7 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
                      hitApiEncryptValue(value: item.ClientRefrence ?? "") { completionc, encrptValue in
                          if completionc ?? false {
                              item.ClientRefrence = encrptValue
-                             print("encryptedValue ",item.ClientRefrence  )
+                             
                          }
                      }
                  }
@@ -1390,15 +1385,10 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TelephonicAppointmentTVCell", for: indexPath) as! TelephonicAppointmentTVCell
         cell.AppointmentTitleLbl.text = "Appointment \(indexPath.row + 1) (\(self.authCode)-\(indexPath.row + 1))"
-        cell.appointmentCancelBtn.tag = indexPath.row
-        cell.appointmentCancelBtn.addTarget(self, action: #selector(CancelApt), for: .touchUpInside)
-        if indexPath.row == 0 {
-            cell.cancelImg.isHidden = true
-            cell.appointmentCancelBtn.isHidden = true
-        }else {
-            cell.cancelImg.isHidden = false
-            cell.appointmentCancelBtn.isHidden = false
-        }
+       
+        cell.cancelImg.isHidden = true
+        cell.appointmentCancelBtn.isHidden = true
+
         cell.appointmentDateBtn.tag = indexPath.row
         cell.appointmentDateBtn.addTarget(self, action: #selector(showAppointmentDate), for: .touchUpInside)
         
@@ -1542,7 +1532,11 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
         var selectedDateforPicker = self.blockedAppointmentArr[sender.tag].startTimeForPicker ?? Date()
         let cell = recuringAppointmentTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! TelephonicAppointmentTVCell
         let minDate = Date().dateByAddingYears(-5)
-        RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedDateforPicker, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        
+        let selectedDateAntime = blockedAppointmentArr[sender.tag].AppointmentDate! + " \(blockedAppointmentArr[sender.tag].startTime!)"
+        let selectDate = CEnumClass.share.getCompleteDateAndTime(dateAndTime: selectedDateAntime)
+        
+        RPicker.selectDate(title: "Select Start Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectDate, minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.blockedAppointmentArr[sender.tag].startTimeForPicker = selectedDate
             self?.blockedAppointmentArr[sender.tag].endTimeForPicker = selectedDate.adding(minutes: 60)
@@ -1575,7 +1569,10 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
         let cell = recuringAppointmentTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! TelephonicAppointmentTVCell
         var selectedDateforPicker = self.blockedAppointmentArr[sender.tag].endTimeForPicker ?? Date()
         let minDate = Date().dateByAddingYears(-5)
-        RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectedDateforPicker,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        let selectedDateAntime = blockedAppointmentArr[sender.tag].AppointmentDate! + " \(blockedAppointmentArr[sender.tag].endTime!)"
+        let selectDate = CEnumClass.share.getCompleteDateAndTime(dateAndTime: selectedDateAntime)
+        
+        RPicker.selectDate(title: "Select End Time", cancelText: "Cancel", datePickerMode: .time, selectedDate: selectDate,minDate: minDate, maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.blockedAppointmentArr[sender.tag].endTimeForPicker = selectedDate
             let  roundoff = selectedDate//.nearestHour() ?? selectedDate

@@ -102,6 +102,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         tblCalenderView.spr_setIndicatorHeader { [weak self] in
             self?.action()
         }
+        tblCalenderView.separatorStyle = .none
        
         //checkSingleSignin()
         getServiceType()
@@ -1033,7 +1034,7 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
                     
                     if  appointmentStatusData.code  == appointmentData.appointmentStatusType
                     {
-                        print("appointmentData.appointmentStatusType?.lowercased()--->",appointmentData.appointmentStatusType?.lowercased())
+                       
                         let statusCode = getHexaString(status: (appointmentData.appointmentStatusType?.lowercased())!)
                         //let statusColor = appointmentStatusData.color ?? ""
                         eventColor.append(UIColor(hexString: statusCode!))

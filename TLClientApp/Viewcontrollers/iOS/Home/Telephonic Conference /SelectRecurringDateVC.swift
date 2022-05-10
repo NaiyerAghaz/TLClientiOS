@@ -43,6 +43,7 @@ class SelectRecurringDateVC: UIViewController {
     @IBOutlet weak var weekendSelectionSwitch: UISwitch!
     @IBOutlet weak var dayCountTF: iOSDropDown!
     var appointmentDate : String?
+    var previousAppointmentData: BlockedAppointmentData?
     var appointmentStartTime: String?
     var AppointmentEndTIme: String?
     @IBOutlet weak var weekCv: UICollectionView!
@@ -69,12 +70,14 @@ class SelectRecurringDateVC: UIViewController {
     var showSelectedDatArr = [SelectedDatesModel]()
     var selectedDatesArr = [SelectedDatesModel]()
     var isNotWeekDays = false
-    
+    var calendar = FSCalendar()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.calenderOuterView.visibility = .gone
+        calendar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300)
         createCalendar()
+        print("appointmentDate--->",appointmentDate)
         self.datesTV.delegate = self
         self.datesTV.dataSource = self
         self.weekCv.delegate = self
@@ -252,7 +255,7 @@ class SelectRecurringDateVC: UIViewController {
              item.removeFromSuperview()
         }
         //let cwidth = (UIScreen.main.bounds.width)
-        let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
+       
         //calendar.removeFromSuperview()+
         calendar.placeholderType = .none
         //calendar.appearance.separators = .interRows
@@ -261,11 +264,12 @@ class SelectRecurringDateVC: UIViewController {
         let tDate = Date()
         let intialDate = Calendar.current.date(byAdding: .day, value: 1, to: nDate)!
         let formatterTest = DateFormatter()
-        formatterTest.dateFormat = "MM/dd/yyyy"//"yyyy/MM/dd"
+        formatterTest.dateFormat = "MM/dd/yyyy"
         print(formatterTest.string(from: tDate))
         let finalDate = formatterTest.string(from: intialDate)
         
-        
+        firstDate = formatterTest.date(from: finalDate)!
+        datesRange = [firstDate!]
         calendar.select(formatterTest.date(from: finalDate)!)
         calendar.dataSource = self
         calendar.delegate = self
@@ -586,11 +590,15 @@ extension SelectRecurringDateVC : FSCalendarDataSource, FSCalendarDelegate ,FSCa
         return array
     }
     func minimumDate(for calendar: FSCalendar) -> Date {
-        
-        return CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)
+        let apDate = CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)
+        let newDate = Calendar.current.date(byAdding: .day, value: 1, to: apDate)!
+        print("newdate------>", newDate)
+        return newDate
     }
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        if date .compare(CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)) == .orderedAscending {
+        let apDate = CEnumClass.share.getDateAndTimeFromString(dateStr: appointmentDate!)
+        let newDate = Calendar.current.date(byAdding: .day, value: 1, to: apDate)!
+        if date .compare(newDate) == .orderedAscending {
             return UIColor.lightGray
         }
         else {
