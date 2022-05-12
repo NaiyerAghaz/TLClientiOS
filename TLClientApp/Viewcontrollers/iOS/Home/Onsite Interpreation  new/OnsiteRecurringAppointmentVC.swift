@@ -10,7 +10,7 @@ import Alamofire
 import iOSDropDown
 import DropDown
 
-class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, UpdateOneTimeVenue {
+class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, UpdateOneTimeVenue,CommonDelegates {
     func updateOneTimeVenue(VenueName: String, cityName: String, Address: String, State: String, zipCode: String, venueID: Int, stateID: Int, address2: String) {
         print("Delegate Working ")
         let itemA = VenueData(Address: Address, Address2: address2, City: cityName, CompanyID: Int(GetPublicData.sharedInstance.companyID), CustomerCompany: GetPublicData.sharedInstance.companyName, CustomerName: GetPublicData.sharedInstance.usenName, Notes: "", State: State, StateID: stateID, VenueID: venueID, VenueName: VenueName, ZipCode: zipCode, isOneTime: true)
@@ -326,7 +326,8 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
         //self.blockedAppointmentArr[0].languageID
         //languageName
         if btnAddRecurrance.titleLabel?.text == "Edit Recurrence" {
-            let alertC = UIAlertController(title: "Appointment", message: ConstantStr.editRecurrence.val, preferredStyle: .actionSheet)
+            getEditRecurrenceUpdateDate()
+           /* let alertC = UIAlertController(title: "Appointment", message: ConstantStr.editRecurrence.val, preferredStyle: .actionSheet)
             alertC.addAction(UIAlertAction(title: "Cancel", style: .destructive))
             alertC.addAction(UIAlertAction(title: "Okay", style: .default, handler: { data in
                let tCount = self.blockedAppointmentArr.count
@@ -334,20 +335,11 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
                 self.blockedAppointmentArr.removeAll()
                 self.blockedAppointmentArr.append(temArr)
                 
-                //NotificationCenter.default.post(name: Notification.Name("updateOnsiteRecurrenceScreen"), object: nil, userInfo: nil)
-//                for i in 0...tCount {
-//                    if i == 0 {
-//                      print("0 index here...")
-//                    }
-//                    else {
-//                        self.blockedAppointmentArr.remove(at: i)
-//                    }
-//
-               // }
+              
                 self.getRecurrenceData()
                 
             }))
-            self.present(alertC, animated: true)
+            self.present(alertC, animated: true)*/
             
         }
         else {
@@ -364,6 +356,30 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
         }
         
       }
+    //MARK: EDIT RECURRENCE
+    func getEditRecurrenceUpdateDate(){
+        let callVC = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+        let vc = callVC.instantiateViewController(identifier: Control_Name.reEditVC) as! EditRecurrenceStatusVC
+        vc.height = 220
+        vc.topCornerRadius = 30
+        vc.presentDuration = 0.5
+        vc.dismissDuration = 0.2
+        vc.shouldDismissInteractivelty = true
+        vc.popupDismisAlphaVal = 0.4
+       
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+    func getEditRecurrenceUpdate() {
+       
+         let temArr:BlockedAppointmentData = self.blockedAppointmentArr.first!
+         self.blockedAppointmentArr.removeAll()
+         self.blockedAppointmentArr.append(temArr)
+         
+       
+         self.getRecurrenceData()
+    }
+    //End
     func getRecurrenceData(){
         let vc = storyboard?.instantiateViewController(withIdentifier: "SelectRecurringDateVC") as! SelectRecurringDateVC
         vc.modalPresentationStyle = .overCurrentContext

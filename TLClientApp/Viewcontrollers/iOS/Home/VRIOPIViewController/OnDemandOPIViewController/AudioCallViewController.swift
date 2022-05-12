@@ -837,13 +837,9 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 print("callersid ", callSid)
                 let newItem = ParticipantsList(phoneNum: phoneNum, callSid: callSid ?? "", conferenceSID: conferenceSid ?? "")
                 self.conferenceCallView.isHidden = true
-                
-                
                 self.participantsList.append(newItem)
                 self.participentListView.isHidden = false
                 self.showParticipantsListCV.reloadData()
-                
-                
                 self.phoneCallsList.append(phoneNum)
                 self.callSIDList.append(callSid ?? "")
                 

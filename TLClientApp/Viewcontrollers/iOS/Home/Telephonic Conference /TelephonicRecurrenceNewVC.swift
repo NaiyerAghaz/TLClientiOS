@@ -9,7 +9,7 @@ import UIKit
 import Alamofire
 import DropDown
 import iOSDropDown
-class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
+class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,CommonDelegates {
     
     
     func SelectAppointmentDate(selectedDateArr: [SelectedDatesModel]) {
@@ -74,23 +74,18 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     var blockedAppointmentArr = [BlockedAppointmentData]()
     
     var selectTypeOFAppointment = "RC"
-    
     var serviceId = ""
     var specialityID = ""
     var customerID = ""
     var masterCustomerID = ""
-    
     var isSpecialitySelect = false
     var isServiceSelect = false
     var isContactOption = false
-    
     var authCode = ""
     var userID = ""
     var companyID = ""
     var userTypeID = ""
     var jobType = ""
-    
-    
     var elementName = ""
     var elementID = 0
     var DepartmentIDForOperation = 0
@@ -236,14 +231,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
             
         }
     }
-    //MARK: - show  Drop downs
-    
-    
-    
-    
-    
-    
-    //MARK: - Processing Detail Action
+   //MARK: - Processing Detail Action
     @IBAction func actionProcessingDetail(_ sender: UIButton) {
         
         RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
@@ -328,17 +316,9 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
     @IBAction func actionAddBlockedApt(_ sender: UIButton) {
         
         if btnAddRecurrance.titleLabel?.text == "Edit Recurrence" {
-            let alertC = UIAlertController(title: "Appointment", message: ConstantStr.editRecurrence.val, preferredStyle: .actionSheet)
-            alertC.addAction(UIAlertAction(title: "Cancel", style: .destructive))
-            alertC.addAction(UIAlertAction(title: "Okay", style: .default, handler: { data in
-                let temArr:BlockedAppointmentData = self.blockedAppointmentArr.first!
-                self.blockedAppointmentArr.removeAll()
-                self.blockedAppointmentArr.append(temArr)
-                
-                self.getRecurrenceData()
-                
-            }))
-            self.present(alertC, animated: true)
+            
+            getEditRecurrenceUpdateDate()
+          
             
         }
         else {
@@ -351,13 +331,31 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence {
                 getRecurrenceData()
             }
         }
-        
-        //old
-        //        let vc = storyboard?.instantiateViewController(withIdentifier: "SelectRecurringDateVC") as! SelectRecurringDateVC
-        //        vc.modalPresentationStyle = .overCurrentContext
-        //        vc.delegate = self
-        //        self.present(vc, animated: true, completion: nil)
+     
     }
+    //MARK: EDIT RECURRENCE
+    func getEditRecurrenceUpdateDate(){
+        let callVC = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+        let vc = callVC.instantiateViewController(identifier: Control_Name.reEditVC) as! EditRecurrenceStatusVC
+        vc.height = 220
+        vc.topCornerRadius = 30
+        vc.presentDuration = 0.5
+        vc.dismissDuration = 0.2
+        vc.shouldDismissInteractivelty = true
+        vc.popupDismisAlphaVal = 0.4
+       
+        vc.delegate = self
+        present(vc, animated: true, completion: nil)
+    }
+    func getEditRecurrenceUpdate() {
+       
+        let temArr:BlockedAppointmentData = self.blockedAppointmentArr.first!
+        self.blockedAppointmentArr.removeAll()
+        self.blockedAppointmentArr.append(temArr)
+        
+        self.getRecurrenceData()
+    }
+    //End
     
     func getRecurrenceData(){
         let vc = storyboard?.instantiateViewController(withIdentifier: "SelectRecurringDateVC") as! SelectRecurringDateVC

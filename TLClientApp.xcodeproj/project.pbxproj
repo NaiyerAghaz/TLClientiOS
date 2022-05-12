@@ -165,6 +165,10 @@
 		7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */; };
 		7362A7EE281BB56000BBEFB8 /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */; };
 		7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */; };
+		737511FD282A371200619EA7 /* RecurrenceCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737511FC282A371200619EA7 /* RecurrenceCalendarView.swift */; };
+		737511FF282A3F9800619EA7 /* ProtocolsMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737511FE282A3F9800619EA7 /* ProtocolsMethods.swift */; };
+		73751201282A7ACE00619EA7 /* RecurrenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73751200282A7ACE00619EA7 /* RecurrenceModel.swift */; };
+		73751203282B7CF200619EA7 /* EditRecurrenceStatusVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73751202282B7CF200619EA7 /* EditRecurrenceStatusVC.swift */; };
 		7382637427FD589D00FD3695 /* ApiStateListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637127FD589D00FD3695 /* ApiStateListResponseModel.swift */; };
 		7382637527FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637227FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift */; };
 		7382637627FD589D00FD3695 /* ApiStateDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637327FD589D00FD3695 /* ApiStateDataModel.swift */; };
@@ -444,6 +448,10 @@
 		7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
 		7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveBuilder.swift; sourceTree = "<group>"; };
 		7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
+		737511FC282A371200619EA7 /* RecurrenceCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceCalendarView.swift; sourceTree = "<group>"; };
+		737511FE282A3F9800619EA7 /* ProtocolsMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolsMethods.swift; sourceTree = "<group>"; };
+		73751200282A7ACE00619EA7 /* RecurrenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceModel.swift; sourceTree = "<group>"; };
+		73751202282B7CF200619EA7 /* EditRecurrenceStatusVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecurrenceStatusVC.swift; sourceTree = "<group>"; };
 		7382637127FD589D00FD3695 /* ApiStateListResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiStateListResponseModel.swift; sourceTree = "<group>"; };
 		7382637227FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiAppointmentTypeDattaModel.swift; sourceTree = "<group>"; };
 		7382637327FD589D00FD3695 /* ApiStateDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiStateDataModel.swift; sourceTree = "<group>"; };
@@ -1181,6 +1189,9 @@
 				C6EAE8C827D217EF009F7261 /* TelephonicBlockedNewVC.swift */,
 				C6EAE8CA27D21823009F7261 /* TelephonicRecurrenceNewVC.swift */,
 				C6EAE8CC27D2187C009F7261 /* SelectRecurringDateVC.swift */,
+				737511FC282A371200619EA7 /* RecurrenceCalendarView.swift */,
+				73751200282A7ACE00619EA7 /* RecurrenceModel.swift */,
+				73751202282B7CF200619EA7 /* EditRecurrenceStatusVC.swift */,
 			);
 			path = "Telephonic Conference ";
 			sourceTree = "<group>";
@@ -1401,6 +1412,7 @@
 				73DFFC7427BB896C007EE602 /* ConstantString.swift */,
 				73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */,
 				730E258627E9C9E600CAEE8D /* RadiantColor.swift */,
+				737511FE282A3F9800619EA7 /* ProtocolsMethods.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -1849,6 +1861,7 @@
 				29F8CFF2274E7831006243EC /* TotalParticipantVC.swift in Sources */,
 				046334E92728186C0079CFCB /* ApiGetGroupDataModel.swift in Sources */,
 				04C17E62273154A800297528 /* AuthenticationCodeDataModel.swift in Sources */,
+				737511FD282A371200619EA7 /* RecurrenceCalendarView.swift in Sources */,
 				048AE80626DF434A00FB9309 /* OnDemandOPIVM.swift in Sources */,
 				29B3C748274CC86E006345E0 /* iOSDevCenters+GIF.swift in Sources */,
 				7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */,
@@ -1894,6 +1907,7 @@
 				CE74B2DB26C02520008BBA8C /* AuthServices.swift in Sources */,
 				04C91A4B27352CD90029FE90 /* AddProviderDetail.swift in Sources */,
 				29F8CFE3274E7680006243EC /* Util.swift in Sources */,
+				737511FF282A3F9800619EA7 /* ProtocolsMethods.swift in Sources */,
 				73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */,
 				73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */,
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
@@ -1943,6 +1957,7 @@
 				04C17E60273154A800297528 /* ApiGetAuthCoderesponseModel.swift in Sources */,
 				04E701822732714200C57A8E /* ApiCreateAppointmentResponseModel.swift in Sources */,
 				29988E16277F38E80034F2D9 /* TimeZoneViewController.swift in Sources */,
+				73751201282A7ACE00619EA7 /* RecurrenceModel.swift in Sources */,
 				04C17E61273154A800297528 /* VendorRankingDataModel.swift in Sources */,
 				C6FDDFEC278C34BC00B5F177 /* ApiOPiCallRoomDetailsResponseModel.swift in Sources */,
 				04C91A572735359C0029FE90 /* ApiDepartmentData.swift in Sources */,
@@ -2066,6 +2081,7 @@
 				C6EAE8C727D217B5009F7261 /* TelephonicNewRegularVC.swift in Sources */,
 				04C91A55273534F30029FE90 /* ApiProviderDetail.swift in Sources */,
 				04CC968C2747B131001D4A65 /* ApiVRIOPICallLogDataModel.swift in Sources */,
+				73751203282B7CF200619EA7 /* EditRecurrenceStatusVC.swift in Sources */,
 				C4FF3C0B2754A75400C27D44 /* ApiNotificationResponseModel.swift in Sources */,
 				04C997DB272C09270039FBBA /* TelephoneConfrenceServiceViewController.swift in Sources */,
 				C6EAE8D927D21CF2009F7261 /* BlockedAppointmentDetailVC.swift in Sources */,

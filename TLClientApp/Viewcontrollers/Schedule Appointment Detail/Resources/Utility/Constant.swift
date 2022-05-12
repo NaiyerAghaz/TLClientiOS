@@ -13,6 +13,10 @@ struct Storyboard_name {
     static let home = "Home"
     static let scheduleApnt = "SchedulingAppointments"
 }
+struct Control_Name {
+    static let recurrenceCV = "RecurrenceCalendarView"
+    static let reEditVC = "EditRecurrenceStatusVC"
+}
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
 }
