@@ -128,9 +128,10 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
+        getCommonDetail()
+        getCustomerDetail()
         
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRecurrencScreen(notification:)), name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRecurrencScreen(notification:)), name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVenueInList(notification:)), name: Notification.Name("updateVenueInList"), object: nil)
         
@@ -149,11 +150,11 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
         }
         self.recuringAppointmentTV.reloadData()
     }
-    @objc func updateTelephonicRecurrencScreen(notification: Notification){
-        print("refreshing data in Onsite regular ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateTelephonicRecurrencScreen(notification: Notification){
+//        print("refreshing data in Onsite regular ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
         getCustomerDetail()
         
@@ -964,7 +965,7 @@ extension TelephonicRecurrenceNewVC{
                     }else {
                         cID = "\(contactID)"
                     }
-                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? ""))</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
                     middelePart = middelePart + AptString
                 }
             }
@@ -1008,7 +1009,7 @@ extension TelephonicRecurrenceNewVC{
                                     
                                     if success == 1 {
                                         DispatchQueue.main.async {
-                                            self.appointmentBookedCalls(message: message ?? "", authcode: matchAuth ?? "", totalAppointment: blockedAppointmentArr.count)
+                                            self.appointmentBookedCalls(message: message ?? "", authcode: matchAuth ?? "", totalAppointment: self.blockedAppointmentArr.count)
                                         }
                                         
                                     }else {
@@ -1088,7 +1089,7 @@ extension TelephonicRecurrenceNewVC{
             vcontrol.tblHeighConstant = 50
         }
         else if totalAppointment == 2{
-            vcontrol.height = 330
+            vcontrol.height = 345
             vcontrol.tblHeighConstant = 80
         }
         else if totalAppointment == 3 {
@@ -1431,7 +1432,7 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         cell.clientNameTF.text = BlockedData.showClientName
         cell.clientIntiaalTF.text = BlockedData.showClientIntials
         cell.clientRefrenceTF.text = BlockedData.showClientRefrence
-        print("venue name \(BlockedData.venueName)")
+       
         
         cell.selectContactTF.text = BlockedData.conatctName
         cell.locationTF.text = BlockedData.location

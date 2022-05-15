@@ -17,12 +17,12 @@ class VRIOPIViewController: ButtonBarPagerTabStripViewController {
     override func viewDidLoad() {
         containerView.isScrollEnabled = true
             containerView.delegate = self
-        settings.style.buttonBarItemBackgroundColor = UIColor(red:0.0/255.0, green:65.0/255.0, blue:128.0/255.0, alpha:1.0)
+        settings.style.buttonBarItemBackgroundColor = UIColor(red:25/255.0, green:148/255.0, blue:215/255.0, alpha:1.0)
         settings.style.selectedBarBackgroundColor = UIColor.white
-        settings.style.buttonBarItemFont = UIFont.systemFont(ofSize: 14)
+        settings.style.buttonBarItemFont = UIFont.systemFont(ofSize: 15, weight: .bold)
         settings.style.selectedBarHeight = 0.5
         settings.style.buttonBarMinimumLineSpacing = 0
-        settings.style.buttonBarItemTitleColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
+        settings.style.buttonBarItemTitleColor = UIColor(red: 254/255, green: 254/255, blue: 254/255, alpha: 1)
         settings.style.buttonBarItemsShouldFillAvailableWidth = true
         settings.style.buttonBarLeftContentInset = 0
         settings.style.buttonBarRightContentInset = 0
@@ -33,7 +33,7 @@ class VRIOPIViewController: ButtonBarPagerTabStripViewController {
             oldCell?.label.frame.size.width = 120
             newCell?.label.lineBreakMode = .byCharWrapping
                    oldCell?.label.lineBreakMode = .byCharWrapping
-            oldCell?.label.textColor = .lightGray
+            oldCell?.label.textColor = UIColor.lightGray
             newCell?.label.textColor = UIColor.white
         }
         super.viewDidLoad()

@@ -125,8 +125,9 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
         
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateVirtualRecurrenceScreen(notification:)), name: Notification.Name("updateVirtualRecurrenceScreen"), object: nil)
+        getCommonDetail()
+        getCustomerDetail()
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.updateVirtualRecurrenceScreen(notification:)), name: Notification.Name("updateVirtualRecurrenceScreen"), object: nil)
         
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVenueInList(notification:)), name: Notification.Name("updateVenueInList"), object: nil)
@@ -146,11 +147,11 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
         }
         self.recuringAppointmentTV.reloadData()
     }
-    @objc func updateVirtualRecurrenceScreen(notification: Notification){
-        print("refreshing data in updateVirtualRecurrenceScreen regular ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateVirtualRecurrenceScreen(notification: Notification){
+//        print("refreshing data in updateVirtualRecurrenceScreen regular ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
         getCustomerDetail()
         
@@ -922,7 +923,7 @@ extension VirtualMeetingNewRecurrenceVC{
                     }else {
                         cID = "\(contactID)"
                     }
-                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? "") )</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
                     middelePart = middelePart + AptString
                 }
             }
@@ -1049,7 +1050,7 @@ extension VirtualMeetingNewRecurrenceVC{
             vcontrol.tblHeighConstant = 50
         }
         else if totalAppointment == 2{
-            vcontrol.height = 330
+            vcontrol.height = 345
             vcontrol.tblHeighConstant = 80
         }
         else if totalAppointment == 3 {

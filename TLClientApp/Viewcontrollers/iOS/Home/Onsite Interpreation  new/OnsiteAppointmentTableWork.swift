@@ -52,28 +52,17 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
     
     
     @IBOutlet weak var appointmentCancelBtn: UIButton!
-    
-    
     @IBOutlet weak var showContactMoreOptionbtn: UIButton!
    
     @IBOutlet weak var addContactBtn: UIButton!
     
     @IBOutlet weak var clearContactBtn: UIButton!
     @IBOutlet weak var addActualContactBtn: UIButton!
-   
     @IBOutlet weak var addActualDepartmentbtn: UIButton!
     @IBOutlet weak var clearDepartmentBtn: UIButton!
-   
     @IBOutlet weak var actionShowmoreDepartmentOption: UIButton!
     @IBOutlet weak var actionAddDepartMent: UIButton!
-    
-    
     @IBOutlet weak var addvenueBtn: UIButton!
-    
-    
-    
-    
-    
     @IBOutlet weak var selectDepartmentTF: iOSDropDown!
     @IBOutlet weak var zipcodeLbl: UILabel!
     @IBOutlet weak var stateLbl: UILabel!
@@ -200,9 +189,6 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
             self.clientIntiaalTF.text = stringNeed.uppercased()
             //let patientIntial = stringNeed.uppercased()
         }
-        
-        
-        
         print("Function textViewDidEndEditing ")
                print("Row index is ",rowIndex)
                guard let txt = textField.text else { return }
@@ -327,7 +313,7 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
       
     }
   
-    func hitApiAddDepartment(id : Int, departmentName : String, flag: String, isOneTime:Int, deptID :Int , type :String, isChangeParameter : Bool){
+    /*func hitApiAddDepartment(id : Int, departmentName : String, flag: String, isOneTime:Int, deptID :Int , type :String, isChangeParameter : Bool){
         SwiftLoader.show(animated: true)
         let urlString = APi.AddUpdateDeptAndContactData.url
         let companyID = GetPublicData.sharedInstance.companyID
@@ -454,7 +440,7 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
                     
                 }
             })
-    }
+    }*/
 
 }
     
@@ -463,14 +449,14 @@ class BlockedAppointmentTVCell : UITableViewCell , UITextFieldDelegate {
 extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSource , SaveBookedAppointmentData  , ReloadBlockedTable , UpdateOneTimeVenue{
     
     
-    
+    //MARK: Add, update and Delete contact and department
     func bookedAppointment() {
         self.navigationController?.popViewController(animated: true)
     }
     
     
     func updateOneTimeVenue(VenueName: String, cityName: String, Address: String, State: String, zipCode: String, venueID: Int, stateID: Int, address2: String) {
-        print("Delegate Working ")
+       
         let itemA = VenueData(Address: Address, Address2: address2, City: cityName, CompanyID: Int(GetPublicData.sharedInstance.companyID), CustomerCompany: GetPublicData.sharedInstance.companyName, CustomerName: GetPublicData.sharedInstance.usenName, Notes: "", State: State, StateID: stateID, VenueID: venueID, VenueName: VenueName, ZipCode: zipCode, isOneTime: true)
         self.venueDetail.append(itemA)
         self.venueArray.append(VenueName)
@@ -487,13 +473,12 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
                 if let obj = oneTimeDepartmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
                     oneTimeDepartmentArr.remove(at: obj)
                 }
-                for  itemm in blockedAppointmentArr {
-                     itemm.DepartmentName = ""
-                     itemm.DepartmentID = 0
-                            
-                 
-                }
-                getVenueDetail(customerId: self.customerID)
+                if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
+                    blockedAppointmentArr[obj2].DepartmentName = ""
+                    blockedAppointmentArr[obj2].DepartmentID = 0
+                  }
+
+                getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
                
             }
             
@@ -502,37 +487,30 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
                 if let obj = oneTimeDepartmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
                     oneTimeDepartmentArr.remove(at: obj)
                 }
-                for  itemm in blockedAppointmentArr {
-                     itemm.DepartmentName = ""
-                     itemm.DepartmentID = 0
-                            
-                 
-                }
+
                    self.oneTimeDepartmentArr.append(departmentData)
-                    getVenueDetail(customerId: self.customerID)
+                getVenueDetail(customerId: self.customerID, isContact: "2", id: departmentData.DepartmentID!)
                
             }
-                let index = IndexPath(item: selectedIndex, section: 0)
-                self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+               // let index = IndexPath(item: selectedIndex, section: 0)
+               // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
                 //self.blockedAppointmentTV.reloadData()
             }
             else {
             if isDelete {
-                
-                for  itemm in blockedAppointmentArr {
-                     itemm.DepartmentName = ""
-                     itemm.DepartmentID = 0
-                            
-                 
+                if let obj = blockedAppointmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
+                    blockedAppointmentArr[obj].DepartmentName = ""
+                    blockedAppointmentArr[obj].DepartmentID = 0
+                    
                 }
-                getVenueDetail(customerId: self.customerID)
+                getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
             }
             else {
                self.oneTimeDepartmentArr.append(departmentData)
-                getVenueDetail(customerId: self.customerID)
+                getVenueDetail(customerId: self.customerID, isContact: "2", id: departmentData.DepartmentID!)
             }
-                let index = IndexPath(item: selectedIndex, section: 0)
-                self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+               // let index = IndexPath(item: selectedIndex, section: 0)
+              //  self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
                // self.blockedAppointmentTV.reloadData()
             }
             
@@ -540,54 +518,6 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
     }
     
     func updateOneTimeConatct(ConatctData: ProviderData, isDelete: Bool) {
-        
-        /*if isDelete {
-              
-                print("Delete Action ")
-             for (indexx , itemm) in blockedAppointmentArr.enumerated() {
-                if itemm.contactID == ConatctData.ProviderID {
-                    self.blockedAppointmentArr[indexx].contactID = 0
-                    self.blockedAppointmentArr[indexx].conatctName = ""
-                    self.blockedAppointmentArr[indexx].isConatctSelect = false
-                }else {
-                    
-                }
-                
-                
-            }
-                for (indexx , itemm) in oneTimeContactArr.enumerated() {
-                    if itemm.ProviderID == ConatctData.ProviderID {
-                        self.oneTimeContactArr.remove(at: indexx)
-                        
-                    }else {
-                        
-                    }
-                    
-                    
-                }
-                for (indexx , itemm) in providerDetail.enumerated() {
-                    if itemm.ProviderID == ConatctData.ProviderID {
-                        self.providerDetail.remove(at: indexx)
-                        
-                    }else {
-                        
-                    }
-                    
-                    
-                }
-                
-            if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
-                    //index has the position of first match
-                    self.providerArray.remove(at: index)
-                } else {
-                    //element is not present in the array
-                }
-            self.blockedAppointmentTV.reloadData()
-            
-        }else {
-            self.oneTimeContactArr.append(ConatctData)
-            getVenueDetail(customerId: self.customerID)
-        }*/
         
         /*start shanges*/
     print("selectedIndex----->", selectedIndex)
@@ -598,12 +528,12 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
             if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
                 oneTimeContactArr.remove(at: obj)
             }
-           
-           for  itemm in blockedAppointmentArr {
-                itemm.conatctName = ""
-                itemm.contactID = 0
-              }
-            getVenueDetail(customerId: self.customerID)
+            if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                blockedAppointmentArr[obj2].conatctName = ""
+                blockedAppointmentArr[obj2].contactID = 0
+                
+            }
+           getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
            
         }
         
@@ -612,19 +542,14 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
             if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
                 oneTimeContactArr.remove(at: obj)
             }
-            for  itemm in blockedAppointmentArr {
-                 itemm.conatctName = ""
-                 itemm.contactID = 0
-                        
-             
-            }
+
                self.oneTimeContactArr.append(ConatctData)
-                getVenueDetail(customerId: self.customerID)
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
            
         }
-            let index = IndexPath(item: selectedIndex, section: 0)
+            //let index = IndexPath(item: selectedIndex, section: 0)
             
-            self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+           // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
           //  self.blockedAppointmentTV.reloadData()
         }
         else {
@@ -632,20 +557,21 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
             if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
                 oneTimeContactArr.remove(at: obj)
             }
-            for  itemm in blockedAppointmentArr {
-                itemm.conatctName = ""
-                itemm.contactID = 0
-                        
-             
+            if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                blockedAppointmentArr[obj2].conatctName = ""
+                blockedAppointmentArr[obj2].contactID = 0
+                
             }
-            getVenueDetail(customerId: self.customerID)
+            
+
+            getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
         }
         else {
            self.oneTimeContactArr.append(ConatctData)
-            getVenueDetail(customerId: self.customerID)
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
         }
-            let index = IndexPath(item: selectedIndex, section: 0)
-            self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+           // let index = IndexPath(item: selectedIndex, section: 0)
+           // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
             //self.blockedAppointmentTV.reloadData()
         }
         /*changes end*/
@@ -679,8 +605,9 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
         if performTableReload {
             self.blockedAppointmentTV.reloadData()
         }else {
+           
             print("Delegate in didReloadTable Data updated is \(elemntID) and is it conatct \(isConatctUpdate)")
-            for  itemm in blockedAppointmentArr {
+            /*for  itemm in blockedAppointmentArr {
                 
                 
                 if isConatctUpdate {
@@ -695,9 +622,10 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
                         
                     
                 }
-            }
-            self.blockedAppointmentTV.reloadData()
-            getVenueDetail(customerId: self.customerID)
+            }*/
+            let isContactVal = (isConatctUpdate == true) ? "1" : "2"
+            
+            getVenueDetail(customerId: self.customerID, isContact:isContactVal, id: elemntID)
         }
     }
     
@@ -842,23 +770,16 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
        // cell.languageTF.arrowColor = UIColor.white
         cell.appointmentDateBtn.tag = indexPath.row
         cell.appointmentDateBtn.addTarget(self, action: #selector(showAppointmentDate), for: .touchUpInside)
-        
         cell.startTimebtn.tag = indexPath.row
         cell.startTimebtn.addTarget(self, action: #selector(showStartTime), for: .touchUpInside)
-        
         cell.endTimeBtn.tag = indexPath.row
         cell.endTimeBtn.addTarget(self, action: #selector(showEndTime), for: .touchUpInside)
-        
-        
-        
         cell.delegate = self
         cell.tableDelegate = self
         cell.addvenueBtn.tag = indexPath.row
         cell.addvenueBtn.addTarget(self, action: #selector(actionAddVenueBtn), for: .touchUpInside)
-        
         let aptNumber = indexPath.row + 1
         cell.AppointmentTitleLbl.text = "Appointment \(aptNumber)"
-        
         let BlockedData = self.blockedAppointmentArr[indexPath.row]
         cell.rowIndex = indexPath.row //BlockedData.rowIndex ?? 0
         cell.appointmentDateTF.text = BlockedData.AppointmentDate
@@ -869,8 +790,7 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
         cell.clientNameTF.text = BlockedData.showClientName
         cell.clientIntiaalTF.text = BlockedData.showClientIntials
         cell.clientRefrenceTF.text = BlockedData.showClientRefrence
-        print("venue name  in  cell is \(BlockedData.venueName)")
-        print("department in cell  name \(BlockedData.DepartmentName)")
+       
         cell.selectDepartmentTF.text = BlockedData.DepartmentName
         cell.selectVenueTF.text = BlockedData.venueName
         cell.actionVenueDropDown.tag = indexPath.row
@@ -896,17 +816,22 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
             cell.addDepartmentStackView.visibility = .gone
             cell.addContactStackView.visibility = .gone
         }
-        if BlockedData.DepartmentName == "Select Department" {
+        if let obj = departmentDetail.firstIndex(where: {$0.DepartmentID == BlockedData.DepartmentID}){
+            cell.departmentNameTF.text = departmentDetail[obj].DepartmentName ?? ""
+        }
+        else {
             cell.departmentNameTF.text = ""
-        }else {
-            cell.departmentNameTF.text = BlockedData.DepartmentName ?? ""
         }
-        if BlockedData.conatctName == "Select Contact" {
+
+        
+        if let obj = providerDetail.firstIndex(where: {$0.ProviderID == BlockedData.contactID}){
+            cell.contactNameTF.text = providerDetail[obj].ProviderName ?? ""
+        }
+        else {
             cell.contactNameTF.text = ""
-        }else {
-            cell.contactNameTF.text = BlockedData.conatctName ?? ""
         }
-        cell.departmentID = BlockedData.DepartmentID ?? 0
+        
+      cell.departmentID = BlockedData.DepartmentID ?? 0
         
         
         cell.genderDropDownBtn.tag = indexPath.row
@@ -964,6 +889,7 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
 
         
         self.DepartmentIDForOperation = blockedAppointmentArr[sender.tag].DepartmentID ?? 0
+        print("venueID----------->",self.vanueID, "elementId---------->",self.elementID, "elementName------->",self.elementName)
     }
     @objc func actionAddContact(sender : UIButton){
         let storyboard = UIStoryboard(name: "SchedulingAppointments", bundle: nil)
@@ -1026,7 +952,6 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
         
         dropDown.anchorView = sender //5
         dropDown.bottomOffset = CGPoint(x: 0, y: sender.frame.size.height) //6
-        
         dropDown.backgroundColor = UIColor.white
         dropDown.layer.cornerRadius = 20
         dropDown.clipsToBounds = true
@@ -1042,9 +967,8 @@ extension OnsiteBlockedAppointmentVC : UITableViewDelegate , UITableViewDataSour
                   self?.blockedAppointmentArr[sender.tag].DepartmentID = languageData.DepartmentID ?? 0
                   self?.blockedAppointmentArr[sender.tag].isDepartmentSelect = true
                  
-              }
-              
-          })
+              }})
+           
            self?.blockedAppointmentTV.reloadRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
       }
     }

@@ -132,7 +132,7 @@ class VirtualMeetingNewBlockedVC: UIViewController {
         
         blockedAppointmentArr.append(itemA)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateVirtualBlockedScreen(notification:)), name: Notification.Name("updateVirtualBlockedScreen"), object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.updateVirtualBlockedScreen(notification:)), name: Notification.Name("updateVirtualBlockedScreen"), object: nil)
 
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVenueInList(notification:)), name: Notification.Name("updateVenueInList"), object: nil)
@@ -152,11 +152,11 @@ class VirtualMeetingNewBlockedVC: UIViewController {
         }
         self.blockedAppointmentTV.reloadData()
     }
-    @objc func updateVirtualBlockedScreen(notification: Notification){
-        print("refreshing data in updateVirtualBlockedScreen regular ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateVirtualBlockedScreen(notification: Notification){
+//        print("refreshing data in updateVirtualBlockedScreen regular ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
        getCustomerDetail()
         
@@ -1311,17 +1311,11 @@ extension VirtualMeetingNewBlockedVC{
         func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
             if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
-            // start time 01/10/2022 3:00 PM
-            //end time  01/10/2022 5:00 PM
-            //caseNumber = !=!enc!=!3zDmVRxZfFGKEYuhfLH2eg==
-            //clientName !=!enc!=!zU1WqmB1oAz4eTSjWS+okA==
-            //clientintial !=!enc!=!Gtw5BSTuJr7hSqaNje7nyg==
-            // call time  01/10/2022 12:00 AM
-            // requested on 01/10/2022 03:14 PM
+            
             let urlString = APi.tladdupdateappointment.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
-           // let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
+           
                 var customerUserID = ""
                 if self.userTypeID == "4" || self.userTypeID == "10" {
                     customerUserID = "0"
@@ -1357,7 +1351,7 @@ extension VirtualMeetingNewBlockedVC{
                     }else {
                         cID = "\(contactID)"
                     }
-                    let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID></VenueID><DepartmentID></DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
+                    let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID></VenueID><DepartmentID></DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? "") )</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
                     middelePart = middelePart + AptString
                     
                 }

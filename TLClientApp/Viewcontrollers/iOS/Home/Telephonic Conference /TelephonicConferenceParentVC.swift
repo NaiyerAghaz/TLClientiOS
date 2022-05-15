@@ -33,17 +33,17 @@ class TelephonicConferenceParentVC: UIViewController {
             self.regularConatinerView.alpha = 1
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 0
-            NotificationCenter.default.post(name: Notification.Name("updateTelephonicRegularScreen"), object: nil, userInfo: nil)
+           // NotificationCenter.default.post(name: Notification.Name("updateTelephonicRegularScreen"), object: nil, userInfo: nil)
         }else if sender.selectedSegmentIndex == 1{
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 1
             self.recuriingContainerView.alpha = 0
-            NotificationCenter.default.post(name: Notification.Name("updateTelephonicBlockedScreen"), object: nil, userInfo: nil)
+           // NotificationCenter.default.post(name: Notification.Name("updateTelephonicBlockedScreen"), object: nil, userInfo: nil)
         }else {
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 1
-            NotificationCenter.default.post(name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil, userInfo: nil)
+          //  NotificationCenter.default.post(name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil, userInfo: nil)
         }
     }
     

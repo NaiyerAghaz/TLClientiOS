@@ -161,16 +161,15 @@ class VirtualMeetingNewRegularApointmentVC: UIViewController , UITextFieldDelega
         
         getCommonDetail()
         getCustomerDetail()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateVirtualRegularScreen(notification:)), name: Notification.Name("updateVirtualRegularScreen"), object: nil)
+      
 
         // Do any additional setup after loading the view.
     }
-    @objc func updateVirtualRegularScreen(notification: Notification){
-        print("refreshing data in updateVirtualRegularScreen regular ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateVirtualRegularScreen(notification: Notification){
+//        print("refreshing data in updateVirtualRegularScreen regular ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
        getCustomerDetail()
         
@@ -746,19 +745,17 @@ class VirtualMeetingNewRegularApointmentVC: UIViewController , UITextFieldDelega
         }
         
        
-        let userId = self.userID//GetPublicData.sharedInstance.userID
-        //let companyID = GetPublicData.sharedInstance.companyID
-        //let userTypeID = GetPublicData.sharedInstance.userTypeID
-        //let userName = GetPublicData.sharedInstance.usenName
+        let userId = self.userID
+       
         let authCode = self.authCodeTF.text ?? ""
         let startDate = "\(self.appointmentDateTF.text ?? "") \(self.starttimeTF.text ?? "")"
         let endDate = "\(self.appointmentDateTF.text ?? "") \(self.endTimeTF.text ?? "")"
         
         let requestedOn = self.requestedONTF.text ?? ""
-        let location = self.locationTF.text ?? ""
-        let textnote = self.specialNotesTF.text ?? ""
+        let location = (CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? ""))
+        let textnote = (CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? ""))
         self.jobType = "Virtual Meeting"
-        print("venueID , language ID \(venueID ),\(languageID)")
+        
         if self.appointmentDateTF.text!.isEmpty {
             self.view.makeToast("Please fill Start Date.",duration: 1, position: .center)
             
@@ -771,7 +768,7 @@ class VirtualMeetingNewRegularApointmentVC: UIViewController , UITextFieldDelega
         }else {
             
             self.hitApiCreateRequest(masterCustomerID: self.masterCustomerID, authCode: authCode, SpecialityID: self.specialityID, ServiceType: self.serviceId, startTime: startDate, endtime: endDate, gender: self.genderID , caseNumber: self.cRefrence, clientName: self.clinetName, clientIntial: self.CIntials, location: location, textNote: textnote, SendingEndTimes: false, Travelling: "", CallTime: "", requestedOn: requestedOn, LoginUserId: userId, parameter: "")
-            //self.createRequestForAppointment(userID: userId, companyID: companyID, AuthCode: authCode, AppointStatusID: appointStatusID, startDate: startDate, EndDate: endDate, AppointTypeID: appointTypeId, languageID: languageID, userTypeID: userTypeID, jobType: jobType, clientName: clientName, venueID: self.venueID, updatedOn: updatedOn, requestedON: requestedOn, loadedON: loadedOn, cpInitials: cpIntial, serviceTypeID: serviceId, genderID: genderId, userName: userName)
+            
         }
     }
 

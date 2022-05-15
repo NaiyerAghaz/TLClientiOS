@@ -27,6 +27,10 @@ class CEnumClass: NSObject {
             UIApplication.shared.openURL(activeURL)
         }
     }
+    public func replaceSpecialCharacters(str: String) -> String {
+        let s1 = str.replacingOccurrences(of: "&", with: "&amp")
+        return s1
+    }
     
     func convertToJSONFromData(resulTDict:NSData) -> NSDictionary {
         let theJSONData = try? JSONSerialization.data(withJSONObject: resulTDict ,options: JSONSerialization.WritingOptions(rawValue: 0))

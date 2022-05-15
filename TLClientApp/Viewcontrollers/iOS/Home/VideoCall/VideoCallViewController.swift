@@ -93,6 +93,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     //dragged view
     var panGesture       = UIPanGestureRecognizer()
     @IBOutlet weak var mainPreview: UIView!
+    @IBOutlet weak var btnPinLocal: UIButton!
     let imageView = UIImageView()
     var lblParticipantSearching = UILabel()
     //end--
@@ -107,11 +108,13 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     override func viewDidLoad() {
         super.viewDidLoad()
         mainPreview.frame = CGRect(x: self.view.frame.size.width - 140, y: 60, width: 160, height: 160)
+        btnPinLocal.frame = CGRect(x: 60, y: 25, width: 70, height: 24)
         preview.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
         mainPreview.addSubview(preview)
+        mainPreview.addSubview(btnPinLocal)
         imgLocalPrivacy.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
         mainPreview.addSubview(imgLocalPrivacy)
-        
+       
         NotificationCenter.default.addObserver(self, selector: #selector(participantNotAvailable(noti:)), name: Notification.Name("notAvailableParticipant"), object: nil)
         if ifComeFromMeet {
             if ifTimereach {
@@ -140,14 +143,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             
         }else {
             imgLocalPrivacy.isHidden = true
-            
             self.topView.isHidden = false
             configure()
            // isMeetingCall = true
             vdoCollectionView.isHidden = true
             self.vdoCollectionView.delegate = self
             self.vdoCollectionView.dataSource = self
-            
             self.vdoCollectionView.bounces = false
             genarateChatTokenCreate()
         }
@@ -182,7 +183,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vendorTbl.register(cellNib, forCellReuseIdentifier: cellIndentifier.vendorTVCell.rawValue)
         
     }
-    
+    @IBAction func btnPinVideoTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            
+        }
+    }
     
     @objc func handler(gesture: UIPanGestureRecognizer){
         isTapGesture = true
@@ -193,10 +199,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         draggedView?.center = location
         
         if gesture.state == .ended {
-            print("location--",location.x, location.y)
-            print("location.y:",location.y, "location.x")
+           
             if self.mainPreview.frame.midX >= self.view.layer.frame.width / 2 {
-                print("01------",self.mainPreview.frame.midX,self.view.layer.frame.width)
+               
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
                     self.mainPreview.center.x = self.view.layer.frame.width - 60
                     if location.y < 20 {
@@ -209,7 +214,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }
             
             else{
-                print("02------",self.mainPreview.frame.midX,self.view.layer.frame.width)
+               
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
                     self.mainPreview.center.x = 60
                     if location.y < 20 {
@@ -269,7 +274,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             "Chat",
             "Change View",
             "Pin Video",
-            "Share Screen"
+           // "Share Screen"
         ]
         
         moreDropDown.selectionAction = { (index, item) in
@@ -992,7 +997,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         }
 
         else {
-            print("count--------->",remoteParticipantArr.count)
+            
             let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
             let pSID = remoteParticipantArr[indexPath.row].sid
             

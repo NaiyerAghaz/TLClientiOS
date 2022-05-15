@@ -138,7 +138,7 @@ class OnsiteBlockedAppointmentVC: UIViewController {
         let itemA = BlockedAppointmentData(AppointmentDate: CEnumClass.share.getCurrentDate(), startTime: CEnumClass.share.getRoundCTime(), endTime:CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "120", companyId: self.companyID), languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: 0, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: "" , showClientIntials:"" , showClientRefrence: "",isDepartmentSelect: false,isConatctSelect : false)
         
         blockedAppointmentArr.append(itemA)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteBlockedScreen"), object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteBlockedScreen"), object: nil)
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVenueInList(notification:)), name: Notification.Name("updateVenueInList"), object: nil)
@@ -158,11 +158,11 @@ class OnsiteBlockedAppointmentVC: UIViewController {
         }
         self.blockedAppointmentTV.reloadData()
     }
-    @objc func updateOnsiteRegularScreen(notification: Notification){
-        print("refreshing data in Onsite blocked ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateOnsiteRegularScreen(notification: Notification){
+//        print("refreshing data in Onsite blocked ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
         getCustomerDetail()
         
@@ -193,7 +193,7 @@ class OnsiteBlockedAppointmentVC: UIViewController {
                     //self.languageID = "\(languageData.languageID ?? 0)"
                     let customerID = "\(languageData.CustomerID ?? 0 )"
                     self?.customerID = customerID
-                    self?.getVenueDetail(customerId: customerID)
+                    self?.getVenueDetail(customerId: customerID, isContact: "0", id: 0)
                     print("subcustomerList id \(languageData.UniqueID ?? 0)")
                 }
             })
@@ -606,8 +606,8 @@ class OnsiteBlockedAppointmentVC: UIViewController {
             self.departmentOptionMajorView.isHidden = true
         }else {
             //changes start
-            let storyboard = UIStoryboard(name: "SchedulingAppointments", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "UpdateDepartmentAndContactVC") as! UpdateDepartmentAndContactVC
+            let storyboard = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: Control_Name.updateDeptAndCont) as! UpdateDepartmentAndContactVC
             vc.modalPresentationStyle = .overCurrentContext
             if self.isContactOption{
                 if oneTimeContactArr.count != 0 {
@@ -887,7 +887,7 @@ extension OnsiteBlockedAppointmentVC{
                                         
                                     })
                                     GetPublicData.sharedInstance.TempCustomerID = self.customerID
-                                    getVenueDetail(customerId: self.customerID)
+                                    getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
                                     
                                     
                                 } else {
@@ -1165,7 +1165,7 @@ extension OnsiteBlockedAppointmentVC{
                 }else {
                     cID = "\(contactID)"
                 }
-                let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
+                let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? "") )</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
                 middelePart = middelePart + AptString
                 print("Apt String -> ",AptString)
             }
@@ -1278,7 +1278,7 @@ extension OnsiteBlockedAppointmentVC{
             self.view.makeToast(ConstantStr.noItnernet.val)
         }
     }
-    func getVenueDetail(customerId : String){
+    func getVenueDetail(customerId : String, isContact:String, id: Int){
         if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             self.venueArray.removeAll()
@@ -1384,6 +1384,25 @@ extension OnsiteBlockedAppointmentVC{
                                         self.providerDetail.append(itemA)
                                         self.providerArray.append(providerName ?? "")
                                     })
+                                    if isContact == "1"{
+                                        if let obj = self.blockedAppointmentArr.firstIndex(where: {$0.contactID == id}){
+                                            if let nObj = self.providerDetail.first(where: {$0.ProviderID == id}){
+                                                self.blockedAppointmentArr[obj].conatctName = nObj.ProviderName
+                                            }
+                                        }
+                                    }
+                                    else if isContact == "2" {
+                                        if let obj = self.blockedAppointmentArr.firstIndex(where: {$0.DepartmentID == id}){
+                                            if let nObj = self.departmentDetail.first(where: {$0.DepartmentID == id}){
+                                                self.blockedAppointmentArr[obj].DepartmentName = nObj.DepartmentName
+                                            }
+                                        }
+                                    }
+                                    DispatchQueue.main.async {
+                                       
+                                        self.blockedAppointmentTV.reloadData()
+                                    }
+                                   
                                     // showVenueDropDown()
                                 } else {
                                     print("bad json")

@@ -170,15 +170,15 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
         getCommonDetail()
         getCustomerDetail()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteRegularScreen"), object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteRegularScreen"), object: nil)
         
         // Do any additional setup after loading the view.
     }
-    @objc func updateOnsiteRegularScreen(notification: Notification){
-        print("refreshing data in Onsite regular ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateOnsiteRegularScreen(notification: Notification){
+//        print("refreshing data in Onsite regular ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     
     @objc func updateVenueList(){
         print("method called for update venue")
@@ -301,7 +301,7 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
                     self?.customerID = customerID
                     GetPublicData.sharedInstance.TempCustomerID = customerID
                     self?.getVenueDetail(customerId: customerID)
-                    print("subcustomerList id \(languageData.UniqueID)")
+                    
                  }
             })
         }
@@ -1057,8 +1057,8 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
         let endDate = "\(self.appointmentDateTF.text ?? "") \(self.endTimeTF.text ?? "")"
         
         let requestedOn = self.requestedONTF.text ?? ""
-        let location = self.locationTF.text ?? ""
-        let textnote = self.specialNotesTF.text ?? ""
+        let location = CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? "")
+        let textnote = CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? "")
         self.jobType = "Onsite Interpretation"
         print("venueID , language ID \(venueID ),\(languageID)")
         if self.appointmentDateTF.text!.isEmpty {
@@ -1128,9 +1128,7 @@ extension OnsiteRegularAppointmentVC{
                                     let userIfo = userInfo?.first
                                     let success = userIfo?["success"] as? Int
                                     let message = userIfo?["Message"] as? String
-                                    
                                     let status = userIfo?["Status"] as? Int
-                                    
                                     if success == 1 {
                                         //self.showDepartMentView.visibility = .gone
                                         
@@ -1152,20 +1150,14 @@ extension OnsiteRegularAppointmentVC{
                                                         
                                                     }else {
                                                         
-                                                    }
-                                                    
-                                                    
-                                                }
+                                                    }}
                                                 for (indexx , itemm) in providerDetail.enumerated() {
                                                     if itemm.ProviderID == id {
                                                         self.providerDetail.remove(at: indexx)
                                                         
                                                     }else {
                                                         
-                                                    }
-                                                    
-                                                    
-                                                }
+                                                    }}
                                                 
                                                 if let index = providerArray.firstIndex(of: departmentName) {
                                                     //index has the position of first match
@@ -1195,9 +1187,7 @@ extension OnsiteRegularAppointmentVC{
                                                     }else {
                                                         
                                                     }
-                                                    
-                                                    
-                                                }
+                                                   }
                                                 for (indexx , itemm) in departmentDetail.enumerated() {
                                                     if itemm.DepartmentID == id {
                                                         self.departmentDetail.remove(at: indexx)
@@ -1205,9 +1195,7 @@ extension OnsiteRegularAppointmentVC{
                                                     }else {
                                                         
                                                     }
-                                                    
-                                                    
-                                                }
+                                                  }
                                                 
                                                 if let index = departmentArray.firstIndex(of: departmentName) {
                                                     //index has the position of first match
@@ -1460,12 +1448,12 @@ extension OnsiteRegularAppointmentVC{
                     switch(response.result){
                         
                     case .success(_):
-                        print("Respose Success getCustomerDetail ")
+                      
                         guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
                             self.apiGetCustomerDetailResponseModel = try jsonDecoder.decode([ApiGetCustomerDetailResponseModel].self, from: daata)
-                            print("Success getvenueDetail Model ",self.apiGetCustomerDetailResponseModel.first?.result ?? "")
+                            
                             let str = self.apiGetCustomerDetailResponseModel.first?.result ?? ""
                             let data = str.data(using: .utf8)!
                             do {
@@ -1480,7 +1468,7 @@ extension OnsiteRegularAppointmentVC{
                                     let providerList = newjson?["ProviderNameList"] as? [[String:Any]]
                                     let customerPermision = newjson?["customerPermission"] as? [[String:Any]]
                                     //let customerUserName = userIfo?["CustomerUserName"] as? String
-                                    print("venue Detail is ",newjson)
+                                   
                                     venueList?.forEach({ venueData in
                                         let address = venueData["Address"] as? String
                                         let address2 = venueData["Address2"] as? String
@@ -1494,7 +1482,7 @@ extension OnsiteRegularAppointmentVC{
                                         let venueID = venueData["VenueID"] as? Int
                                         let venueName = venueData["VenueName"] as? String
                                         let zipCode = venueData["ZipCode"] as? String
-                                        print("zipcode is \(zipCode)", "venueData is \(venueData)" )
+                                        
                                         let itemA = VenueData(Address: address, Address2: address2, City: city, CompanyID: companyID, CustomerCompany: customerCompany, CustomerName: customerName, Notes: notes, State: state, StateID: stateID, VenueID: venueID, VenueName: venueName, ZipCode: zipCode,isOneTime: false)
                                         self.venueDetail.append(itemA)
                                         self.venueArray.append(venueName ?? "")
@@ -1527,6 +1515,25 @@ extension OnsiteRegularAppointmentVC{
                                     //  self.contactNameTF.text = ""
                                     //  self.contactUpdateView.visibility = .gone
                                     // showVenueDropDown()
+                                    
+                                    /*if isContact == "1"{
+                                        if let obj = self.providerDetail.firstIndex(where: {$0.ProviderID == id}){
+                                            self.contactNameTF.text = self.providerDetail[obj].ProviderName
+                                        }
+                                        else {
+                                            self.contactNameTF.text = ""
+                                        }
+                                    }
+                                    else if isContact == "2" {
+                                        
+                                        if let obj = self.departmentDetail.firstIndex(where: {$0.DepartmentID == id}){
+                                            self.departmentNameTF.text = self.departmentDetail[obj].DepartmentName
+                                          }
+                                        else {
+                                            self.departmentNameTF.text = ""
+                                        }
+                                    }*/
+                                   
                                 } else {
                                     print("bad json")
                                 }
@@ -1685,13 +1692,7 @@ extension OnsiteRegularAppointmentVC{
     func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
         if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
-            // start time 01/10/2022 3:00 PM
-            //end time  01/10/2022 5:00 PM
-            //caseNumber = !=!enc!=!3zDmVRxZfFGKEYuhfLH2eg==
-            //clientName !=!enc!=!zU1WqmB1oAz4eTSjWS+okA==
-            //clientintial !=!enc!=!Gtw5BSTuJr7hSqaNje7nyg==
-            // call time  01/10/2022 12:00 AM
-            // requested on 01/10/2022 03:14 PM
+           
             let urlString = APi.tladdupdateappointment.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
@@ -1841,7 +1842,7 @@ extension OnsiteRegularAppointmentVC:ReloadBlockedTable {
     }
     
     func didopenMoreoption(action: Bool, type: String) {
-        print("")
+      
     }
     
     func updateOneTimeDepartment(departmentData: DepartmentData, isDelete: Bool) {

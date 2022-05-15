@@ -154,14 +154,14 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         getCustomerDetail()
         
         // Do any additional setup after loading the view.
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRegularScreen(notification:)), name: Notification.Name("updateTelephonicRegularScreen"), object: nil)
+      //  NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRegularScreen(notification:)), name: Notification.Name("updateTelephonicRegularScreen"), object: nil)
 
     }
-    @objc func updateTelephonicRegularScreen(notification: Notification){
-        print("refreshing data in Onsite regular ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateTelephonicRegularScreen(notification: Notification){
+//        print("refreshing data in Onsite regular ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
        getCustomerDetail()
         
@@ -767,8 +767,8 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         let endDate = "\(self.appointmentDateTF.text ?? "") \(self.endTimeTF.text ?? "")"
         
         let requestedOn = self.requestedONTF.text ?? ""
-        let location = self.locationTF.text ?? ""
-        let textnote = self.specialNotesTF.text ?? ""
+        let location = CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? "")
+        let textnote = CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? "") 
         self.jobType = "Onsite Interpretation"
         print("venueID , language ID \(venueID ),\(languageID)")
         if self.appointmentDateTF.text!.isEmpty {

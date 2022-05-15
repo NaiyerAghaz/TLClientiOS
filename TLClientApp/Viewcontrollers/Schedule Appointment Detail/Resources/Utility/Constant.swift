@@ -16,6 +16,7 @@ struct Storyboard_name {
 struct Control_Name {
     static let recurrenceCV = "RecurrenceCalendarView"
     static let reEditVC = "EditRecurrenceStatusVC"
+    static let updateDeptAndCont = "UpdateDepartmentAndContactVC"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"

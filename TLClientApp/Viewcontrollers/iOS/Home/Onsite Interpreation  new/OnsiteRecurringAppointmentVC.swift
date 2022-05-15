@@ -147,17 +147,17 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
         }else {
             self.subCustomerNameTF.isUserInteractionEnabled = true
         }
-       // getCommonDetail()
-       // getCustomerDetail()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteRecurrenceScreen"), object: nil)
+        getCommonDetail()
+        getCustomerDetail()
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteRecurrenceScreen"), object: nil)
         
         // Do any additional setup after loading the view.
     }
-    @objc func updateOnsiteRegularScreen(notification: Notification){
-        print("refreshing data in Onsite recurrence ")
-        getCommonDetail()
-        getCustomerDetail()
-    }
+//    @objc func updateOnsiteRegularScreen(notification: Notification){
+//        print("refreshing data in Onsite recurrence ")
+//        getCommonDetail()
+//        getCustomerDetail()
+//    }
     @objc func updateVenueList(){
        getCustomerDetail()
         
@@ -183,8 +183,8 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
                   //self.languageID = "\(languageData.languageID ?? 0)"
                   let customerID = "\(languageData.CustomerID ?? 0 )"
                   self?.customerID = customerID
-                  self?.getVenueDetail(customerId: customerID)
-                  print("subcustomerList id \(languageData.UniqueID)")
+                  self?.getVenueDetail(customerId: customerID, isContact: "0", id: 0)
+                  
               }
           })
       }
@@ -529,7 +529,8 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
 }
 //MARK: - Api methoda
 extension OnsiteRecurringAppointmentVC{
-    func getVenueDetail(customerId : String){
+
+    func getVenueDetail(customerId : String,isContact:String, id: Int){
             if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             self.venueArray.removeAll()
@@ -635,7 +636,24 @@ extension OnsiteRecurringAppointmentVC{
                                         self.providerDetail.append(itemA)
                                         self.providerArray.append(providerName ?? "")
                                     })
-                                 // showVenueDropDown()
+                                    if isContact == "1"{
+                                        if let obj = self.blockedAppointmentArr.firstIndex(where: {$0.contactID == id}){
+                                            if let nObj = self.providerDetail.first(where: {$0.ProviderID == id}){
+                                                self.blockedAppointmentArr[obj].conatctName = nObj.ProviderName
+                                            }
+                                        }
+                                    }
+                                    else if isContact == "2" {
+                                        if let obj = self.blockedAppointmentArr.firstIndex(where: {$0.DepartmentID == id}){
+                                            if let nObj = self.departmentDetail.first(where: {$0.DepartmentID == id}){
+                                                self.blockedAppointmentArr[obj].DepartmentName = nObj.DepartmentName
+                                            }
+                                        }
+                                    }
+                                    DispatchQueue.main.async {
+                                       
+                                        self.recuringAppointmentTV.reloadData()
+                                    }
                                 } else {
                                     print("bad json")
                                 }
@@ -723,7 +741,7 @@ extension OnsiteRecurringAppointmentVC{
                                         
                                     })
                                     GetPublicData.sharedInstance.TempCustomerID = self.customerID
-                                    getVenueDetail(customerId: self.customerID)
+                                    getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
                                    
                                    // showSubcustomerDropDown()
                                 } else {
@@ -976,13 +994,7 @@ extension OnsiteRecurringAppointmentVC{
         func hitApiCreateRequest(masterCustomerID : String,authCode :String , SpecialityID: String, ServiceType : String, startTime : String , endtime : String, gender : String , caseNumber : String, clientName :String, clientIntial: String, location : String , textNote : String,SendingEndTimes:Bool, Travelling: String, CallTime:String , requestedOn : String , LoginUserId: String , parameter : String){
             if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
-            // start time 01/10/2022 3:00 PM
-            //end time  01/10/2022 5:00 PM
-            //caseNumber = !=!enc!=!3zDmVRxZfFGKEYuhfLH2eg==
-            //clientName !=!enc!=!zU1WqmB1oAz4eTSjWS+okA==
-            //clientintial !=!enc!=!Gtw5BSTuJr7hSqaNje7nyg==
-            // call time  01/10/2022 12:00 AM
-            // requested on 01/10/2022 03:14 PM
+            
             let urlString = APi.tladdupdateRecurringappointment.url
             let companyID = self.companyID//GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
@@ -1030,7 +1042,7 @@ extension OnsiteRecurringAppointmentVC{
                         }else {
                             cID = "\(contactID)"
                         }
-                        let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                        let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? ""))</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "")) )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
                          middelePart = middelePart + AptString
                     }
                 }
@@ -1149,107 +1161,211 @@ extension OnsiteRecurringAppointmentVC{
    }
 //MARK: - Recurring Table work
 extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSource , SaveBookedAppointmentData  , ReloadBlockedTable{
+    
+    //MARK: ADD, UPDATE and DELETE TO DEPARTMENT AND CONTACT
     func bookedAppointment() {
         self.navigationController?.popViewController(animated: true)
     }
     func updateOneTimeDepartment(departmentData: DepartmentData , isDelete: Bool) {
         
-        if isDelete {
-            
-            for (indexx , itemm) in blockedAppointmentArr.enumerated() {
-               if itemm.DepartmentID == departmentData.DepartmentID {
-                   self.blockedAppointmentArr[indexx].DepartmentID = 0
-                   self.blockedAppointmentArr[indexx].DepartmentName = ""
-                   self.blockedAppointmentArr[indexx].isDepartmentSelect = false
-               }else {
-                   
-               }
-               
-               
-           }
-            
-            for (indexx , itemm) in oneTimeDepartmentArr.enumerated() {
-                if itemm.DepartmentID == departmentData.DepartmentID {
-                    self.oneTimeDepartmentArr.remove(at: indexx)
-                    
-                }else {
-                    
+        if oneTimeDepartmentArr.count != 0 {
+            if isDelete {
+          
+                if let obj = oneTimeDepartmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
+                    oneTimeDepartmentArr.remove(at: obj)
                 }
-                
-                
+                if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
+                    blockedAppointmentArr[obj2].DepartmentName = ""
+                    blockedAppointmentArr[obj2].DepartmentID = 0
+                    blockedAppointmentArr[obj2].isDepartmentSelect = false
+                 }
+
+                getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
+               
             }
-            for (indexx , itemm) in departmentDetail.enumerated() {
-                if itemm.DepartmentID == departmentData.DepartmentID {
-                    self.departmentDetail.remove(at: indexx)
-                    
-                }else {
-                    
+            else {
+                
+                if let obj = oneTimeDepartmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
+                    oneTimeDepartmentArr.remove(at: obj)
                 }
-             }
-            
-            if let index = departmentArray.firstIndex(of: departmentData.DepartmentName ?? "") {
-                //index has the position of first match
-                self.departmentArray.remove(at: index)
-            } else {
-                //element is not present in the array
+
+                   self.oneTimeDepartmentArr.append(departmentData)
+                getVenueDetail(customerId: self.customerID, isContact: "2", id: departmentData.DepartmentID!)
+               
             }
-            self.recuringAppointmentTV.reloadData()
-        }else {
-            self.oneTimeDepartmentArr.append(departmentData)
-            getVenueDetail(customerId: self.customerID)
         }
+        else {
+            
+            if isDelete {
+                if let obj = blockedAppointmentArr.firstIndex(where: {$0.DepartmentID == departmentData.DepartmentID}){
+                    blockedAppointmentArr[obj].DepartmentName = ""
+                    blockedAppointmentArr[obj].DepartmentID = 0
+                    blockedAppointmentArr[obj].isDepartmentSelect = false
+                    
+                }
+                getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
+            }
+            else {
+               self.oneTimeDepartmentArr.append(departmentData)
+                getVenueDetail(customerId: self.customerID, isContact: "2", id: departmentData.DepartmentID!)
+            }
+               // let index = IndexPath(item: selectedIndex, section: 0)
+              //  self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+               // self.blockedAppointmentTV.reloadData()
+            
+        }
+        
+//        if isDelete {
+//
+//            for (indexx , itemm) in blockedAppointmentArr.enumerated() {
+//               if itemm.DepartmentID == departmentData.DepartmentID {
+//                   self.blockedAppointmentArr[indexx].DepartmentID = 0
+//                   self.blockedAppointmentArr[indexx].DepartmentName = ""
+//                   self.blockedAppointmentArr[indexx].isDepartmentSelect = false
+//               }else {
+//
+//               }
+//
+//
+//           }
+//
+//            for (indexx , itemm) in oneTimeDepartmentArr.enumerated() {
+//                if itemm.DepartmentID == departmentData.DepartmentID {
+//                    self.oneTimeDepartmentArr.remove(at: indexx)
+//
+//                }else {
+//
+//                }
+//
+//
+//            }
+//            for (indexx , itemm) in departmentDetail.enumerated() {
+//                if itemm.DepartmentID == departmentData.DepartmentID {
+//                    self.departmentDetail.remove(at: indexx)
+//
+//                }else {
+//
+//                }
+//             }
+//
+//            if let index = departmentArray.firstIndex(of: departmentData.DepartmentName ?? "") {
+//                //index has the position of first match
+//                self.departmentArray.remove(at: index)
+//            } else {
+//                //element is not present in the array
+//            }
+//            self.recuringAppointmentTV.reloadData()
+//        }else {
+//            self.oneTimeDepartmentArr.append(departmentData)
+//            getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
+//        }
    
     }
     
     func updateOneTimeConatct(ConatctData: ProviderData, isDelete: Bool) {
         
+        if oneTimeContactArr.count != 0{
+        
         if isDelete {
-              
-                print("Delete Action ")
-             for (indexx , itemm) in blockedAppointmentArr.enumerated() {
-                if itemm.contactID == ConatctData.ProviderID {
-                    self.blockedAppointmentArr[indexx].contactID = 0
-                    self.blockedAppointmentArr[indexx].conatctName = ""
-                    self.blockedAppointmentArr[indexx].isConatctSelect = false
-                }else {
-                    
-                }
-                
+      
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+            }
+            if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                blockedAppointmentArr[obj2].conatctName = ""
+                blockedAppointmentArr[obj2].contactID = 0
+                blockedAppointmentArr[obj2].isConatctSelect = false
+            }
+           getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
+           
+        }
+        
+        else {
+            
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+            }
+
+               self.oneTimeContactArr.append(ConatctData)
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
+           
+        }
+            //let index = IndexPath(item: selectedIndex, section: 0)
+            
+           // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+          //  self.blockedAppointmentTV.reloadData()
+        }
+        else {
+        if isDelete {
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+            }
+            if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                blockedAppointmentArr[obj2].conatctName = ""
+                blockedAppointmentArr[obj2].contactID = 0
+                blockedAppointmentArr[obj2].isConatctSelect = false
                 
             }
-                for (indexx , itemm) in oneTimeContactArr.enumerated() {
-                    if itemm.ProviderID == ConatctData.ProviderID {
-                        self.oneTimeContactArr.remove(at: indexx)
-                        
-                    }else {
-                        
-                    }
-                    
-                    
-                }
-                for (indexx , itemm) in providerDetail.enumerated() {
-                    if itemm.ProviderID == ConatctData.ProviderID {
-                        self.providerDetail.remove(at: indexx)
-                        
-                    }else {
-                        
-                    }
-                    
-                    
-                }
-                
-            if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
-                    //index has the position of first match
-                    self.providerArray.remove(at: index)
-                } else {
-                    //element is not present in the array
-                }
-            self.recuringAppointmentTV.reloadData()
             
-        }else {
-            self.oneTimeContactArr.append(ConatctData)
-            getVenueDetail(customerId: self.customerID)
+
+            getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
         }
+        else {
+           self.oneTimeContactArr.append(ConatctData)
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
+        }
+           // let index = IndexPath(item: selectedIndex, section: 0)
+           // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+            //self.blockedAppointmentTV.reloadData()
+        }
+        
+//        if isDelete {
+//              
+//                print("Delete Action ")
+//             for (indexx , itemm) in blockedAppointmentArr.enumerated() {
+//                if itemm.contactID == ConatctData.ProviderID {
+//                    self.blockedAppointmentArr[indexx].contactID = 0
+//                    self.blockedAppointmentArr[indexx].conatctName = ""
+//                    self.blockedAppointmentArr[indexx].isConatctSelect = false
+//                }else {
+//                    
+//                }
+//                
+//                
+//            }
+//                for (indexx , itemm) in oneTimeContactArr.enumerated() {
+//                    if itemm.ProviderID == ConatctData.ProviderID {
+//                        self.oneTimeContactArr.remove(at: indexx)
+//                        
+//                    }else {
+//                        
+//                    }
+//                    
+//                    
+//                }
+//                for (indexx , itemm) in providerDetail.enumerated() {
+//                    if itemm.ProviderID == ConatctData.ProviderID {
+//                        self.providerDetail.remove(at: indexx)
+//                        
+//                    }else {
+//                        
+//                    }
+//                    
+//                    
+//                }
+//                
+//            if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
+//                    //index has the position of first match
+//                    self.providerArray.remove(at: index)
+//                } else {
+//                    //element is not present in the array
+//                }
+//            self.recuringAppointmentTV.reloadData()
+//            
+//        }else {
+//            self.oneTimeContactArr.append(ConatctData)
+//            getVenueDetail(customerId: self.customerID)
+//        }
     }
     
     func showAlertWithMessageInTable(message: String) {
@@ -1278,23 +1394,25 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
             self.recuringAppointmentTV.reloadData()
         }else {
             print("Delegate in didReloadTable Data updated is \(elemntID) and is it conatct \(isConatctUpdate)")
-            for  itemm in blockedAppointmentArr {
-                
-                
-                if isConatctUpdate {
-                    //if itemm.contactID == elemntID { }
-                        itemm.conatctName = ""
-                        itemm.contactID = 0
-                    
-                }else {
-                   // if itemm.DepartmentID == elemntID { }
-                        itemm.DepartmentName = ""
-                        itemm.DepartmentID = 0
-                     }
-                
-            }
-            self.recuringAppointmentTV.reloadData()
-            getVenueDetail(customerId: self.customerID)
+//            for  itemm in blockedAppointmentArr {
+//
+//
+//                if isConatctUpdate {
+//                    //if itemm.contactID == elemntID { }
+//                        itemm.conatctName = ""
+//                        itemm.contactID = 0
+//
+//                }else {
+//                   // if itemm.DepartmentID == elemntID { }
+//                        itemm.DepartmentName = ""
+//                        itemm.DepartmentID = 0
+//                     }
+//
+//            }
+          //  self.recuringAppointmentTV.reloadData()
+            let isContactVal = (isConatctUpdate == true) ? "1" : "2"
+            
+            getVenueDetail(customerId: self.customerID, isContact:isContactVal, id: elemntID)
         }
     }
     
@@ -1488,16 +1606,28 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
             cell.addDepartmentStackView.visibility = .gone
             cell.addContactStackView.visibility = .gone
         }
-        if BlockedData.DepartmentName == "Select Department" {
+        if let obj = departmentDetail.firstIndex(where: {$0.DepartmentID == BlockedData.DepartmentID}){
+            cell.departmentNameTF.text = departmentDetail[obj].DepartmentName ?? ""
+        }
+        else {
             cell.departmentNameTF.text = ""
-        }else {
-            cell.departmentNameTF.text = BlockedData.DepartmentName ?? ""
         }
-        if BlockedData.conatctName == "Select Contact" {
+        if let obj = providerDetail.firstIndex(where: {$0.ProviderID == BlockedData.contactID}){
+            cell.contactNameTF.text = providerDetail[obj].ProviderName ?? ""
+        }
+        else {
             cell.contactNameTF.text = ""
-        }else {
-            cell.contactNameTF.text = BlockedData.conatctName ?? ""
         }
+//        if BlockedData.DepartmentName == "Select Department" {
+//            cell.departmentNameTF.text = ""
+//        }else {
+//            cell.departmentNameTF.text = BlockedData.DepartmentName ?? ""
+//        }
+//        if BlockedData.conatctName == "Select Contact" {
+//            cell.contactNameTF.text = ""
+//        }else {
+//            cell.contactNameTF.text = BlockedData.conatctName ?? ""
+//        }
         cell.departmentID = BlockedData.DepartmentID ?? 0
         cell.actionVenueDropDown.tag = indexPath.row
         cell.actionVenueDropDown.addTarget(self, action: #selector(actionSelectVenue), for: .touchUpInside)
@@ -1823,7 +1953,7 @@ extension OnsiteRecurringAppointmentVC {
             vcontrol.tblHeighConstant = 50
         }
         else if totalAppointment == 2{
-            vcontrol.height = 330
+            vcontrol.height = 345
             vcontrol.tblHeighConstant = 80
         }
         else if totalAppointment == 3 {

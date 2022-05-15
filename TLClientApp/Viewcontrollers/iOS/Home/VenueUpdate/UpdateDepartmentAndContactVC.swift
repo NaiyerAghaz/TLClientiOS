@@ -134,7 +134,7 @@ class UpdateDepartmentAndContactVC: UIViewController {
         let parameter = [
             "strSearchString" : searchString
         ] as [String : String]
-        print("url and parameter are:", urlString, parameter)
+        print("url and parameter are hitApiAddDepartment:", urlString, parameter)
         AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseData(completionHandler: { [self] (response) in
