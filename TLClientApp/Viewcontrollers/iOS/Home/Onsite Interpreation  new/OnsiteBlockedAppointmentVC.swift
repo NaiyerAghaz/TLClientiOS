@@ -102,27 +102,11 @@ class OnsiteBlockedAppointmentVC: UIViewController {
         self.userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(updateVenueList), name: Notification.Name("updateVenueList"), object: nil)
         
-        //        let dateFormatterDate = DateFormatter()
-        //        dateFormatterDate.dateFormat = "MM/dd/yyyy"
-        //        let dateFormatterTime = DateFormatter()
-        //        dateFormatterTime.dateFormat = "h:00 a"
-        //        let currentDateTime = Date().nearestHour() ?? Date()
-        self.startTimeForAppointment = CEnumClass.share.getCurrentTimeToDate(time: CEnumClass.share.getRoundCTime())//Date().nearestHour() ?? Date()
-        //        print("current time before \(currentDateTime)")
-        //        let tempTime = dateFormatterTime.string(from: currentDateTime)
-        //        print("TEMP TIME : \(tempTime)")
-        
-        self.starttimeTF.text = CEnumClass.share.getRoundCTime()//dateFormatterTime.string(from: currentDateTime)
-        
-        // let endTimee = Date().adding(minutes: 120)//.nearestHour() ?? Date()
-        
+         self.startTimeForAppointment = CEnumClass.share.getCurrentTimeToDate(time: CEnumClass.share.getRoundCTime())//Date().nearestHour()
+        self.starttimeTF.text = CEnumClass.share.getRoundCTime()
         self.endTimeforAppointment = CEnumClass.share.getCurrentTimeToDate(time: CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "120", companyId: self.companyID))//endTimee
         self.appointmentDateTF.text = CEnumClass.share.getCurrentDate()
-        self.endTimeTF.text = CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "120", companyId: self.companyID)//dateFormatterTime.string(from: endTimee)
-        
-        //  let dateFormatterr = DateFormatter()
-        // dateFormatterr.dateFormat = "MM/dd/yyyy h:mm a"
-        
+        self.endTimeTF.text = CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "120", companyId: self.companyID)
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()//dateFormatterr.string(from: Date())
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()//dateFormatterr.string(from: Date())
         
@@ -133,8 +117,8 @@ class OnsiteBlockedAppointmentVC: UIViewController {
             self.subCustomerNameTF.isUserInteractionEnabled = true
         }
         
-        getCommonDetail()
-        getCustomerDetail()
+getCommonDetail()
+    getCustomerDetail()
         let itemA = BlockedAppointmentData(AppointmentDate: CEnumClass.share.getCurrentDate(), startTime: CEnumClass.share.getRoundCTime(), endTime:CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "120", companyId: self.companyID), languageID: 0, genderID: "", clientName: "", ClientIntials: "", ClientRefrence: "", venueID: "", DepartmentID: 0, contactID: 0, location: "", SpecialNotes: "", rowIndex: 0, languageName: "",venueName: "", DepartmentName: "", genderType: "", conatctName: "", isVenueSelect: false, venueTitleName : "" , addressname : "" , cityName : "" , stateName : "" , zipcode: "",startTimeForPicker: Date() , endTimeForPicker: Date(), authCode: "",showClientName: "" , showClientIntials:"" , showClientRefrence: "",isDepartmentSelect: false,isConatctSelect : false)
         
         blockedAppointmentArr.append(itemA)
@@ -1165,7 +1149,7 @@ extension OnsiteBlockedAppointmentVC{
                 }else {
                     cID = "\(contactID)"
                 }
-                let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? "") )</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
+                let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "" )</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
                 middelePart = middelePart + AptString
                 print("Apt String -> ",AptString)
             }

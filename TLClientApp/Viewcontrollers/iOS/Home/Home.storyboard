@@ -1093,7 +1093,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2389.8550724637685" y="-362.27678571428572"/>
+            <point key="canvasLocation" x="2051" y="-404"/>
         </scene>
         <!--On DemandVRI View Controller-->
         <scene sceneID="LeD-oD-Zbe">
@@ -13674,6 +13674,10 @@
                                     <constraint firstItem="ktF-Ag-nhc" firstAttribute="leading" secondItem="3t4-0G-45g" secondAttribute="leading" id="Hjw-kD-lcy"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yg1-Vc-Rbq" customClass="TVIVideoView">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yNh-0C-ubS">
                                 <rect key="frame" x="254" y="104" width="160" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -14034,11 +14038,15 @@
                             <constraint firstItem="3tK-Vx-fLG" firstAttribute="leading" secondItem="war-Ng-a6O" secondAttribute="leading" id="5Iz-mw-iXj"/>
                             <constraint firstItem="3tK-Vx-fLG" firstAttribute="top" secondItem="war-Ng-a6O" secondAttribute="top" id="81k-nM-wEa"/>
                             <constraint firstItem="war-Ng-a6O" firstAttribute="bottom" secondItem="3t4-0G-45g" secondAttribute="bottom" id="8dq-kr-abA"/>
+                            <constraint firstItem="Yg1-Vc-Rbq" firstAttribute="trailing" secondItem="war-Ng-a6O" secondAttribute="trailing" id="A1T-YB-2qZ"/>
                             <constraint firstItem="3t4-0G-45g" firstAttribute="leading" secondItem="war-Ng-a6O" secondAttribute="leading" id="Ebh-x6-DaD"/>
                             <constraint firstItem="ZPi-UN-88I" firstAttribute="trailing" secondItem="war-Ng-a6O" secondAttribute="trailing" id="Hdp-3G-cJo"/>
                             <constraint firstItem="3t4-0G-45g" firstAttribute="top" secondItem="war-Ng-a6O" secondAttribute="top" id="KSn-m3-Lec"/>
                             <constraint firstItem="ZPi-UN-88I" firstAttribute="leading" secondItem="war-Ng-a6O" secondAttribute="leading" id="Twn-yY-qSz"/>
+                            <constraint firstItem="Yg1-Vc-Rbq" firstAttribute="top" secondItem="war-Ng-a6O" secondAttribute="top" id="VRr-M3-Xrt"/>
+                            <constraint firstItem="Yg1-Vc-Rbq" firstAttribute="leading" secondItem="war-Ng-a6O" secondAttribute="leading" id="Xlj-5D-nA0"/>
                             <constraint firstAttribute="trailing" secondItem="3t4-0G-45g" secondAttribute="trailing" id="hm1-Xw-N5n"/>
+                            <constraint firstItem="Yg1-Vc-Rbq" firstAttribute="bottom" secondItem="war-Ng-a6O" secondAttribute="bottom" id="htd-1p-6ah"/>
                             <constraint firstItem="3tK-Vx-fLG" firstAttribute="trailing" secondItem="war-Ng-a6O" secondAttribute="trailing" id="jLk-fm-sgJ"/>
                             <constraint firstItem="war-Ng-a6O" firstAttribute="bottom" secondItem="ZPi-UN-88I" secondAttribute="bottom" id="zwv-lQ-I1d"/>
                         </constraints>
@@ -21428,7 +21436,7 @@
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="google-docs" width="512" height="512"/>
         <image name="handshake" width="512" height="512"/>
-        <image name="ic_call" width="50" height="51"/>
+        <image name="ic_call" width="120" height="120"/>
         <image name="ic_cancel" width="16" height="16"/>
         <image name="ic_circle" width="96" height="96"/>
         <image name="ic_close" width="128" height="128"/>

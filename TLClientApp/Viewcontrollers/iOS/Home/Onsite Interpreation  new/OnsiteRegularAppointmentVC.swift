@@ -167,12 +167,15 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
-        getCommonDetail()
+       getCommonDetail()
         getCustomerDetail()
         
        // NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteRegularScreen"), object: nil)
         
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 //    @objc func updateOnsiteRegularScreen(notification: Notification){
 //        print("refreshing data in Onsite regular ")
@@ -382,11 +385,7 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
                 print("language data language .. \(languageData.languageName ?? "")")
                 if selectedText == languageData.languageName ?? "" {
                     self.languageID = "\(languageData.languageID ?? 0)"
-                    print("languageId  \(self.languageID)")
-                    
-                    
-                    
-                }
+           }
             })
         }
     }
@@ -460,20 +459,6 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
     
     @IBAction func addOneTimeDepartment(_ sender: UIButton) {
         
-        
-        /* if isContactOption {
-         self.departmentOptionMajorView.isHidden = true
-         self.contactActiontype = 5
-         // 5 for Add one time  Department
-         self.editContactNameTF.text = ""
-         self.contactUpdateView.visibility = .visible
-         }else {
-         self.departmentOptionMajorView.isHidden = true
-         self.depatmrntActionType = 5
-         // 5 for Add one time  Department
-         self.editDepartmentNameTF.text = ""
-         self.departmentDetailUpdate.visibility = .visible
-         }*/
         let storyboard = UIStoryboard(name: Storyboard_name.scheduleApnt, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "UpdateDepartmentAndContactVC") as! UpdateDepartmentAndContactVC
         vc.modalPresentationStyle = .overCurrentContext
@@ -730,21 +715,7 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
     //MARK:  UPDATE Department and contact ONETIME
     
     @IBAction func actionEditDepartment(_ sender: UIButton) {
-        
-        
-        //            if isContactOption {
-        //                self.contactActiontype = 1
-        //                self.editContactNameTF.text = self.selectedContact
-        //                self.contactUpdateView.visibility = .visible
-        //                self.departmentOptionMajorView.isHidden = true
-        //
-        //            }else {
-        //                self.departmentOptionMajorView.isHidden = true
-        //                self.depatmrntActionType = 1
-        //                self.editDepartmentNameTF.text = self.selectedDepartment
-        //                self.departmentDetailUpdate.visibility = .visible
-        //            }
-        //changes:
+       
         
         if isContactOption {
             if self.contactNameTF.text != "" && self.contactNameTF.text != "Select Contact" {
@@ -1057,8 +1028,8 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
         let endDate = "\(self.appointmentDateTF.text ?? "") \(self.endTimeTF.text ?? "")"
         
         let requestedOn = self.requestedONTF.text ?? ""
-        let location = CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? "")
-        let textnote = CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? "")
+        let location = self.locationTF.text ?? "" // CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? "")
+        let textnote = self.specialNotesTF.text ?? "" //CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? "")
         self.jobType = "Onsite Interpretation"
         print("venueID , language ID \(venueID ),\(languageID)")
         if self.appointmentDateTF.text!.isEmpty {
@@ -1076,7 +1047,7 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
         }else {
             
             self.hitApiCreateRequest(masterCustomerID: self.masterCustomerID, authCode: authCode, SpecialityID: self.specialityID, ServiceType: self.serviceId, startTime: startDate, endtime: endDate, gender: self.genderID , caseNumber: self.cRefrence, clientName: self.clinetName, clientIntial: self.CIntials, location: location, textNote: textnote, SendingEndTimes: false, Travelling: "", CallTime: "", requestedOn: requestedOn, LoginUserId: userId, parameter: "")
-            //self.createRequestForAppointment(userID: userId, companyID: companyID, AuthCode: authCode, AppointStatusID: appointStatusID, startDate: startDate, EndDate: endDate, AppointTypeID: appointTypeId, languageID: languageID, userTypeID: userTypeID, jobType: jobType, clientName: clientName, venueID: self.venueID, updatedOn: updatedOn, requestedON: requestedOn, loadedON: loadedOn, cpInitials: cpIntial, serviceTypeID: serviceId, genderID: genderId, userName: userName)
+            
         }
     }
     
@@ -1506,35 +1477,7 @@ extension OnsiteRegularAppointmentVC{
                                         self.providerDetail.append(itemA)
                                         self.providerArray.append(providerName ?? "")
                                     })
-                                    // self.venueNameTF.text = ""
-                                    // self.venueDetailView.visibility = .gone
-                                    //self.departmentOptionStackView.visibility = .gone
-                                    // self.contactStackView.visibility = .gone
-                                    //  self.departmentNameTF.text = ""
-                                    //  self.departmentDetailUpdate.visibility = .gone
-                                    //  self.contactNameTF.text = ""
-                                    //  self.contactUpdateView.visibility = .gone
-                                    // showVenueDropDown()
-                                    
-                                    /*if isContact == "1"{
-                                        if let obj = self.providerDetail.firstIndex(where: {$0.ProviderID == id}){
-                                            self.contactNameTF.text = self.providerDetail[obj].ProviderName
-                                        }
-                                        else {
-                                            self.contactNameTF.text = ""
-                                        }
-                                    }
-                                    else if isContact == "2" {
-                                        
-                                        if let obj = self.departmentDetail.firstIndex(where: {$0.DepartmentID == id}){
-                                            self.departmentNameTF.text = self.departmentDetail[obj].DepartmentName
-                                          }
-                                        else {
-                                            self.departmentNameTF.text = ""
-                                        }
-                                    }*/
-                                   
-                                } else {
+                                   } else {
                                     print("bad json")
                                 }
                             } catch let error as NSError {
@@ -1748,11 +1691,7 @@ extension OnsiteRegularAppointmentVC{
                                         DispatchQueue.main.async {
                                             self.appointmentBookedCalls(message: message ?? "", authcode: matchAuth!)
                                         }
-                                        
-                                        /* self.view.makeToast(Message,duration: 1, position: .center)
-                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0){
-                                         self.navigationController?.popViewController(animated: true)
-                                         }*/
+                                      
                                     }else {
                                         self.view.makeToast("Please try after sometime.",duration: 1, position: .center)
                                     }
@@ -1783,11 +1722,7 @@ extension OnsiteRegularAppointmentVC{
             SwiftLoader.show(animated: true)
             
             let urlString = APi.encryptdecryptvalue.url
-            // let companyID = self.companyID//GetPublicData.sharedInstance.companyID
-            // let userID = self.userID//GetPublicData.sharedInstance.userID
-            // let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
-            
-            let parameter = [
+          let parameter = [
                 "value": value, "key": "Ecrpt"
             ] as [String : Any]
             print("url and parameter apiEncryptedDataResponse ", urlString, parameter)

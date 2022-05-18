@@ -149,6 +149,7 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
         }
         getCommonDetail()
         getCustomerDetail()
+        
        // NotificationCenter.default.addObserver(self, selector: #selector(self.updateOnsiteRegularScreen(notification:)), name: Notification.Name("updateOnsiteRecurrenceScreen"), object: nil)
         
         // Do any additional setup after loading the view.
@@ -158,6 +159,7 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
 //        getCommonDetail()
 //        getCustomerDetail()
 //    }
+    
     @objc func updateVenueList(){
        getCustomerDetail()
         
@@ -507,21 +509,124 @@ class OnsiteRecurringAppointmentVC: UIViewController, SelectDateForRecurrence, U
             let storyboard = UIStoryboard(name: "SchedulingAppointments", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "UpdateDepartmentAndContactVC") as! UpdateDepartmentAndContactVC
             vc.modalPresentationStyle = .overCurrentContext
+            
+            
+            
             if self.isContactOption {
-                vc.isdepartSelect = false
-                vc.contactActiontype = 1
+                if oneTimeContactArr.count != 0 {
+                    if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderName == self.elementName }){
+                        vc.elementID = oneTimeContactArr[obj].ProviderID!
+                        vc.isdepartSelect = false
+                        vc.contactActiontype = 5
+                        vc.elementName = self.elementName
+                        vc.actionType = "Update"
+                        vc.DeptID = oneTimeContactArr[obj].ProviderID!
+                        vc.tableDelegate = self
+                        vc.venueID = self.venueID
+                        self.present(vc, animated: true, completion: nil)
+                        self.departmentOptionMajorView.isHidden = true
+                        
+                    }
+                    else {
+                        vc.elementID = self.elementID
+                        vc.isdepartSelect = false
+                        vc.contactActiontype = 1
+                        vc.elementName = self.elementName
+                        vc.actionType = "Update"
+                        vc.DeptID = self.DepartmentIDForOperation
+                        vc.tableDelegate = self
+                        vc.venueID = self.venueID
+                        self.present(vc, animated: true, completion: nil)
+                        self.departmentOptionMajorView.isHidden = true
+                    }
+                }
+                else {
+                    vc.elementID = self.elementID
+                    vc.isdepartSelect = false
+                    vc.contactActiontype = 1
+                    vc.elementName = self.elementName
+                    vc.actionType = "Update"
+                    vc.DeptID = self.DepartmentIDForOperation
+                    vc.tableDelegate = self
+                    vc.venueID = self.venueID
+                    self.present(vc, animated: true, completion: nil)
+                    self.departmentOptionMajorView.isHidden = true
+                }
+            }
+            else {
+                if oneTimeDepartmentArr.count != 0 {
+                    if let obj = oneTimeDepartmentArr.firstIndex(where: {$0.DepartmentName == elementName }){
+                        vc.elementID = oneTimeDepartmentArr[obj].DepartmentID!
+                        vc.isdepartSelect = true
+                        vc.depatmrntActionType = 5
+                        vc.elementName = elementName
+                        vc.tableDelegate = self
+                        vc.actionType = "Update"
+                        vc.venueID = self.venueID
+                        vc.DeptID = oneTimeDepartmentArr[obj].DepartmentID!
+                        self.present(vc, animated: true, completion: nil)
+                        self.departmentOptionMajorView.isHidden = true
+                    }
+                    
+                    else {
+                        vc.elementID = elementID
+                        vc.isdepartSelect = true
+                        vc.depatmrntActionType = 1
+                        vc.elementName = elementName
+                        vc.tableDelegate = self
+                        vc.actionType = "Update"
+                        vc.venueID = self.venueID
+                        vc.DeptID = self.DepartmentIDForOperation
+                        self.present(vc, animated: true, completion: nil)
+                        self.departmentOptionMajorView.isHidden = true
+                    }
+                }
+                else {
+                    vc.elementID = elementID
+                    vc.isdepartSelect = true
+                    vc.depatmrntActionType = 1
+                    vc.elementName = elementName
+                    vc.tableDelegate = self
+                    vc.actionType = "Update"
+                    vc.venueID = self.venueID
+                    vc.DeptID = self.DepartmentIDForOperation
+                    self.present(vc, animated: true, completion: nil)
+                    self.departmentOptionMajorView.isHidden = true
+                }
+                
+            }
+            
+           /* if self.isContactOption {
+                
+                if oneTimeContactArr.contains(where: {$0.ProviderID == self.elementID}){
+                    vc.isAddOneTime = 1
+                    vc.contactActiontype = 5
+                    vc.isdepartSelect = false
+                }
+                else {
+                    vc.isdepartSelect = false
+                    vc.contactActiontype = 1
+                }
             }else {
-                vc.isdepartSelect = true
-                vc.depatmrntActionType = 1
+               
+                if oneTimeDepartmentArr.contains(where: {$0.DepartmentID == self.elementID}){
+                    vc.isAddOneTime = 1
+                    vc.isdepartSelect = false
+                    vc.contactActiontype = 5
+                }
+                else {
+                    vc.isdepartSelect = true
+                    vc.depatmrntActionType = 1
+                }
             }
             vc.tableDelegate = self
             vc.actionType = "Update"
             vc.elementID = self.elementID
             vc.elementName = self.elementName
             vc.DeptID = self.DepartmentIDForOperation
-            vc.venueID = venueID
+            vc.venueID = self.venueID
             self.present(vc, animated: true, completion: nil)
-            self.departmentOptionMajorView.isHidden = true
+            self.departmentOptionMajorView.isHidden = true*/
            
         }
        
@@ -863,7 +968,7 @@ extension OnsiteRecurringAppointmentVC{
                     switch(response.result){
                         
                     case .success(_):
-                        print("Respose Success getCommonDetail ")
+                        print("Respose Success getCommonDetail")
                         guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
@@ -888,12 +993,8 @@ extension OnsiteRecurringAppointmentVC{
                                     let vendorRanking = newjson?["VendorRanking"] as? [[String:Any]]
                                     let travelMiles = newjson?["TravelMiles"] as? [[String:Any]]
                                     let companyData = newjson?["CompanyData"] as? [[String:Any]]
-                                    
                                     let getAuthCodeDetail = getAuthCode?.first
                                     let authcode = getAuthCodeDetail?["authcode"] as? String
-                                    
-                                    
-                                    
                                     let appointmentid = getAuthCodeDetail?["appointmentid"] as? String
                                    
                                     print("get AuthCode Detail Info ", SpecialityList,serviceTypeList ,languageList,AppointmentStatus , stateList , vendorRanking , travelMiles, companyData)
@@ -906,8 +1007,6 @@ extension OnsiteRecurringAppointmentVC{
                                     print("current time before \(currentDateTime)")
                                     let tempTime = dateFormatterTime.string(from: currentDateTime)
                                     print("TEMP TIME : \(tempTime)")
-                                    
-                                   
                                     
                                    // let endTimee = Date().adding(minutes: 120)
                                     let authCodeNew = "\(authcode ?? "")"//-1
@@ -1042,7 +1141,7 @@ extension OnsiteRecurringAppointmentVC{
                         }else {
                             cID = "\(contactID)"
                         }
-                        let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? ""))</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "")) )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                        let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "") )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
                          middelePart = middelePart + AptString
                     }
                 }
@@ -1668,6 +1767,7 @@ extension OnsiteRecurringAppointmentVC : UITableViewDelegate , UITableViewDataSo
             self.DeactivateOptionView.visibility = .gone
             self.elementName = blockedAppointmentArr[sender.tag].conatctName ?? ""
             self.elementID = blockedAppointmentArr[sender.tag].contactID ?? 0
+        self.venueID = blockedAppointmentArr[sender.tag].venueID ?? "0"
             self.DepartmentIDForOperation = blockedAppointmentArr[sender.tag].DepartmentID ?? 0
         
         

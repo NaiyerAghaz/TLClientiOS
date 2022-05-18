@@ -23,6 +23,8 @@ extension VideoCallViewController:RoomDelegate{
         }
         
         localParticipant = room.localParticipant
+        primarylocalParticiapnt = localParticipant
+        
         roomlocalParticipantSIDrule = room.localParticipant?.sid
         localParticipant?.delegate = self
         
@@ -217,6 +219,7 @@ extension VideoCallViewController:RoomDelegate{
             callStartTime = cEnum.instance.getCurrentDateAndTime()
             recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
         }
+     
        
 //        let vdoModel = VDOCallViewModel()
 //        let req = vdoModel.companyReqDetails(userID: userDefaults.string(forKey: .kUSER_ID)!)
@@ -235,7 +238,7 @@ extension VideoCallViewController:RoomDelegate{
 //                self.view.makeToast("You have reached maximum participants limit", position: .center)
 //            }
 //        }
-        
+      //  SecondaryRemoteParticipant = participant
         participant.delegate = self
         self.remoteParticipantArr.append(participant)
         print("participantDidConnect----->",participant)

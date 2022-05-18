@@ -219,7 +219,7 @@ DEPENDENCIES:
   - SwiftMessages
   - SwiftPullToRefresh
   - TwilioChatClient
-  - TwilioVideo (~> 5)
+  - TwilioVideo (~> 5.1)
   - TwilioVoice (~> 6.3.0)
   - XLPagerTabStrip (~> 9.0)
 
@@ -304,6 +304,6 @@ SPEC CHECKSUMS:
   TwilioVoice: 6b1d796dcdec4ec6e6d2165bc66a266db1d2d93f
   XLPagerTabStrip: 61c57fd61f611ee5f01ff1495ad6fbee8bf496c5
 
-PODFILE CHECKSUM: 8e90c79530ba8a161a8eedb4f1d83a4c53d9a539
+PODFILE CHECKSUM: f6db8819a65f687ec6b129cffd0657c6bc42590b
 
 COCOAPODS: 1.11.3

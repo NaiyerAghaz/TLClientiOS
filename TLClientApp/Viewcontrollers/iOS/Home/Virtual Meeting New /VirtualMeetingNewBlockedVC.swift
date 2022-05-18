@@ -1351,7 +1351,7 @@ extension VirtualMeetingNewBlockedVC{
                     }else {
                         cID = "\(contactID)"
                     }
-                    let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID></VenueID><DepartmentID></DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? "") )</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
+                    let AptString = "<SUBAPPOINTMENT><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(appointmentEndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID></VenueID><DepartmentID></DepartmentID><ProviderID>\(cID)</ProviderID><Location>\(AptData.location ?? "" )</Location><Text>\(AptData.SpecialNotes ?? "" )</Text><SendingEndTimes>false</SendingEndTimes><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></SUBAPPOINTMENT>"
                     middelePart = middelePart + AptString
                     
                 }

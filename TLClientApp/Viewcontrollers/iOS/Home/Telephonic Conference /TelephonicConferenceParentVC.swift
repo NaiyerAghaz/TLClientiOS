@@ -14,14 +14,17 @@ class TelephonicConferenceParentVC: UIViewController {
     @IBOutlet weak var blockedContainerView: UIView!
     @IBOutlet weak var regularConatinerView: UIView!
     @IBOutlet weak var appointmentTypeSegmentControl: UISegmentedControl!
+    var tRegular : TelephonicNewRegularVC?
+    var tBlocked : TelephonicBlockedNewVC?
+    var tRecurrence : TelephonicRecurrenceNewVC?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.regularConatinerView.alpha = 1
         self.blockedContainerView.alpha = 0
         self.recuriingContainerView.alpha = 0
         self.appointmentTypeSegmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
-        //self.appointmentTypeSegmentControl.
-        //appointmentTypeSegmentControl.setSelectedSegmentColor(with: .white, and: .red)
+      //  tRegular?.getCommonDetail()
+        //tRegular?.getCustomerDetail()
     }
     
     @IBAction func actionBackBtn(_ sender: UIButton) {
@@ -33,16 +36,22 @@ class TelephonicConferenceParentVC: UIViewController {
             self.regularConatinerView.alpha = 1
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 0
+          //  tRegular?.getCommonDetail()
+           // tRegular?.getCustomerDetail()
            // NotificationCenter.default.post(name: Notification.Name("updateTelephonicRegularScreen"), object: nil, userInfo: nil)
         }else if sender.selectedSegmentIndex == 1{
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 1
             self.recuriingContainerView.alpha = 0
+           // tBlocked?.getCommonDetail()
+           // tBlocked?.getCustomerDetail()
            // NotificationCenter.default.post(name: Notification.Name("updateTelephonicBlockedScreen"), object: nil, userInfo: nil)
         }else {
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 1
+           // tRecurrence?.getCommonDetail()
+            //tRecurrence?.getCustomerDetail()
           //  NotificationCenter.default.post(name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil, userInfo: nil)
         }
     }

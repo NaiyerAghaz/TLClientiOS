@@ -100,7 +100,7 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
     var apiGetCustomerDetailResponseModel = [ApiGetCustomerDetailResponseModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         self.recuringAppointmentTV.delegate = self
         self.recuringAppointmentTV.dataSource = self
         
@@ -112,10 +112,6 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
         self.companyID = userDefaults.string(forKey: "companyID") ?? ""
         self.userTypeID = userDefaults.string(forKey: "userTypeID") ?? ""
         NotificationCenter.default.addObserver(self, selector: #selector(updateVenueList), name: Notification.Name("updateVenueList"), object: nil)
-        
-        
-        
-        
         self.loginUserID = userDefaults.string(forKey: "LoginUserTypeID") ?? ""
         if self.loginUserID == "10" || self.loginUserID == "7" || self.loginUserID == "8" || self.loginUserID == "11" {
             self.subCustomerNameTF.isUserInteractionEnabled = false
@@ -125,12 +121,13 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
         
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
-        getCommonDetail()
-        getCustomerDetail()
+        
         //NotificationCenter.default.addObserver(self, selector: #selector(self.updateVirtualRecurrenceScreen(notification:)), name: Notification.Name("updateVirtualRecurrenceScreen"), object: nil)
         
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVenueInList(notification:)), name: Notification.Name("updateVenueInList"), object: nil)
+       getCommonDetail()
+    getCustomerDetail()
         
     }
     @objc func updateVenueInList(notification: Notification){
@@ -147,11 +144,11 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
         }
         self.recuringAppointmentTV.reloadData()
     }
-//    @objc func updateVirtualRecurrenceScreen(notification: Notification){
-//        print("refreshing data in updateVirtualRecurrenceScreen regular ")
-//        getCommonDetail()
-//        getCustomerDetail()
-//    }
+    //    @objc func updateVirtualRecurrenceScreen(notification: Notification){
+    //        print("refreshing data in updateVirtualRecurrenceScreen regular ")
+    //        getCommonDetail()
+    //        getCustomerDetail()
+    //    }
     @objc func updateVenueList(){
         getCustomerDetail()
         
@@ -176,7 +173,7 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
                     //self.languageID = "\(languageData.languageID ?? 0)"
                     let cid = "\(languageData.CustomerID ?? 0 )"
                     self?.customerID = cid
-                    self?.getVenueDetail(customerId: cid)
+                    self?.getVenueDetail(customerId: cid, isContact: "0", id: 0)
                     //  print("subcustomerList id \(languageData.UniqueID)")
                 }
             })
@@ -461,6 +458,16 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
             vc.elementID = self.elementID
             vc.elementName = self.elementName
             vc.DeptID = self.DepartmentIDForOperation
+            vc.venueID = "0"
+            if oneTimeContactArr.contains(where: {$0.ProviderID == self.elementID}){
+                vc.isAddOneTime = 1
+                vc.contactActiontype = 5
+                vc.isdepartSelect = false
+            }
+            else {
+                vc.isdepartSelect = false
+                vc.contactActiontype = 1
+            }
             self.present(vc, animated: true, completion: nil)
             self.departmentOptionMajorView.isHidden = true
             
@@ -471,15 +478,12 @@ class VirtualMeetingNewRecurrenceVC: UIViewController, SelectDateForRecurrence,C
 }
 //MARK: - Api methoda
 extension VirtualMeetingNewRecurrenceVC{
-    func getVenueDetail(customerId: String){
+    func getVenueDetail(customerId : String,isContact:String, id: Int){
         if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             
             self.providerArray.removeAll()
             self.providerDetail.removeAll()
-            
-            
-            
             let itemP = ProviderData(ProviderID: 0, ProviderName: "Select Contact",isOneTime: false)
             self.providerDetail.append(itemP)
             self.providerArray.append("Select Contact")
@@ -488,10 +492,6 @@ extension VirtualMeetingNewRecurrenceVC{
                 self.providerDetail.append(oneTimeDepart)
                 self.providerArray.append(oneTimeDepart.ProviderName ?? "")
             }
-            
-            
-            
-            
             let urlString = APi.GetVenueCommanddl.url
             let companyID = self.companyID //GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
@@ -500,7 +500,7 @@ extension VirtualMeetingNewRecurrenceVC{
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
-            print("url and parameter for venue ", urlString, parameter)
+            print("url and parameter for venueVirtaul::: ", urlString, parameter)
             AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -529,17 +529,28 @@ extension VirtualMeetingNewRecurrenceVC{
                                     let providerList = newjson?["ProviderNameList"] as? [[String:Any]]
                                     let customerPermision = newjson?["customerPermission"] as? [[String:Any]]
                                     //let customerUserName = userIfo?["CustomerUserName"] as? String
-                                    print("venue Detail is ",newjson)
-                                    
-                                    
+                                    print("venue Detail is ",newjson,"providerList:",providerList)
                                     
                                     providerList?.forEach({ providerData in
+                                        
                                         let providerID = providerData["ProviderID"] as? Int
                                         let providerName = providerData["ProviderName"] as? String
                                         let itemA = ProviderData(ProviderID: providerID, ProviderName: providerName)
+                                        print("venue Detail is ",newjson,"providerName:",providerName)
                                         self.providerDetail.append(itemA)
                                         self.providerArray.append(providerName ?? "")
                                     })
+                                    if isContact == "1"{
+                                        if let obj = self.blockedAppointmentArr.firstIndex(where: {$0.contactID == id}){
+                                            if let nObj = self.providerDetail.first(where: {$0.ProviderID == id}){
+                                                self.blockedAppointmentArr[obj].conatctName = nObj.ProviderName
+                                            }
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.recuringAppointmentTV.reloadData()
+                                        }
+                                        
+                                    }
                                     
                                 } else {
                                     print("bad json")
@@ -626,7 +637,8 @@ extension VirtualMeetingNewRecurrenceVC{
                                         
                                     })
                                     GetPublicData.sharedInstance.TempCustomerID = self.customerID
-                                    getVenueDetail(customerId: self.customerID)
+                                    getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
+                                    
                                 } else {
                                     print("bad json")
                                 }
@@ -660,7 +672,7 @@ extension VirtualMeetingNewRecurrenceVC{
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
-            print("url and parameter for customer Detail are ", urlString, parameter)
+            print("url and parameter for customer Detail are2222 ", urlString, parameter)
             AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -697,8 +709,9 @@ extension VirtualMeetingNewRecurrenceVC{
                                     let itemA = SubCustomerListData(UniqueID:  0, Email: "", CustomerUserName: "", Priority: 0, MasterUsertype: 0, Mobile: "", PurchaseOrderNote: "", CustomerID: customerID, CustomerFullName:  "Select Sub customer", EmailToRequestor: 0)
                                     self.subcustomerArr.append("Select Sub customer")
                                     self.subcustomerList.append(itemA)
-                                    getSubcustomerList()
+                                  
                                     self.customerNameTF.text = customerFullName
+                                    getSubcustomerList()
                                 } else {
                                     print("bad json")
                                 }
@@ -726,9 +739,7 @@ extension VirtualMeetingNewRecurrenceVC{
             self.specialityDetail.removeAll()
             self.serviceDetail.removeAll()
             self.serviceArr.removeAll()
-            
-            self.languageArray.removeAll()
-            
+           self.languageArray.removeAll()
             self.genderArray.removeAll()
             
             let urlString = APi.GetCommonDetail.url
@@ -923,7 +934,7 @@ extension VirtualMeetingNewRecurrenceVC{
                     }else {
                         cID = "\(contactID)"
                     }
-                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? "") )</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\( AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
                     middelePart = middelePart + AptString
                 }
             }
@@ -1121,58 +1132,115 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
             self.recuringAppointmentTV.reloadData()
         }else {
             //self.oneTimeDepartmentArr.append(departmentData)
-            getVenueDetail(customerId: self.customerID)
+            getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
         }
         
     }
     
     func updateOneTimeConatct(ConatctData: ProviderData, isDelete: Bool) {
         
-        if isDelete {
+        /* if isDelete {
+         
+         print("Delete Action ")
+         for (indexx , itemm) in blockedAppointmentArr.enumerated() {
+         if itemm.contactID == ConatctData.ProviderID {
+         self.blockedAppointmentArr[indexx].contactID = 0
+         self.blockedAppointmentArr[indexx].conatctName = ""
+         self.blockedAppointmentArr[indexx].isConatctSelect = false
+         }else {
+         
+         }
+         }
+         for (indexx , itemm) in oneTimeContactArr.enumerated() {
+         if itemm.ProviderID == ConatctData.ProviderID {
+         self.oneTimeContactArr.remove(at: indexx)
+         
+         }else {
+         
+         }
+         
+         
+         }
+         for (indexx , itemm) in providerDetail.enumerated() {
+         if itemm.ProviderID == ConatctData.ProviderID {
+         self.providerDetail.remove(at: indexx)
+         
+         }else {
+         
+         }
+         
+         
+         }
+         
+         if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
+         //index has the position of first match
+         self.providerArray.remove(at: index)
+         } else {
+         //element is not present in the array
+         }
+         self.recuringAppointmentTV.reloadData()
+         
+         }else {
+         self.oneTimeContactArr.append(ConatctData)
+         getVenueDetail(customerId: self.customerID)
+         }*/
+        //new changes
+        if oneTimeContactArr.count != 0{
             
-            print("Delete Action ")
-            for (indexx , itemm) in blockedAppointmentArr.enumerated() {
-                if itemm.contactID == ConatctData.ProviderID {
-                    self.blockedAppointmentArr[indexx].contactID = 0
-                    self.blockedAppointmentArr[indexx].conatctName = ""
-                    self.blockedAppointmentArr[indexx].isConatctSelect = false
-                }else {
-                    
-                }
-               }
-            for (indexx , itemm) in oneTimeContactArr.enumerated() {
-                if itemm.ProviderID == ConatctData.ProviderID {
-                    self.oneTimeContactArr.remove(at: indexx)
-                    
-                }else {
-                    
-                }
+            if isDelete {
                 
+                if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                    oneTimeContactArr.remove(at: obj)
+                }
+                if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                    blockedAppointmentArr[obj2].conatctName = ""
+                    blockedAppointmentArr[obj2].contactID = 0
+                    blockedAppointmentArr[obj2].isConatctSelect = false
+                }
+                getVenueDetail(customerId: self.customerID, isContact: "1", id: 0)
                 
             }
-            for (indexx , itemm) in providerDetail.enumerated() {
-                if itemm.ProviderID == ConatctData.ProviderID {
-                    self.providerDetail.remove(at: indexx)
-                    
-                }else {
-                    
+            
+            else {
+                
+                if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                    oneTimeContactArr.remove(at: obj)
                 }
                 
+                self.oneTimeContactArr.append(ConatctData)
+                getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
                 
             }
+            //let index = IndexPath(item: selectedIndex, section: 0)
             
-            if let index = providerArray.firstIndex(of: ConatctData.ProviderName ?? "") {
-                //index has the position of first match
-                self.providerArray.remove(at: index)
-            } else {
-                //element is not present in the array
-            }
-            self.recuringAppointmentTV.reloadData()
-            
-        }else {
-            self.oneTimeContactArr.append(ConatctData)
-            getVenueDetail(customerId: self.customerID)
+            // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+            //  self.blockedAppointmentTV.reloadData()
         }
+        else {
+            if isDelete {
+                if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                    oneTimeContactArr.remove(at: obj)
+                }
+                if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                    blockedAppointmentArr[obj2].conatctName = ""
+                    blockedAppointmentArr[obj2].contactID = 0
+                    blockedAppointmentArr[obj2].isConatctSelect = false
+                    
+                }
+                
+                
+                getVenueDetail(customerId: self.customerID, isContact: "1", id: 0)
+            }
+            else {
+                self.oneTimeContactArr.append(ConatctData)
+                getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
+            }
+            // let index = IndexPath(item: selectedIndex, section: 0)
+            // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+            //self.blockedAppointmentTV.reloadData()
+        }
+        
+        //end
     }
     
     
@@ -1208,22 +1276,12 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
             self.recuringAppointmentTV.reloadData()
         }else {
             print("Delegate in didReloadTable Data updated is \(elemntID) and is it conatct \(isConatctUpdate)")
-            for  itemm in blockedAppointmentArr {
-                
-                
-                if isConatctUpdate {
-                    //if itemm.contactID == elemntID { }
-                    itemm.conatctName = ""
-                    itemm.contactID = 0
-                    
-                }else {
-                    // if itemm.DepartmentID == elemntID { }
-                    itemm.DepartmentName = ""
-                    itemm.DepartmentID = 0
-                }
-            }
-            self.recuringAppointmentTV.reloadData()
-            getVenueDetail(customerId: self.customerID)
+            
+            let isContactVal = (isConatctUpdate == true) ? "1" : "2"
+            
+            getVenueDetail(customerId: self.customerID, isContact:isContactVal, id: elemntID)
+            
+            
         }
     }
     
@@ -1343,9 +1401,6 @@ extension VirtualMeetingNewRecurrenceVC : UITableViewDelegate , UITableViewDataS
         }))
         self.present(refreshAlert, animated: true, completion: nil)
     }
-    
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.blockedAppointmentArr.count //blockedAtCount
     }

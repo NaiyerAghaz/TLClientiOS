@@ -128,8 +128,8 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
-        getCommonDetail()
-        getCustomerDetail()
+       getCommonDetail()
+      getCustomerDetail()
         
        // NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRecurrencScreen(notification:)), name: Notification.Name("updateTelephonicRecurrencScreen"), object: nil)
         
@@ -177,9 +177,9 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
                 print("subcustomerList data \(languageData.CustomerFullName ?? "")")
                 if item == languageData.CustomerFullName ?? "" {
                     //self.languageID = "\(languageData.languageID ?? 0)"
-                    let customerID = "\(languageData.CustomerID ?? 0 )"
-                    self?.customerID = customerID
-                    self?.getVenueDetail(customerId: customerID)
+                    let cid = "\(languageData.CustomerID ?? 0 )"
+                    self?.customerID = cid
+                    self?.getVenueDetail(customerId: cid, isContact: "0", id: 0)
                     //  print("subcustomerList id \(languageData.UniqueID)")
                 }
             })
@@ -384,7 +384,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
         vc.isAddOneTime = 1
         self.present(vc, animated: true, completion: nil)
         self.departmentOptionMajorView.isHidden = true
-        self.departmentOptionMajorView.isHidden = true
+        
     }
     @IBAction func actionCloseDepartmentOption(_ sender: UIButton) {
         self.departmentOptionMajorView.isHidden = true
@@ -496,6 +496,16 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
             vc.elementID = self.elementID
             vc.elementName = self.elementName
             vc.DeptID = self.DepartmentIDForOperation
+            vc.venueID = "0"
+            if oneTimeContactArr.contains(where: {$0.ProviderID == self.elementID}){
+                vc.isAddOneTime = 1
+                vc.contactActiontype = 5
+                vc.isdepartSelect = false
+            }
+            else {
+                vc.isdepartSelect = false
+                vc.contactActiontype = 1
+            }
             self.present(vc, animated: true, completion: nil)
             self.departmentOptionMajorView.isHidden = true
             
@@ -506,7 +516,7 @@ class TelephonicRecurrenceNewVC: UIViewController, SelectDateForRecurrence,Commo
 }
 //MARK: - Api methoda
 extension TelephonicRecurrenceNewVC{
-    func getVenueDetail(customerId: String){
+    func getVenueDetail(customerId : String,isContact:String, id: Int){
         if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
             
@@ -523,11 +533,7 @@ extension TelephonicRecurrenceNewVC{
                 self.providerDetail.append(oneTimeDepart)
                 self.providerArray.append(oneTimeDepart.ProviderName ?? "")
             }
-            
-            
-            
-            
-            let urlString = APi.GetVenueCommanddl.url
+           let urlString = APi.GetVenueCommanddl.url
             let companyID = self.companyID //GetPublicData.sharedInstance.companyID
             let userID = self.userID//GetPublicData.sharedInstance.userID
             let userTypeId = self.userTypeID//GetPublicData.sharedInstance.userTypeID
@@ -575,7 +581,17 @@ extension TelephonicRecurrenceNewVC{
                                         self.providerDetail.append(itemA)
                                         self.providerArray.append(providerName ?? "")
                                     })
-                                    
+                                    if isContact == "1"{
+                                        if let obj = self.blockedAppointmentArr.firstIndex(where: {$0.contactID == id}){
+                                            if let nObj = self.providerDetail.first(where: {$0.ProviderID == id}){
+                                                self.blockedAppointmentArr[obj].conatctName = nObj.ProviderName
+                                            }
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.recuringAppointmentTV.reloadData()
+                                        }
+                                        
+                                    }
                                 } else {
                                     print("bad json")
                                 }
@@ -662,7 +678,8 @@ extension TelephonicRecurrenceNewVC{
                                         
                                     })
                                     GetPublicData.sharedInstance.TempCustomerID = self.customerID
-                                    getVenueDetail(customerId: self.customerID)
+                                    getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
+                                   // getVenueDetail(customerId: self.customerID)
                                 } else {
                                     print("bad json")
                                 }
@@ -732,8 +749,9 @@ extension TelephonicRecurrenceNewVC{
                                     let itemA = SubCustomerListData(UniqueID:  0, Email: "", CustomerUserName: "", Priority: 0, MasterUsertype: 0, Mobile: "", PurchaseOrderNote: "", CustomerID: customerID, CustomerFullName:  "Select Sub customer", EmailToRequestor: 0)
                                     self.subcustomerArr.append("Select Sub customer")
                                     self.subcustomerList.append(itemA)
-                                    getSubcustomerList()
+                                  
                                     self.customerNameTF.text = customerFullName
+                                    getSubcustomerList()
                                 } else {
                                     print("bad json")
                                 }
@@ -965,7 +983,7 @@ extension TelephonicRecurrenceNewVC{
                     }else {
                         cID = "\(contactID)"
                     }
-                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.location ?? ""))</Location><Text>\(CEnumClass.share.replaceSpecialCharacters(str: AptData.SpecialNotes ?? "") )</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
+                    let AptString = "<RECURRAPPOINTMENT><AuthCode>\(AptData.authCode ?? "")</AuthCode><StartDateTime>\(startTime)</StartDateTime><EndDateTime>\(EndTime)</EndDateTime><LanguageID>\(lID)</LanguageID><CaseNumber>\(AptData.ClientRefrence ?? "")</CaseNumber><ClientName>\(AptData.clientName ?? "")</ClientName><cPIntials>\(AptData.ClientIntials ?? "")</cPIntials><VenueID>\(AptData.venueID ?? "")</VenueID><DepartmentID>\(vID)</DepartmentID><ProviderID>\(cID)</ProviderID><SendingEndTimes>false</SendingEndTimes><Location>\(AptData.location ?? "")</Location><Text>\(AptData.SpecialNotes ?? "")</Text><AptDetails></AptDetails><FinancialNotes></FinancialNotes><ScheduleNotes></ScheduleNotes><aPVenueID></aPVenueID><Active></Active></RECURRAPPOINTMENT>"
                     middelePart = middelePart + AptString
                 }
             }
@@ -1160,14 +1178,16 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             self.recuringAppointmentTV.reloadData()
         }else {
             //self.oneTimeDepartmentArr.append(departmentData)
-            getVenueDetail(customerId: self.customerID)
+            getVenueDetail(customerId: self.customerID, isContact: "0", id: 0)
         }
         
     }
     
     func updateOneTimeConatct(ConatctData: ProviderData, isDelete: Bool) {
+        print("contact----->",ConatctData.ProviderID, ConatctData.ProviderName)
         
-        if isDelete {
+        
+        /*if isDelete {
             
             print("Delete Action ")
             for (indexx , itemm) in blockedAppointmentArr.enumerated() {
@@ -1211,9 +1231,72 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             self.recuringAppointmentTV.reloadData()
             
         }else {
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+                
+            }
+            
             self.oneTimeContactArr.append(ConatctData)
             getVenueDetail(customerId: self.customerID)
+        }*/
+        
+        //changes new
+        
+        if oneTimeContactArr.count != 0{
+        
+        if isDelete {
+      
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+            }
+            if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                blockedAppointmentArr[obj2].conatctName = ""
+                blockedAppointmentArr[obj2].contactID = 0
+                blockedAppointmentArr[obj2].isConatctSelect = false
+            }
+           getVenueDetail(customerId: self.customerID, isContact: "1", id: 0)
+           
         }
+        
+        else {
+            
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+            }
+
+               self.oneTimeContactArr.append(ConatctData)
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
+           
+        }
+            //let index = IndexPath(item: selectedIndex, section: 0)
+            
+           // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+          //  self.blockedAppointmentTV.reloadData()
+        }
+        else {
+        if isDelete {
+            if let obj = oneTimeContactArr.firstIndex(where: {$0.ProviderID == ConatctData.ProviderID}){
+                oneTimeContactArr.remove(at: obj)
+            }
+            if let obj2 = blockedAppointmentArr.firstIndex(where: {$0.contactID == ConatctData.ProviderID}){
+                blockedAppointmentArr[obj2].conatctName = ""
+                blockedAppointmentArr[obj2].contactID = 0
+                blockedAppointmentArr[obj2].isConatctSelect = false
+                
+            }
+            
+
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: 0)
+        }
+        else {
+           self.oneTimeContactArr.append(ConatctData)
+            getVenueDetail(customerId: self.customerID, isContact: "1", id: ConatctData.ProviderID!)
+        }
+           // let index = IndexPath(item: selectedIndex, section: 0)
+           // self.blockedAppointmentTV.reloadRows(at: [index], with: .automatic)
+            //self.blockedAppointmentTV.reloadData()
+        }
+        //changes end:
     }
     
     
@@ -1246,24 +1329,27 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
             self.recuringAppointmentTV.reloadData()
         }else {
             print("Delegate in didReloadTable Data updated is \(elemntID) and is it conatct \(isConatctUpdate)")
-            for  itemm in blockedAppointmentArr {
-                
-                
-                if isConatctUpdate {
-                    //if itemm.contactID == elemntID { }
-                    itemm.conatctName = ""
-                    itemm.contactID = 0
-                    
-                }else {
-                    // if itemm.DepartmentID == elemntID { }
-                    itemm.DepartmentName = ""
-                    itemm.DepartmentID = 0
-                    
-                    
-                }
-            }
-            self.recuringAppointmentTV.reloadData()
-            getVenueDetail(customerId: self.customerID)
+//            for  itemm in blockedAppointmentArr {
+//
+//
+//                if isConatctUpdate {
+//                    //if itemm.contactID == elemntID { }
+//                    itemm.conatctName = ""
+//                    itemm.contactID = 0
+//
+//                }else {
+//                    // if itemm.DepartmentID == elemntID { }
+//                    itemm.DepartmentName = ""
+//                    itemm.DepartmentID = 0
+//
+//
+//                }
+//            }
+            let isContactVal = (isConatctUpdate == true) ? "1" : "2"
+            
+            getVenueDetail(customerId: self.customerID, isContact:isContactVal, id: elemntID)
+           // self.recuringAppointmentTV.reloadData()
+          
         }
     }
     
@@ -1465,6 +1551,7 @@ extension TelephonicRecurrenceNewVC : UITableViewDelegate , UITableViewDataSourc
         self.DeactivateOptionView.visibility = .gone
         self.elementName = blockedAppointmentArr[sender.tag].conatctName ?? ""
         self.elementID = blockedAppointmentArr[sender.tag].contactID ?? 0
+      //  self.venueID = blockedAppointmentArr[sender.tag].venueID ?? "0"
         self.DepartmentIDForOperation = blockedAppointmentArr[sender.tag].DepartmentID ?? 0
         
         

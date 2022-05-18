@@ -12,12 +12,17 @@ class VirtualMeetingParentNewVC: UIViewController {
     @IBOutlet weak var blockedContainerView: UIView!
     @IBOutlet weak var regularConatinerView: UIView!
     @IBOutlet weak var appointmentTypeSegmentControl: UISegmentedControl!
+    var vRegular : VirtualMeetingNewRegularApointmentVC?
+    var vBlocked : VirtualMeetingNewBlockedVC?
+    var vRecurrence: VirtualMeetingNewRecurrenceVC?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.regularConatinerView.alpha = 1
         self.blockedContainerView.alpha = 0
         self.recuriingContainerView.alpha = 0
         self.appointmentTypeSegmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+       // vRegular?.getCommonDetail()
+       // vRegular?.getCustomerDetail()
         //self.appointmentTypeSegmentControl.
         //appointmentTypeSegmentControl.setSelectedSegmentColor(with: .white, and: .red)
     }
@@ -31,16 +36,24 @@ class VirtualMeetingParentNewVC: UIViewController {
             self.regularConatinerView.alpha = 1
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 0
+           // vRegular?.getCommonDetail()
+           // vRegular?.getCustomerDetail()
+          
            // NotificationCenter.default.post(name: Notification.Name("updateVirtualRegularScreen"), object: nil, userInfo: nil)
         }else if sender.selectedSegmentIndex == 1{
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 1
             self.recuriingContainerView.alpha = 0
+           // vBlocked?.getCommonDetail()
+           // vBlocked?.getCustomerDetail()
+            
            // NotificationCenter.default.post(name: Notification.Name("updateVirtualBlockedScreen"), object: nil, userInfo: nil)
         }else {
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 1
+           // vRecurrence?.getCommonDetail()
+           // vRecurrence?.getCustomerDetail()
            // NotificationCenter.default.post(name: Notification.Name("updateVirtualRecurrenceScreen"), object: nil, userInfo: nil)
         }
     }

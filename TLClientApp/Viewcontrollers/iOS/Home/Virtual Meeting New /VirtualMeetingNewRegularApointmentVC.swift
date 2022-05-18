@@ -159,12 +159,13 @@ class VirtualMeetingNewRegularApointmentVC: UIViewController , UITextFieldDelega
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
-        getCommonDetail()
-        getCustomerDetail()
+       getCommonDetail()
+       getCustomerDetail()
       
 
         // Do any additional setup after loading the view.
     }
+   
 //    @objc func updateVirtualRegularScreen(notification: Notification){
 //        print("refreshing data in updateVirtualRegularScreen regular ")
 //        getCommonDetail()
@@ -752,8 +753,8 @@ class VirtualMeetingNewRegularApointmentVC: UIViewController , UITextFieldDelega
         let endDate = "\(self.appointmentDateTF.text ?? "") \(self.endTimeTF.text ?? "")"
         
         let requestedOn = self.requestedONTF.text ?? ""
-        let location = (CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? ""))
-        let textnote = (CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? ""))
+        let location = self.locationTF.text ?? "" //(CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? ""))
+        let textnote = self.specialNotesTF.text ?? "" //(CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? ""))
         self.jobType = "Virtual Meeting"
         
         if self.appointmentDateTF.text!.isEmpty {

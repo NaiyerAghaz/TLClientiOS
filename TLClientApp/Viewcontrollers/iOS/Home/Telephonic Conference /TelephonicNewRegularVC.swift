@@ -59,13 +59,9 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var oneTimeDepartmentArr = [DepartmentData]()
     var oneTimeContactArr = [ProviderData]()
     var blockedAppointmentArr = [BlockedAppointmentData]()
-    
-    
-    
     var depatmrntActionType:Int? = nil
     var contactActiontype:Int? = nil
     var selectTypeOFAppointment = "R"
-    
     var languageID = "0"
     var serviceId = ""
     var specialityID = ""
@@ -76,7 +72,6 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var providerID = 0
     var departmentID = 0
     var languageName = ""
-    
     var selectedVenue = ""
     var selectedContact = ""
     var selectedDepartment = ""
@@ -88,10 +83,8 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
     var userID = ""
     var companyID = ""
     var userTypeID = ""
-    
     var selectedStartTimeForPicker = Date().nearestHour()!
     var selectedEndTimeForPicker = Date().adding(minutes: 10).nearestHour()!
-    
     var isGenderSelect = false
     var isProviderSelect = false
     var isDepartmentSelect = false
@@ -127,31 +120,20 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         caseRefrenceTF.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateVenueList), name: Notification.Name("updateVenueList"), object: nil)
-        
-//        let dateFormatterDate = DateFormatter()
-//        dateFormatterDate.dateFormat = "MM/dd/yyyy"
-//        let dateFormatterTime = DateFormatter()
-//        dateFormatterTime.dateFormat = "h:00 a"
-//        let currentDateTime = Date()//.nearestHour() ?? Date()
-//        print("current time before \(currentDateTime)")
-//        let tempTime = dateFormatterTime.string(from: currentDateTime)
-//        print("TEMP TIME : \(tempTime)")
+
         
         self.starttimeTF.text = CEnumClass.share.getRoundCTime()//dateFormatterTime.string(from: currentDateTime)
         
        // let endTimee = Date().adding(minutes: 10)//.nearestHour() ?? Date()
         self.appointmentDateTF.text = CEnumClass.share.getCurrentDate()//dateFormatterDate.string(from: currentDateTime)
         self.endTimeTF.text = CEnumClass.share.getMinuteDiffers(startTime: CEnumClass.share.getRoundCTime(), differ: "10", companyId: self.companyID)//dateFormatterTime.string(from: endTimee)
-        
-      //  let dateFormatterr = DateFormatter()
-       // dateFormatterr.dateFormat = "MM/dd/yyyy h:mm a"
-      //  let startDatee =  dateFormatterr.string(from: Date().nearestHour() ?? Date ())
+      
         
         self.requestedONTF.text = CEnumClass.share.getActualDateAndTime()
         self.loadedOnTF.text = CEnumClass.share.getActualDateAndTime()
         
-        getCommonDetail()
-        getCustomerDetail()
+    getCommonDetail()
+  getCustomerDetail()
         
         // Do any additional setup after loading the view.
       //  NotificationCenter.default.addObserver(self, selector: #selector(self.updateTelephonicRegularScreen(notification:)), name: Notification.Name("updateTelephonicRegularScreen"), object: nil)
@@ -729,11 +711,7 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
             })
         }
         
-        
-       
-        
-        
-        if isSpecialitySelect {
+      if isSpecialitySelect {
             
         }else {
             self.specialityDetail.forEach({ languageData in
@@ -767,8 +745,8 @@ class TelephonicNewRegularVC:  UIViewController , UITextFieldDelegate{
         let endDate = "\(self.appointmentDateTF.text ?? "") \(self.endTimeTF.text ?? "")"
         
         let requestedOn = self.requestedONTF.text ?? ""
-        let location = CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? "")
-        let textnote = CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? "") 
+        let location = self.locationTF.text ?? ""//CEnumClass.share.replaceSpecialCharacters(str: self.locationTF.text ?? "")
+        let textnote = self.specialNotesTF.text ?? ""//CEnumClass.share.replaceSpecialCharacters(str: self.specialNotesTF.text ?? "") 
         self.jobType = "Onsite Interpretation"
         print("venueID , language ID \(venueID ),\(languageID)")
         if self.appointmentDateTF.text!.isEmpty {

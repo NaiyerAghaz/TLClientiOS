@@ -13,6 +13,9 @@ class OnsiteAppointmentParentVC: UIViewController {
     @IBOutlet weak var blockedContainerView: UIView!
     @IBOutlet weak var regularConatinerView: UIView!
     @IBOutlet weak var appointmentTypeSegmentControl: UISegmentedControl!
+    var oRegular : OnsiteRegularAppointmentVC?
+    var oBlocked : OnsiteBlockedAppointmentVC?
+    var oRecurrence : OnsiteRecurringAppointmentVC?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.regularConatinerView.alpha = 1
@@ -21,6 +24,8 @@ class OnsiteAppointmentParentVC: UIViewController {
         self.appointmentTypeSegmentControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
         //self.appointmentTypeSegmentControl.
         //appointmentTypeSegmentControl.setSelectedSegmentColor(with: .white, and: .red)
+        //oRegular?.getCommonDetail()
+       // oRegular?.getCustomerDetail()
     }
     
     @IBAction func actionBackBtn(_ sender: UIButton) {
@@ -31,16 +36,22 @@ class OnsiteAppointmentParentVC: UIViewController {
             self.regularConatinerView.alpha = 1
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 0
+           // oRegular?.getCommonDetail()
+           // oRegular?.getCustomerDetail()
           //  NotificationCenter.default.post(name: Notification.Name("updateOnsiteRegularScreen"), object: nil, userInfo: nil)
         }else if sender.selectedSegmentIndex == 1{
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 1
             self.recuriingContainerView.alpha = 0
+           // oBlocked?.getCommonDetail()
+           // oBlocked?.getCustomerDetail()
            // NotificationCenter.default.post(name: Notification.Name("updateOnsiteBlockedScreen"), object: nil, userInfo: nil)
         }else {
             self.regularConatinerView.alpha = 0
             self.blockedContainerView.alpha = 0
             self.recuriingContainerView.alpha = 1
+           // oRecurrence?.getCommonDetail()
+           /// oRecurrence?.getCustomerDetail()
            // NotificationCenter.default.post(name: Notification.Name("updateOnsiteRecurrenceScreen"), object: nil, userInfo: nil)
         }
     }

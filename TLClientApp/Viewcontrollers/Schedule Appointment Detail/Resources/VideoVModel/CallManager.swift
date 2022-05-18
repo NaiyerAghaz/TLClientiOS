@@ -198,7 +198,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         if (self.remoteParticipant == nil) {
             _ = renderRemoteParticipant(participant: participant)
         }
-       print("didSubscribeToVideoTrack------->", participant.sid)
+        self.secondaryRemoteVdoTrack = videoTrack
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {[self] in
             self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
                 DispatchQueue.main.async {
@@ -283,12 +283,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             if localAudioTrack != nil {
                 localAudioTrack = nil
             }
-            
-            camera?.stopCapture()
+           camera?.stopCapture()
             DispatchQueue.main.async {
                 self.switchToAudioMethod()
             }
-            
             
             //            if (room != nil){
             //                room?.disconnect()
