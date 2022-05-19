@@ -179,7 +179,7 @@
 		738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738878F127D8AE4100C7614B /* FeedbackVModel.swift */; };
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
-		73A3EB6C2833C4A5001C4B05 /* videoTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3EB6B2833C4A5001C4B05 /* videoTrack.swift */; };
+		73A3EB6C2833C4A5001C4B05 /* videoCallMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3EB6B2833C4A5001C4B05 /* videoCallMethods.swift */; };
 		73ACC5D028040D7800128217 /* APIResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73ACC5CE28040D7800128217 /* APIResultModel.swift */; };
 		73ACC5D128040D7800128217 /* APICompanyDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73ACC5CF28040D7800128217 /* APICompanyDetailsModel.swift */; };
 		73ACC5D22805538400128217 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */; };
@@ -463,7 +463,7 @@
 		738878F127D8AE4100C7614B /* FeedbackVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVModel.swift; sourceTree = "<group>"; };
 		73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		73A1A76527C36921007281DC /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
-		73A3EB6B2833C4A5001C4B05 /* videoTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoTrack.swift; sourceTree = "<group>"; };
+		73A3EB6B2833C4A5001C4B05 /* videoCallMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoCallMethods.swift; sourceTree = "<group>"; };
 		73ACC5CE28040D7800128217 /* APIResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIResultModel.swift; sourceTree = "<group>"; };
 		73ACC5CF28040D7800128217 /* APICompanyDetailsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APICompanyDetailsModel.swift; sourceTree = "<group>"; };
 		73ACC5D92806A9AB00128217 /* SchedulingAppointments.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SchedulingAppointments.storyboard; sourceTree = "<group>"; };
@@ -1022,7 +1022,7 @@
 				29F8CFF1274E7831006243EC /* TotalParticipantVC.swift */,
 				73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */,
 				73165B7027D79473008FCCC2 /* RoomDelegates.swift */,
-				73A3EB6B2833C4A5001C4B05 /* videoTrack.swift */,
+				73A3EB6B2833C4A5001C4B05 /* videoCallMethods.swift */,
 			);
 			path = VideoCall;
 			sourceTree = "<group>";
@@ -1944,7 +1944,7 @@
 				04BFEDE027202A1E00EB38B7 /* CustomerSettingsResponseModel.swift in Sources */,
 				04C17E532731474100297528 /* GetPublicDetail.swift in Sources */,
 				7382637D27FD5CF400FD3695 /* AddVenueContainerVC.swift in Sources */,
-				73A3EB6C2833C4A5001C4B05 /* videoTrack.swift in Sources */,
+				73A3EB6C2833C4A5001C4B05 /* videoCallMethods.swift in Sources */,
 				042367892718325B003BC021 /* OnsiteInterpretationHistoryVC.swift in Sources */,
 				048AE80126D64D3600FB9309 /* OPIFeedbackController.swift in Sources */,
 				04D867BB271EB4C2004DB0C4 /* ApiGetAllVenuListResponse.swift in Sources */,

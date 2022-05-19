@@ -198,11 +198,34 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         if (self.remoteParticipant == nil) {
             _ = renderRemoteParticipant(participant: participant)
         }
-        self.secondaryRemoteVdoTrack = videoTrack
+       
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {[self] in
-            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { [self] success, err in
+                if self.remoteParticipantArr.count > 1 {
                 DispatchQueue.main.async {
+                    self.isChangeView = true
+                    self.parentSpeakerView.isHidden = true
+                    self.vdoCollectionView.isHidden = false
                     self.vdoCollectionView.reloadData()
+                }
+                }
+                else {
+                if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
+                                let pSID = remoteParticipant?.sid
+                               
+                                for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+                                    let participantSID = pObj as! ConferenceInfoModels
+                                    if participantSID.PARTSID == pSID {
+                                        DispatchQueue.main.async {
+                                            self.configureHost(obj: participantSID)
+                                            self.remoteParticiapntName = participantSID.UserName!
+                                            self.lblParticipantName.adjustsFontSizeToFitWidth = true
+                                            self.lblParticipantName.text = participantSID.UserName
+                                        }
+                                        
+                                       }
+                                }
+                            }
                 }
             }
             isParticipanthasAdded = true
@@ -215,8 +238,8 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         // remote Participant's video.
         print("cleanup remote participant----------------------:")
         // self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
-        if self.remoteParticipant == participant {
-            cleanupRemoteParticipant()
+       /* if self.remoteParticipant == participant {
+           // cleanupRemoteParticipant()
             
             // Find another Participant video to render, if possible.
             if var remainingParticipants = room?.remoteParticipants,
@@ -225,7 +248,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 renderRemoteParticipants(participants: remainingParticipants)
             }
             
-        }
+        }*/
         if remoteParticipantArr.count > 1 {
             for vdo in remoteParticipantArr {
                 if vdo == participant {
@@ -234,14 +257,28 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     }
                 }
             }
+            if remoteParticipant == participant {
+                remoteParticipant = remoteParticipantArr[0]
+            }
             
             lblTotalParticipant.text = "\(remoteParticipantArr.count)"
             DispatchQueue.global(qos: .background).async { [self] in
                 vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
                     if success == true && self.vdoCallVM.conferrenceDetail.TOTALRECORDS != "0"{
-                        DispatchQueue.main.async {
-                            self.vdoCollectionView.reloadData()
+                        if self.remoteParticipantArr.count == 1 {
+                            DispatchQueue.main.async {
+                            self.isChangeView = false
+                            self.parentSpeakerView.isHidden = false
+                            self.vdoCollectionView.isHidden = true
+                            }
+                           // self.vdoCollectionView.reloadData()
                         }
+                        else {
+                            DispatchQueue.main.async {
+                                self.vdoCollectionView.reloadData()
+                            }
+                        }
+                       
                     }
                     else {
                         isFeedback = true
@@ -287,18 +324,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             DispatchQueue.main.async {
                 self.switchToAudioMethod()
             }
-            
-            //            if (room != nil){
-            //                room?.disconnect()
-            //                if (self.camera != nil){
-            //                    camera?.stopCapture()
-            //                    camera = nil
-            //                }
-            //                if (localVideoTrack != nil){
-            //                    localVideoTrack = nil
-            //                }
-            //                switchToAudioMethod()
-            //               }
+          
         }
         
     }
@@ -339,11 +365,8 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             DispatchQueue.main.async { [self] in
                 dismiss(animated: false, completion: nil)
                 videocallDelegate?.switchToAudioMethods(roomId: roomID ?? "", sourceLangID: sourceLangID ?? "", targetLangID: targetLangID ?? "", ccid: callid ?? "0", sourceLangName: sourceLangName ?? "", targetLangName: targetLangName ?? "", patientno: patientno ?? "", patientname: patientname ?? "")
-                
-            }
-            
-            
-        }
+             }
+           }
         laterAction.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         
         laterAction.tintColor = UIColor(red:25/255, green:157/255, blue:217/255, alpha:1.0)
@@ -383,13 +406,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func remoteParticipantDidEnableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
-//        print("enableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
-//        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-//            let objects = obj as! ConferenceInfoModels
-//            if objects.PARTSID == participant.sid {
-//                self.view.makeToast("TURN ON \(objects.UserName!)'s video", duration: 2, position: .center)
-//            }
-//        }
+
         if isParticipanthasAdded {
         if remoteParticipantArr.count > 1 {
             for vdo in remoteParticipantArr {
@@ -407,32 +424,37 @@ extension VideoCallViewController : RemoteParticipantDelegate {
           
         }
         else {
-            for vdo in remoteParticipantArr {
-                if vdo == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index, section: 0)
-                        DispatchQueue.main.async {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
+            if isChangeView {
+                for vdo in remoteParticipantArr {
+                    if vdo == participant {
+                        if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                            DispatchQueue.main.async {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                            
                         }
-                        
                     }
                 }
             }
-        }
+            else {
+                if participant == remoteParticipant {
+                    if isSwitchToRemote {
+                    preview.backgroundColor = UIColor.clear
+                        imgLocalPrivacy.isHidden = true
+                    }
+                    else {
+                        speakerImgPrivacy.isHidden = true
+                    }
+                   }
+            } }
         }
     }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         print("DisableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
-        
-//        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-//            let objects = obj as! ConferenceInfoModels
-//            if objects.PARTSID == participant.sid {
-//                self.view.makeToast("TURN OFF \(objects.UserName!)'s video", duration: 2, position: .center)
-//            }
-//        }
-        if isParticipanthasAdded {
+     if isParticipanthasAdded {
         if remoteParticipantArr.count > 1 {
             for vdo in remoteParticipantArr {
                 if vdo == participant {
@@ -448,29 +470,39 @@ extension VideoCallViewController : RemoteParticipantDelegate {
            
         }
         else {
-            for vdo in remoteParticipantArr {
-                if vdo == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index, section: 0)
-                        DispatchQueue.main.async {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
+            if isChangeView {
+                for vdo in remoteParticipantArr {
+                    if vdo == participant {
+                        if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                            DispatchQueue.main.async {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
                         }
                     }
                 }
             }
+            else {
+                if participant == remoteParticipant {
+                    if isSwitchToRemote {
+                        preview.backgroundColor = UIColor.black
+                        imgLocalPrivacy.isHidden = false
+                    }
+                    else {
+                        speakerImgPrivacy.isHidden = false
+                    }
+                   
+                }
+            }
+            
         }}
         
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
         print("remoteParticipantDidEnableAudioTrack------>",participant.sid)
-//        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-//            let objects = obj as! ConferenceInfoModels
-//            if objects.PARTSID == participant.sid {
-//                self.view.makeToast("Unmute \(objects.UserName!)'s Audio", duration: 2, position: .center)
-//            }
-//        }
+
         if isParticipanthasAdded {
         if remoteParticipantArr.count > 1 {
             for audio in remoteParticipantArr {
@@ -486,29 +518,43 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             }
             
         }
-        else {
+            else {
+                if isChangeView {
             for audio in remoteParticipantArr {
                 if audio == participant {
                     if let index = remoteParticipantArr.firstIndex(of: audio) {
                         //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index, section: 0)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             self.vdoCollectionView.reloadItems(at: [indexPath])
                         }
                        
                     }
                 }
-            }
+            }}
+                else {
+                    if participant == remoteParticipant {
+                        if isSwitchToRemote {
+                            btnMic.isSelected = false
+                            btnMic.isHidden = false
+                            btnSpeakerMic.isHidden = true
+                            
+                           
+                        }
+                        else {
+                            btnSpeakerMic.isSelected = false
+                            btnSpeakerMic.isHidden = false
+                            btnMic.isSelected = false
+                            btnMic.isHidden = true
+                        }
+                       
+                    }
+                }
         }}}
     
     func remoteParticipantDidDisableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
         print("remoteParticipantDidDisableAudioTrack------>",participant.sid)
-//        for obj in vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-//            let objects = obj as! ConferenceInfoModels
-//            if objects.PARTSID == participant.sid {
-//                self.view.makeToast("Mute \(objects.UserName!)'s Audio", duration: 2, position: .center)
-//            }
-//        }
+
         if isParticipanthasAdded {
         if remoteParticipantArr.count > 1 {
             for audio in remoteParticipantArr {
@@ -526,16 +572,33 @@ extension VideoCallViewController : RemoteParticipantDelegate {
            
         }
         else {
+            if isChangeView {
             for audio in remoteParticipantArr {
                 if audio == participant {
                     if let index = remoteParticipantArr.firstIndex(of: audio) {
                         //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index, section: 0)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
                         DispatchQueue.main.asyncAfter(deadline: .now()) {
                             self.vdoCollectionView.reloadItems(at: [indexPath])
                         }
-                        
                     }
+                }
+            }}
+            else {
+                if participant == remoteParticipant {
+                    if isSwitchToRemote {
+                        btnMic.isSelected = true
+                        btnMic.isHidden = false
+                        btnSpeakerMic.isHidden = true
+                       
+                    }
+                    else {
+                        btnSpeakerMic.isHidden = false
+                        btnSpeakerMic.isSelected = true
+                        btnMic.isSelected = false
+                        btnMic.isHidden = true
+                    }
+                   
                 }
             }
         }}

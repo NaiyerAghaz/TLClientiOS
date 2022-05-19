@@ -16,7 +16,7 @@ extension VideoCallViewController:RoomDelegate{
         // TwilioVideoSDK.audioDevice = audioDevice
         // At the moment, this example only supports rendering one Participant at a time.
         // self.view.makeToast("Connected to room \(room.name) as \(room.localParticipant?.identity ?? "")")
-        
+        print("participantDidConnect11111----->",room.remoteParticipants)
         for remoteParticipant in room.remoteParticipants {
             
             remoteParticipant.delegate = self
@@ -82,6 +82,7 @@ extension VideoCallViewController:RoomDelegate{
     }
     //THis method will call who is speaking
     func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
+       remoteParticipant = participant
        print("participantisSpeakerSId:", participant?.sid)
        /* currentSpeakerParticipant = participant
         if remoteParticipantArr.count > 1 {
@@ -241,7 +242,7 @@ extension VideoCallViewController:RoomDelegate{
       //  SecondaryRemoteParticipant = participant
         participant.delegate = self
         self.remoteParticipantArr.append(participant)
-        print("participantDidConnect----->",participant)
+        print("participantDidConnect2222222----->",participant)
        
 //        participant.delegate = self
 //        self.remoteParticipantArr.append(participant)

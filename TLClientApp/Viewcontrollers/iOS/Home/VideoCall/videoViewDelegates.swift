@@ -27,7 +27,7 @@ extension VideoCallViewController:VideoViewDelegate {
         // print("call-----------------------------101")
        print("message body:", message.body)
         let messString = message.body!
-        if remoteParticipantArr.count >= 3 {
+        if remoteParticipantArr.count >= 10 {
             return self.view.makeToast("You have reached maximum participants limit", position: .center)
         }
         else {
