@@ -9,6 +9,7 @@ import Foundation
 import TwilioVideo
 import TwilioVoice
 import TwilioChatClient
+import UIKit
 extension VideoCallViewController {
     func configureHost(obj: ConferenceInfoModels){
     
@@ -48,4 +49,15 @@ struct pinModels{
     var isLocalPin: Bool?
     var lp: LocalParticipant?
     var rp: RemoteParticipant?
+}
+extension UIView
+{
+    func removeAllSubViews()
+    {
+       for subView :AnyObject in self.subviews
+       {
+            subView.removeFromSuperview()
+       }
+    }
+
 }

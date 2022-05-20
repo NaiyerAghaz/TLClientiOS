@@ -196,6 +196,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         
         if (self.remoteParticipant == nil) {
+            self.remoteParticipant = participant
             _ = renderRemoteParticipant(participant: participant)
         }
        

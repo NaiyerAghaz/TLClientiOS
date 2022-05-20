@@ -37,7 +37,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     // CallKit components
     let callKitProvider: CXProvider? = nil
     let callKitCallController: CXCallController? = nil
-    
     var userInitiatedDisconnect: Bool = false
     var ifComeFromMeet = false
     var ifTimereach = false
@@ -268,9 +267,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     func ringingView(ishide: Bool){
         mainPreview.isHidden = ishide
-       
-       
-        
         muteView.isHidden = ishide
         stopVideoView.isHidden = ishide
         participantView.isHidden = ishide
@@ -328,13 +324,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 if self.isChangeView == false  {
                     
                     DispatchQueue.main.async {
-                        self.speakerView.removeFromSuperview()
-                        self.preview.removeFromSuperview()
+                        self.speakerView.removeAllSubViews()
+                        self.preview.removeAllSubViews()
                         self.vdoCollectionView.isHidden = false
                         self.mainPreview.isHidden = true
                         self.isChangeView = true
-                        
-                        self.parentSpeakerView.isHidden = true
+                         self.parentSpeakerView.isHidden = true
                         self.vdoCollectionView.reloadData()
                     }
                     
@@ -348,8 +343,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         self.parentSpeakerView.isHidden = false
                         self.mainPreview.isHidden = false
                         self.fullFlashViewChangesMethod(isFlip: true)
-                        // self.fullFlashViewChangesMethod(isFlip: true)
-                        //self.vdoCollectionView.reloadData()
+                   
                     }
                 }
             }else if index == 2 {
@@ -837,9 +831,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         if (localVideoTrack == nil) {
             
             
-            self.preview.removeFromSuperview()
+         
             self.lVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.preview.bounds.width, height: self.preview.bounds.height))
             self.lVideoView.contentMode = .scaleAspectFill
+            self.lVideoView.clipsToBounds = false
             self.preview.addSubview(lVideoView)
             self.startPreview(localView: lVideoView)
         }
@@ -958,98 +953,16 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         fullFlashViewChangesMethod(isFlip:true)
     }
     func fullFlashViewChangesMethod(isFlip:Bool){
-       /* if isFlip {
-            if isSwitchToRemote {
-                btnMic.isHidden = false
-                lblParticipantName.text = "You"
-                btnSpeakerMic.isHidden = true
-                self.preview.removeFromSuperview()
-              
-                
-                
-                let locTrack = localVideoTrack
-                
-                localVideoTrack?.removeRenderer(preview)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(speakerView)
-                    }
-                }
-                let videoPublications = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.addRenderer(self.preview)
-                    }
-                }
-                localVideoTrack!.addRenderer(speakerView)
-            }
-            else {
-                lblParticipantName.text = remoteParticiapntName
-                btnSpeakerMic.isHidden = false
-                btnMic.isHidden = true
-                
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(speakerView)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(preview)
-                    }
-                }
-                
-                let videoPublications = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        
-                        subscribedVideoTrack.addRenderer(speakerView)
-                    }
-                }
-                if localVideoTrack != nil {
-                    localVideoTrack!.addRenderer(preview)
-                }
-                
-            }
-        }
-        else {
-            if isSwitchToRemote {
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(preview)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(speakerView)
-                    }
-                }
-            }
-            else {
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(speakerView)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(preview)
-                    }
-                }
-            }
-        }*/
+       
         
         if isFlip {
              if isSwitchToRemote {
+                // self.speakerView.removeFromSuperview()
+                // self.preview.removeFromSuperview()
                  btnMic.isHidden = false
                  lblParticipantName.text = "You"
                  btnSpeakerMic.isHidden = true
-                 self.preview.removeFromSuperview()
+                
                  self.lVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.preview.bounds.width, height: self.preview.bounds.height))
                  self.lVideoView.contentMode = .scaleAspectFill
                  self.lVideoView.addSubview(preview)
@@ -1061,8 +974,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                          subscribedVideoTrack.addRenderer(self.lVideoView)
                      }
                  }
-                 self.speakerView.removeFromSuperview()
-                 self.rVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.speakerView.bounds.width, height: self.speakerView.bounds.height))
+               
+                 self.rVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
                  self.rVideoView.contentMode = .scaleAspectFill
                  self.rVideoView.addSubview(speakerView)
                  localVideoTrack!.addRenderer(rVideoView)
@@ -1073,8 +986,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                  btnSpeakerMic.isHidden = false
                  btnMic.isHidden = true
                  
-                 speakerView.removeFromSuperview()
-                 self.rVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.speakerView.bounds.width, height: self.speakerView.bounds.height))
+                // self.speakerView.removeFromSuperview()
+                 self.rVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
                  self.rVideoView.contentMode = .scaleAspectFill
                  self.rVideoView.addSubview(speakerView)
                 
@@ -1085,10 +998,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                      if let subscribedVideoTrack = publication.remoteTrack,
                         publication.isTrackSubscribed {
                          
-                         subscribedVideoTrack.addRenderer( self.rVideoView)
+                         subscribedVideoTrack.addRenderer(self.rVideoView)
                      }
                  }
-                 self.preview.removeFromSuperview()
+                // self.preview.removeFromSuperview()
                  self.lVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.preview.bounds.width, height: self.preview.bounds.height))
                  self.lVideoView.contentMode = .scaleAspectFill
                  self.lVideoView.addSubview(preview)
@@ -1496,11 +1409,13 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             if let subscribedVideoTrack = publication.remoteTrack,
                publication.isTrackSubscribed {
               
-                self.rVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.speakerView.bounds.width, height: self.speakerView.bounds.size.height))
+                self.rVideoView = VideoView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
                 self.rVideoView.contentMode = .scaleAspectFill
-                self.rVideoView.addSubview(speakerView)
+                self.rVideoView.clipsToBounds = false
                 subscribedVideoTrack.addRenderer(self.rVideoView)
-                self.remoteParticipant = participant
+                self.rVideoView.addSubview(speakerView)
+
+              //  self.remoteParticipant = participant
                 return true
             }
         }
