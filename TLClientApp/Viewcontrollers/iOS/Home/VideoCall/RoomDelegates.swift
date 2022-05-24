@@ -242,7 +242,7 @@ extension VideoCallViewController:RoomDelegate{
       //  SecondaryRemoteParticipant = participant
         participant.delegate = self
         self.remoteParticipantArr.append(participant)
-        print("participantDidConnect2222222----->",participant)
+        
        
 //        participant.delegate = self
 //        self.remoteParticipantArr.append(participant)

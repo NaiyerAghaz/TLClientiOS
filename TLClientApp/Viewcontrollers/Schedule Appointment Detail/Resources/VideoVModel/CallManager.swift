@@ -90,10 +90,10 @@ class CallManagerVM {
     func addAppCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.vricallstart.url, para: req) { response, err in
-            print("1.....vricallstart--------url:\( APi.vricallstart.url)   request:\(req) response:\(response)")
+          
            
             if response != nil {
-                print("VRI CALL REQUEST AND URL IS \(APi.vricallstart.url) and parameter is \(req)")
+               
                 completionHandler(true, nil)
             }
             else {
@@ -118,7 +118,7 @@ class CallManagerVM {
     func priorityVideoCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
      
         ApiServices.shareInstace.getDataFromApi(url: APi.getVriVendorsbyLid.url, para: req) { response, err in
-            print("1.....priorityVideoCall--------url:\( APi.getVriVendorsbyLid.url)   request:\(req) response:\(response)")
+          
             if response != nil {
                 completionHandler(true, nil)
             }
@@ -159,7 +159,7 @@ class CallManagerVM {
        }
     func switchCallClientReq(ccid:String, clientID: String, roomID: String,sourceId: String,targetID: String) -> [String: Any] {
        
-            //"<VRICLIENT><ACTION>C</ACTION><ID>" + callid + "</ID><CLIENTID>" + SessionSave.getsession(AppConstants.USER_ID, VRIActivity.this) + "</CLIENTID><ROOMID>" + roomNo + "</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>" + sourceLid + "</SOURCE><TARGET>" + selectedLanguageId + "</TARGET></VRICLIENT>"
+            
             let para:[String:Any] = ["strSearchString":"<VRICLIENT><ACTION>C</ACTION><ID>\(ccid)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"]
             return para
        
@@ -196,6 +196,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         
         if (self.remoteParticipant == nil) {
+           
             _ = renderRemoteParticipant(participant: participant)
         }
        
@@ -223,10 +224,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                             self.lblParticipantName.text = participantSID.UserName
                                         }
                                         
-                                       }
-                                }
-                            }
-                }
+                                       } }}}
             }
             isParticipanthasAdded = true
         }
@@ -236,7 +234,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     func didUnsubscribeFromVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
         // remote Participant's video.
-        print("cleanup remote participant----------------------:")
+        print("cleanup remote participant----------------------:","remove->",participant, "existing:",self.remoteParticipant)
         // self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
        /* if self.remoteParticipant == participant {
            // cleanupRemoteParticipant()
@@ -258,9 +256,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 }
             }
             if remoteParticipant == participant {
+                print("exchange participants-----", remoteParticipant, "::", participant)
                 remoteParticipant = remoteParticipantArr[0]
             }
-            
+            remoteParticipant = remoteParticipantArr[0]
             lblTotalParticipant.text = "\(remoteParticipantArr.count)"
             DispatchQueue.global(qos: .background).async { [self] in
                 vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
@@ -268,6 +267,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         if self.remoteParticipantArr.count == 1 {
                             DispatchQueue.main.async {
                             self.isChangeView = false
+                            self.mainPreview.isHidden = false
                             self.parentSpeakerView.isHidden = false
                             self.vdoCollectionView.isHidden = true
                             }
@@ -278,8 +278,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                 self.vdoCollectionView.reloadData()
                             }
                         }
-                       
-                    }
+                       }
                     else {
                         isFeedback = true
                         self.backToMainController()
@@ -501,7 +500,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-        print("remoteParticipantDidEnableAudioTrack------>",participant.sid)
+       
 
         if isParticipanthasAdded {
         if remoteParticipantArr.count > 1 {
@@ -553,7 +552,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         }}}
     
     func remoteParticipantDidDisableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-        print("remoteParticipantDidDisableAudioTrack------>",participant.sid)
+       
 
         if isParticipanthasAdded {
         if remoteParticipantArr.count > 1 {

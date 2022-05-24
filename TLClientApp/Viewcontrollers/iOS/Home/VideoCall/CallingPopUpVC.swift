@@ -43,23 +43,20 @@ class CallingPopupVC: UIViewController,VideocallDelegate {
     let app = UIApplication.shared.delegate as? AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
         configureUI()
         
     }
-
 func configureUI(){
-        DispatchQueue.main.async {[self] in
+       
             if Reachability.isConnectedToNetwork() {
-                SwiftLoader.show(animated: true)
+                DispatchQueue.main.async { SwiftLoader.show(animated: true)}
                 callManagerVM.getRoomList { roolist, error in
                     if error == nil {
                         self.roomId = roolist?[0].RoomNo ?? "0"
-                        
-                        SwiftLoader.hide()
                         self.app?.roomIDAppdel = self.roomId
+                        SwiftLoader.hide()
                     }
                     else {
                         SwiftLoader.hide()
@@ -68,7 +65,7 @@ func configureUI(){
             else {
                 self.view.makeToast(ConstantStr.noItnernet.val)
             }
-        }
+     
         
     }
     @IBAction func btnCloseTapped(_ sender: Any){
@@ -86,6 +83,7 @@ func configureUI(){
             if self.calltype == "VRI" {
                 
                 if roomId != nil {
+                    
                    self.getCallPriorityVideoWithCompletion()
                     self.addAppCall()
                     }
@@ -155,33 +153,16 @@ func configureUI(){
     }
     
     func getVRICallClient(req:[String:Any]){
-        print("createVRICallClient------>")
-      /*  let roomID = self.roomId ?? ""
-        let clientID = GetPublicData.sharedInstance.userID
-        let sourceId = self.sourceID ?? ""
-        let targetID = self.targetID ?? ""
-        var searchStr = ""
-        //Normal Opi call type = A
-        if actionType == "A" {
-          searchStr = "<VRICLIENT><ACTION>\(actionType)</ACTION><ID>\(callId)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"
-           
-        }
-        else {
-           // <VRICLIENT><ACTION>C</ACTION><ID>" + callid + "</ID><CLIENTID>" + SessionSave.getsession(AppConstants.USER_ID, VRIActivity.this) + "</CLIENTID><ROOMID>" + roomNo + "</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>" + sourceLid + "</SOURCE><TARGET>" + selectedLanguageId + "</TARGET></VRICLIENT>
-            searchStr = "<VRICLIENT><ACTION>\(actionType)</ACTION><ID>\(callId)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"
-            
-        }
-      
        
-        let parameter = ["strSearchString":searchStr]*/
-    print("getCreateVRICallClient-Parameter:",req)
+     
+   
         self.getCreateVRICallClient(req: req) { (completion, error) in
             if completion ?? false {
-                print("getVRICallClient true ")
+               
                 // call get vendor id here
                 self.getVendorIDs()
             }else {
-                print("getVRICallClient false ")
+              
             }
         }
     }
@@ -295,7 +276,7 @@ func configureUI(){
         }
     }
     func getCreateVRICallClient(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-        print("createVRICallClient----------:")
+       
         let urlString = APi.createVRICallClient.url
         self.apiCreateVRICallClientResponseModel.removeAll()
         AF.request(urlString, method: .post, parameters: req, encoding: JSONEncoding.default, headers: nil)
@@ -306,7 +287,7 @@ func configureUI(){
                 
                 case .success(_):
                     
-                    print("createVRICallClientResponse----------:",response)
+                   
                     guard let daata8 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
@@ -318,7 +299,7 @@ func configureUI(){
                         completionHandler(true, nil)
                     } catch{
                         
-                        print("error block getCreateVRICallClient Data  " ,error)
+                        print(error)
                     }
                 case .failure(_):
                     print("Respose Failure getCreateVRICallClient ")
@@ -329,8 +310,7 @@ func configureUI(){
     }
     func postOPIAcceptCallWithCompletion(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         ApiServices.shareInstace.getDataFromApi(url: APi.opiAcceptCall.url, para: req) { response, err in
-            print("url and param for postOPi  ", APi.opiAcceptCall.url , req)
-            print("respose",response)
+           
             
             if response != nil {
                 completionHandler(true, nil)
@@ -365,13 +345,11 @@ func configureUI(){
                     self.callTOVRI()
                     
                 }
-                // handler(true, nil)
-                print("priority success------>",success)
+               
             }
             else {
                 SwiftLoader.hide()
-                // handler(false, nil)
-                print("priority failed------>",success)
+              
             }
         }
         

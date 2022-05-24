@@ -221,8 +221,6 @@ class CEnumClass: NSObject {
         default:
             return dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 120))!)
         }
-        
-        
         let time = dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 10))!)
         return time
     }
@@ -350,9 +348,6 @@ extension UITextField {
             self.rightView = mainView
         }
         
-        // self.layer.borderColor = colorBorder.cgColor
-        // self.layer.borderWidth = CGFloat(0.5)
-        // self.layer.cornerRadius = 1
     }
     
 }

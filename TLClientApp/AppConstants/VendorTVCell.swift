@@ -51,7 +51,7 @@ class LobbyParicipantListCell: UITableViewCell {
 
 class VDOCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var btnMic: UIButton!
-    @IBOutlet weak var remoteView: VideoView!
+    @IBOutlet weak var remoteView: UIView!
     @IBOutlet weak var imgRemotePrivacy: UIImageView!
     @IBOutlet weak var lblVideo: PaddingLabel!
     @IBOutlet weak var audioLbl: PaddingLabel!
