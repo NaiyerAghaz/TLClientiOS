@@ -119,7 +119,7 @@ func configureUI(){
         vdoCall.patientname = txtPatientClientName.text ?? ""
         vdoCall.videocallDelegate = self
         vdoCall.modalPresentationStyle = .overFullScreen
-        SwiftLoader.hide()
+      
         self.present(vdoCall, animated: true, completion: nil)
     }
     
@@ -239,7 +239,10 @@ func configureUI(){
                         } catch let error as NSError {
                             print(error)
                         }
-                        self.twilioVoiceView()
+                        DispatchQueue.main.async {
+                            self.twilioVoiceView()
+                        }
+                      
                         
                         
                     } catch{

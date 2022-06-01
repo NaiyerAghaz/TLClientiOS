@@ -200,10 +200,12 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             _ = renderRemoteParticipant(participant: participant)
         }
        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {[self] in
-            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { [self] success, err in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {[self] in
+            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { [self] success, err in
                 if self.remoteParticipantArr.count > 1 {
                 DispatchQueue.main.async {
+                    print("totalparticipants-1--->",self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count)
+                    self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 2)"
                     self.isChangeView = true
                     self.parentSpeakerView.isHidden = true
                     self.vdoCollectionView.isHidden = false
@@ -211,6 +213,11 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 }
                 }
                 else {
+                    DispatchQueue.main.async {
+                        self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 1)"
+                      
+                    }
+                    
                 if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
                                 let pSID = remoteParticipant?.sid
                                
@@ -259,23 +266,55 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 print("exchange participants-----", remoteParticipant, "::", participant)
                 remoteParticipant = remoteParticipantArr[0]
             }
-            remoteParticipant = remoteParticipantArr[0]
-            lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+           lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+            print("totalparticipants-3--->",remoteParticipantArr.count)
             DispatchQueue.global(qos: .background).async { [self] in
-                vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!) { success, err in
+                vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { success, err in
                     if success == true && self.vdoCallVM.conferrenceDetail.TOTALRECORDS != "0"{
                         if self.remoteParticipantArr.count == 1 {
                             DispatchQueue.main.async {
-                            self.isChangeView = false
-                            self.mainPreview.isHidden = false
-                            self.parentSpeakerView.isHidden = false
-                            self.vdoCollectionView.isHidden = true
+                                self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 1)"
+                                self.remoteParticipant = self.remoteParticipantArr[0]
+                                if self.isChangeView == true {
+                                   self.isChangeView = false
+                                    self.vdoCollectionView.isHidden = true
+                                    self.parentSpeakerView.isHidden = false
+                                    self.mainPreview.isHidden = false
+                                    self.fullFlashViewChangesMethod(isFlip: false)
+                                }
+                                else {
+                                    
+                                    self.isChangeView = false
+                                    self.mainPreview.isHidden = false
+                                    self.parentSpeakerView.isHidden = false
+                                    self.vdoCollectionView.isHidden = true
+                                }
+                                print("totalparticipants-4--->",remoteParticipantArr.count)
+                                
+                           
                             }
                            // self.vdoCollectionView.reloadData()
                         }
                         else {
                             DispatchQueue.main.async {
-                                self.vdoCollectionView.reloadData()
+                                self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 2)"
+                                print("totalparticipants-5--->",self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count)
+                                if self.room != nil && self.localVideoTrack != nil {
+                                    if self.isChangeView == true {
+                                        self.vdoCollectionView.reloadData()
+                                    }
+                                    else {
+                                        if self.remoteParticipant == participant {
+                                            self.remoteParticipant = self.remoteParticipantArr[0]
+                                            self.fullFlashViewChangesMethod(isFlip: false)
+                                        }
+                                        else {
+                                            
+                                        }
+                                    }
+                                }
+                               
+                               
                             }
                         }
                        }

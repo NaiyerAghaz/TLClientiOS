@@ -12347,7 +12347,7 @@
                                                                 <constraint firstAttribute="width" constant="75" id="Y0X-Lw-zOE"/>
                                                                 <constraint firstAttribute="height" constant="24" id="nn9-s6-phM"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <state key="normal" title="Pin Video">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -12355,8 +12355,7 @@
                                                             </state>
                                                             <state key="selected" title="Unpin Video" image="pin.slash" catalog="system"/>
                                                             <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius " value="6"/>
-                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                                                <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius " value="4"/>
                                                             </userDefinedRuntimeAttributes>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OcR-DH-jHl">
@@ -12530,7 +12529,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SbP-IG-Wew">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yg1-Vc-Rbq" customClass="TVIVideoView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yg1-Vc-Rbq">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -12662,7 +12661,7 @@
                                 <rect key="frame" x="254" y="104" width="160" height="160"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wrO-XX-0cZ" customClass="TVIVideoView">
+                                    <view contentMode="scaleAspectFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wrO-XX-0cZ">
                                         <rect key="frame" x="50" y="5" width="100" height="110"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -12676,10 +12675,10 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDI-cI-qOB">
-                                        <rect key="frame" x="60" y="23" width="62" height="18"/>
+                                        <rect key="frame" x="64" y="23" width="54" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemOrangeColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="8"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Pin Video">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -12690,8 +12689,7 @@
                                             <imageReference key="image" image="pin.slash" catalog="system" symbolScale="small"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius " value="6"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius " value="4"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="btnPinVideoTapped:" destination="Ve2-hr-cH7" eventType="touchUpInside" id="aoj-Li-vYC"/>
@@ -12707,6 +12705,16 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reconnecting.." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zFY-ad-G2I">
+                                <rect key="frame" x="137" y="443" width="140" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="epy-jL-cTQ"/>
+                                    <constraint firstAttribute="height" constant="20" id="w2j-D5-scY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                <color key="textColor" red="0.20000000000000001" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tK-Vx-fLG">
                                 <rect key="frame" x="0.0" y="44" width="414" height="60"/>
                                 <subviews>
@@ -13027,6 +13035,7 @@
                             <constraint firstItem="war-Ng-a6O" firstAttribute="bottom" secondItem="3t4-0G-45g" secondAttribute="bottom" id="8dq-kr-abA"/>
                             <constraint firstItem="SbP-IG-Wew" firstAttribute="leading" secondItem="war-Ng-a6O" secondAttribute="leading" id="C8O-bw-MVd"/>
                             <constraint firstItem="3t4-0G-45g" firstAttribute="leading" secondItem="war-Ng-a6O" secondAttribute="leading" id="Ebh-x6-DaD"/>
+                            <constraint firstItem="zFY-ad-G2I" firstAttribute="centerY" secondItem="war-Ng-a6O" secondAttribute="centerY" id="GFn-pZ-NE0"/>
                             <constraint firstItem="war-Ng-a6O" firstAttribute="bottom" secondItem="SbP-IG-Wew" secondAttribute="bottom" id="H7o-4y-vaf"/>
                             <constraint firstItem="ZPi-UN-88I" firstAttribute="trailing" secondItem="war-Ng-a6O" secondAttribute="trailing" id="Hdp-3G-cJo"/>
                             <constraint firstItem="3t4-0G-45g" firstAttribute="top" secondItem="war-Ng-a6O" secondAttribute="top" id="KSn-m3-Lec"/>
@@ -13035,6 +13044,7 @@
                             <constraint firstItem="SbP-IG-Wew" firstAttribute="trailing" secondItem="war-Ng-a6O" secondAttribute="trailing" id="Ywb-yG-9zS"/>
                             <constraint firstAttribute="trailing" secondItem="3t4-0G-45g" secondAttribute="trailing" id="hm1-Xw-N5n"/>
                             <constraint firstItem="3tK-Vx-fLG" firstAttribute="trailing" secondItem="war-Ng-a6O" secondAttribute="trailing" id="jLk-fm-sgJ"/>
+                            <constraint firstItem="zFY-ad-G2I" firstAttribute="centerX" secondItem="war-Ng-a6O" secondAttribute="centerX" id="yXR-FW-VY0"/>
                             <constraint firstItem="war-Ng-a6O" firstAttribute="bottom" secondItem="ZPi-UN-88I" secondAttribute="bottom" id="zwv-lQ-I1d"/>
                         </constraints>
                     </view>
@@ -13050,6 +13060,7 @@
                         <outlet property="imgLocalPrivacy" destination="hhj-DV-46t" id="cFE-zp-tCt"/>
                         <outlet property="lblAudio" destination="9q5-sI-XqO" id="fk9-kI-haK"/>
                         <outlet property="lblParticipantName" destination="z4b-E0-ulc" id="Rtb-4a-aXQ"/>
+                        <outlet property="lblReconecting" destination="zFY-ad-G2I" id="2Pr-Aj-mV0"/>
                         <outlet property="lblTimeSpeak" destination="9sf-De-6BB" id="Gf6-vq-Rgh"/>
                         <outlet property="lblTotalParticipant" destination="VaZ-dT-dKL" id="Htd-uI-hQl"/>
                         <outlet property="lblVideo" destination="nI4-GW-dw7" id="RqK-0h-8EF"/>
@@ -13058,9 +13069,9 @@
                         <outlet property="muteView" destination="iwL-ju-PZG" id="5bm-Bm-QhL"/>
                         <outlet property="parentSpeakerView" destination="SbP-IG-Wew" id="EUP-0x-XeJ"/>
                         <outlet property="participantView" destination="qw0-L8-wKO" id="0Yx-Nm-f2D"/>
-                        <outlet property="preview" destination="wrO-XX-0cZ" id="Eka-8S-aaT"/>
+                        <outlet property="previewOriginal" destination="wrO-XX-0cZ" id="qPR-Ru-Mwb"/>
                         <outlet property="speakerImgPrivacy" destination="xgk-6l-VZk" id="Ktk-Lg-3o6"/>
-                        <outlet property="speakerView" destination="Yg1-Vc-Rbq" id="PbJ-gr-z8T"/>
+                        <outlet property="speakerViewOriginal" destination="Yg1-Vc-Rbq" id="gvE-YN-8oP"/>
                         <outlet property="stopVideoView" destination="wcQ-FN-x3E" id="EUQ-9j-vOU"/>
                         <outlet property="topView" destination="3tK-Vx-fLG" id="2oO-m7-t0y"/>
                         <outlet property="userRemoteView" destination="3t4-0G-45g" id="dr1-zS-9YD"/>
@@ -20414,8 +20425,8 @@
         <image name="Back" width="25" height="25"/>
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
         <image name="bell.fill" catalog="system" width="128" height="124"/>
-        <image name="calendar" width="512" height="512"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="calendar" width="512" height="512"/>
         <image name="camera" catalog="system" width="128" height="94"/>
         <image name="camera.fill" catalog="system" width="128" height="94"/>
         <image name="camera.rotate" catalog="system" width="128" height="94"/>
@@ -20430,7 +20441,7 @@
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="google-docs" width="512" height="512"/>
         <image name="handshake" width="512" height="512"/>
-        <image name="ic_call" width="120" height="120"/>
+        <image name="ic_call" width="50" height="51"/>
         <image name="ic_cancel" width="16" height="16"/>
         <image name="ic_circle" width="96" height="96"/>
         <image name="ic_close" width="128" height="128"/>

@@ -59,7 +59,7 @@ class VDOCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var btnPinVideo: UIButton!
     @IBOutlet weak var isSpeakingLbl: PaddingLabel!
     func configure(obj: ConferenceInfoModels){
-    
+    print("obj.VIDEO---->",obj.VIDEO, ":obj.MUTE ==",obj.MUTE)
         audioLbl.adjustsFontSizeToFitWidth = true
         lblVideo.adjustsFontSizeToFitWidth = true
         if obj.VIDEO == "0" {

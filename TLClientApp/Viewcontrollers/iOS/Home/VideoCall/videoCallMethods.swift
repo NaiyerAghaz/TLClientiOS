@@ -9,6 +9,7 @@ import Foundation
 import TwilioVideo
 import TwilioVoice
 import TwilioChatClient
+import SwiftMessages
 extension VideoCallViewController {
     func configureHost(obj: ConferenceInfoModels){
     
@@ -40,6 +41,22 @@ extension VideoCallViewController {
         }
        
         pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: localParticipant, rp: remoteParticipant)]
+    }
+}
+extension UILabel {
+
+    func startBlink() {
+        self.alpha = 0.0
+        UIView.animate(withDuration: 0.6,
+              delay:0.0,
+              options:[.allowUserInteraction, .curveEaseInOut, .autoreverse, .repeat],
+                       animations: { self.alpha = 1.0 },
+                       completion: nil)
+    }
+
+    func stopBlink() {
+        layer.removeAllAnimations()
+        alpha = 0
     }
 }
 

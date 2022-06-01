@@ -17,6 +17,8 @@ struct Control_Name {
     static let recurrenceCV = "RecurrenceCalendarView"
     static let reEditVC = "EditRecurrenceStatusVC"
     static let updateDeptAndCont = "UpdateDepartmentAndContactVC"
+    static let tTotalP = "TotalParticipantVC"
+    static let vrifeedback = "VRIOPIFeedbackController"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"

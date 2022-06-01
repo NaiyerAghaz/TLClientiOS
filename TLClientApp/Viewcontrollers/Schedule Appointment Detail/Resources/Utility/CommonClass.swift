@@ -351,6 +351,17 @@ extension UITextField {
     }
     
 }
+extension UIView
+{
+    func removeAllSubViews()
+    {
+       for subView :AnyObject in self.subviews
+       {
+            subView.removeFromSuperview()
+       }
+    }
+
+}
 public class Reachability {
     
     class func isConnectedToNetwork() -> Bool {

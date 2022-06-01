@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
-        let userInfo = notification.request.content.userInfo
+     //   let userInfo = notification.request.content.userInfo
         
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -199,11 +199,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     func handleNotification(userInfo:[AnyHashable:Any]){
         let type =  userInfo[AnyHashable("type")] as? String
-        let payload = userInfo[AnyHashable("payload")] as? String
-       
+       // let payload = userInfo[AnyHashable("payload")] as? String
+       print("userinfo--->", userInfo)
         if type != nil {
            // let dict = convertToDictionary(text: payload!)
-            if type == TypeNotification.notavailable.rawValue {
+            switch type {
+            case "notavailable":
+                let cid = userInfo[AnyHashable("gcm.notification.callid")]  as? String
+                callid = cid
+               print("cid---->",cid)
+                let status = userInfo[AnyHashable("gcm.notification.Callstatus")] as? NSNumber
+                NotificationCenter.default.post(name: Notification.Name("notAvailableParticipant"), object: nil)
+                if  Int(truncating: status ?? 0) == 2 {
+                  
+                    window?.makeToast("Sorry the booked interpreter is not available to take the call", position: .center)
+                }
+               
+                break
+                
+            case "opicall":
+                NotificationCenter.default.post(name: Notification.Name("vendorAnswered"), object: nil, userInfo: nil)
+                break
+            case "tokenupdate":
+                if Reachability.isConnectedToNetwork() {
+                    userDefaults.removeObject(forKey: "isDeclineTimeZone")
+                    
+                         loginVModels.checkSingleSigninToUser { success, err in
+                            
+                             if success == false{
+                                 print("checkSingleSigninToUser--status2:",success)
+                                 DispatchQueue.main.async {
+                                     let refreshAlert = UIAlertController(title: "Someone Logged in", message: "The customer already logged-in on another device.", preferredStyle: UIAlertController.Style.alert)
+                                     userDefaults.removeObject(forKey: "userId")
+                                     refreshAlert.addAction(UIAlertAction(title: "Login", style: .default, handler: { (action: UIAlertAction!) in
+                                         
+                                         let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                                         let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
+                                         let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+                                         let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
+                                         navigationController.viewControllers = [rootViewController]
+                                         appDelegate.window!.rootViewController = navigationController
+                                         appDelegate.window!.makeKeyAndVisible()
+                                        }))
+
+                                     if let window = self.window, let rootViewController = window.rootViewController {
+                                         var currentController = rootViewController
+                                         while let presentedController = currentController.presentedViewController {
+                                             currentController = presentedController
+                                         }
+                                         currentController.present(refreshAlert, animated: true, completion: nil)
+                                     }
+                                 
+                                 }
+
+                                    // present(refreshAlert, animated: true, completion: nil)
+                                 }
+                           
+                         }
+                     }
+                     else {
+                         self.window?.makeToast(ConstantStr.noItnernet.val)
+                     }
+                
+                break
+                
+            default:
+                print("type not available")
+            }
+           /* if type == TypeNotification.notavailable.rawValue {
                 if userInfo[AnyHashable("gcm.notification.Callstatus")]  != nil{
                     let status = userInfo[AnyHashable("gcm.notification.Callstatus")] as? NSNumber
                     print("status?.intValue->",status?.intValue)
@@ -248,8 +311,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                    userDefaults.removeObject(forKey: "isDeclineTimeZone")
                    
                         loginVModels.checkSingleSigninToUser { success, err in
-                           
-                            if success == false{
+                           if success == false{
                                 print("checkSingleSigninToUser--status2:",success)
                                 DispatchQueue.main.async {
                                     let refreshAlert = UIAlertController(title: "Someone Logged in", message: "The customer already logged-in on another device.", preferredStyle: UIAlertController.Style.alert)
@@ -282,20 +344,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     else {
                         self.window?.makeToast(ConstantStr.noItnernet.val)
-                    }
-//                    self.window?.makeToast("This customer already logged-in on another device")
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//                        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//                        let storyboard:UIStoryboard = UIStoryboard(name: Storyboard_name.login, bundle: nil)
-//                        let navigationController:UINavigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-//                        let rootViewController:UIViewController = storyboard.instantiateViewController(withIdentifier: "InitialLoginVC") as! InitialLoginVC
-//                        navigationController.viewControllers = [rootViewController]
-//                        appDelegate.window!.rootViewController = navigationController
-//                        appDelegate.window!.makeKeyAndVisible()
-//                    }
-             
-                
-            }
+                    }}*/
         }
     }
    

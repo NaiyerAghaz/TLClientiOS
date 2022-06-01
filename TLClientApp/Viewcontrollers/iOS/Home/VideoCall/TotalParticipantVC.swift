@@ -38,14 +38,12 @@ class TotalParticipantVC: BottomPopupViewController {
     var popupDismisAlphaVal : CGFloat?
     var conferenceStatusModel: ClientStatusModel?
     var pid: String?
+    var isChangeView : Bool?
     override func viewDidLoad() {
         super.viewDidLoad()
        tblView.separatorStyle = .none
         tblView.layoutSubviews()
         tblView.tableFooterView = UIView(frame: .zero)
-        /// let cellNib = UINib(nibName: "VendorTVCell", bundle: nil)
-        //  tblView.register(cellNib, forCellReuseIdentifier: VendorIdentityCell.vendorCell.rawValue)
-        // tblView.register(cellNib, forCellReuseIdentifier: VendorIdentityCell.lobbyCell.rawValue)
         tblView.delegate = self
         tblView.dataSource = self
         DispatchQueue.main.async {
@@ -200,8 +198,9 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                     if success == true {
                         
                         DispatchQueue.global(qos: .background).async {[self] in
-                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!,partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
+                            
                                 self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
                                 DispatchQueue.main.async {
                                     SwiftLoader.hide()
@@ -224,7 +223,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                     if success == true {
                         
                         DispatchQueue.global(qos: .background).async {[self] in
-                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!,partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 print("success----------Participant list")
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
                                 self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
@@ -267,7 +266,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                 vdoCallVM.audioVideoHostControl(audioVal: 0, partSID: vdoIndex.PARTSID!, isAudio: false) { success, err in
                     if success == true {
                         DispatchQueue.global(qos: .background).async {[self] in
-                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!,partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
                                 self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
@@ -294,7 +293,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                     if success == true {
                         
                         DispatchQueue.global(qos: .background).async {[self] in
-                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!) { success, err in
+                            vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!, partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
                                 self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
                                 

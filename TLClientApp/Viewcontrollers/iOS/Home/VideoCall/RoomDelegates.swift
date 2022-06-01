@@ -82,7 +82,23 @@ extension VideoCallViewController:RoomDelegate{
     }
     //THis method will call who is speaking
     func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
-       remoteParticipant = participant
+        if room.localParticipant != nil {
+            self.localParticipant = room.localParticipant
+        }
+        if participant != nil {
+            if isChangeView {
+                if currentSpeakerParticipant != nil && participant != currentSpeakerParticipant{
+                    currentSpeakerParticipant = participant
+                    self.vdoCollectionView.reloadData()
+                    
+                }
+                else {
+                    currentSpeakerParticipant = participant
+                   // self.vdoCollectionView.reloadData()
+                }
+            }
+        }
+      // remoteParticipant = participant
        print("participantisSpeakerSId:", participant?.sid)
        /* currentSpeakerParticipant = participant
         if remoteParticipantArr.count > 1 {
@@ -206,16 +222,26 @@ extension VideoCallViewController:RoomDelegate{
     }
     
     func roomIsReconnecting(room: Room, error: Error) {
+        self.lblReconecting.isHidden = false
+        self.lblReconecting.startBlink()
+        
         self.view.makeToast( "Reconnecting to room internet is too slow..")
         
     }
     
     func roomDidReconnect(room: Room) {
+        self.lblReconecting.stopBlink()
+        self.lblReconecting.isHidden = true
+        self.localParticipant = room.localParticipant
         // self.view.makeToast( "Reconnected to room \(room.name)")
         //  logMessage(messageText: "Reconnected to room \(room.name)")
     }
     
     func participantDidConnect(room: Room, participant: RemoteParticipant) {
+        print("particiapnt did connect-->")
+        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+            print(success)
+        }
         if !recordTime.isValid {
             callStartTime = cEnum.instance.getCurrentDateAndTime()
             recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
@@ -250,6 +276,9 @@ extension VideoCallViewController:RoomDelegate{
     }
     
     func participantDidDisconnect(room: Room, participant: RemoteParticipant) {
+        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+            print(success)
+        }
         recordTime.invalidate()
         timer.invalidate()
         if myAudio != nil{

@@ -20,6 +20,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
      * We will create an audio device and manage it's lifecycle in response to CallKit events.
      */
     
+    @IBOutlet weak var lblReconecting: UILabel!
     @IBOutlet weak var lblTotalParticipant: UILabel!
     @IBOutlet weak var userRemoteView: UIView!
     var audioDevice = DefaultAudioDevice()
@@ -55,7 +56,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     @IBOutlet weak var btnSpeak: UIButton!
     @IBOutlet weak var btnCameraFlip: UIButton!
     @IBOutlet weak var btnMore: UIButton!
-    @IBOutlet weak var preview: VideoView!
+    @IBOutlet weak var previewOriginal: UIView!
+    var preview = VideoView()
     @IBOutlet weak var muteView: UIView!
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var stopVideoView: UIView!
@@ -69,8 +71,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     @IBOutlet weak var imgLocalPrivacy: UIImageView!
     //Speakers Outlets
     @IBOutlet weak var speakerImgPrivacy: UIImageView!
-    @IBOutlet weak var speakerView: VideoView!
-    
+    @IBOutlet weak var speakerViewOriginal: UIView!
+    var speakerView = VideoView()
     @IBOutlet weak var parentSpeakerView: UIView!
     @IBOutlet weak var btnSpeakerMic: UIButton!
     @IBOutlet weak var lblVideo: PaddingLabel!
@@ -123,7 +125,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         super.viewDidLoad()
         mainPreview.frame = CGRect(x: self.view.frame.size.width - 140, y: 60, width: 160, height: 160)
         reCreatePreview()
-        
+        lblReconecting.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(participantNotAvailable(noti:)), name: Notification.Name("notAvailableParticipant"), object: nil)
         if ifComeFromMeet {
             if ifTimereach {
@@ -195,10 +197,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     func reCreatePreview(){
         btnPinLocal.frame = CGRect(x: 40, y: 25, width: 70, height: 24)
-        preview.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
+        preview.frame = CGRect(x: 0, y: 0, width: 100, height: 110)
+        previewOriginal.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
         preview.layer.borderColor = UIColor.black.cgColor
         preview.layer.borderWidth = 1
-        mainPreview.addSubview(preview)
+        previewOriginal.addSubview(preview)
+        mainPreview.addSubview(previewOriginal)
         mainPreview.addSubview(btnPinLocal)
         btnMic.frame = CGRect(x: 100, y: 110, width: 22, height: 22)
         mainPreview.addSubview(btnMic)
@@ -211,12 +215,13 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             self.pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: self.localParticipant, rp: remoteParticipant)]
-           
-            isSwitchToRemote = !isSwitchToRemote
-            fullFlashViewChangesMethod(isFlip:true)
+            
+            isSwitchToRemote = true
+            fullFlashViewChangesMethod(isFlip:false)
         }
         else {
-       }
+            isSwitchToRemote = false
+        }
     }
     
     @objc func handler(gesture: UIPanGestureRecognizer){
@@ -296,18 +301,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             self.userRemoteView.addSubview(callingImageView)
         }
         else {
-            
-            //self.speakerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlerTopbottom)))
-            self.speakerView.isUserInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
-            self.speakerView.addGestureRecognizer(tap)
-            
-            
-            self.speakerView?.contentMode = .scaleAspectFill
+            self.speakerView.contentMode = .scaleAspectFill
             self.speakerView.layer.cornerRadius = 0
             self.speakerView.clipsToBounds = false
             self.speakerView.frame.size.width = self.view.bounds.width
             self.speakerView.frame.size.height = self.view.bounds.height
+            self.speakerViewOriginal.addSubview(speakerView)
+            self.speakerView.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
+            self.speakerView.addGestureRecognizer(tap)
             self.topView.backgroundColor = UIColor.black
                 .withAlphaComponent(0.7)
             self.bottomView.backgroundColor = UIColor.black
@@ -328,7 +330,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
         moreDropDown.dataSource = moreArr
         
-        moreDropDown.selectionAction = { (index, item) in
+        moreDropDown.selectionAction = { [self] (index, item) in
             print("Index seletected more:", index, item)
             if index == 0 {
                 print(item)
@@ -336,7 +338,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 if self.isChangeView == false  {
                     
                     DispatchQueue.main.async {
-                        
+                        self.previewOriginal.removeAllSubViews()
+                        self.speakerViewOriginal.removeAllSubViews()
                         self.vdoCollectionView.isHidden = false
                         self.mainPreview.isHidden = true
                         self.isChangeView = true
@@ -353,12 +356,44 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         self.vdoCollectionView.isHidden = true
                         self.parentSpeakerView.isHidden = false
                         self.mainPreview.isHidden = false
-                        // self.fullFlashViewChangesMethod(isFlip: true)
+                        self.fullFlashViewChangesMethod(isFlip: false)
                         //self.vdoCollectionView.reloadData()
                     }
                 }
             }else if index == 2 {
-                print(item)
+                if self.pinVideoArr.count > 0 {
+                    self.pinVideoArr.removeAll()
+                    self.moreArr[2] = "Pin Video"
+                    moreDropDown.dataSource = moreArr
+                    if self.isChangeView {
+                        self.vdoCollectionView.reloadData()
+                    }
+                }
+                else {
+                    if self.isChangeView {
+                        moreArr[2] = "Unpin video"
+                        moreDropDown.dataSource = moreArr
+                       // self.remoteParticiapntName = cell.participantName.text ?? ""
+                        btnPinLocal.isSelected = false
+                        self.isSwitchToRemote = false
+                        print("other index remote")
+                        self.remoteParticipant = remoteParticipantArr[0]
+                        self.pinVideoArr = [pinModels(isRemotePin: true, isLocalPin: false, lp: localParticipant, rp: remoteParticipantArr[0])]
+                        self.vdoCollectionView.isHidden = true
+                        self.parentSpeakerView.isHidden = false
+                        self.mainPreview.isHidden = false
+                        isChangeView = false
+                        self.fullFlashViewChangesMethod(isFlip: false)
+                    }
+                    else {
+                        self.moreArr[2] = "Unpin Video"
+                        moreDropDown.dataSource = moreArr
+                        self.pinVideoArr = [pinModels(isRemotePin: true, isLocalPin: false, lp: self.localParticipant, rp: self.remoteParticipantArr[0])]
+                    }
+                   
+                    
+                }
+                
             }else if index == 3 {
                 print(item)
             }
@@ -408,9 +443,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     self.newChannelPrivateCreate()
                 }
             }
-            else {
-                print("genarateChatTokenCreate-------------->")
-            }
+            
         }
     }
     
@@ -479,11 +512,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     //  [self newChannelPrivateJoin:NO];
                 }
             }
-            else {
-                print("genarateChatTokenCreate-------------->")
-            }
-            
-            
         }
     }
     func populateChannelsJoin(){
@@ -548,10 +576,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                             genarateChatTokenJoin()
                         }
                     }
-                }
-            }
+                } }
         }
-        
     }
     func joinChannelJoin(channel:TCHChannel){
         channel.join {[self] result in
@@ -577,7 +603,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vdoCallVM.getMeetingClientStatusLobbyWithCompletion(parameter: req) { success, result in
             self.clientStatusModel = result
             self.btnParticipantTapped(self)
-        
+            
             
         }
     }
@@ -585,26 +611,26 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     func refresh(isaccept: Bool, pid: String) {
         if isaccept{
             let bodyMsz = "acceptfromclient:\(pid)"
-           
+            
             // self.dismiss(animated: true, completion: nil)
             let messageOption = TCHMessageOptions.init()
             messageOption.withBody(bodyMsz)
             self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
                 if result.isSuccessful(){
-                   
+                    
                     self.getMeetingClientStatusLobbyRefreshAccept(roomId: self.roomID!)
                 }
             })
         }
         else {
             let bodyMsz = "rejectfromclient:\(pid)"
-           
+            
             // self.dismiss(animated: true, completion: nil)
             let messageOption = TCHMessageOptions.init()
             messageOption.withBody(bodyMsz)
             self.myChannel?.messages?.sendMessage(with: messageOption, completion: { result, message in
                 if result.isSuccessful(){
-                  
+                    
                     self.getMeetingClientStatusLobbyRefreshAccept(roomId: self.roomID!)
                 }
                 
@@ -613,11 +639,31 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
     }
     func getHostControl(obj: ConferenceInfoResultModel) {
-        if remoteParticipantArr.count > 1 || isChangeView {
+       /* if remoteParticipantArr.count > 1 || isChangeView {
             vdoCallVM.conferrenceDetail = obj
             DispatchQueue.main.async {
-               
+                
                 self.vdoCollectionView.reloadData()
+            }
+        }*/
+        vdoCallVM.conferrenceDetail = obj
+        if isChangeView {
+            vdoCallVM.conferrenceDetail = obj
+            DispatchQueue.main.async {
+                
+                self.vdoCollectionView.reloadData()
+            }
+        }
+        else {
+            for ndata in obj.CONFERENCEInfo! {
+                let nobj =  ndata as! ConferenceInfoModels
+                if nobj.PARTSID == remoteParticipant?.sid {
+                    print("remote-particiapnt-sid:",remoteParticipant?.sid)
+                    DispatchQueue.main.async {
+                        self.configureHost(obj: nobj)
+                    }
+                   
+                }
             }
         }
         
@@ -726,7 +772,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     public func updateYourFeedback(){
         recordTime.invalidate()
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-        let fb = sB.instantiateViewController(identifier: "VRIOPIFeedbackController") as! VRIOPIFeedbackController
+        let fb = sB.instantiateViewController(identifier: Control_Name.vrifeedback) as! VRIOPIFeedbackController
         fb.roomID = roomID
         fb.targetLang = targetLangName
         fb.duration = lblTimeSpeak.text//callStartTime
@@ -741,7 +787,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     @IBAction func btnParticipantTapped(_ sender: Any) {
         
         let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-        let vcontrol = callVC.instantiateViewController(identifier: "TotalParticipantVC") as! TotalParticipantVC
+        let vcontrol = callVC.instantiateViewController(identifier: Control_Name.tTotalP) as! TotalParticipantVC
         vcontrol.height = 500
         vcontrol.topCornerRadius = 20
         vcontrol.presentDuration = 0.5
@@ -752,6 +798,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         vcontrol.roomID = roomID
         vcontrol.localVideoTrack = localVideoTrack
         vcontrol.camera = camera
+        vcontrol.isChangeView = isChangeView
         vcontrol.callChannel = myChannel
         vcontrol.roomlocalParticipantSIDrule = roomlocalParticipantSIDrule
         vcontrol.conferrenceInfoArr = vdoCallVM.conferrenceDetail.CONFERENCEInfo
@@ -852,8 +899,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     }
     //====================END=============================
     @objc  func ringingCallStart(){
-        
-        ringingTime -= 2
+        CEnumClass.share.playSounds(audioName: "incoming")
+      /*  ringingTime -= 2
         if ringingTime <= 0 {
             myAudio!.stop()
             timer.invalidate()
@@ -880,7 +927,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }}
         else {
             CEnumClass.share.playSounds(audioName: "incoming")
-        }
+        }*/
     }
     
     // MARK:- Private
@@ -957,11 +1004,11 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }
         }
     }
-    
+    //MARK: GetFlip Changeview
     @objc func getFlipLocalView(gesture:UITapGestureRecognizer){
         
         isSwitchToRemote = !isSwitchToRemote
-        fullFlashViewChangesMethod(isFlip:true)
+        fullFlashViewChangesMethod(isFlip:false)
     }
     func fullFlashViewChangesMethod(isFlip:Bool){
         if isFlip {
@@ -990,8 +1037,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     }
                 }
                 localVideoTrack!.addRenderer(speakerView)
+                
             }
             else {
+                
                 lblParticipantName.text = remoteParticiapntName
                 btnSpeakerMic.isHidden = false
                 btnMic.isHidden = true
@@ -1018,458 +1067,124 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 if localVideoTrack != nil {
                     localVideoTrack!.addRenderer(preview)
                 }
-                
-            }
-        }
+            }}
         else {
-            
-            preview.removeFromSuperview()
-            speakerView.removeFromSuperview()
-            
-          /*  if isSwitchToRemote {
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(preview)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(speakerView)
-                    }
-                }
-            }
-            else {
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(speakerView)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(preview)
-                    }
-                }
-            }*/
-        }
-        
-    }
-    
-    //MARK: Collectionview Delegate and Datasource
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if remoteParticipantArr.count > 1 {
-            
-            return remoteParticipantArr.count + 1
-        }
-        
-        else {
-            if isChangeView {
-                return remoteParticipantArr.count + 1
-            }
-            else {
-                return remoteParticipantArr.count
-            }
-            
-        }
-    }
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: indexPath) as!  VDOCollectionViewCell
-        
-        let cRemoteView = VideoView(frame: CGRect(x: 0, y: 0, width: cell.remoteView.frame.size.width-1, height: cell.remoteView.frame.size.height-1))
-        cRemoteView.contentMode = .scaleAspectFill
-        cRemoteView.layer.cornerRadius = 0
-        cRemoteView.clipsToBounds = false
-        cell.remoteView.addSubview(cRemoteView)
-        //        cell.remoteView.frame.size.width = vdoCollectionView.bounds.width
-        //        cell.remoteView.frame.size.height = vdoCollectionView.bounds.height
-        
-        if remoteParticipantArr.count > 1{
-            if indexPath.row == 0 {
-                
-                cell.btnMic.isHidden = true
-                mainPreview.isHidden = true
-                isAttendMultiPart = true
-                //  self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                //  self.lView.contentMode = .scaleAspectFill
-                // self.lView.clipsToBounds = false
-                localVideoTrack!.addRenderer(cRemoteView)
-                vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
-                cell.audioLbl.isHidden = true
-                cell.lblVideo.isHidden = true
-                //cell.isSpeakingLbl.isHidden = true
-                cell.participantName.isHidden = true
-                //  cell.remoteView.addSubview(lView)
-                cell.btnPinVideo.tag = indexPath.row
-                cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
-                if pinVideoArr.count > 0 {
-                    if localParticipant == pinVideoArr[0].lp {
-                        cell.btnPinVideo.isSelected = true
-                    }
-                    else {
-                        cell.btnPinVideo.isSelected = false
-                    }
-                }
-
-                
-                return cell
-            }
-            else {
-                if  indexPath.row > 0 {
-                    cell.btnMic.isHidden = false
-                    
-                    let videoPublications = remoteParticipantArr[indexPath.row - 1].remoteVideoTracks
-                    let objSID = remoteParticipantArr[indexPath.row - 1].sid
-                    for publication in videoPublications {
-                        print("vdoTrackSid:", publication.trackSid, publication.trackName)
-                        if let subscribedVideoTrack = publication.remoteTrack,
-                           publication.isTrackSubscribed {
-                            print("vdosubscribedVideoTrack2-------------->:", subscribedVideoTrack.sid)
-                            if subscribedVideoTrack.isEnabled {
-                                cell.imgRemotePrivacy.isHidden = true
-                                // let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                                //  remote.contentMode = .scaleAspectFill
-                                // remote.clipsToBounds = false
-                                
-                                subscribedVideoTrack.addRenderer(cRemoteView)
-                                // cell.remoteView.addSubview(remote)
-                            }
-                            else {
-                                cell.imgRemotePrivacy.isHidden = false
-                                //vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacy)
-                                // let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                                //remote.backgroundColor = UIColor.black
-                                // remote.contentMode = .scaleAspectFill
-                                // remote.clipsToBounds = false
-                                cell.remoteView.addSubview(cRemoteView)
-                            }
-                            
-                        }}
-                    let audioPublications = remoteParticipantArr[indexPath.row - 1].audioTracks
-                    for audioPub in audioPublications {
-                        print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
-                        if let audio = audioPub.audioTrack {
-                            audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
-                        }
-                        
-                    }
-                    if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
-                        let pSID = remoteParticipantArr[indexPath.row - 1].sid
-                        
-                        for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-                            let participantSID = pObj as! ConferenceInfoModels
-                            if participantSID.PARTSID == pSID {
-                                cell.btnPinVideo.tag = indexPath.row
-                                cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
-                                cell.participantName.adjustsFontSizeToFitWidth = true
-                                cell.participantName.text = participantSID.UserName
-                                cell.configure(obj: participantSID)
-                                cell.participantName.isHidden = false
-                                
-                            }
-                        }
-                    }
-                    if pinVideoArr.count > 0 {
-                        if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
-                            cell.btnPinVideo.isSelected = true
-                        }
-                        else {
-                            cell.btnPinVideo.isSelected = false
-                        }
-                    }
-                   
-                    //                    if objSID == currentSpeakerParticipant?.sid{
-                    //
-                    //                        cell.isSpeakingLbl.isHidden = false
-                    //                    }
-                    //                    else {
-                    //                        cell.isSpeakingLbl.isHidden = true
-                    //
-                    //                    }
-                    return cell
-                }}
-        }
-        
-        else {
-            
-            if isChangeView {
-                if indexPath.row == 0 {
-                    cell.btnMic.isHidden = true
-                    
-                    mainPreview.isHidden = true
-                    isAttendMultiPart = true
-                    // self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                    // self.lView.contentMode = .scaleAspectFill
-                    // self.lView.clipsToBounds = false
-                    localVideoTrack!.addRenderer(cRemoteView)
-                    vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
-                    cell.audioLbl.isHidden = true
-                    cell.lblVideo.isHidden = true
-                    cell.btnPinVideo.tag = indexPath.row
-                    cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
-                    //cell.isSpeakingLbl.isHidden = true
-                    cell.participantName.isHidden = true
-                    //  cell.remoteView.addSubview(lView)
-                    if pinVideoArr.count > 0 {
-                        if localParticipant == pinVideoArr[0].lp {
-                            cell.btnPinVideo.isSelected = true
-                        }
-                        else {
-                            cell.btnPinVideo.isSelected = false
-                        }
-                    }
-                    return cell
-                }
-                else {
-                    if  indexPath.row > 0 {
-                        cell.btnMic.isHidden = false
-                        let videoPublications = remoteParticipantArr[indexPath.row - 1].remoteVideoTracks
-                        //  let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row - 1] as! ConferenceInfoModels
-                        // let objSID = remoteParticipantArr[indexPath.row - 1].sid
-                        for publication in videoPublications {
-                            print("vdoTrackSid:", publication.trackSid, publication.trackName)
-                            if let subscribedVideoTrack = publication.remoteTrack,
-                               publication.isTrackSubscribed {
-                                print("vdosubscribedVideoTrack2-------------->222:", subscribedVideoTrack.sid)
-                                if subscribedVideoTrack.isEnabled {
-                                    cell.imgRemotePrivacy.isHidden = true
-                                    // let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                                    //  remote.contentMode = .scaleAspectFill
-                                    // remote.clipsToBounds = false
-                                    subscribedVideoTrack.addRenderer(cRemoteView)
-                                    // cell.remoteView.addSubview(remote)
-                                }
-                                else {
-                                    cell.imgRemotePrivacy.isHidden = false
-                                    // vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacy)
-                                    // let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                                    cRemoteView.backgroundColor = UIColor.black
-                                    // remote.contentMode = .scaleAspectFill
-                                    //  remote.clipsToBounds = false
-                                    //cell.remoteView.addSubview(remote)
-                                }
-                                
-                            }}
-                        let audioPublications = remoteParticipantArr[indexPath.row - 1].audioTracks
-                        for audioPub in audioPublications {
-                            print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
-                            if let audio = audioPub.audioTrack {
-                                audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
-                            }
-                            
-                        }
-                        if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
-                            let pSID = remoteParticipantArr[indexPath.row - 1].sid
-                            
-                            for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-                                let participantSID = pObj as! ConferenceInfoModels
-                                if participantSID.PARTSID == pSID {
-                                    cell.btnPinVideo.tag = indexPath.row
-                                    cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
-                                    cell.participantName.adjustsFontSizeToFitWidth = true
-                                    
-                                    cell.participantName.text = participantSID.UserName
-                                    cell.configure(obj: participantSID)
-                                    cell.participantName.isHidden = false
-                                    
-                                }
-                            }
-                        }
-                        if pinVideoArr.count > 0 {
-                            if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
-                                cell.btnPinVideo.isSelected = true
-                            }
-                            else {
-                                cell.btnPinVideo.isSelected = false
-                            }
-                        }
-
-                        
-                        return cell
-                    }
-                }
-            }
-            
-            else {
-                let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
-                let pSID = remoteParticipantArr[indexPath.row].sid
-                
-                if isAttendMultiPart {
-                    if (localAudioTrack == nil) {
-                        localAudioTrack = LocalAudioTrack()
-                        if (localAudioTrack == nil) {
-                            self.view.makeToast("Failed to create audio track")
-                        }
-                    }
-                    
-                    self.mainPreview.isHidden = false
-                    cell.btnMic.isHidden = false
-                }
+            previewOriginal.removeAllSubViews()
+            speakerViewOriginal.removeAllSubViews()
+            if isSwitchToRemote {
+                print("localParticiapant1:",localParticipant)
+                btnPinLocal.isHidden = true
+                btnMic.isHidden = false
+                lblAudio.isHidden = true
+                lblVideo.isHidden = true
+                lblParticipantName.text = "You"
+                btnSpeakerMic.isHidden = true
+                self.preview = VideoView(frame: CGRect(x: 0, y: 0, width: 100, height: 110))
+                preview.contentMode = .scaleAspectFill
+                preview.layer.cornerRadius = 0
+                preview.clipsToBounds = false
+                self.previewOriginal.addSubview(self.preview)
+                previewTapped(nView: self.preview)
+                let videoPublications = self.remoteParticipant!.remoteVideoTracks
                 for publication in videoPublications {
-                    print("vdoTrackSid2:", publication.trackSid, publication.trackName)
                     if let subscribedVideoTrack = publication.remoteTrack,
                        publication.isTrackSubscribed {
-                        print("vdosubscribedVideoTrack1-------------->33:", subscribedVideoTrack.sid)
-                        if subscribedVideoTrack.isEnabled {
-                            vdoCallVM.videoTrackEnableOrDisable(isenable: subscribedVideoTrack.isEnabled, img: cell.imgRemotePrivacy)
-                            //  let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                            // remote.contentMode = .scaleAspectFill
-                            //  remote.clipsToBounds = false
-                            subscribedVideoTrack.addRenderer(cRemoteView)
-                            
-                            // cell.remoteView.addSubview(remote)
-                        }
-                        else {
-                            vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacy)
-                            // let remote = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
-                            cRemoteView.backgroundColor = UIColor.black
-                            //remote.contentMode = .scaleAspectFill
-                            //remote.clipsToBounds = false
-                            // cell.audioLbl.isHidden = true
-                            //cell.lblVideo.isHidden = true
-                            // cell.participantName.isHidden = true
-                            // cell.remoteView.addSubview(remote)
-                        }
-                    }}
-                
-                let audioPublications = remoteParticipantArr[indexPath.row].audioTracks
+                        subscribedVideoTrack.addRenderer(self.preview)
+                    }
+                }
+                let audioPublications = remoteParticipant!.audioTracks
                 for audioPub in audioPublications {
-                    print("audioTrackSid2:", audioPub.trackSid, audioPub.trackName)
+                    
                     if let audio = audioPub.audioTrack {
-                        audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
-                    }
-                    //                if (audioPub.trackSid == currentSpeakerParticipant?.sid) && audioPub.audioTrack?.isEnabled == true{
-                    //
-                    //                    cell.isSpeakingLbl.isHidden = false
-                    //                }
-                    //                else {
-                    //                    cell.isSpeakingLbl.isHidden = true
-                    //
-                    //                }
-                }
-                if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
-                    let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
-                    
-                    if pSID == obj.PARTSID {
-                        cell.btnPinVideo.tag = indexPath.row
-                        cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
-                        cell.participantName.adjustsFontSizeToFitWidth = true
-                        cell.participantName.isHidden = false
-                        cell.participantName.text = "\(obj.UserName!)"
-                        cell.configure(obj: obj)
+                        audio.isEnabled == true ? (btnMic.isSelected = false) : (btnMic.isSelected = true)
                     }
                     
                 }
-                if pinVideoArr.count > 0 {
-                    if remoteParticipantArr[indexPath.row] == pinVideoArr[0].rp {
-                        cell.btnPinVideo.isSelected = true
-                    }
-                    else {
-                        cell.btnPinVideo.isSelected = false
-                    }
-                }
-
-                
-                
-                return cell
+                self.speakerView = VideoView(frame: CGRect(x: 0, y: 0, width:  self.view.bounds.width, height: self.view.bounds.height))
+                self.speakerView.contentMode = .scaleAspectFill
+                self.speakerView.layer.cornerRadius = 0
+                self.speakerView.clipsToBounds = false
+                self.speakerViewOriginal.addSubview(self.speakerView)
+                localVideoTrack!.addRenderer(self.speakerView)
+                self.speakerView.isUserInteractionEnabled = true
+                let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
+                self.speakerView.addGestureRecognizer(tap)
             }
-        }
-        
-        return UICollectionViewCell()
-    }
-    @objc func pinVideoMethods(sender : UIButton) {
-        pinVideoArr.removeAll()
-        sender.isSelected = !sender.isSelected
-        let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: IndexPath(index: sender.tag)) as!  VDOCollectionViewCell
-        if cell.btnPinVideo.isSelected {
-            if sender.tag == 0 {
-                self.pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: localParticipant, rp: remoteParticipant)]
-            }
+            
             else {
-                self.pinVideoArr = [pinModels(isRemotePin: true, isLocalPin: false, lp: localParticipant, rp: remoteParticipantArr[sender.tag])]
+                print("localParticiapant2:",localParticipant)
+                
+                // add remote particiapnts name and host
+                
+                
+                for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+                    let obj = pObj as! ConferenceInfoModels
+                    if obj.PARTSID == remoteParticipant?.sid {
+                        DispatchQueue.main.async {
+                            self.lblParticipantName.text = obj.UserName
+                            self.configureHost(obj: obj)
+                        }
+                        
+                     }
+                }
+                let audioPublications = remoteParticipant!.audioTracks
+                for audioPub in audioPublications {
+                    
+                    if let audio = audioPub.audioTrack {
+                        audio.isEnabled == true ? (btnSpeakerMic.isSelected = false) : (btnSpeakerMic.isSelected = true)
+                    }
+                    
+                }
+                btnSpeakerMic.isHidden = false
+                btnMic.isHidden = true
+                btnPinLocal.isHidden = false
+                self.preview = VideoView(frame: CGRect(x: 0, y: 0, width: 100, height: 110))
+                preview.contentMode = .scaleAspectFill
+                preview.layer.cornerRadius = 0
+                preview.clipsToBounds = false
+                self.previewOriginal.addSubview(self.preview)
+                previewTapped(nView: self.preview)
+                self.speakerView = VideoView(frame: CGRect(x: 0, y: 0, width:  self.view.bounds.width, height: self.view.bounds.height))
+                self.speakerView.contentMode = .scaleAspectFill
+                self.speakerView.layer.cornerRadius = 0
+                self.speakerView.clipsToBounds = false
+                self.speakerViewOriginal.addSubview(self.speakerView)
+                print("remoteparticiapnt-on-speaker",remoteParticipant?.sid, remoteParticipant)
+                let videoPublications = self.remoteParticipant!.remoteVideoTracks
+                for publication in videoPublications {
+                    if let subscribedVideoTrack = publication.remoteTrack,
+                       publication.isTrackSubscribed {
+                        
+                        subscribedVideoTrack.addRenderer(speakerView)
+                    }
+                }
+                
+                
+//                let lvideoPublications = self.localParticipant!.localVideoTracks
+//                for lpublication in lvideoPublications {
+//                    if let subscribedVideoTrack = lpublication.localTrack,
+//                      {
+//
+//                        subscribedVideoTrack.addRenderer(speakerView)
+//                    }
+//                }
+                if localVideoTrack != nil {
+                    localVideoTrack!.addRenderer(preview)
+                }
+                self.speakerView.isUserInteractionEnabled = true
+                let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
+                self.speakerView.addGestureRecognizer(tap)
             }
             
-        }
-        self.isChangeView = false
-        self.vdoCollectionView.isHidden = true
-        self.parentSpeakerView.isHidden = false
-        self.mainPreview.isHidden = false
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
-                        UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == vdoCollectionView {
-            if self.remoteParticipantArr.count == 1 && isChangeView == false {//&& isChangeView == false{
-                return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height)
-            }
-            else if self.remoteParticipantArr.count == 1 && isChangeView == true {
-                
-                return CGSize(width: (self.vdoCollectionView.frame.size.width) - 6, height: (self.vdoCollectionView.frame.size.height/2) - 6)
-            }
-            else if self.remoteParticipantArr.count == 2 {
-                if indexPath.row == 0 {
-                    return CGSize(width: vdoCollectionView.frame.size.width, height: (vdoCollectionView.frame.size.height/2) - 6)
-                    
-                }
-                else {
-                    
-                    return CGSize(width: (self.vdoCollectionView.frame.size.width/2) - 6, height: (self.vdoCollectionView.frame.size.height/2) - 6)
-                }
-            }
-            else if self.remoteParticipantArr.count == 3 {
-                
-                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/2-6)
-            }
-            else if self.remoteParticipantArr.count == 4 {
-                if indexPath.row == 3 {
-                    return CGSize(width: vdoCollectionView.frame.size.width, height: vdoCollectionView.frame.size.height/3-6)
-                }
-                else {
-                    
-                    return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
-                }
-            }
-            else if self.remoteParticipantArr.count == 5 {
-                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
-            }
-            else if self.remoteParticipantArr.count == 6 {
-                
-                if indexPath.row == 5 {
-                    return CGSize(width: vdoCollectionView.frame.size.width/3-6, height: vdoCollectionView.frame.size.height/3-6)
-                }
-                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
-                
-            }
-            else if self.remoteParticipantArr.count == 7 {
-                if indexPath.row == 6 {
-                    return CGSize(width: vdoCollectionView.frame.size.width/3-6, height: vdoCollectionView.frame.size.height/3-6)
-                }
-                
-                return CGSize(width: vdoCollectionView.frame.size.width/2-6, height: vdoCollectionView.frame.size.height/3-6)
-            }
-            else if self.remoteParticipantArr.count == 8 {
-                return CGSize(width: vdoCollectionView.frame.size.width/3-6, height: vdoCollectionView.frame.size.height/3-6)
-            }
-            return CGSize(width: vdoCollectionView.frame.size.width/2 - 6, height: vdoCollectionView.frame.size.height/2-6)
             
         }
-        else {
-            return CGSize(width: 370, height: 490)
-        }
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if bottomView.isHidden != true && topView.isHidden != true {
-            bottomView.isHidden = true
-            topView.isHidden = true
-        }
-        else {
-            bottomView.isHidden = false
-            topView.isHidden = false
-        }
     }
+    public func previewTapped(nView:VideoView){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
+        nView.addGestureRecognizer(tap)
+    }
+
     
     //MARK: Remote Participant add
     func renderRemoteParticipant(participant : RemoteParticipant) -> Bool {
@@ -1488,12 +1203,13 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                publication.isTrackSubscribed {
                 
                 subscribedVideoTrack.addRenderer(self.speakerView)
-              
+                
                 return true
             }
         }
         
         lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+        print("totalparticipants-6--->",remoteParticipantArr.count)
         
         return false
     }
@@ -1519,14 +1235,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         localAudioTrack?.isEnabled = !onHold
         localVideoTrack?.isEnabled = !onHold
     }
-    //Mark: setupRemoteVideoView
-    func setupRemoteVideoView() {
-        self.remoteView = VideoView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        remoteView?.contentMode = UIView.ContentMode.scaleAspectFill
-        remoteView?.clipsToBounds = false
-        self.userRemoteView.insertSubview(self.remoteView!, at: 0)
-        
-    }
+    
     //MARK: Record Timer
     @objc func recordTimer(){
         

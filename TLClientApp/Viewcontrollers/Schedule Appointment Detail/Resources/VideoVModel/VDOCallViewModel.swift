@@ -128,13 +128,10 @@ class VDOCallViewModel {
     func addParticipantReqApi(Lsid:String,roomID: String) -> [String: Any]{
         
         let req: [String: Any] = ["strSearchString":"<Info><ID>0</ID><ACTUALROOM>\(roomID)</ACTUALROOM><ROOMSID></ROOMSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>\(Lsid)</EXCLUDEPARTSID></Info>"]
-        /*
-         old one:    let req: [String: Any] = ["strSearchString":"<Info><ID>0</ID><ACTUALROOM>\(roomID)</ACTUALROOM><ROOMSID></ROOMSID><PARTSID></PARTSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>\(Lsid)</EXCLUDEPARTSID></Info>"]
-         
-         {strSearchString=<Info><ID>0</ID><ACTUALROOM>22040727</ACTUALROOM><ROOMSID></ROOMSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>PA6e92a89ad5fa4247b704355c4f30f267</EXCLUDEPARTSID></Info>}*/
+        
         return req
     }
-    func getParticipantList2(lid: String, roomID: String, completionHandler:@escaping(Bool?, Error?) -> ()){
+    func getParticipantList2(lid: String, roomID: String,partSID: String, isfromHostcontrol:Bool, completionHandler:@escaping(Bool?, Error?) -> ()){
        
         conferrenceDetail.CONFERENCEInfo?.removeAllObjects()
         var request = URLRequest(url: APi.getParticipantByRoom.url)
@@ -160,18 +157,44 @@ class VDOCallViewModel {
                     let jsonData = result.data(using: .utf8)
                     if jsonData != nil {
                         let rJson = try JSONSerialization.jsonObject(with: jsonData!, options: []) as? NSArray
-                        self.conferrenceDetail = ConferenceInfoResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
-                        let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
-                        
-                        print("url-->\(APi.getParticipantByRoom.url) req: \(self.addParticipantReqApi(Lsid: lid, roomID: roomID)) response---Host: \(response)")
-                       
-                        completionHandler(true, nil)
-                    }
-                    else {
-                        
-                        completionHandler(false, error as? Error)
-                    }
+                        guard let acceptdata = data else {return}
+                        if let httpResponse = response as? HTTPURLResponse {
+                            if httpResponse.statusCode == 200 {
+                                self.conferrenceDetail = ConferenceInfoResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
+                                
+                                let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
+                                print("itmesmute-->\(items.MUTE) req: \(self.addParticipantReqApi(Lsid: lid, roomID: roomID)) response---Host: \(response)")
+                                if isfromHostcontrol {
+                                    DispatchQueue.global(qos: .background).async {
+                                        self.participantRuleMethod(participantsArr: self.conferrenceDetail.CONFERENCEInfo!, lid: lid, roomID: roomID, participantSID: partSID)
+                                    }
+                                }
+                              
+                              print("update particiapnt rule:")
+                                completionHandler(true, nil)
+                            }
+                            else {
+                                print("err particiapnt rule:")
+                                completionHandler(false, error as? Error)
+                            }
+                      //  }
+                     
+//             let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
+//                        print("itmesmute-->\(items.MUTE) req: \(self.addParticipantReqApi(Lsid: lid, roomID: roomID)) response---Host: \(response)")
+//                        DispatchQueue.global(qos: .background).async {
+//                            self.participantRuleMethod(participantsArr: self.conferrenceDetail.CONFERENCEInfo!, lid: lid, roomID: roomID, participantSID: partSID)
+//                        }
+//
+//
+//
+//                        completionHandler(true, nil)
+//                    }
+//                    else {
+//
+//
+//                    }
                     
+                        }}
                 }
                 
                 catch let error {
@@ -185,7 +208,7 @@ class VDOCallViewModel {
             print ("Oops something happened buddy")
             SwiftLoader.hide()
         }
-    }
+                }
     func audioReqAPI(val: Int, partSID: String, isAudio: Bool) -> [String: Any] {
         var parameter :[String:Any] = [:]
         if isAudio {
@@ -351,6 +374,54 @@ class VDOCallViewModel {
         catch _ {
             print ("Oops something happened buddy")
         }
+    }
+    //MARK: Participant Rule Method:
+    public func participantRuleMethod(participantsArr:NSMutableArray, lid:String, roomID: String, participantSID: String){
+        let ruleArr = NSMutableArray()
+     
+        ruleArr.add(["type":"include","all":"true"])
+      
+        for obj in participantsArr {
+            let nObj = obj as? ConferenceInfoModel
+            if nObj?.MUTE == "0" {
+                ruleArr.add(["type":"exclude","kind":"audio","publisher":nObj?.PARTSID])
+            }
+            
+        }
+
+        let para:[String: Any] = ["roomId":roomID,"id":lid,"pub":participantSID,"rule":ruleArr]
+      
+            var request = URLRequest(url: APi.ConferenceParticipant.url)
+            
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            request.addValue("application/json", forHTTPHeaderField: "Content-type")
+            request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
+            request.httpMethod = "POST"
+            
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: para, options: .prettyPrinted)
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                    if let error = error {
+                        print("err particiapnt rule2:",error)
+                    }
+                    guard let acceptdata = data else {return}
+                    if let httpResponse = response as? HTTPURLResponse {
+                        if httpResponse.statusCode == 200 {
+                          print("update particiapnt rule:")
+                        }
+                        else {
+                            print("err particiapnt rule:")
+                        }
+                    }
+                    print("DataAccept---->", response)
+                    
+                }
+                .resume()
+            }
+            catch _ {
+                print ("Oops something happened buddy")
+            }
+    
     }
     
     //END-----
