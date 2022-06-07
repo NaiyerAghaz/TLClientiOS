@@ -174,6 +174,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         debugPrint("Participant \(participant.identity) published video track")
         
     }
+    func remoteParticipantNetworkQualityLevelDidChange(participant: RemoteParticipant, networkQualityLevel: NetworkQualityLevel) {
+      //  if networkQualityLevel
+        
+    }
     
     func remoteParticipantDidUnpublishVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         // Remote Participant has stopped sharing the video Track.
@@ -201,6 +205,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         }
        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {[self] in
+            print("getParticipantList2 --->1:")
             self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { [self] success, err in
                 if self.remoteParticipantArr.count > 1 {
                 DispatchQueue.main.async {
@@ -210,6 +215,8 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     self.parentSpeakerView.isHidden = true
                     self.vdoCollectionView.isHidden = false
                     self.vdoCollectionView.reloadData()
+               
+                    
                 }
                 }
                 else {
@@ -270,6 +277,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             print("totalparticipants-3--->",remoteParticipantArr.count)
             DispatchQueue.global(qos: .background).async { [self] in
                 vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+                    print("getParticipantList2 --->3:")
                     if success == true && self.vdoCallVM.conferrenceDetail.TOTALRECORDS != "0"{
                         if self.remoteParticipantArr.count == 1 {
                             DispatchQueue.main.async {
@@ -293,7 +301,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                 
                            
                             }
-                           // self.vdoCollectionView.reloadData()
+                          
                         }
                         else {
                             DispatchQueue.main.async {
@@ -301,6 +309,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                 print("totalparticipants-5--->",self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count)
                                 if self.room != nil && self.localVideoTrack != nil {
                                     if self.isChangeView == true {
+                                        print("getParticipantList2 --->4:")
                                         self.vdoCollectionView.reloadData()
                                     }
                                     else {
@@ -429,6 +438,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     
     func didSubscribeToAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {
         print("Subscribe audio track!")
+        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+            print("getParticipantList2 --->8:")
+            print(success)
+        }
         // We are subscribed to the remote Participant's audio Track. We will start receiving the
         // remote Participant's audio now.
         //  self.view.makeToast("Subscribed to audio track for Participant \(participant.identity)")
@@ -440,6 +453,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         // We are unsubscribed from the remote Participant's audio Track. We will no longer receive the
         // remote Participant's audio.
         // self.view.makeToast("Unsubscribed from audio track for Participant \(participant.identity)")
+        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+            print("getParticipantList2 --->9:")
+            print(success)
+        }
         
     }
     

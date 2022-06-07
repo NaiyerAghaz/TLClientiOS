@@ -11,7 +11,7 @@ import iOSDropDown
 import Malert
 
 class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
-   
+    
     
     @IBOutlet weak var txtTargetlanguage: iOSDropDown!
     @IBOutlet weak var txtSourceLanguage: iOSDropDown!
@@ -22,8 +22,8 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
     var isShownParti = false
     var itemInfo = IndicatorInfo(title: "view")
     
-
-
+    
+    
     init(itemInfo: IndicatorInfo)  {
         super.init(nibName: nil, bundle: nil)
         self.itemInfo = itemInfo
@@ -32,13 +32,13 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-      
+        
     }
     
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-  
+    //    required init?(coder aDecoder: NSCoder) {
+    //        fatalError("init(coder:) has not been implemented")
+    //    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
@@ -53,10 +53,10 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
     }
     
     public func uiUpdate(){
-      // txtTargetlanguage.delegate = self
-       // txtSourceLanguage.delegate = self
-       // txtTargetlanguage.inputView = vriPickerView
-       // txtSourceLanguage.inputView = vriPickerView
+        // txtTargetlanguage.delegate = self
+        // txtSourceLanguage.delegate = self
+        // txtTargetlanguage.inputView = vriPickerView
+        // txtSourceLanguage.inputView = vriPickerView
         self.txtSourceLanguage.layer.borderWidth = 0.6
         self.txtSourceLanguage.layer.cornerRadius = 10
         self.txtSourceLanguage.layer.borderColor = UIColor.gray.cgColor
@@ -69,42 +69,42 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
         
         txtSourceLanguage.optionArray = GetPublicData.sharedInstance.languageArray
         txtSourceLanguage.checkMarkEnabled = true
-       
+        
         txtSourceLanguage.isSearchEnable = true
         txtSourceLanguage.selectedRowColor = UIColor.clear
-//        txtSourceLanguage.listWillAppear {
-//            self.txtSourceLanguage.text = self.txtSourceLanguage.text
-//        }
+        //        txtSourceLanguage.listWillAppear {
+        //            self.txtSourceLanguage.text = self.txtSourceLanguage.text
+        //        }
         txtSourceLanguage.didSelect{(selectedText , index , id) in
-          //  self.txtSourceLanguage.resignFirstResponder()
-           self.txtSourceLanguage.text = "\(selectedText)"
-       }
+            //  self.txtSourceLanguage.resignFirstResponder()
+            self.txtSourceLanguage.text = "\(selectedText)"
+        }
         
         txtTargetlanguage.optionArray = GetPublicData.sharedInstance.languageArray
         txtTargetlanguage.checkMarkEnabled = true
         txtTargetlanguage.isSearchEnable = true
         txtTargetlanguage.selectedRowColor = UIColor.clear
         txtTargetlanguage.didSelect{(selectedText , index , id) in
-          //  self.txtTargetlanguage.resignFirstResponder()
-           self.txtTargetlanguage.text = "\(selectedText)"
-       }
+            //  self.txtTargetlanguage.resignFirstResponder()
+            self.txtTargetlanguage.text = "\(selectedText)"
+        }
         
         if Reachability.isConnectedToNetwork() {
-        SwiftLoader.show(animated: true)
-        languageViewModel.languageData { list, err in
-            if err == nil {
-                SwiftLoader.hide()
-               //
-                self.txtSourceLanguage.text = "English"
-                //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
-                //
-                
-            }}}else {
-                self.view.makeToast(ConstantStr.noItnernet.val)
-            }
-     }
+            SwiftLoader.show(animated: true)
+            languageViewModel.languageData { list, err in
+                if err == nil {
+                    SwiftLoader.hide()
+                    //
+                    self.txtSourceLanguage.text = "English"
+                    //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
+                    //
+                    
+                }}}else {
+                    self.view.makeToast(ConstantStr.noItnernet.val)
+                }
+    }
     
-   
+    
     @IBAction func btnCallNowTapped(_ sender: Any) {
         
         let request = TxtRequest(txt: txtTargetlanguage.text)
@@ -113,10 +113,10 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
         let s = ValidationReq().sValidate(txtfield: sReq)
         
         if !s.success {
-           return self.view.makeToast(s.error, duration: 1, position: .center)
+            return self.view.makeToast(s.error, duration: 1, position: .center)
         }
         if !t.success {
-           return self.view.makeToast(t.error, duration: 1, position: .center)
+            return self.view.makeToast(t.error, duration: 1, position: .center)
         }
         if languageViewModel.getSournceSelectedLID(stlanguage: txtSourceLanguage.text!) == "" {
             return self.view.makeToast("Please select valid source language", position: .center)
@@ -136,20 +136,13 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
             vcontrol.modalPresentationStyle = .overFullScreen
             self.present(vcontrol, animated: true, completion: nil)
         }
-                 
-             
-      
+        
     }
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
     {
-
+        
         return itemInfo
     }
-    
-    //MAlert controller:::
-    
-   
-    
     }
 
 

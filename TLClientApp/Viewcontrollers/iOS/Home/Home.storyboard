@@ -12354,9 +12354,6 @@
                                                                 <imageReference key="image" image="pin" catalog="system" symbolScale="small"/>
                                                             </state>
                                                             <state key="selected" title="Unpin Video" image="pin.slash" catalog="system"/>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius " value="4"/>
-                                                            </userDefinedRuntimeAttributes>
                                                         </button>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OcR-DH-jHl">
                                                             <rect key="frame" x="10" y="781" width="150" height="17"/>
@@ -20441,7 +20438,7 @@
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="google-docs" width="512" height="512"/>
         <image name="handshake" width="512" height="512"/>
-        <image name="ic_call" width="50" height="51"/>
+        <image name="ic_call" width="120" height="120"/>
         <image name="ic_cancel" width="16" height="16"/>
         <image name="ic_circle" width="96" height="96"/>
         <image name="ic_close" width="128" height="128"/>

@@ -12,6 +12,7 @@ struct Storyboard_name {
     static let login = "Auth"
     static let home = "Home"
     static let scheduleApnt = "SchedulingAppointments"
+    static let chat = "TLCChat"
 }
 struct Control_Name {
     static let recurrenceCV = "RecurrenceCalendarView"
@@ -19,6 +20,7 @@ struct Control_Name {
     static let updateDeptAndCont = "UpdateDepartmentAndContactVC"
     static let tTotalP = "TotalParticipantVC"
     static let vrifeedback = "VRIOPIFeedbackController"
+    static let chatVC = "ChatViewController"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"

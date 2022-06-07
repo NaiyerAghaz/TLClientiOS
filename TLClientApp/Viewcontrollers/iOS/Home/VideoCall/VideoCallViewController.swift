@@ -38,7 +38,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     // CallKit components
     let callKitProvider: CXProvider? = nil
     let callKitCallController: CXCallController? = nil
-    
     var userInitiatedDisconnect: Bool = false
     var ifComeFromMeet = false
     var ifTimereach = false
@@ -78,6 +77,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     @IBOutlet weak var lblVideo: PaddingLabel!
     @IBOutlet weak var lblParticipantName: PaddingLabel!
     @IBOutlet weak var lblAudio: PaddingLabel!
+    
     //End
     var vendorTbl : UITableView = UITableView()
     var lblParticipant = UILabel()
@@ -162,6 +162,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             self.vdoCollectionView.bounces = false
             genarateChatTokenCreate()
         }
+        self.vdoCollectionView.isPrefetchingEnabled = false
         
     }
     
@@ -196,7 +197,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
     }
     func reCreatePreview(){
-        btnPinLocal.frame = CGRect(x: 40, y: 25, width: 70, height: 24)
+        btnPinLocal.frame = CGRect(x: 45, y: 25, width: 70, height: 24)
+        btnPinLocal.layer.cornerRadius = 5
+        btnPinLocal.clipsToBounds = true
         preview.frame = CGRect(x: 0, y: 0, width: 100, height: 110)
         previewOriginal.frame = CGRect(x: 30, y: 25, width: 100, height: 110)
         preview.layer.borderColor = UIColor.black.cgColor
@@ -333,8 +336,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         moreDropDown.selectionAction = { [self] (index, item) in
             print("Index seletected more:", index, item)
             if index == 0 {
-                print(item)
+                print("chat")
+                //test call
+                let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
+                let vc = sB.instantiateViewController(withIdentifier: Control_Name.chatVC) as! ChatViewController
+                vc.modalPresentationStyle = .overFullScreen
+                self.present(vc, animated: true, completion: nil)
             }else if index == 1{
+                print("camera--------->", camera?.device, "::", camera)
                 if self.isChangeView == false  {
                     
                     DispatchQueue.main.async {
@@ -357,7 +366,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         self.parentSpeakerView.isHidden = false
                         self.mainPreview.isHidden = false
                         self.fullFlashViewChangesMethod(isFlip: false)
-                        //self.vdoCollectionView.reloadData()
+                        
                     }
                 }
             }else if index == 2 {
@@ -373,7 +382,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     if self.isChangeView {
                         moreArr[2] = "Unpin video"
                         moreDropDown.dataSource = moreArr
-                       // self.remoteParticiapntName = cell.participantName.text ?? ""
+                        // self.remoteParticiapntName = cell.participantName.text ?? ""
                         btnPinLocal.isSelected = false
                         self.isSwitchToRemote = false
                         print("other index remote")
@@ -390,7 +399,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         moreDropDown.dataSource = moreArr
                         self.pinVideoArr = [pinModels(isRemotePin: true, isLocalPin: false, lp: self.localParticipant, rp: self.remoteParticipantArr[0])]
                     }
-                   
+                    
                     
                 }
                 
@@ -549,9 +558,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 isChatCreated = true
                 myChannel = channel
                 joinChannelJoin(channel: channel!)
-                
-                
-            }
+           }
             else {
                 if result.resultCode == 50307 {
                     if channel != nil {
@@ -639,13 +646,13 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         
     }
     func getHostControl(obj: ConferenceInfoResultModel) {
-       /* if remoteParticipantArr.count > 1 || isChangeView {
-            vdoCallVM.conferrenceDetail = obj
-            DispatchQueue.main.async {
-                
-                self.vdoCollectionView.reloadData()
-            }
-        }*/
+        /* if remoteParticipantArr.count > 1 || isChangeView {
+         vdoCallVM.conferrenceDetail = obj
+         DispatchQueue.main.async {
+         
+         self.vdoCollectionView.reloadData()
+         }
+         }*/
         vdoCallVM.conferrenceDetail = obj
         if isChangeView {
             vdoCallVM.conferrenceDetail = obj
@@ -662,7 +669,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                     DispatchQueue.main.async {
                         self.configureHost(obj: nobj)
                     }
-                   
+                    
                 }
             }
         }
@@ -682,10 +689,11 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     // MARK:TwilioChatClientDelegate
     //MARK: Actions and Outlet
     
-    @IBAction func btnMicTapped(_ sender: Any) {
+    @IBAction func btnMicTapped(_ sender: UIButton) {
+        
         if (localAudioTrack != nil){
             localAudioTrack?.isEnabled = !localAudioTrack!.isEnabled
-            btnMic.isSelected = !btnMic.isSelected
+            sender.isSelected = !sender.isSelected
         }
         
     }
@@ -695,9 +703,11 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             localVideoTrack?.isEnabled = !localVideoTrack!.isEnabled
             btnStopVideo.isSelected = !btnStopVideo.isSelected
             btnCameraFlip.isEnabled = !btnCameraFlip.isEnabled
-            if remoteParticipantArr.count > 1 || isChangeView {
+            if remoteParticipantArr.count > 0 && isChangeView {
+                
                 DispatchQueue.main.async {
-                    self.vdoCollectionView.reloadData()
+                    self.vdoCollectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
+                    // self.vdoCollectionView.reloadData()
                 }
             }
             else {
@@ -818,9 +828,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         sender.isSelected = !sender.isSelected
         self.audioDevice.block = {
             do {
-                
-                let audioSession = AVAudioSession.sharedInstance()
-                
+               let audioSession = AVAudioSession.sharedInstance()
                 if(!sender.isSelected) {
                     try audioSession.setMode(AVAudioSession.Mode.videoChat)
                 } else {
@@ -831,9 +839,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 print("Fail: \(error.localizedDescription)")
             }
         }
-        
         self.audioDevice.block()
-        
     }
     
     @IBAction func btnCameraFlipTapped(_ sender: UIButton) {
@@ -863,11 +869,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             builder.encodingParameters = EncodingParameters(audioBitrate:16, videoBitrate:0)
             // Enable recommended Collaboration mode Bandwidth Profile Options
             let videoBandwidthProfileOptions = VideoBandwidthProfileOptions { builder in
-                builder.mode = .collaboration
-                builder.dominantSpeakerPriority = .standard
+                builder.mode = .grid
+                builder.dominantSpeakerPriority = .high
+                
             }
             builder.bandwidthProfileOptions = BandwidthProfileOptions(videoOptions: videoBandwidthProfileOptions)
             builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
+            
+            
+            
             //end
             builder.isDominantSpeakerEnabled = true
             builder.roomName = self.roomID
@@ -900,34 +910,34 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     //====================END=============================
     @objc  func ringingCallStart(){
         CEnumClass.share.playSounds(audioName: "incoming")
-      /*  ringingTime -= 2
-        if ringingTime <= 0 {
-            myAudio!.stop()
-            timer.invalidate()
-            if (self.camera != nil){
-                camera?.stopCapture()
-                camera = nil
-            }
-            if (room != nil){
-                room?.disconnect()
-                if (self.camera != nil){
-                    camera?.stopCapture()
-                    camera = nil
-                }
-                if (localVideoTrack != nil){
-                    localVideoTrack = nil
-                }
-                if localAudioTrack != nil {
-                    localAudioTrack = nil
-                }
-                dismissViewControllers()
-            }
-            else {
-                dismissViewControllers()
-            }}
-        else {
-            CEnumClass.share.playSounds(audioName: "incoming")
-        }*/
+        /*  ringingTime -= 2
+         if ringingTime <= 0 {
+         myAudio!.stop()
+         timer.invalidate()
+         if (self.camera != nil){
+         camera?.stopCapture()
+         camera = nil
+         }
+         if (room != nil){
+         room?.disconnect()
+         if (self.camera != nil){
+         camera?.stopCapture()
+         camera = nil
+         }
+         if (localVideoTrack != nil){
+         localVideoTrack = nil
+         }
+         if localAudioTrack != nil {
+         localAudioTrack = nil
+         }
+         dismissViewControllers()
+         }
+         else {
+         dismissViewControllers()
+         }}
+         else {
+         CEnumClass.share.playSounds(audioName: "incoming")
+         }*/
     }
     
     // MARK:- Private
@@ -967,17 +977,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
         else {
             self.view.makeToast("No front or back capture device found!")
             
-        }
-        
-    }
+        }}
     
     func remotePreview(remoteView:VideoView, remoteTracks:VideoTrack){
         remoteTracks.addRenderer(remoteView)
     }
     
     // MAKR: Flip Camera--
+    var newDevice: AVCaptureDevice?
     @objc func flipCamera() {
-        var newDevice: AVCaptureDevice?
         
         if let camera = self.camera, let captureDevice = camera.device {
             if captureDevice.position == .front {
@@ -993,7 +1001,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         
                     } else {
                         if self.remoteParticipantArr.count > 1 {
-                            self.lView.shouldMirror = (captureDevice.position == .front)
+                            self.speakerView.shouldMirror = (captureDevice.position == .front)
                         }
                         else{
                             self.preview.shouldMirror = (captureDevice.position == .front)
@@ -1072,7 +1080,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             previewOriginal.removeAllSubViews()
             speakerViewOriginal.removeAllSubViews()
             if isSwitchToRemote {
-                print("localParticiapant1:",localParticipant)
+               
                 btnPinLocal.isHidden = true
                 btnMic.isHidden = false
                 lblAudio.isHidden = true
@@ -1112,11 +1120,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
             }
             
             else {
-                print("localParticiapant2:",localParticipant)
-                
+                print("localParticiapant------------>2:",localVideoTrack)
                 // add remote particiapnts name and host
-                
-                
                 for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
                     let obj = pObj as! ConferenceInfoModels
                     if obj.PARTSID == remoteParticipant?.sid {
@@ -1125,7 +1130,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                             self.configureHost(obj: obj)
                         }
                         
-                     }
+                    }
                 }
                 let audioPublications = remoteParticipant!.audioTracks
                 for audioPub in audioPublications {
@@ -1149,25 +1154,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 self.speakerView.layer.cornerRadius = 0
                 self.speakerView.clipsToBounds = false
                 self.speakerViewOriginal.addSubview(self.speakerView)
-                print("remoteparticiapnt-on-speaker",remoteParticipant?.sid, remoteParticipant)
+                
                 let videoPublications = self.remoteParticipant!.remoteVideoTracks
                 for publication in videoPublications {
                     if let subscribedVideoTrack = publication.remoteTrack,
                        publication.isTrackSubscribed {
-                        
-                        subscribedVideoTrack.addRenderer(speakerView)
+                       subscribedVideoTrack.addRenderer(speakerView)
                     }
                 }
-                
-                
-//                let lvideoPublications = self.localParticipant!.localVideoTracks
-//                for lpublication in lvideoPublications {
-//                    if let subscribedVideoTrack = lpublication.localTrack,
-//                      {
-//
-//                        subscribedVideoTrack.addRenderer(speakerView)
-//                    }
-//                }
                 if localVideoTrack != nil {
                     localVideoTrack!.addRenderer(preview)
                 }
@@ -1175,16 +1169,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
                 self.speakerView.addGestureRecognizer(tap)
             }
-            
-            
-        }
-        
-    }
+            }}
     public func previewTapped(nView:VideoView){
         let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
         nView.addGestureRecognizer(tap)
     }
-
+    
     
     //MARK: Remote Participant add
     func renderRemoteParticipant(participant : RemoteParticipant) -> Bool {

@@ -85,17 +85,81 @@ extension VideoCallViewController:RoomDelegate{
         if room.localParticipant != nil {
             self.localParticipant = room.localParticipant
         }
+        print("domainantParticipant-->", participant)
         if participant != nil {
             if isChangeView {
                 if currentSpeakerParticipant != nil && participant != currentSpeakerParticipant{
+                    let temp = currentSpeakerParticipant
                     currentSpeakerParticipant = participant
-                    self.vdoCollectionView.reloadData()
+                    if let index = remoteParticipantArr.firstIndex(of: participant!) {
+                        //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                       // previousSpeakerParticipant = participant
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+                    if let index = remoteParticipantArr.firstIndex(of: temp!) {
+                        //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                       // previousSpeakerParticipant = participant
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+//
+//                    let previousSpeaker = currentSpeakerParticipant
+//
+//                    currentSpeakerParticipant = participant
+//                    self.vdoCollectionView.reloadData()
                     
                 }
                 else {
                     currentSpeakerParticipant = participant
+                    if let index = remoteParticipantArr.firstIndex(of: participant!) {
+                        //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                       // previousSpeakerParticipant = participant
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+                   
+                    
                    // self.vdoCollectionView.reloadData()
                 }
+            }
+        }
+        else {
+            if isChangeView {
+                if currentSpeakerParticipant != nil && participant == nil{
+                    let temp = currentSpeakerParticipant
+                    currentSpeakerParticipant = participant
+                   
+                    if let index = remoteParticipantArr.firstIndex(of: temp!) {
+                        //  remoteParticipantArr.remove(at: index)
+                        let indexPath = IndexPath(item: index + 1, section: 0)
+                       // previousSpeakerParticipant = participant
+                        DispatchQueue.main.async {
+                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                        }
+                    }
+
+                    
+                }
+                else {
+                    if participant != nil {
+                        currentSpeakerParticipant = participant
+                        if let index = remoteParticipantArr.firstIndex(of: participant!) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                           // previousSpeakerParticipant = participant
+                            DispatchQueue.main.async {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                        }
+                    }
+                  }
             }
         }
       // remoteParticipant = participant
@@ -240,6 +304,7 @@ extension VideoCallViewController:RoomDelegate{
     func participantDidConnect(room: Room, participant: RemoteParticipant) {
         print("particiapnt did connect-->")
         self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+            print("getParticipantList2 --->6:")
             print(success)
         }
         if !recordTime.isValid {
@@ -277,6 +342,7 @@ extension VideoCallViewController:RoomDelegate{
     
     func participantDidDisconnect(room: Room, participant: RemoteParticipant) {
         self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+            print("getParticipantList2 --->7:")
             print(success)
         }
         recordTime.invalidate()

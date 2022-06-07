@@ -25,7 +25,7 @@ extension VideoCallViewController:VideoViewDelegate {
     //When new client added in call this method will call
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         // print("call-----------------------------101")
-       print("message body:", message.body)
+        print("message body:", message.body)
         let messString = message.body!
         if remoteParticipantArr.count >= 10 {
             return self.view.makeToast("You have reached maximum participants limit", position: .center)
@@ -38,7 +38,7 @@ extension VideoCallViewController:VideoViewDelegate {
                 
             }
         }
-     }
+    }
     
     //MARK: Collectionview Delegate and Datasource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -68,15 +68,18 @@ extension VideoCallViewController:VideoViewDelegate {
         cRemoteView.layer.cornerRadius = 0
         cRemoteView.clipsToBounds = false
         cell.remoteView.addSubview(cRemoteView)
-        //        cell.remoteView.frame.size.width = vdoCollectionView.bounds.width
-        //        cell.remoteView.frame.size.height = vdoCollectionView.bounds.height
+        cell.btnPinVideo.tag = indexPath.row
+        cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
+        cell.btnPinVideo.layer.cornerRadius = 5
+        cell.btnPinVideo.clipsToBounds = true
+       
         
         if remoteParticipantArr.count > 1{
             if indexPath.row == 0 {
                 
                 cell.btnMic.isHidden = true
                 mainPreview.isHidden = true
-                isAttendMultiPart = true
+               // isAttendMultiPart = true
                 //  self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
                 //  self.lView.contentMode = .scaleAspectFill
                 // self.lView.clipsToBounds = false
@@ -87,8 +90,7 @@ extension VideoCallViewController:VideoViewDelegate {
                 //cell.isSpeakingLbl.isHidden = true
                 cell.participantName.isHidden = true
                 //  cell.remoteView.addSubview(lView)
-                cell.btnPinVideo.tag = indexPath.row
-                cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
+                
                 if pinVideoArr.count > 0 {
                     if pinVideoArr[0].isLocalPin  == true {
                         cell.btnPinVideo.isSelected = true
@@ -167,8 +169,7 @@ extension VideoCallViewController:VideoViewDelegate {
                             }
                         }
                     }
-                    cell.btnPinVideo.tag = indexPath.row
-                    cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
+              
                     if pinVideoArr.count > 0 {
                         if pinVideoArr[0].isRemotePin == true {
                             if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
@@ -186,14 +187,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     else {
                         cell.btnPinVideo.isSelected = false
                     }
-                    //                    if objSID == currentSpeakerParticipant?.sid{
-                    //
-                    //                        cell.isSpeakingLbl.isHidden = false
-                    //                    }
-                    //                    else {
-                    //                        cell.isSpeakingLbl.isHidden = true
-                    //
-                    //                    }
+                    
                     return cell
                 }}
         }
@@ -205,7 +199,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     cell.btnMic.isHidden = true
                     
                     mainPreview.isHidden = true
-                    isAttendMultiPart = true
+                   // isAttendMultiPart = true
                     // self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
                     // self.lView.contentMode = .scaleAspectFill
                     // self.lView.clipsToBounds = false
@@ -213,8 +207,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
                     cell.audioLbl.isHidden = true
                     cell.lblVideo.isHidden = true
-                    cell.btnPinVideo.tag = indexPath.row
-                    cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
+                   
                     //cell.isSpeakingLbl.isHidden = true
                     cell.participantName.isHidden = true
                     cell.remoteView.layer.borderColor = UIColor.clear.cgColor
@@ -295,8 +288,7 @@ extension VideoCallViewController:VideoViewDelegate {
                                 }
                             }
                         }
-                        cell.btnPinVideo.tag = indexPath.row
-                        cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
+                      
                         if pinVideoArr.count > 0 {
                             if pinVideoArr[0].isRemotePin == true {
                                 if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
@@ -323,17 +315,17 @@ extension VideoCallViewController:VideoViewDelegate {
                 let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
                 let pSID = remoteParticipantArr[indexPath.row].sid
                 
-                if isAttendMultiPart {
-                    if (localAudioTrack == nil) {
-                        localAudioTrack = LocalAudioTrack()
-                        if (localAudioTrack == nil) {
-                            self.view.makeToast("Failed to create audio track")
-                        }
-                    }
-                    
-                    self.mainPreview.isHidden = false
-                    cell.btnMic.isHidden = false
-                }
+//                if isAttendMultiPart {
+//                    if (localAudioTrack == nil) {
+//                        localAudioTrack = LocalAudioTrack()
+//                        if (localAudioTrack == nil) {
+//                            self.view.makeToast("Failed to create audio track")
+//                        }
+//                    }
+//
+//                    self.mainPreview.isHidden = false
+//                    cell.btnMic.isHidden = false
+//                }
                 for publication in videoPublications {
                     print("vdoTrackSid2:", publication.trackSid, publication.trackName)
                     if let subscribedVideoTrack = publication.remoteTrack,
@@ -367,14 +359,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     if let audio = audioPub.audioTrack {
                         audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
                     }
-                    //                if (audioPub.trackSid == currentSpeakerParticipant?.sid) && audioPub.audioTrack?.isEnabled == true{
-                    //
-                    //                    cell.isSpeakingLbl.isHidden = false
-                    //                }
-                    //                else {
-                    //                    cell.isSpeakingLbl.isHidden = true
-                    //
-                    //                }
+                 
                 }
                 if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
                     let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
@@ -388,8 +373,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     }
                     
                 }
-                cell.btnPinVideo.tag = indexPath.row
-                cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
+               
                 if pinVideoArr.count > 0 {
                     if pinVideoArr[0].isRemotePin == true {
                         if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
@@ -418,11 +402,17 @@ extension VideoCallViewController:VideoViewDelegate {
         pinVideoArr.removeAll()
         sender.isSelected = !sender.isSelected
         let cell = vdoCollectionView.dequeueReusableCell(withReuseIdentifier: cellIndentifier.VDOCollectionViewCell.rawValue, for: IndexPath(index: sender.tag)) as!  VDOCollectionViewCell
+        print("localVideoTrack1-------->", localVideoTrack)
         if sender.isSelected {
+            isChangeView = false
+            self.localAudioTrack = LocalAudioTrack()
+            self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
             if sender.tag == 0 {
                 print("first index local")
                 moreArr[2] = "Unpin video"
                 moreDropDown.dataSource = moreArr
+//                self.localAudioTrack = LocalAudioTrack()
+//                self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
                 self.isSwitchToRemote = true
                 self.pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: localParticipant, rp: remoteParticipant)]
                 self.vdoCollectionView.isHidden = true
@@ -433,7 +423,7 @@ extension VideoCallViewController:VideoViewDelegate {
             else {
                 moreArr[2] = "Unpin video"
                 moreDropDown.dataSource = moreArr
-                self.remoteParticiapntName = cell.participantName.text ?? ""
+                // self.remoteParticiapntName = cell.participantName.text ?? ""
                 btnPinLocal.isSelected = false
                 self.isSwitchToRemote = false
                 print("other index remote")
@@ -444,11 +434,7 @@ extension VideoCallViewController:VideoViewDelegate {
                 self.mainPreview.isHidden = false
                 self.fullFlashViewChangesMethod(isFlip: false)
             }
-            
-            isChangeView = false
-            
-            
-        }
+             }
         else {
             moreArr[2] = "Pin video"
             moreDropDown.dataSource = moreArr

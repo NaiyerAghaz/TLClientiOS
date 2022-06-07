@@ -160,6 +160,12 @@
 		73165B7127D79473008FCCC2 /* RoomDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B7027D79473008FCCC2 /* RoomDelegates.swift */; };
 		7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7320F73E27B6740D00E8049F /* Chat.storyboard */; };
 		7325CDD128168AED003027C4 /* BlockedMV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7325CDD028168AED003027C4 /* BlockedMV.swift */; };
+		7341BD33284DD19400BA8E29 /* TLCChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7341BD32284DD19400BA8E29 /* TLCChat.storyboard */; };
+		7341BD35284DD1B200BA8E29 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD34284DD1B200BA8E29 /* ChatViewController.swift */; };
+		7341BD39284DDADD00BA8E29 /* ChatTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */; };
+		7341BD3A284DDADD00BA8E29 /* ChatTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */; };
+		7341BD3C284E03D300BA8E29 /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD3B284E03D300BA8E29 /* ChatModels.swift */; };
+		7341BD3E284E2CF000BA8E29 /* ChatUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */; };
 		7362A7EB281BB56000BBEFB8 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E6281BB56000BBEFB8 /* ActiveType.swift */; };
 		7362A7EC281BB56000BBEFB8 /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E7281BB56000BBEFB8 /* RegexParser.swift */; };
 		7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */; };
@@ -444,6 +450,12 @@
 		73165B7027D79473008FCCC2 /* RoomDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDelegates.swift; sourceTree = "<group>"; };
 		7320F73E27B6740D00E8049F /* Chat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		7325CDD028168AED003027C4 /* BlockedMV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedMV.swift; sourceTree = "<group>"; };
+		7341BD32284DD19400BA8E29 /* TLCChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TLCChat.storyboard; sourceTree = "<group>"; };
+		7341BD34284DD1B200BA8E29 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTVCell.swift; sourceTree = "<group>"; };
+		7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTVCell.xib; sourceTree = "<group>"; };
+		7341BD3B284E03D300BA8E29 /* ChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModels.swift; sourceTree = "<group>"; };
+		7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUtils.swift; sourceTree = "<group>"; };
 		7362A7E6281BB56000BBEFB8 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
 		7362A7E7281BB56000BBEFB8 /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
 		7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
@@ -1044,6 +1056,27 @@
 			path = BlockedAppointmentDetailsVC;
 			sourceTree = "<group>";
 		};
+		7341BD31284DC60B00BA8E29 /* ChatViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7341BD36284DDA2F00BA8E29 /* ChatCells */,
+				7341BD32284DD19400BA8E29 /* TLCChat.storyboard */,
+				7341BD34284DD1B200BA8E29 /* ChatViewController.swift */,
+				7341BD3B284E03D300BA8E29 /* ChatModels.swift */,
+				7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */,
+			);
+			path = ChatViewController;
+			sourceTree = "<group>";
+		};
+		7341BD36284DDA2F00BA8E29 /* ChatCells */ = {
+			isa = PBXGroup;
+			children = (
+				7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */,
+				7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */,
+			);
+			path = ChatCells;
+			sourceTree = "<group>";
+		};
 		73432111281925C500A52033 /* ScheduleAppointmentDetailVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1345,6 +1378,7 @@
 		CE2704D826BCED1400009E77 /* Viewcontrollers */ = {
 			isa = PBXGroup;
 			children = (
+				7341BD31284DC60B00BA8E29 /* ChatViewController */,
 				0439C7992710324600DA3D61 /* Schedule Appointment Detail */,
 				CE2704D926BCED6400009E77 /* iOS */,
 				CE74B2C826BE7378008BBA8C /* Navigator.swift */,
@@ -1689,6 +1723,8 @@
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
 				CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */,
+				7341BD33284DD19400BA8E29 /* TLCChat.storyboard in Resources */,
+				7341BD3A284DDADD00BA8E29 /* ChatTVCell.xib in Resources */,
 				29B3C754274CF255006345E0 /* incoming.mp3 in Resources */,
 				7320F73F27B6740D00E8049F /* Chat.storyboard in Resources */,
 				73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */,
@@ -1899,6 +1935,7 @@
 				CE76024226CF755C00550B68 /* VRIOPIViewController.swift in Sources */,
 				04CC968B2747B131001D4A65 /* ApiVRIOPICallLogResponseModel.swift in Sources */,
 				C6CA04EC278FEC7E003B98DA /* ApiMeetResultDataModel.swift in Sources */,
+				7341BD3C284E03D300BA8E29 /* ChatModels.swift in Sources */,
 				29F8CFF7274E793A006243EC /* VendorTVCell.swift in Sources */,
 				7382637527FD589D00FD3695 /* ApiAppointmentTypeDattaModel.swift in Sources */,
 				04CE547A2715B375002B7288 /* NotificationViewController.swift in Sources */,
@@ -1913,6 +1950,7 @@
 				737511FF282A3F9800619EA7 /* ProtocolsMethods.swift in Sources */,
 				73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */,
 				73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */,
+				7341BD39284DDADD00BA8E29 /* ChatTVCell.swift in Sources */,
 				CE1844B126C3977100E9E84E /* TLCKeychain.swift in Sources */,
 				CEB2569426C23799007A951E /* APIServices.swift in Sources */,
 				04C91A4F27352E450029FE90 /* AddDepartmentsDetail.swift in Sources */,
@@ -1968,6 +2006,7 @@
 				049AB16D26E73E95001D5766 /* CallManager.swift in Sources */,
 				04C91A4A27352CD90029FE90 /* ApiAddProviderDataresponse.swift in Sources */,
 				04B225CC26F477730063129C /* TLTimer.swift in Sources */,
+				7341BD35284DD1B200BA8E29 /* ChatViewController.swift in Sources */,
 				73ACC5DC2806D29900128217 /* EditUpdateAnDeleteVC.swift in Sources */,
 				CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */,
 				296D81772763609D005ADBB0 /* CallingOPIPopUpVC.swift in Sources */,
@@ -2052,6 +2091,7 @@
 				04C4162F272A6E0C0081E5B4 /* ApiGetClassificationDetails.swift in Sources */,
 				29F8CFE8274E76BA006243EC /* CallingPopUpVC.swift in Sources */,
 				C62D0BE927D5EB490083C337 /* VirtualMeetingNewRegularApointmentVC.swift in Sources */,
+				7341BD3E284E2CF000BA8E29 /* ChatUtils.swift in Sources */,
 				048AE7FF26D63A1700FB9309 /* AddParticipantController.swift in Sources */,
 				0423678B271832CF003BC021 /* DocumentTransaltionHistoryVC.swift in Sources */,
 				29981FDC27721419003DF75E /* ApiGetMemberInRoomDetailDataModel.swift in Sources */,
@@ -2276,7 +2316,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.66;
+				MARKETING_VERSION = 1.67;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
@@ -2302,7 +2342,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.66;
+				MARKETING_VERSION = 1.67;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
