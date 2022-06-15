@@ -31,7 +31,7 @@ class LoginVM {
     public func userLogin(UserName: String,Password: String,Ip: String,Latitude: String,Longitude: String, complitionBlock: @escaping(Bool?, Error?) -> ()){
         
         getDataFromApiLogin(url: APi.login.url, para: ApiServices.shareInstace.loginRequest(UserName: UserName, Password: Password, Ip: Ip, Latitude: Latitude, Longitude: Longitude)) {(response, error) in
-            print("loginDetails are : \(APi.login.url) ,parameter ", ApiServices.shareInstace.loginRequest(UserName: UserName, Password: Password, Ip: Ip, Latitude: Latitude, Longitude: Longitude) ,response)
+          //  print("loginDetails are : \(APi.login.url) ,parameter ", ApiServices.shareInstace.loginRequest(UserName: UserName, Password: Password, Ip: Ip, Latitude: Latitude, Longitude: Longitude) ,response)
 //            print("EditBankDetails->", response)
             if response != nil {
                

@@ -99,6 +99,12 @@ class CEnumClass: NSObject {
         let startDate =  dateFormatter.string(from: Date())
         return startDate
     }
+    func getcurrentdateAndTimeForChat() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy HH-mm-ss"
+        let startDate =  dateFormatter.string(from: Date())
+        return startDate
+    }
     func getCurrentDates2() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
@@ -170,8 +176,19 @@ class CEnumClass: NSObject {
         else {
             return dateFormatterTime.string(from:  currentDateTime.adding(minutes: 120))
         }
+      }
+    func getChatTime(dateString:String) -> String {
+        let dateF = DateFormatter()
+        dateF.dateFormat =  "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let newDate = dateF.date(from: dateString)
+        dateF.dateFormat = "HH:mm:ss a"
+        return dateF.string(from: newDate!)
         
-        
+    }
+    func createDateAndTimeChat() ->  String {
+        let dateF = DateFormatter()
+        dateF.dateFormat =  "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateF.string(from: Date())
     }
     func getAppointmentaddingStatus(msz: String) -> Bool {
         if msz.contains("already exist"){
@@ -224,6 +241,14 @@ class CEnumClass: NSObject {
         let time = dateFormatterTime.string(from: (currentDateTime?.adding(minutes: 10))!)
         return time
     }
+    func jsonStr(dict:[String:Any]) -> AnyObject {
+//        if let json = try? JSONSerialization.data(withJSONObject: dict, options: []) {
+//           
+//            return json as AnyObject
+//        }
+        return try! JSONSerialization.data(withJSONObject: dict, options: []) as AnyObject
+    }
+   
     func playSounds(audioName: String) {
         
         let pathB = Bundle.main.path(forResource: audioName, ofType: "mp3")!

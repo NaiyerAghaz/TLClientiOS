@@ -250,7 +250,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                     debugPrint("Channel has updated----------------->>")
                 }
             })}else {
-                self.view.makeToast(ConstantStr.noItnernet.val)
+                self.view.makeToast(ConstantStr.somethingwrong.val)
             }
     }
     @objc func videoPressed(_ sender: UIButton){

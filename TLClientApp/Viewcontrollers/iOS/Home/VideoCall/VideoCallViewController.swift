@@ -14,7 +14,7 @@ import TwilioChatClient
 import Malert
 
 
-class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHChannelDelegate,TwilioChatClientDelegate,AcceptAndRejectDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class VideoCallViewController: UIViewController, LocalParticipantDelegate, TwilioChatClientDelegate,AcceptAndRejectDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     // Video SDK components
     /**
      * We will create an audio device and manage it's lifecycle in response to CallKit events.
@@ -47,11 +47,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var twilioToken : String?
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
+    var customerEndCall = false
     var ringToneTimer = Timer()
     var ringingTime = 60
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
+   
+    var isOpenChat = false
+    var chatVModel = chatViewModels()
     @IBOutlet weak var btnSpeak: UIButton!
     @IBOutlet weak var btnCameraFlip: UIButton!
     @IBOutlet weak var btnMore: UIButton!
@@ -78,6 +82,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     @IBOutlet weak var lblParticipantName: PaddingLabel!
     @IBOutlet weak var lblAudio: PaddingLabel!
     
+    @IBOutlet weak var chatIndicatorView: UIView!
     //End
     var vendorTbl : UITableView = UITableView()
     var lblParticipant = UILabel()
@@ -109,6 +114,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     let imageView = UIImageView()
     var lblParticipantSearching = UILabel()
     var pinVideoArr = [pinModels]()
+    var chatListArr = [RowData]()
     //end--
     let moreDropDown = DropDown()
     lazy var dropDowns: [DropDown] = {
@@ -123,6 +129,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     var isSwitchToRemote = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        chatIndicatorView.isHidden = true
         mainPreview.frame = CGRect(x: self.view.frame.size.width - 140, y: 60, width: 160, height: 160)
         reCreatePreview()
         lblReconecting.isHidden = true
@@ -340,6 +347,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                 //test call
                 let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
                 let vc = sB.instantiateViewController(withIdentifier: Control_Name.chatVC) as! ChatViewController
+                vc.chatChannel = myChannel
+                chatIndicatorView.isHidden = true
+                vc.isOpenChat = true
+                vc.chatDelegate = self
+                isOpenChat = true
+               vc.arrChatSection = self.chatListArr
                 vc.modalPresentationStyle = .overFullScreen
                 self.present(vc, animated: true, completion: nil)
             }else if index == 1{
@@ -354,9 +367,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         self.isChangeView = true
                         self.parentSpeakerView.isHidden = true
                         self.vdoCollectionView.reloadData()
-                    }
-                    
-                }
+                    } }
                 else {
                     
                     DispatchQueue.main.async {
@@ -399,9 +410,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                         moreDropDown.dataSource = moreArr
                         self.pinVideoArr = [pinModels(isRemotePin: true, isLocalPin: false, lp: self.localParticipant, rp: self.remoteParticipantArr[0])]
                     }
-                    
-                    
-                }
+                     }
                 
             }else if index == 3 {
                 print(item)
@@ -723,6 +732,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     @IBAction func btnEndCallTapped(_ sender: Any) {
         UIAlertController.showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Cancel", distrutiveButton: "End Call", otherButtons: nil) { [self] index, _ in
             if index == 0 {
+                self.customerEndCall = true
                 timer.invalidate()
                 // ringToneTimer.invalidate()
                 if myAudio != nil{
@@ -745,6 +755,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
                             if success! {
                                 SwiftLoader.hide()
                                 DispatchQueue.main.async {
+                                    print("backtomain---------->3")
                                     self.updateYourFeedback()
                                 }
                                 
@@ -780,6 +791,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     
     //MARK: Feedback Method call:
     public func updateYourFeedback(){
+        chatArr.removeAll()
         recordTime.invalidate()
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let fb = sB.instantiateViewController(identifier: Control_Name.vrifeedback) as! VRIOPIFeedbackController
@@ -1217,7 +1229,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, TCHCh
     func cleanupRemoteParticipant() {
         if self.remoteParticipant != nil {
             self.remoteView?.removeFromSuperview()
-            self.remoteView = nil
+          //  self.remoteView = nil
+            self.remoteParticipant = nil
+        }
+    }
+    func cleanRemoteParticipants(){
+        if self.remoteParticipant != nil {
+            self.speakerView.removeFromSuperview()
+          //  self.speakerView = nil
             self.remoteParticipant = nil
         }
     }

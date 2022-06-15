@@ -83,7 +83,7 @@ class LoginVC: UIViewController {
             loginVModel.userLogin(UserName: userNameTF.text!, Password: passwordTF.text!, Ip: "M", Latitude: "", Longitude: "") { resp, err in
                 
                 if resp! {
-                    
+                 
                     let item = self.loginVModel.user.userDetails![0] as! DetailsModal
                     if item.userTypeID == "4" || item.userTypeID == "7" || item.userTypeID == "8" {
                         
@@ -91,6 +91,7 @@ class LoginVC: UIViewController {
                         
                         self.loginVModel.addUpdateUserDeviceToken(TokenID: fcmToken, Status: "Y", UserID: item.UserID, DeviceType: "I", voipToken: "") { status, err in
                             if status == true {
+                                userDefaults.set(item.imageData, forKey: "ImageData")
                                 userDefaults.set(self.userNameTF.text!, forKey:"username" )
                                 userDefaults.set(item.companyID, forKey:"companyID")
                                 userDefaults.set(self.passwordTF.text!, forKey: "password" )
@@ -419,6 +420,7 @@ class LoginVC: UIViewController {
                     
                     self.loginVModel.addUpdateUserDeviceToken(TokenID: fcmToken, Status: "Y", UserID: item.UserID, DeviceType: "I", voipToken: "") { status, err in
                         if status == true {
+                            userDefaults.set(item.imageData, forKey: "ImageData")
                             userDefaults.set(username, forKey:"username" )
                             userDefaults.set(item.companyID, forKey:"companyID")
                             userDefaults.set(pwd, forKey: "password" )

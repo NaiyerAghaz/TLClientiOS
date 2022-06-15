@@ -11,6 +11,8 @@ enum ConstantStr {
     case editRecurrence
     case nodata
     case noRecordMsz
+    case somethingwrong
+    case msz
     var val:String {
         switch self {
         case .noItnernet:
@@ -21,6 +23,10 @@ enum ConstantStr {
             return "No records found"
         case .noRecordMsz:
             return "Please select another date"
+        case .somethingwrong:
+            return "Something went wrong please try again!"
+        case .msz:
+            return "Please enter your message"
         
         }
    

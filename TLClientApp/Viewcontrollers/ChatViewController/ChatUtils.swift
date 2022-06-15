@@ -7,126 +7,9 @@
 
 import Foundation
 import UIKit
-public extension UIView {
+import Alamofire
+import AVFoundation
 
-    public enum PeakSide: Int {
-        case Top
-        case Left
-        case Right
-        case Bottom
-    }
-
-    public func addPikeOnView( side: PeakSide, size: CGFloat = 10.0) {
-        self.layoutIfNeeded()
-        let peakLayer = CAShapeLayer()
-        var path: CGPath?
-        switch side {
-        case .Top:
-            path = self.makePeakPathWithRect(rect: self.bounds, topSize: size, rightSize: 0.0, bottomSize: 0.0, leftSize: 0.0)
-        case .Left:
-            path = self.makePeakPathWithRect(rect: self.bounds, topSize: 0.0, rightSize: 0.0, bottomSize: 0.0, leftSize: size)
-        case .Right:
-            path = self.makePeakPathWithRect(rect: self.bounds, topSize: 0.0, rightSize: size, bottomSize: 0.0, leftSize: 0.0)
-        case .Bottom:
-            path = self.makePeakPathWithRect(rect: self.bounds, topSize: 0.0, rightSize: 0.0, bottomSize: size, leftSize: 0.0)
-        }
-        peakLayer.path = path
-        let color = (self.backgroundColor?.cgColor)
-        peakLayer.fillColor = color
-        peakLayer.strokeColor = color
-        peakLayer.lineWidth = 1
-        peakLayer.position = CGPoint.zero
-        self.layer.insertSublayer(peakLayer, at: 0)
-    }
-
-
-    func makePeakPathWithRect(rect: CGRect, topSize ts: CGFloat, rightSize rs: CGFloat, bottomSize bs: CGFloat, leftSize ls: CGFloat) -> CGPath {
-        //                      P3
-        //                    /    \
-        //      P1 -------- P2     P4 -------- P5
-        //      |                               |
-        //      |                               |
-        //      P16                            P6
-        //     /                                 \
-        //  P15                                   P7
-        //     \                                 /
-        //      P14                            P8
-        //      |                               |
-        //      |                               |
-        //      P13 ------ P12    P10 -------- P9
-        //                    \   /
-        //                     P11
-
-        let centerX = rect.width / 2
-        let centerY = rect.height / 2
-        var h: CGFloat = 0
-        let path = CGMutablePath()
-        var points: [CGPoint] = []
-        // P1
-        points.append(CGPoint(x:rect.origin.x,y: rect.origin.y))
-        // Points for top side
-        if ts > 0 {
-            h = ts * sqrt(3.0) / 2
-            let x = rect.origin.x + centerX
-            let y = rect.origin.y
-            points.append(CGPoint(x:x - ts,y: y))
-            points.append(CGPoint(x:x,y: y - h))
-            points.append(CGPoint(x:x + ts,y: y))
-       }
-
-        // P5
-        points.append(CGPoint(x:rect.origin.x + rect.width,y: rect.origin.y))
-        // Points for right side
-        if rs > 0 {
-            h = rs * sqrt(3.0) / 2
-            let x = rect.origin.x + rect.width
-           let y = rect.origin.y + centerY
-           points.append(CGPoint(x:x,y: y - rs))
-           points.append(CGPoint(x:x + h,y: y))
-           points.append(CGPoint(x:x,y: y + rs))
-        }
-
-        // P9
-        points.append(CGPoint(x:rect.origin.x + rect.width,y: rect.origin.y + rect.height))
-        // Point for bottom side
-        if bs > 0 {
-            h = bs * sqrt(3.0) / 2
-            let x = rect.origin.x + centerX
-            let y = rect.origin.y + rect.height
-            points.append(CGPoint(x:x + bs,y: y))
-            points.append(CGPoint(x:x,y: y + h))
-            points.append(CGPoint(x:x - bs,y: y))
-        }
-
-        // P13
-        points.append(CGPoint(x:rect.origin.x, y: rect.origin.y + rect.height))
-        // Point for left sidey:
-        if ls > 0 {
-            h = ls * sqrt(3.0) / 2
-            let x = rect.origin.x
-            let y = rect.origin.y + centerY
-            points.append(CGPoint(x:x,y: y + ls))
-            points.append(CGPoint(x:x - h,y: y))
-            points.append(CGPoint(x:x,y: y - ls))
-        }
-
-        let startPoint = points.removeFirst()
-        self.startPath(path: path, onPoint: startPoint)
-        for point in points {
-            self.addPoint(point: point, toPath: path)
-        }
-        self.addPoint(point: startPoint, toPath: path)
-        return path
-    }
-
-    private func startPath( path: CGMutablePath, onPoint point: CGPoint) {
-        path.move(to: CGPoint(x: point.x, y: point.y))
-    }
-
-    private func addPoint(point: CGPoint, toPath path: CGMutablePath) {
-       path.addLine(to: CGPoint(x: point.x, y: point.y))
-    }
-}
 extension UITableView {
     func scrollToBottomRow() {
         DispatchQueue.main.async {
@@ -165,3 +48,80 @@ extension UITableView {
         return section < self.numberOfSections && row < self.numberOfRows(inSection: section)
     }
 }
+
+extension Dictionary {
+    
+    /// Convert Dictionary to JSON string
+    /// - Throws: exception if dictionary cannot be converted to JSON data or when data cannot be converted to UTF8 string
+    /// - Returns: JSON string
+    func toJson() throws -> String {
+        let data = try JSONSerialization.data(withJSONObject: self)
+        if let string = String(data: data, encoding: .utf8) {
+            return string
+        }
+        throw NSError(domain: "Dictionary", code: 1, userInfo: ["message": "Data cannot be converted to .utf8 string"])
+    }
+}
+class chatDetails: NSObject {
+    static let share = chatDetails()
+    func getchatString(filename: String) -> [AnyHashable: Any] {
+        let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCounts)##\(filename)#\((userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg"))#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+        let jsonObj:[AnyHashable:Any] = ["attributes": msz]
+        return jsonObj
+    }
+    func getUploadedFileExtension(file:String) -> Bool {
+        switch file {
+        case "jpg":
+            return true
+        case "png":
+            return true
+        case "jpeg":
+            return true
+        case "gif":
+            return true
+            
+        default:
+            return false
+        }
+    }
+    func getThumbnailFrom(path: URL) -> UIImage? {
+
+            do {
+                let asset = AVURLAsset(url: path , options: nil)
+                let imgGenerator = AVAssetImageGenerator(asset: asset)
+                imgGenerator.appliesPreferredTrackTransform = true
+                let timestamp = asset.duration
+                print("Timestemp:   \(timestamp)")
+                let cgImage = try imgGenerator.copyCGImage(at: timestamp, actualTime: nil)
+                let thumbnail = UIImage(cgImage: cgImage)
+                print("thumb-->",thumbnail)
+                return thumbnail
+                } catch let error {
+                print("*** Error generating thumbnail: \(error.localizedDescription)")
+                return nil
+              }
+            }
+    func getThumbnailImageFromVideoUrl(url: URL, completion: @escaping ((_ image: UIImage?)->Void)) {
+        DispatchQueue.global().async { //1
+            let asset = AVAsset(url: url) //2
+            let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
+            avAssetImageGenerator.appliesPreferredTrackTransform = true //4
+            let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
+            do {
+                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil) //6
+                let thumbImage = UIImage(cgImage: cgThumbImage) //7
+                DispatchQueue.main.async { //8
+                    completion(thumbImage) //9
+                }
+            } catch {
+                print(error.localizedDescription) //10
+                DispatchQueue.main.async {
+                    completion(nil) //11
+                }
+            }
+        }
+    }
+}
+
+   
+

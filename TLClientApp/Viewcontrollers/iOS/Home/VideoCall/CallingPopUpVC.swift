@@ -45,8 +45,12 @@ class CallingPopupVC: UIViewController,VideocallDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
-        configureUI()
+       
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureUI()
     }
 func configureUI(){
        

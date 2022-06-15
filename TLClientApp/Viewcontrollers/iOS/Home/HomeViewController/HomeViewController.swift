@@ -416,7 +416,8 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         
     }
     @IBAction func actionNotification(_ sender: UIButton) {
-        let vc = storyboard?.instantiateViewController(identifier: "NotificationViewController" ) as! NotificationViewController
+       
+      let vc = storyboard?.instantiateViewController(identifier: "NotificationViewController" ) as! NotificationViewController
         vc.modalPresentationStyle = .overCurrentContext
         let transition = CATransition()
         transition.duration = 0.5
@@ -427,6 +428,10 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         self.present(vc, animated: false, completion: nil)
         
     }
+    
+    //test doc only:
+   
+    //end
     private func updateUI(){
         
         createCalendar()

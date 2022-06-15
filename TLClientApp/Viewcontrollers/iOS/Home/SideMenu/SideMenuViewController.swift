@@ -49,8 +49,10 @@ class SideMenuViewController: UIViewController {
                let userName   = "\(String(describing: firstName)) \(lastName)"
                
                self.userNameLbl.text = userName
-        self.userImg.layer.cornerRadius = self.userImg.bounds.height / 2 
-        getProfileimg()
+        self.userImg.layer.cornerRadius = self.userImg.bounds.height / 2
+        let fullImg = nBaseUrl + (userDefaults.string(forKey: "ImageData") ?? "")
+        self.userImg.sd_setImage(with: URL(string: fullImg), placeholderImage: UIImage(named: "person.circle"))
+      //  getProfileimg()
         //leftMenuNavigationController?.menuWidth = 350
     }
     

@@ -58,7 +58,7 @@ extension VideoCallViewController:RoomDelegate{
             // self.callKitProvider.reportCall(with: uuid, endedAt: nil, reason: reason)
         }
         
-        // self.cleanupRemoteParticipant()
+        self.cleanRemoteParticipants()
         
         //  self.showRoomUI(inRoom: false)
         //  self.callKitCompletionHandler = nil
@@ -76,10 +76,14 @@ extension VideoCallViewController:RoomDelegate{
             localAudioTrack = nil
         }
         if remoteParticipantArr.count > 0{
+            if customerEndCall == false {
+            print("backtomain---------->2")
             updateYourFeedback()
+            }
         }
         
     }
+   
     //THis method will call who is speaking
     func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
         if room.localParticipant != nil {
@@ -341,15 +345,23 @@ extension VideoCallViewController:RoomDelegate{
     }
     
     func participantDidDisconnect(room: Room, participant: RemoteParticipant) {
-        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
-            print("getParticipantList2 --->7:")
-            print(success)
+
+        if remoteParticipantArr.count > 1{
+                    self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+                        print("getParticipantList2 --->7:")
+                        print(success)
+                    }
+            if remoteParticipant != nil {
+                recordTime.invalidate()
+                
+                timer.invalidate()
+                if myAudio != nil{
+                    myAudio!.stop()
+                }
+            }
+            
         }
-        recordTime.invalidate()
-        timer.invalidate()
-        if myAudio != nil{
-            myAudio!.stop()
-        }
+      
     }
     
 }

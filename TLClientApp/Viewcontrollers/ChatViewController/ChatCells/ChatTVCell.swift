@@ -36,5 +36,53 @@ class ChatTVCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    public func configureText(obj: RowData){
+        if obj.sender == 0 {
+            //customer cell
+            var pImg = nBaseUrl + obj.profileImg!
+            pImg = pImg.replacingOccurrences(of: " ", with: "%20")
+            
+            vendorView.isHidden = true
+            customerView.isHidden = false
+            if obj.profileImg != "" && obj.profileImg != nil {
+                imgCustomer.sd_setImage(with: URL(string: pImg), placeholderImage: UIImage(named: "person.circle"))
+                lblCustomerChar.isHidden = true
+            }
+            else {
+                lblCustomerChar.isHidden = false
+                imgCustomer.isHidden = true
+                lblCustomerChar.text = obj.name?.first?.uppercased()
+            }
+            lblCustomerChat.text = obj.txt
+            lblCustomerTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
+            lblCustomerName.text = obj.name
+           
+        }
+        else {
+            //vendor cell
+          
+                var pImg = nBaseUrl + obj.profileImg!
+                pImg = pImg.replacingOccurrences(of: " ", with: "%20")
+              
+                vendorView.isHidden = false
+                customerView.isHidden = true
+                if obj.profileImg != "" && obj.profileImg != nil {
+                    ImgVendor.sd_setImage(with: URL(string: pImg), placeholderImage: UIImage(named: "person.circle"))
+                    lblVendorChar.isHidden = true
+                }
+                else {
+                    lblVendorChar.isHidden = false
+                    ImgVendor.isHidden = true
+                    lblVendorChar.text = obj.name?.first?.uppercased()
+                }
+                lblVendorChat.text = obj.txt
+                lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
+                lblVendorName.text = obj.name
+                
+            
+        }
+        
+        
+    }
     
 }

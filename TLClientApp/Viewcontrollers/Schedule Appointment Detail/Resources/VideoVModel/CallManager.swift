@@ -90,10 +90,10 @@ class CallManagerVM {
     func addAppCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.vricallstart.url, para: req) { response, err in
-          
-           
+            
+            
             if response != nil {
-               
+                
                 completionHandler(true, nil)
             }
             else {
@@ -104,7 +104,7 @@ class CallManagerVM {
     
     func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String) -> [String: Any]{
         var parameter:[String:Any] = [:]
-       
+        
         parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":userDefaults.string(forKey: .kUSER_ID)! ,"touserid":"","statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":"","patientno":"","Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
         print("addAppcall parameter:",parameter)
         
@@ -116,9 +116,9 @@ class CallManagerVM {
         return parameter
     }
     func priorityVideoCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
-     
+        
         ApiServices.shareInstace.getDataFromApi(url: APi.getVriVendorsbyLid.url, para: req) { response, err in
-          
+            
             if response != nil {
                 completionHandler(true, nil)
             }
@@ -153,17 +153,17 @@ class CallManagerVM {
     //MARK OPI call request:
     func normalCallClientReq(ccid:String, clientID: String, roomID: String,sourceId: String,targetID: String) -> [String: Any] {
         
-            let para:[String:Any] = ["strSearchString":"<VRICLIENT><ACTION>A</ACTION><ID>\(ccid)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"]
-            return para
+        let para:[String:Any] = ["strSearchString":"<VRICLIENT><ACTION>A</ACTION><ID>\(ccid)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><CALLSTATUS>1</CALLSTATUS><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"]
+        return para
         
-       }
+    }
     func switchCallClientReq(ccid:String, clientID: String, roomID: String,sourceId: String,targetID: String) -> [String: Any] {
-       
-            
-            let para:[String:Any] = ["strSearchString":"<VRICLIENT><ACTION>C</ACTION><ID>\(ccid)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"]
-            return para
-       
-       }
+        
+        
+        let para:[String:Any] = ["strSearchString":"<VRICLIENT><ACTION>C</ACTION><ID>\(ccid)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"]
+        return para
+        
+    }
 }
 
 // MARK:- RemoteParticipantDelegate
@@ -175,7 +175,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         
     }
     func remoteParticipantNetworkQualityLevelDidChange(participant: RemoteParticipant, networkQualityLevel: NetworkQualityLevel) {
-      //  if networkQualityLevel
+        //  if networkQualityLevel
         
     }
     
@@ -200,45 +200,45 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         
         if (self.remoteParticipant == nil) {
-           
+            
             _ = renderRemoteParticipant(participant: participant)
         }
-       
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {[self] in
             print("getParticipantList2 --->1:")
             self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { [self] success, err in
                 if self.remoteParticipantArr.count > 1 {
-                DispatchQueue.main.async {
-                    print("totalparticipants-1--->",self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count)
-                    self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 2)"
-                    self.isChangeView = true
-                    self.parentSpeakerView.isHidden = true
-                    self.vdoCollectionView.isHidden = false
-                    self.vdoCollectionView.reloadData()
-               
-                    
-                }
+                    DispatchQueue.main.async {
+                        print("totalparticipants-1--->",self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count)
+                        self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 2)"
+                        self.isChangeView = true
+                        self.parentSpeakerView.isHidden = true
+                        self.vdoCollectionView.isHidden = false
+                        self.vdoCollectionView.reloadData()
+                        
+                        
+                    }
                 }
                 else {
                     DispatchQueue.main.async {
                         self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 1)"
-                      
+                        
                     }
                     
-                if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
-                                let pSID = remoteParticipant?.sid
-                               
-                                for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
-                                    let participantSID = pObj as! ConferenceInfoModels
-                                    if participantSID.PARTSID == pSID {
-                                        DispatchQueue.main.async {
-                                            self.configureHost(obj: participantSID)
-                                            self.remoteParticiapntName = participantSID.UserName!
-                                            self.lblParticipantName.adjustsFontSizeToFitWidth = true
-                                            self.lblParticipantName.text = participantSID.UserName
-                                        }
-                                        
-                                       } }}}
+                    if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
+                        let pSID = remoteParticipant?.sid
+                        
+                        for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
+                            let participantSID = pObj as! ConferenceInfoModels
+                            if participantSID.PARTSID == pSID {
+                                DispatchQueue.main.async {
+                                    self.configureHost(obj: participantSID)
+                                    self.remoteParticiapntName = participantSID.UserName!
+                                    self.lblParticipantName.adjustsFontSizeToFitWidth = true
+                                    self.lblParticipantName.text = participantSID.UserName
+                                }
+                                
+                            } }}}
             }
             isParticipanthasAdded = true
         }
@@ -250,17 +250,17 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         // remote Participant's video.
         print("cleanup remote participant----------------------:","remove->",participant, "existing:",self.remoteParticipant)
         // self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
-       /* if self.remoteParticipant == participant {
-           // cleanupRemoteParticipant()
-            
-            // Find another Participant video to render, if possible.
-            if var remainingParticipants = room?.remoteParticipants,
-               let index = remainingParticipants.firstIndex(of: participant) {
-                remainingParticipants.remove(at: index)
-                renderRemoteParticipants(participants: remainingParticipants)
-            }
-            
-        }*/
+        /* if self.remoteParticipant == participant {
+         // cleanupRemoteParticipant()
+         
+         // Find another Participant video to render, if possible.
+         if var remainingParticipants = room?.remoteParticipants,
+         let index = remainingParticipants.firstIndex(of: participant) {
+         remainingParticipants.remove(at: index)
+         renderRemoteParticipants(participants: remainingParticipants)
+         }
+         
+         }*/
         if remoteParticipantArr.count > 1 {
             for vdo in remoteParticipantArr {
                 if vdo == participant {
@@ -273,7 +273,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 print("exchange participants-----", remoteParticipant, "::", participant)
                 remoteParticipant = remoteParticipantArr[0]
             }
-           lblTotalParticipant.text = "\(remoteParticipantArr.count)"
+            lblTotalParticipant.text = "\(remoteParticipantArr.count)"
             print("totalparticipants-3--->",remoteParticipantArr.count)
             DispatchQueue.global(qos: .background).async { [self] in
                 vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { success, err in
@@ -284,7 +284,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                 self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 1)"
                                 self.remoteParticipant = self.remoteParticipantArr[0]
                                 if self.isChangeView == true {
-                                   self.isChangeView = false
+                                    self.isChangeView = false
                                     self.vdoCollectionView.isHidden = true
                                     self.parentSpeakerView.isHidden = false
                                     self.mainPreview.isHidden = false
@@ -299,9 +299,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                 }
                                 print("totalparticipants-4--->",remoteParticipantArr.count)
                                 
-                           
+                                
                             }
-                          
+                            
                         }
                         else {
                             DispatchQueue.main.async {
@@ -322,26 +322,38 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                         }
                                     }
                                 }
-                               
-                               
+                                
+                                
                             }
                         }
-                       }
+                    }
                     else {
+                        print("backtomain---------->5")
                         isFeedback = true
-                        self.backToMainController()
+                        if customerEndCall == false {
+                            self.backToMainController()
+                        }
+                        
                     }
                 }
             } }
         else {
-            backToMainController()
+            
+            if customerEndCall == false {
+                print("backtomain---------->4")
+                backToMainController()
+            }
+            
         }
         
     }
     func backToMainController(){
-        
-        remoteParticipantArr.removeAll()
-        self.room = nil
+        print("backtomain---------->1")
+        if remoteParticipantArr.count > 0 {
+            remoteParticipantArr.removeAll()
+        }
+        if (room != nil){
+            room?.disconnect()}
         if (self.camera != nil){
             camera?.stopCapture()
             camera = nil
@@ -367,11 +379,11 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             if localAudioTrack != nil {
                 localAudioTrack = nil
             }
-           camera?.stopCapture()
+            camera?.stopCapture()
             DispatchQueue.main.async {
                 self.switchToAudioMethod()
             }
-          
+            
         }
         
     }
@@ -408,12 +420,12 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 if  self.localAudioTrack != nil {
                     self.localAudioTrack = nil
                 }
-           }
+            }
             DispatchQueue.main.async { [self] in
                 dismiss(animated: false, completion: nil)
                 videocallDelegate?.switchToAudioMethods(roomId: roomID ?? "", sourceLangID: sourceLangID ?? "", targetLangID: targetLangID ?? "", ccid: callid ?? "0", sourceLangName: sourceLangName ?? "", targetLangName: targetLangName ?? "", patientno: patientno ?? "", patientname: patientname ?? "")
-             }
-           }
+            }
+        }
         laterAction.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
         
         laterAction.tintColor = UIColor(red:25/255, green:157/255, blue:217/255, alpha:1.0)
@@ -438,10 +450,10 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     
     func didSubscribeToAudioTrack(audioTrack: RemoteAudioTrack, publication: RemoteAudioTrackPublication, participant: RemoteParticipant) {
         print("Subscribe audio track!")
-        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
-            print("getParticipantList2 --->8:")
-            print(success)
-        }
+        //        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+        //            print("getParticipantList2 --->8:")
+        //            print(success)
+        //        }
         // We are subscribed to the remote Participant's audio Track. We will start receiving the
         // remote Participant's audio now.
         //  self.view.makeToast("Subscribed to audio track for Participant \(participant.identity)")
@@ -453,33 +465,20 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         // We are unsubscribed from the remote Participant's audio Track. We will no longer receive the
         // remote Participant's audio.
         // self.view.makeToast("Unsubscribed from audio track for Participant \(participant.identity)")
-        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
-            print("getParticipantList2 --->9:")
-            print(success)
-        }
+        //        if remoteParticipantArr.count > 1{
+        //            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+        //                print("getParticipantList2 --->9:")
+        //                print(success)
+        //            }
+        //        }
+        
         
     }
     
     func remoteParticipantDidEnableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
-
+        
         if isParticipanthasAdded {
-        if remoteParticipantArr.count > 1 {
-            for vdo in remoteParticipantArr {
-                if vdo == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        DispatchQueue.main.async {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
-                        }
-                       
-                    }
-                }
-            }
-          
-        }
-        else {
-            if isChangeView {
+            if remoteParticipantArr.count > 1 {
                 for vdo in remoteParticipantArr {
                     if vdo == participant {
                         if let index = remoteParticipantArr.firstIndex(of: vdo) {
@@ -492,40 +491,41 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         }
                     }
                 }
+                
             }
             else {
-                if participant == remoteParticipant {
-                    if isSwitchToRemote {
-                    preview.backgroundColor = UIColor.clear
-                        imgLocalPrivacy.isHidden = true
+                if isChangeView {
+                    for vdo in remoteParticipantArr {
+                        if vdo == participant {
+                            if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                                //  remoteParticipantArr.remove(at: index)
+                                let indexPath = IndexPath(item: index + 1, section: 0)
+                                DispatchQueue.main.async {
+                                    self.vdoCollectionView.reloadItems(at: [indexPath])
+                                }
+                                
+                            }
+                        }
                     }
-                    else {
-                        speakerImgPrivacy.isHidden = true
+                }
+                else {
+                    if participant == remoteParticipant {
+                        if isSwitchToRemote {
+                            preview.backgroundColor = UIColor.clear
+                            imgLocalPrivacy.isHidden = true
+                        }
+                        else {
+                            speakerImgPrivacy.isHidden = true
+                        }
                     }
-                   }
-            } }
+                } }
         }
     }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
         print("DisableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
-     if isParticipanthasAdded {
-        if remoteParticipantArr.count > 1 {
-            for vdo in remoteParticipantArr {
-                if vdo == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: vdo) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        DispatchQueue.main.async {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
-                        }
-                    }
-                }
-            }
-           
-        }
-        else {
-            if isChangeView {
+        if isParticipanthasAdded {
+            if remoteParticipantArr.count > 1 {
                 for vdo in remoteParticipantArr {
                     if vdo == participant {
                         if let index = remoteParticipantArr.firstIndex(of: vdo) {
@@ -537,56 +537,71 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         }
                     }
                 }
+                
             }
             else {
-                if participant == remoteParticipant {
-                    if isSwitchToRemote {
-                        preview.backgroundColor = UIColor.black
-                        imgLocalPrivacy.isHidden = false
+                if isChangeView {
+                    for vdo in remoteParticipantArr {
+                        if vdo == participant {
+                            if let index = remoteParticipantArr.firstIndex(of: vdo) {
+                                //  remoteParticipantArr.remove(at: index)
+                                let indexPath = IndexPath(item: index + 1, section: 0)
+                                DispatchQueue.main.async {
+                                    self.vdoCollectionView.reloadItems(at: [indexPath])
+                                }
+                            }
+                        }
                     }
-                    else {
-                        speakerImgPrivacy.isHidden = false
-                    }
-                   
                 }
-            }
-            
-        }}
+                else {
+                    if participant == remoteParticipant {
+                        if isSwitchToRemote {
+                            preview.backgroundColor = UIColor.black
+                            imgLocalPrivacy.isHidden = false
+                        }
+                        else {
+                            speakerImgPrivacy.isHidden = false
+                        }
+                        
+                    }
+                }
+                
+            }}
         
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-       
-
+        
+        
         if isParticipanthasAdded {
-        if remoteParticipantArr.count > 1 {
-            for audio in remoteParticipantArr {
-                if audio == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: audio) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
+            if remoteParticipantArr.count > 1 {
+                for audio in remoteParticipantArr {
+                    if audio == participant {
+                        if let index = remoteParticipantArr.firstIndex(of: audio) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
                         }
                     }
                 }
+                
             }
-            
-        }
             else {
                 if isChangeView {
-            for audio in remoteParticipantArr {
-                if audio == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: audio) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
+                    for audio in remoteParticipantArr {
+                        if audio == participant {
+                            if let index = remoteParticipantArr.firstIndex(of: audio) {
+                                //  remoteParticipantArr.remove(at: index)
+                                let indexPath = IndexPath(item: index + 1, section: 0)
+                                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                    self.vdoCollectionView.reloadItems(at: [indexPath])
+                                }
+                                
+                            }
                         }
-                       
-                    }
-                }
-            }}
+                    }}
                 else {
                     if participant == remoteParticipant {
                         if isSwitchToRemote {
@@ -594,7 +609,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                             btnMic.isHidden = false
                             btnSpeakerMic.isHidden = true
                             
-                           
+                            
                         }
                         else {
                             btnSpeakerMic.isSelected = false
@@ -602,61 +617,61 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                             btnMic.isSelected = false
                             btnMic.isHidden = true
                         }
-                       
+                        
                     }
                 }
-        }}}
+            }}}
     
     func remoteParticipantDidDisableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
-       
-
+        
+        
         if isParticipanthasAdded {
-        if remoteParticipantArr.count > 1 {
-            for audio in remoteParticipantArr {
-                if audio == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: audio) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
+            if remoteParticipantArr.count > 1 {
+                for audio in remoteParticipantArr {
+                    if audio == participant {
+                        if let index = remoteParticipantArr.firstIndex(of: audio) {
+                            //  remoteParticipantArr.remove(at: index)
+                            let indexPath = IndexPath(item: index + 1, section: 0)
+                            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                self.vdoCollectionView.reloadItems(at: [indexPath])
+                            }
+                            
                         }
-                       
                     }
                 }
+                
             }
-           
-        }
-        else {
-            if isChangeView {
-            for audio in remoteParticipantArr {
-                if audio == participant {
-                    if let index = remoteParticipantArr.firstIndex(of: audio) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
+            else {
+                if isChangeView {
+                    for audio in remoteParticipantArr {
+                        if audio == participant {
+                            if let index = remoteParticipantArr.firstIndex(of: audio) {
+                                //  remoteParticipantArr.remove(at: index)
+                                let indexPath = IndexPath(item: index + 1, section: 0)
+                                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                    self.vdoCollectionView.reloadItems(at: [indexPath])
+                                }
+                            }
                         }
+                    }}
+                else {
+                    if participant == remoteParticipant {
+                        if isSwitchToRemote {
+                            btnMic.isSelected = true
+                            btnMic.isHidden = false
+                            btnSpeakerMic.isHidden = true
+                            
+                        }
+                        else {
+                            btnSpeakerMic.isHidden = false
+                            btnSpeakerMic.isSelected = true
+                            btnMic.isSelected = false
+                            btnMic.isHidden = true
+                        }
+                        
                     }
                 }
             }}
-            else {
-                if participant == remoteParticipant {
-                    if isSwitchToRemote {
-                        btnMic.isSelected = true
-                        btnMic.isHidden = false
-                        btnSpeakerMic.isHidden = true
-                       
-                    }
-                    else {
-                        btnSpeakerMic.isHidden = false
-                        btnSpeakerMic.isSelected = true
-                        btnMic.isSelected = false
-                        btnMic.isHidden = true
-                    }
-                   
-                }
-            }
-        }}
     }
     
     func didFailToSubscribeToAudioTrack(publication: RemoteAudioTrackPublication, error: Error, participant: RemoteParticipant) {

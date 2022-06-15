@@ -25,9 +25,11 @@ struct Control_Name {
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
 }
+var mszCounts = 0
 var isFeedback = false 
 var userDefaults = UserDefaults.standard
 var callid: String?
+var chatArr = [RowData]()
 enum cellIndentifier: String {
     case vendorTVCell = "VendorTVCell"
     case VDOCollectionViewCell = "VDOCollectionViewCell"

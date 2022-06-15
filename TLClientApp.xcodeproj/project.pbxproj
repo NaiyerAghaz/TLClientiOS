@@ -182,6 +182,8 @@
 		7382637D27FD5CF400FD3695 /* AddVenueContainerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637927FD5CE700FD3695 /* AddVenueContainerVC.swift */; };
 		7382637E27FD5CF400FD3695 /* AddUpdateVenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637A27FD5CE800FD3695 /* AddUpdateVenueVC.swift */; };
 		7382637F27FD5CF400FD3695 /* UpdateDepartmentAndContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7382637B27FD5CF100FD3695 /* UpdateDepartmentAndContactVC.swift */; };
+		738364DD285760E8004C2B15 /* ImageChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738364DB285760E8004C2B15 /* ImageChatCell.swift */; };
+		738364DE285760E8004C2B15 /* ImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 738364DC285760E8004C2B15 /* ImageChatCell.xib */; };
 		738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738878F127D8AE4100C7614B /* FeedbackVModel.swift */; };
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
@@ -472,6 +474,8 @@
 		7382637927FD5CE700FD3695 /* AddVenueContainerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVenueContainerVC.swift; sourceTree = "<group>"; };
 		7382637A27FD5CE800FD3695 /* AddUpdateVenueVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUpdateVenueVC.swift; sourceTree = "<group>"; };
 		7382637B27FD5CF100FD3695 /* UpdateDepartmentAndContactVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateDepartmentAndContactVC.swift; sourceTree = "<group>"; };
+		738364DB285760E8004C2B15 /* ImageChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChatCell.swift; sourceTree = "<group>"; };
+		738364DC285760E8004C2B15 /* ImageChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageChatCell.xib; sourceTree = "<group>"; };
 		738878F127D8AE4100C7614B /* FeedbackVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVModel.swift; sourceTree = "<group>"; };
 		73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		73A1A76527C36921007281DC /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
@@ -1073,6 +1077,8 @@
 			children = (
 				7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */,
 				7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */,
+				738364DB285760E8004C2B15 /* ImageChatCell.swift */,
+				738364DC285760E8004C2B15 /* ImageChatCell.xib */,
 			);
 			path = ChatCells;
 			sourceTree = "<group>";
@@ -1718,6 +1724,7 @@
 				048AE80B26E08D8700FB9309 /* ringtone.wav in Resources */,
 				CE2704B526BCE7C000009E77 /* LaunchScreen.storyboard in Resources */,
 				29B3C74E274CD61F006345E0 /* call.gif in Resources */,
+				738364DE285760E8004C2B15 /* ImageChatCell.xib in Resources */,
 				73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */,
 				73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */,
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
@@ -2103,6 +2110,7 @@
 				7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */,
 				C6EAE8C927D217EF009F7261 /* TelephonicBlockedNewVC.swift in Sources */,
 				04B225C926EF68820063129C /* SharedManager.swift in Sources */,
+				738364DD285760E8004C2B15 /* ImageChatCell.swift in Sources */,
 				049AB17326E743E3001D5766 /* CallingModel.swift in Sources */,
 				04CE54802716C511002B7288 /* TabViewController.swift in Sources */,
 				04C28C19272974A800C971C6 /* DocumentTranslationViewController.swift in Sources */,
@@ -2316,7 +2324,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.67;
+				MARKETING_VERSION = 1.68;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
@@ -2342,7 +2350,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.67;
+				MARKETING_VERSION = 1.68;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;

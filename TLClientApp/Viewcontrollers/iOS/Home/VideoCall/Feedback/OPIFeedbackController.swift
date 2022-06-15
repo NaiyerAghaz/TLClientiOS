@@ -34,9 +34,13 @@ class VRIOPIFeedbackController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
+        print("feedback----------->")
+       
         
-        getFeedback()
-        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getFeedback()
     }
     func uiConfigure(){
         lblDuration.text = duration
@@ -68,12 +72,20 @@ class VRIOPIFeedbackController: UIViewController {
     }
     
     func getFeedback(){
-        SwiftLoader.show(animated: true)
+       // DispatchQueue.main.async {
+            SwiftLoader.show(animated: true)
+       // }
+       
         let req = feedbackVM.feedbackReq(roomId: roomID ?? "", calltype: calltype)
+        print("feedback details req:", req)
         feedbackVM.getFeedbackDetails(parameter: req) { details, err in
+            print("feedback details req2:", details)
             self.apiGetfeedbackDetail = details
-            SwiftLoader.hide()
-            self.uiConfigure()
+           // DispatchQueue.main.async {
+                SwiftLoader.hide()
+                self.uiConfigure()
+          //  }
+          
         }
     }
     @objc func expSliderValueChanged(_ sender: SteppableSlider) {

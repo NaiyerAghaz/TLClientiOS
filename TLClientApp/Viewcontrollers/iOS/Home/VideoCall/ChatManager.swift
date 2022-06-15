@@ -28,9 +28,10 @@ class ChatManager: NSObject, TwilioChatClientDelegate {
         let deviceid = UIDevice.current.identifierForVendor!.uuidString
         let fullUrl = chatURL + "/chattoken??device=\(deviceid)"
         WebServices.get(url: URL(string: fullUrl)!) { (response, _) in
-            print("url:\( fullUrl) response:\(response)")
+           // print("url:\( fullUrl) response:\(response)")
             let twilioData = TwilioChatModel.getData(dicts: response as! NSDictionary)
-            print("TWILIO DATA IS \(twilioData.token)")
+            userDefaults.set(twilioData.identity, forKey: "twilioIdentity")
+            print("TWILIO DATA IS--> \(twilioData.token)", twilioData.identity)
             TwilioChatClient.chatClient(withToken: twilioData.token!, properties: nil, delegate: self) { result, chatClient in
                 self.client = chatClient
 

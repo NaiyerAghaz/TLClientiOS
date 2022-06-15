@@ -25,11 +25,44 @@ extension VideoCallViewController:VideoViewDelegate {
     //When new client added in call this method will call
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         // print("call-----------------------------101")
-        print("message body:", message.body)
+     //   print("message body:", message.body, "newMsz:", message,"newMszAttr:",message.attributes(), "mediaFilename:",message.mediaFilename)
         let messString = message.body!
-        if remoteParticipantArr.count >= 10 {
-            return self.view.makeToast("You have reached maximum participants limit", position: .center)
+     //chat message adding:
+        
+        if message.hasMedia() {
+            if !isOpenChat {
+            isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
+//            let dic = message.attributes()?.dictionary
+//            print("dict:", dic, "str------>", message.attributes()?.string)
+         //   print("aa--->", message.accessibilityAttributedHint, message.accessibilityAttributedLabel, message.accessibilityAttributedValue, message.accessibilityAttributedUserInputLabels,message)
+            
+                   
+                    let ndict = message.attributes()?.dictionary
+                    print("channel message--media3>", message,"att:",ndict)
+                    message.getMediaContentTemporaryUrl { result, imgurl in
+                        self.chatVModel.getChatMessage(message: message, istypeImg: true, url: imgurl ?? "") { data, err in
+                            self.chatListArr.append(data!)
+                           
+                        } }
+            }
+            //let dict = CEnumClass.share.convertToDictionary(text:jsonToString(json: message.attributes()) )
+            
         }
+        else if messString.contains(":") && messString.contains("##"){
+            if !isOpenChat{
+            isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
+                self.chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
+                    self.chatListArr.append(data!)
+                   
+                }
+      //   getChatMessage(msz: messString, message: message, isOpenChats: isOpenChat)
+            }
+            
+        }
+        
+//        if remoteParticipantArr.count >= 10 {
+//            return self.view.makeToast("You have reached maximum participants limit", position: .center)
+//        }
         else {
             if messString.contains("meetingfrominvitenotification") {
                 DispatchQueue.main.async {
@@ -39,6 +72,50 @@ extension VideoCallViewController:VideoViewDelegate {
             }
         }
     }
+    func jsonToString(json: AnyObject) -> String{
+            do {
+               
+                let jsonData = try? JSONSerialization.data(withJSONObject: json, options: [])
+                let jsonString = String(data: jsonData!, encoding: .utf8)!
+                return jsonString
+
+            } catch let myJSONError {
+                print(myJSONError)
+                return myJSONError.localizedDescription
+            }
+
+        }
+   
+    
+    
+    public func getChatMessage(msz: String, message:TCHMessage,isOpenChats:Bool) {
+        let nMsz = msz.replacingOccurrences(of: "\n", with: "")
+        let arr = nMsz.split(separator: ":")
+        let senderName = arr.first
+        let lastObj = arr.last?.dropFirst()
+        let mszArr = lastObj?.split(separator: "#")
+        let sName2 = mszArr?.first
+        let msz = mszArr?[1]
+        let sImage = mszArr?[2]
+        let sIdentity = mszArr?[3] ?? ""
+        
+        var data = RowData.init()
+        data.rowType = .txt
+       sIdentity == (userDefaults.string(forKey: "twilioIdentity") ?? "") ? (data.sender = 0) : (data.sender = 1)
+        data.cellIdentifier = .txtCell
+        data.sid = message.sid
+        data.txt = "\(msz ?? "")"
+        data.profileImg = "\(sImage ?? "")"
+        data.name = "\(senderName ?? "")"
+        data.time = message.dateCreated
+       chatArr.append(data)
+        if isOpenChats {
+            NotificationCenter.default.post(name: Notification.Name("chatUpdateWithNotify"), object: nil,userInfo: nil)
+        }
+       
+        print("messString:\(msz),senderName:\(senderName), lastObj:\(lastObj),mszArr:\(mszArr),sName2:\(sName2),msz:\(msz),sImage:\(sImage),sIdentity:\(sIdentity)")
+    }
+
     
     //MARK: Collectionview Delegate and Datasource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -405,14 +482,13 @@ extension VideoCallViewController:VideoViewDelegate {
         print("localVideoTrack1-------->", localVideoTrack)
         if sender.isSelected {
             isChangeView = false
-            self.localAudioTrack = LocalAudioTrack()
-            self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
+            
             if sender.tag == 0 {
                 print("first index local")
                 moreArr[2] = "Unpin video"
                 moreDropDown.dataSource = moreArr
-//                self.localAudioTrack = LocalAudioTrack()
-//                self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
+                self.localAudioTrack = LocalAudioTrack()
+                self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
                 self.isSwitchToRemote = true
                 self.pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: localParticipant, rp: remoteParticipant)]
                 self.vdoCollectionView.isHidden = true
@@ -518,3 +594,11 @@ extension VideoCallViewController:VideoViewDelegate {
     }
 }
 
+extension VideoCallViewController: chatDelegateMethods {
+    func chatRefreshed(chats: [RowData]?) {
+        chatListArr = chats!
+        isOpenChat = false
+    }
+    
+    
+}
