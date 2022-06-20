@@ -49,23 +49,19 @@ class ImageChatCell: UITableViewCell {
                 customerImgProfile.isHidden = true
                 lblCustomerChar.text = obj.name?.first?.uppercased()
             }
-           print("text---------->",obj.txt,"imgurl-------->",obj.imgUrl)
-            let urlStr = obj.txt!.replacingOccurrences(of: " ", with: "%20")
-            let urlPath = URL(string: urlStr)
+         
+            let urlPath = URL(string: obj.imgUrl!)
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == true {
                 btnCustomerPlay.isHidden = true
-                customerImg.sd_setImage(with: URL(string:obj.imgUrl!), placeholderImage: UIImage(named: "person.circle"))
+                customerImg.image = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
+               
             }
             else {
                 btnCustomerPlay.isHidden = false
                 let img = chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
                 customerImg.image = img
-//                chatDetails.share.getThumbnailImageFromVideoUrl(url: URL(string:obj.imgUrl!)!) { image in
-//                    self.customerImg.image = image
-//                }
-                
-            }
+}
             print("filesName---->",obj.txt ?? "","extension--->", urlExt)
             
             lblCustTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
@@ -90,8 +86,20 @@ class ImageChatCell: UITableViewCell {
                     lblVendorChar.text = obj.name?.first?.uppercased()
                 }
 
-            print("imgUrl----2>",obj.imgUrl ?? "")
-            vendorImg.sd_setImage(with: URL(string:obj.imgUrl!), placeholderImage: UIImage(named: "person.circle"))
+            print("text----------2>",obj.txt,"imgurl--------2>",obj.imgUrl)
+            // let urlStr = obj.txt!.replacingOccurrences(of: " ", with: "%20")
+             let urlPath = URL(string: obj.imgUrl!)
+             let urlExt = urlPath?.pathExtension
+             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == true {
+                 btnVendorPlay.isHidden = true
+                 vendorImg.image = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
+             
+             }
+             else {
+                 btnVendorPlay.isHidden = false
+                 let img = chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
+                 vendorImg.image = img
+ }
                 lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
                 lblVendorName.text = obj.name
                 

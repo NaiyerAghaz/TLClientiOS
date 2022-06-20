@@ -24,45 +24,38 @@ extension VideoCallViewController:VideoViewDelegate {
     }
     //When new client added in call this method will call
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
-        // print("call-----------------------------101")
-     //   print("message body:", message.body, "newMsz:", message,"newMszAttr:",message.attributes(), "mediaFilename:",message.mediaFilename)
+        
         let messString = message.body!
-     //chat message adding:
+        //chat message adding:
         
         if message.hasMedia() {
             if !isOpenChat {
-            isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
-//            let dic = message.attributes()?.dictionary
-//            print("dict:", dic, "str------>", message.attributes()?.string)
-         //   print("aa--->", message.accessibilityAttributedHint, message.accessibilityAttributedLabel, message.accessibilityAttributedValue, message.accessibilityAttributedUserInputLabels,message)
-            
-                   
-                    let ndict = message.attributes()?.dictionary
-                    print("channel message--media3>", message,"att:",ndict)
-                    message.getMediaContentTemporaryUrl { result, imgurl in
-                        self.chatVModel.getChatMessage(message: message, istypeImg: true, url: imgurl ?? "") { data, err in
-                            self.chatListArr.append(data!)
-                           
-                        } }
+                isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
+                
+                message.getMediaContentTemporaryUrl { result, imgurl in
+                    self.chatVModel.getChatMessage(message: message, istypeImg: true, url: imgurl ?? "") { data, err in
+                        self.chatListArr.append(data!)
+                        
+                    } }
             }
-            //let dict = CEnumClass.share.convertToDictionary(text:jsonToString(json: message.attributes()) )
+            
             
         }
         else if messString.contains(":") && messString.contains("##"){
             if !isOpenChat{
-            isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
+                isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
                 self.chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
                     self.chatListArr.append(data!)
-                   
+                    
                 }
-      //   getChatMessage(msz: messString, message: message, isOpenChats: isOpenChat)
+                
             }
             
         }
         
-//        if remoteParticipantArr.count >= 10 {
-//            return self.view.makeToast("You have reached maximum participants limit", position: .center)
-//        }
+        //        if remoteParticipantArr.count >= 10 {
+        //            return self.view.makeToast("You have reached maximum participants limit", position: .center)
+        //        }
         else {
             if messString.contains("meetingfrominvitenotification") {
                 DispatchQueue.main.async {
@@ -73,19 +66,19 @@ extension VideoCallViewController:VideoViewDelegate {
         }
     }
     func jsonToString(json: AnyObject) -> String{
-            do {
-               
-                let jsonData = try? JSONSerialization.data(withJSONObject: json, options: [])
-                let jsonString = String(data: jsonData!, encoding: .utf8)!
-                return jsonString
-
-            } catch let myJSONError {
-                print(myJSONError)
-                return myJSONError.localizedDescription
-            }
-
+        do {
+            
+            let jsonData = try? JSONSerialization.data(withJSONObject: json, options: [])
+            let jsonString = String(data: jsonData!, encoding: .utf8)!
+            return jsonString
+            
+        } catch let myJSONError {
+            print(myJSONError)
+            return myJSONError.localizedDescription
         }
-   
+        
+    }
+    
     
     
     public func getChatMessage(msz: String, message:TCHMessage,isOpenChats:Bool) {
@@ -101,21 +94,21 @@ extension VideoCallViewController:VideoViewDelegate {
         
         var data = RowData.init()
         data.rowType = .txt
-       sIdentity == (userDefaults.string(forKey: "twilioIdentity") ?? "") ? (data.sender = 0) : (data.sender = 1)
+        sIdentity == (userDefaults.string(forKey: "twilioIdentity") ?? "") ? (data.sender = 0) : (data.sender = 1)
         data.cellIdentifier = .txtCell
         data.sid = message.sid
         data.txt = "\(msz ?? "")"
         data.profileImg = "\(sImage ?? "")"
         data.name = "\(senderName ?? "")"
         data.time = message.dateCreated
-       chatArr.append(data)
+        chatArr.append(data)
         if isOpenChats {
             NotificationCenter.default.post(name: Notification.Name("chatUpdateWithNotify"), object: nil,userInfo: nil)
         }
-       
+        
         print("messString:\(msz),senderName:\(senderName), lastObj:\(lastObj),mszArr:\(mszArr),sName2:\(sName2),msz:\(msz),sImage:\(sImage),sIdentity:\(sIdentity)")
     }
-
+    
     
     //MARK: Collectionview Delegate and Datasource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -149,14 +142,14 @@ extension VideoCallViewController:VideoViewDelegate {
         cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
         cell.btnPinVideo.layer.cornerRadius = 5
         cell.btnPinVideo.clipsToBounds = true
-       
+        
         
         if remoteParticipantArr.count > 1{
             if indexPath.row == 0 {
                 
                 cell.btnMic.isHidden = true
                 mainPreview.isHidden = true
-               // isAttendMultiPart = true
+                // isAttendMultiPart = true
                 //  self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
                 //  self.lView.contentMode = .scaleAspectFill
                 // self.lView.clipsToBounds = false
@@ -246,7 +239,7 @@ extension VideoCallViewController:VideoViewDelegate {
                             }
                         }
                     }
-              
+                    
                     if pinVideoArr.count > 0 {
                         if pinVideoArr[0].isRemotePin == true {
                             if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
@@ -276,7 +269,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     cell.btnMic.isHidden = true
                     
                     mainPreview.isHidden = true
-                   // isAttendMultiPart = true
+                    // isAttendMultiPart = true
                     // self.lView = VideoView(frame: CGRect(x: 0, y: 0, width: vdoCollectionView.bounds.width, height: vdoCollectionView.bounds.height))
                     // self.lView.contentMode = .scaleAspectFill
                     // self.lView.clipsToBounds = false
@@ -284,7 +277,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
                     cell.audioLbl.isHidden = true
                     cell.lblVideo.isHidden = true
-                   
+                    
                     //cell.isSpeakingLbl.isHidden = true
                     cell.participantName.isHidden = true
                     cell.remoteView.layer.borderColor = UIColor.clear.cgColor
@@ -365,7 +358,7 @@ extension VideoCallViewController:VideoViewDelegate {
                                 }
                             }
                         }
-                      
+                        
                         if pinVideoArr.count > 0 {
                             if pinVideoArr[0].isRemotePin == true {
                                 if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
@@ -392,17 +385,17 @@ extension VideoCallViewController:VideoViewDelegate {
                 let videoPublications = remoteParticipantArr[indexPath.row].remoteVideoTracks
                 let pSID = remoteParticipantArr[indexPath.row].sid
                 
-//                if isAttendMultiPart {
-//                    if (localAudioTrack == nil) {
-//                        localAudioTrack = LocalAudioTrack()
-//                        if (localAudioTrack == nil) {
-//                            self.view.makeToast("Failed to create audio track")
-//                        }
-//                    }
-//
-//                    self.mainPreview.isHidden = false
-//                    cell.btnMic.isHidden = false
-//                }
+                //                if isAttendMultiPart {
+                //                    if (localAudioTrack == nil) {
+                //                        localAudioTrack = LocalAudioTrack()
+                //                        if (localAudioTrack == nil) {
+                //                            self.view.makeToast("Failed to create audio track")
+                //                        }
+                //                    }
+                //
+                //                    self.mainPreview.isHidden = false
+                //                    cell.btnMic.isHidden = false
+                //                }
                 for publication in videoPublications {
                     print("vdoTrackSid2:", publication.trackSid, publication.trackName)
                     if let subscribedVideoTrack = publication.remoteTrack,
@@ -436,7 +429,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     if let audio = audioPub.audioTrack {
                         audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
                     }
-                 
+                    
                 }
                 if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
                     let obj = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
@@ -450,7 +443,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     }
                     
                 }
-               
+                
                 if pinVideoArr.count > 0 {
                     if pinVideoArr[0].isRemotePin == true {
                         if remoteParticipantArr[indexPath.row - 1] == pinVideoArr[0].rp {
@@ -510,7 +503,7 @@ extension VideoCallViewController:VideoViewDelegate {
                 self.mainPreview.isHidden = false
                 self.fullFlashViewChangesMethod(isFlip: false)
             }
-             }
+        }
         else {
             moreArr[2] = "Pin video"
             moreDropDown.dataSource = moreArr

@@ -24,13 +24,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var chatDelegate: chatDelegateMethods?
    var chatVModel = chatViewModels()
  
-    
+    let imagePicker = UIImagePickerController()
+   
     @IBOutlet weak var txtMessage: UITextField!
     var isOpenChat = false
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        
+        imagePicker.delegate = self
         tblView.register(UINib(nibName: "ChatTVCell", bundle: nil), forCellReuseIdentifier: "TextChatCell")
         tblView.register(UINib(nibName: "ImageChatCell", bundle: nil), forCellReuseIdentifier: "ImageChatCell")
         IQKeyboardManager.shared().isEnableAutoToolbar = false

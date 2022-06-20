@@ -64,8 +64,8 @@ extension Dictionary {
 }
 class chatDetails: NSObject {
     static let share = chatDetails()
-    func getchatString(filename: String) -> [AnyHashable: Any] {
-        let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCounts)##\(filename)#\((userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg"))#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+    func getchatString(filename: String, mszCount: Int) -> [AnyHashable: Any] {
+        let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(filename)#\((userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg"))#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
         let jsonObj:[AnyHashable:Any] = ["attributes": msz]
         return jsonObj
     }
@@ -118,6 +118,54 @@ class chatDetails: NSObject {
                 DispatchQueue.main.async {
                     completion(nil) //11
                 }
+            }
+        }
+    }
+    func getImageFromName(fileName: String) -> UIImage?{
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let url = documentsDirectory.appendingPathComponent(fileName)
+        
+        if let imageData = try? Data(contentsOf: url) {
+            let image = UIImage(data: imageData) // HERE IS YOUR IMAGE! Do what you want with it!
+            return image
+            
+        } else {
+            print("Couldn't get image for \(fileName)")
+            return nil
+            
+        }
+    }
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    func downloadImage(from url: URL, completion:@escaping(UIImage?) ->()){
+        print("Download Started")
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+          //  print(response?.suggestedFilename ?? url.lastPathComponent)
+            print("Download Finished")
+            // always update the UI from the main thread
+//            DispatchQueue.main.async() { [weak self] in
+//                self?.imageView.image = UIImage(data: data)
+//            }
+            completion(UIImage(data: data))
+           
+        }
+       
+    }
+    func saveImageLocally(image: UIImage, fileName: String) {
+        
+     // Obtaining the Location of the Documents Directory
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        // Creating a URL to the name of your file
+        let url = documentsDirectory.appendingPathComponent(fileName)
+        
+        if let data = image.jpegData(compressionQuality: 1) {
+            do {
+                try data.write(to: url) // Writing an Image in the Documents Directory
+            } catch {
+                print("Unable to Write \(fileName) Image Data to Disk")
             }
         }
     }
