@@ -75,9 +75,11 @@ extension VideoCallViewController:RoomDelegate{
         if localAudioTrack != nil {
             localAudioTrack = nil
         }
+       
         if remoteParticipantArr.count > 0{
+            chatClosed()
             if customerEndCall == false {
-            print("backtomain---------->2")
+           
             updateYourFeedback()
             }
         }

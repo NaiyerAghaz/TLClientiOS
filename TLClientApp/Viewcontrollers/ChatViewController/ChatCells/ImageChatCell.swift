@@ -50,19 +50,19 @@ class ImageChatCell: UITableViewCell {
                 lblCustomerChar.text = obj.name?.first?.uppercased()
             }
          
-            let urlPath = URL(string: obj.imgUrl!)
-            let urlExt = urlPath?.pathExtension
-            if chatDetails.share.getUploadedFileExtension(file: urlExt!) == true {
+           let urlPath = URL(string: obj.imgUrl!)
+           let urlExt = urlPath?.pathExtension
+            if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
                 btnCustomerPlay.isHidden = true
                 customerImg.image = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
                
             }
             else {
                 btnCustomerPlay.isHidden = false
-                let img = chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
+                let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)//chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
                 customerImg.image = img
 }
-            print("filesName---->",obj.txt ?? "","extension--->", urlExt)
+            print("filesName---->",obj.txt ?? "","extension--->",urlExt)
             
             lblCustTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblCustomerName.text = obj.name
@@ -90,14 +90,15 @@ class ImageChatCell: UITableViewCell {
             // let urlStr = obj.txt!.replacingOccurrences(of: " ", with: "%20")
              let urlPath = URL(string: obj.imgUrl!)
              let urlExt = urlPath?.pathExtension
-             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == true {
+             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
                  btnVendorPlay.isHidden = true
                  vendorImg.image = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
              
              }
              else {
                  btnVendorPlay.isHidden = false
-                 let img = chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
+                 let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)
+              
                  vendorImg.image = img
  }
                 lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
@@ -105,6 +106,7 @@ class ImageChatCell: UITableViewCell {
                 
             
         }
+        
         
         
     }

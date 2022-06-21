@@ -40,8 +40,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>This app need to access your media.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Access Mobile Camera</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>This app need to access your documents.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -52,10 +56,6 @@
 	<string>This app requires access for client location to make sure vendors are in there specified location from their profile to attend video remote interpretation(VRI) and over the phone interpretation (OPI).</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to access your microphone</string>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>This app need to access your documents.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>This app need to access your media.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app need to access your photo library.</string>
 	<key>UIAppFonts</key>

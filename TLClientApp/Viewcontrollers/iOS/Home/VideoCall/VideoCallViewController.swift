@@ -12,6 +12,7 @@ import CallKit
 import DropDown
 import TwilioChatClient
 import Malert
+import IQKeyboardManager
 
 
 class VideoCallViewController: UIViewController, LocalParticipantDelegate, TwilioChatClientDelegate,AcceptAndRejectDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
@@ -54,8 +55,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
    
-    var isOpenChat = false
-    var chatVModel = chatViewModels()
+   
     @IBOutlet weak var btnSpeak: UIButton!
     @IBOutlet weak var btnCameraFlip: UIButton!
     @IBOutlet weak var btnMore: UIButton!
@@ -84,6 +84,17 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     
     @IBOutlet weak var chatIndicatorView: UIView!
     //End
+    //Chat Outlets and var
+    @IBOutlet weak var chatView: UIView!
+    var isOpenChat = false
+    var chatVModel = chatViewModels()
+    @IBOutlet weak var chatBottomConstant: NSLayoutConstraint!
+    let imagePicker = UIImagePickerController()
+    @IBOutlet weak var tblView: UITableView!
+  
+   @IBOutlet weak var txtMessage: UITextField!
+    //END
+    
     var vendorTbl : UITableView = UITableView()
     var lblParticipant = UILabel()
     var callingImageView = UIImageView()
@@ -129,6 +140,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var isSwitchToRemote = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        chatView.isHidden = true
         chatIndicatorView.isHidden = true
         mainPreview.frame = CGRect(x: self.view.frame.size.width - 140, y: 60, width: 160, height: 160)
         reCreatePreview()
@@ -170,7 +182,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             genarateChatTokenCreate()
         }
         self.vdoCollectionView.isPrefetchingEnabled = false
-        
+        getChatConfig()
     }
     
     //MARK: Configure With Twilio
@@ -343,9 +355,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         moreDropDown.selectionAction = { [self] (index, item) in
             print("Index seletected more:", index, item)
             if index == 0 {
-                print("chat")
+                self.chatView.isHidden = false
+                self.chatView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+                isOpenChat = true
+                if chatListArr.count > 0 {
+                    self.tblView.reloadData()
+                }
                 //test call
-                let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
+                /*let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
                 let vc = sB.instantiateViewController(withIdentifier: Control_Name.chatVC) as! ChatViewController
                 vc.chatChannel = myChannel
                 chatIndicatorView.isHidden = true
@@ -354,7 +371,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 isOpenChat = true
                vc.arrChatSection = self.chatListArr
                 vc.modalPresentationStyle = .overFullScreen
-                self.present(vc, animated: true, completion: nil)
+                self.present(vc, animated: true, completion: nil)*/
             }else if index == 1{
                 print("camera--------->", camera?.device, "::", camera)
                 if self.isChangeView == false  {
@@ -922,34 +939,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     //====================END=============================
     @objc  func ringingCallStart(){
         CEnumClass.share.playSounds(audioName: "incoming")
-        /*  ringingTime -= 2
-         if ringingTime <= 0 {
-         myAudio!.stop()
-         timer.invalidate()
-         if (self.camera != nil){
-         camera?.stopCapture()
-         camera = nil
-         }
-         if (room != nil){
-         room?.disconnect()
-         if (self.camera != nil){
-         camera?.stopCapture()
-         camera = nil
-         }
-         if (localVideoTrack != nil){
-         localVideoTrack = nil
-         }
-         if localAudioTrack != nil {
-         localAudioTrack = nil
-         }
-         dismissViewControllers()
-         }
-         else {
-         dismissViewControllers()
-         }}
-         else {
-         CEnumClass.share.playSounds(audioName: "incoming")
-         }*/
+       
     }
     
     // MARK:- Private
@@ -1258,7 +1248,87 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         let seconds = Int(time) % 60
         return String(format:"%02i:%02i:%02i", hours, minutes, seconds)
     }
+    //MARK: Chat Implementations
+    //<************Chat Implementation start******************>//
+    func getChatConfig(){
+        imagePicker.delegate = self
+        tblView.register(UINib(nibName: "ChatTVCell", bundle: nil), forCellReuseIdentifier: "TextChatCell")
+        tblView.register(UINib(nibName: "ImageChatCell", bundle: nil), forCellReuseIdentifier: "ImageChatCell")
+        IQKeyboardManager.shared().isEnableAutoToolbar = false
+        
+        IQKeyboardManager.shared().isEnabled = false
+     addKeyBoardListener()
+//        chatChannel?.delegate = self
+//        joinChannel()
+        txtMessage.delegate = self
+        tblView.tableFooterView = UIView(frame: .zero)
+        tblView.separatorStyle = .none
+    }
     
+    @IBAction func btnSendMszTapped(_ sender: Any) {
+        
+        //@Test #Narendra2##hi#/ProfileImages/Profiles/2022-Mar-30-0313541648624430629.png#SneakyBobbySaintPaul
+        
+        if !txtMessage.text!.isEmpty {
+            mszCounts = mszCounts + 1
+            let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCounts)##\(txtMessage.text!)#\((userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg"))#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+            print("message body->", msz)
+          
+            let mszOption = TCHMessageOptions.init()
+            mszOption.withBody(msz)
+            self.myChannel?.messages?.sendMessage(with: mszOption, completion: { chResult, chMessage in
+                if chResult.isSuccessful() {
+                    self.txtMessage.text = ""
+                    debugPrint("message has updated----------------->>",chMessage, "chResult:",chResult)
+                }
+            })
+        }
+        else {
+            self.view.makeToast(ConstantStr.msz.val)
+        }
+        
+    }
+    @IBAction func btnAttachedTapped(_ sender: Any) {
+        let chatAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let doc = UIAlertAction(title: "Documnets", style: .default) { alert in
+            self.showDocuments()
+        }
+        let gallery = UIAlertAction(title: "Gallery", style: .default) { alert in
+            //MARK:Show Gallery
+            self.showPhotoGallery()
+            
+        }
+        let audio = UIAlertAction(title: "Audio", style: .default) { alert in
+            self.showAudio()
+        }
+        let video = UIAlertAction(title: "Video", style: .default) { alert in
+            self.showVideo()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .bold, scale: .large)
+        //doc
+        let imgDoc = UIImage(systemName: "doc.circle.fill", withConfiguration: largeConfig)
+        doc.setValue(imgDoc?.withRenderingMode(.alwaysOriginal), forKey: "image")
+        chatAlert.addAction(doc)
+       
+        //gallery
+        
+        let imgGallery =  UIImage(systemName: "photo.on.rectangle.angled", withConfiguration: largeConfig)
+        gallery.setValue(imgGallery?.withRenderingMode(.alwaysOriginal), forKey: "image")
+        chatAlert.addAction(gallery)
+        //Audio
+      let imgAudio =  UIImage(systemName: "headphones.circle.fill", withConfiguration: largeConfig)
+        audio.setValue(imgAudio?.withRenderingMode(.alwaysOriginal), forKey: "image")
+       chatAlert.addAction(audio)
+        //Video
+        let imgVdo =  UIImage(systemName: "video.circle.fill", withConfiguration: largeConfig)
+        video.setValue(imgVdo?.withRenderingMode(.alwaysOriginal), forKey: "image")
+        chatAlert.addAction(video)
+       
+        chatAlert.addAction(cancel)
+        self.present(chatAlert, animated: true)
+    }
+    //end chats code
 }
 
 // MARK:- CameraSourceDelegate

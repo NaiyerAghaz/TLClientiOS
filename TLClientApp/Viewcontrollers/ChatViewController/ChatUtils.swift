@@ -69,19 +69,61 @@ class chatDetails: NSObject {
         let jsonObj:[AnyHashable:Any] = ["attributes": msz]
         return jsonObj
     }
-    func getUploadedFileExtension(file:String) -> Bool {
+    func getUploadedFileExtension(file:String) -> Int {
+        
         switch file {
         case "jpg":
-            return true
+            return 1
         case "png":
-            return true
+            return 1
         case "jpeg":
-            return true
+            return 1
         case "gif":
-            return true
-            
+            return 1
+        case "MOV":
+            return 2
+        case "mov":
+            return 2
+        case "mp4":
+            return 2
+        case "3gp":
+            return 2
+        case "flv":
+            return 2
+        case "avi":
+            return 2
+        case "wmv":
+            return 2
+        case "mp3":
+            return 3
+        case "wav":
+            return 3
+        case "aac":
+            return 3
+        case "amr":
+            return 3
+        case "ogg":
+            return 3
+        case "doc":
+           return 4
+        case "docx":
+            return 4
+        case "pdf":
+            return 4
+        case "xls":
+            return 4
+        case "xlsx":
+            return 4
+        case "ppt":
+            return 4
+        case "pptx":
+            return 4
+        case "txt":
+            return 4
+        case "zip":
+            return 4
         default:
-            return false
+            return 0
         }
     }
     func getThumbnailFrom(path: URL) -> UIImage? {
@@ -168,6 +210,26 @@ class chatDetails: NSObject {
                 print("Unable to Write \(fileName) Image Data to Disk")
             }
         }
+    }
+     func createVideoThumbnail(fileName:String) -> UIImage? {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let url = documentsDirectory.appendingPathComponent(fileName)
+        let asset = AVAsset(url: url)
+        let assetImgGenerate = AVAssetImageGenerator(asset: asset)
+        assetImgGenerate.appliesPreferredTrackTransform = true
+        assetImgGenerate.maximumSize = CGSize(width: 400, height: 400)
+
+        let time = CMTimeMakeWithSeconds(0.0, preferredTimescale: 600)
+        do {
+            let img = try assetImgGenerate.copyCGImage(at: time, actualTime: nil)
+            let thumbnail = UIImage(cgImage: img)
+            return thumbnail
+        }
+        catch {
+          print(error.localizedDescription)
+          return nil
+        }
+
     }
 }
 

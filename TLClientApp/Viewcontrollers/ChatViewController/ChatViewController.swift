@@ -14,19 +14,18 @@ import MobileCoreServices
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
-    @IBOutlet weak var chatBottomConstant: NSLayoutConstraint!
+    var chatDelegate: chatDelegateMethods?
     var arrChatSection = [RowData]()
     var chatChannel : TCHChannel?
     // var localParticipants : LocalParticipant?
-    var messages:Set<TCHMessage> = Set<TCHMessage>()
-    var sortedMessages:[TCHMessage]!
-    @IBOutlet weak var tblView: UITableView!
-    var chatDelegate: chatDelegateMethods?
-   var chatVModel = chatViewModels()
- 
+   // var messages:Set<TCHMessage> = Set<TCHMessage>()
+   // var sortedMessages:[TCHMessage]!
+    var chatVModel = chatViewModels()
+    @IBOutlet weak var chatBottomConstant: NSLayoutConstraint!
     let imagePicker = UIImagePickerController()
-   
-    @IBOutlet weak var txtMessage: UITextField!
+    @IBOutlet weak var tblView: UITableView!
+  
+   @IBOutlet weak var txtMessage: UITextField!
     var isOpenChat = false
     override func viewDidLoad() {
         super.viewDidLoad()

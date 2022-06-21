@@ -12,7 +12,8 @@ import MobileCoreServices
 import MediaPlayer
 import TwilioChatClient
 import TwilioVideo
-
+import Photos
+import Moya
 struct RowData {
     var rowType: RowType = .txt
     var sender : Int? = 0
@@ -54,7 +55,7 @@ class chatViewModels {
             let ndict = message.attributes()?.dictionary
             
             let mszStr = ndict![AnyHashable("attributes")] as! String
-            
+            print("mszStr---->",mszStr)
             if mszStr.contains(":") && mszStr.contains("##") {
                 let nMsz = mszStr.replacingOccurrences(of: "\n", with: "")
                 let arr = nMsz.split(separator: ":")
@@ -62,27 +63,70 @@ class chatViewModels {
                 let lastObj = arr.last?.dropFirst()
                 let mszArr = lastObj?.split(separator: "#")
                 let sName2 = mszArr?.first
-                let msz = mszArr?[1]
+                let msz = mszArr?[1] ?? ""
                 let sImage = mszArr?[2]
                 let sIdentity = mszArr?[3] ?? ""
                 var data = RowData.init()
-                let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".jpg").replacingOccurrences(of: " ", with: "")
-                chatDetails.share.downloadImage(from: URL(string: url)!) { img in
-                    chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
-                    data.rowType = .img
-                    data.cellIdentifier = .imgCell
-                    
-                    data.sender = 1
-                    
-                    data.sid = message.sid
-                    data.imgUrl = fileName
-                    data.txt = "\(msz ?? "")"
-                    data.profileImg = "\(sImage ?? "")"
-                    data.name = "\(senderName ?? "")"
-                    data.time = message.dateCreated
-                    print("senderName:\(senderName),sName2:\(sName2), sImage:\(sImage),sIdentity:\(sIdentity), imgurl = \( data.imgUrl),msz::\(msz), fileName:\(fileName)")
-                    completionHandler(data, nil)
+                let urlPath = URL(string: String(msz))
+                let urlExt = urlPath?.pathExtension
+                if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
+                    let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                    chatDetails.share.downloadImage(from: URL(string: url)!) { img in
+                        chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
+                        data.rowType = .img
+                        data.cellIdentifier = .imgCell
+                        data.sender = 1
+                        data.sid = message.sid
+                        data.imgUrl = fileName
+                        data.txt = String(msz)
+                        data.profileImg = "\(sImage ?? "")"
+                        data.name = "\(senderName ?? "")"
+                        data.time = message.dateCreated
+                       
+                        completionHandler(data, nil)
+                    }
                 }
+                else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 2 {
+                    let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                    let docsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+                    let destinationURL = docsUrl?.appendingPathComponent(fileName)
+                    
+                    if let vdoUrl = URL(string: url) {
+                        URLSession.shared.downloadTask(with: vdoUrl) {(tempUrl,response,error) in
+                            if let fullUrl = tempUrl {
+                                DispatchQueue.main.async {
+                                    do
+                                    {
+                                      let vData = try Data(contentsOf: fullUrl)
+                                        print("download video temp url--------->", fullUrl)
+
+                                        // 2
+                                        try vData.write(to: destinationURL!,options: .atomic)
+                                        data.rowType = .img
+                                        data.cellIdentifier = .imgCell
+                                        
+                                        data.sender = 1
+                                        data.vdoUrl = url
+                                        data.sid = message.sid
+                                        data.imgUrl = fileName
+                                        data.txt = String(msz)
+                                        data.profileImg = "\(sImage ?? "")"
+                                        data.name = "\(senderName ?? "")"
+                                        data.time = message.dateCreated
+                                       
+                                        completionHandler(data, nil)
+                                    
+                                   
+                                  }
+                                catch{
+                                    print("dowload error video")
+                                }}
+                            }
+                        }.resume()
+                    }
+                    
+                }
+                print("senderName:\(senderName),sName2:\(sName2), sImage:\(sImage),sIdentity:\(sIdentity), imgurl = \( data.imgUrl),msz::\(msz)")
             }
             
         }
@@ -116,6 +160,9 @@ class chatViewModels {
         
         
     }
+    func downloadVideo(){
+        
+    }
 }
 
 extension ChatViewController : TCHChannelDelegate {
@@ -145,7 +192,10 @@ extension ChatViewController : TCHChannelDelegate {
                             self.tblView.scrollToBottomRow()
                         }
                     }
-                }}
+                }
+                
+                
+            }
             else {
                 
                 chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
@@ -403,35 +453,7 @@ extension ChatViewController:UIDocumentPickerDelegate,MPMediaPickerControllerDel
             
             
         }
-        
-        //        else if picker.sourceType == .camera
-        //        {
-        //            if  let newImage = info[.originalImage] as? UIImage
-        //
-        //            {
-        ////                let logId = userDefaults.string(forKey: "studioUserID")
-        ////                self.sendImg = newImage
-        ////                // uploadImgae()
-        ////                self.sendImg = newImage
-        ////                if CEnumClass.instance.isCustomerLogin! {
-        ////
-        ////
-        ////                    let userChatId = logId! + "_" + self.chatId!
-        ////                    uploadImageToServer(img: newImage, nSender: "0", userChatId: userChatId)
-        ////                    notificationMessageMethod(logid: logId!, text: "📷 Photo", senderType: "0", name: senderName!,userImage: senderImg ?? "", userName: senderName ?? "", appType: "customer")
-        ////                    //uploadImgae(img: newImage, nSender: "0")
-        ////                }
-        ////                else {
-        ////                    let userChatId = self.chatId! + "_" + logId!
-        ////                    uploadImageToServer(img: newImage, nSender: "1", userChatId: userChatId)
-        ////                    notificationMessageMethod(logid: logId!, text: "📷 Photo", senderType: "1", name: senderName!,userImage: senderImg ?? "", userName: senderName ?? "", appType: "business")
-        ////                    //  uploadImgae(img: newImage, nSender: "1")
-        ////                }
-        //
-        //
-        //            }
-        //        }
-        picker.dismiss(animated: true, completion: nil)
+       picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController)

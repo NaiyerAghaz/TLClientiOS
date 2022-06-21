@@ -24,34 +24,74 @@ extension VideoCallViewController:VideoViewDelegate {
     }
     //When new client added in call this method will call
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
-        
         let messString = message.body!
         //chat message adding:
         
         if message.hasMedia() {
-            if !isOpenChat {
+           
                 isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
                 
+//                message.getMediaContentTemporaryUrl { result, imgurl in
+//                    self.chatVModel.getChatMessage(message: message, istypeImg: true, url: imgurl ?? "") { data, err in
+//                        self.chatListArr.append(data!)
+//
+//                    } }
+            let ndict = message.attributes()?.dictionary
+            let mszStr = ndict![AnyHashable("attributes")] as! String
+            print("mszSTR---->", mszStr)
+            let cusIndetity = userDefaults.string(forKey: "twilioIdentity")
+            if !mszStr.contains(cusIndetity!){
                 message.getMediaContentTemporaryUrl { result, imgurl in
                     self.chatVModel.getChatMessage(message: message, istypeImg: true, url: imgurl ?? "") { data, err in
                         self.chatListArr.append(data!)
-                        
-                    } }
-            }
-            
-            
-        }
-        else if messString.contains(":") && messString.contains("##"){
-            if !isOpenChat{
-                isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
-                self.chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
-                    self.chatListArr.append(data!)
-                    
-                }
+                        if self.isOpenChat {
+                           
+                            DispatchQueue.main.async {
+                                self.chatIndicatorView.isHidden = true
+                                self.tblView.reloadData()
+                                self.view.layoutIfNeeded()
+                                self.tblView.scrollToBottomRow()
+                                
+                            }
+                        }
+                        else {
+                            DispatchQueue.main.async {
+                                self.chatIndicatorView.isHidden = false
+                            }
+                           
+                        }
+                        } }
                 
-            }
-            
-        }
+            }else {
+                if self.isOpenChat {
+                   
+                    DispatchQueue.main.async {
+                        self.chatIndicatorView.isHidden = true
+                        if self.chatListArr.count > 0 {
+                            self.tblView.reloadData()
+                            self.view.layoutIfNeeded()
+                            self.tblView.scrollToBottomRow()
+                        }
+                    }
+                }
+                else{
+                    self.chatIndicatorView.isHidden = false
+                }}}
+        else if messString.contains(":") && messString.contains("##"){
+           self.chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
+                    self.chatListArr.append(data!)
+                    if self.isOpenChat {
+                        self.chatIndicatorView.isHidden = true
+                        DispatchQueue.main.async {
+                            self.tblView.reloadData()
+                            self.view.layoutIfNeeded()
+                            self.tblView.scrollToBottomRow()
+                        }
+                       }
+                    else {
+                        self.chatIndicatorView.isHidden = false
+                    }
+                   }}
         
         //        if remoteParticipantArr.count >= 10 {
         //            return self.view.makeToast("You have reached maximum participants limit", position: .center)

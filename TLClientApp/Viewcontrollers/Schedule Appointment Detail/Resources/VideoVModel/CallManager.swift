@@ -220,6 +220,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                     }
                 }
                 else {
+                    print("vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count------>",vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count)
                     DispatchQueue.main.async {
                         self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 1)"
                         
@@ -348,6 +349,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         
     }
     func backToMainController(){
+        chatClosed()
         print("backtomain---------->1")
         if remoteParticipantArr.count > 0 {
             remoteParticipantArr.removeAll()

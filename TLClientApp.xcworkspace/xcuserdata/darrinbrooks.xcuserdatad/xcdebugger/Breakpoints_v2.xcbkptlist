@@ -1226,8 +1226,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "654"
-            endingLineNumber = "654"
+            startingLineNumber = "656"
+            endingLineNumber = "656"
             landmarkName = "remoteParticipantDidDisableAudioTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1242,8 +1242,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "599"
-            endingLineNumber = "599"
+            startingLineNumber = "601"
+            endingLineNumber = "601"
             landmarkName = "remoteParticipantDidEnableAudioTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1418,8 +1418,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "500"
-            endingLineNumber = "500"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
             landmarkName = "remoteParticipantDidEnableVideoTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1434,8 +1434,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "remoteParticipantDidEnableVideoTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1450,8 +1450,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "498"
-            endingLineNumber = "498"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "remoteParticipantDidEnableVideoTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1466,8 +1466,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "652"
-            endingLineNumber = "652"
+            startingLineNumber = "669"
+            endingLineNumber = "669"
             landmarkName = "refresh(isaccept:pid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1482,8 +1482,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "650"
-            endingLineNumber = "650"
+            startingLineNumber = "667"
+            endingLineNumber = "667"
             landmarkName = "refresh(isaccept:pid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1498,8 +1498,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "707"
-            endingLineNumber = "707"
+            startingLineNumber = "724"
+            endingLineNumber = "724"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1514,8 +1514,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "706"
-            endingLineNumber = "706"
+            startingLineNumber = "723"
+            endingLineNumber = "723"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1610,8 +1610,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "676"
-            endingLineNumber = "676"
+            startingLineNumber = "693"
+            endingLineNumber = "693"
             landmarkName = "getHostControl(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1626,8 +1626,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "679"
-            endingLineNumber = "679"
+            startingLineNumber = "696"
+            endingLineNumber = "696"
             landmarkName = "getHostControl(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1658,8 +1658,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1095"
-            endingLineNumber = "1095"
+            startingLineNumber = "1085"
+            endingLineNumber = "1085"
             landmarkName = "fullFlashViewChangesMethod(isFlip:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1674,8 +1674,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1127"
-            endingLineNumber = "1127"
+            startingLineNumber = "1117"
+            endingLineNumber = "1117"
             landmarkName = "fullFlashViewChangesMethod(isFlip:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1690,8 +1690,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "703"
-            endingLineNumber = "703"
+            startingLineNumber = "720"
+            endingLineNumber = "720"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1706,8 +1706,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "704"
-            endingLineNumber = "704"
+            startingLineNumber = "721"
+            endingLineNumber = "721"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1770,8 +1770,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "backToMainController()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1786,8 +1786,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
             landmarkName = "backToMainController()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1802,8 +1802,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/RoomDelegates.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
             landmarkName = "participantDidDisconnect(room:participant:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1850,8 +1850,8 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "chatClient(_:channel:messageAdded:)"
             landmarkType = "7">
          </BreakpointContent>
