@@ -156,13 +156,77 @@
             </objects>
             <point key="canvasLocation" x="-565.21739130434787" y="97.767857142857139"/>
         </scene>
+        <!--Image Popup View Controller-->
+        <scene sceneID="4Ym-fU-PjO">
+            <objects>
+                <viewController storyboardIdentifier="ImagePopupViewController" modalTransitionStyle="crossDissolve" id="jSw-YS-10K" customClass="ImagePopupViewController" customModule="TLClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Xxo-Q7-aBJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oot-vU-I6D">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kak-bv-h4e">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJD-bQ-1WU">
+                                <rect key="frame" x="374" y="44" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="23A-d4-5bK"/>
+                                    <constraint firstAttribute="width" constant="40" id="CZn-A0-vU7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="multiply.circle.fill" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnCloseTapped:" destination="jSw-YS-10K" eventType="touchUpInside" id="dce-p1-iMm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Mwx-EV-uF4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Kak-bv-h4e" firstAttribute="trailing" secondItem="Mwx-EV-uF4" secondAttribute="trailing" id="8d6-zT-eVp"/>
+                            <constraint firstItem="Oot-vU-I6D" firstAttribute="trailing" secondItem="Mwx-EV-uF4" secondAttribute="trailing" id="Buw-Hl-h73"/>
+                            <constraint firstItem="Kak-bv-h4e" firstAttribute="bottom" secondItem="Mwx-EV-uF4" secondAttribute="bottom" id="Er5-gf-jPa"/>
+                            <constraint firstItem="Kak-bv-h4e" firstAttribute="leading" secondItem="Mwx-EV-uF4" secondAttribute="leading" id="HMo-g6-GmY"/>
+                            <constraint firstItem="Kak-bv-h4e" firstAttribute="top" secondItem="Mwx-EV-uF4" secondAttribute="top" id="L8l-X7-pNr"/>
+                            <constraint firstItem="GJD-bQ-1WU" firstAttribute="top" secondItem="Mwx-EV-uF4" secondAttribute="top" id="WoI-go-UQE"/>
+                            <constraint firstItem="Mwx-EV-uF4" firstAttribute="trailing" secondItem="GJD-bQ-1WU" secondAttribute="trailing" id="bNf-5T-760"/>
+                            <constraint firstItem="Oot-vU-I6D" firstAttribute="leading" secondItem="Mwx-EV-uF4" secondAttribute="leading" id="bTz-J7-8ZI"/>
+                            <constraint firstItem="Oot-vU-I6D" firstAttribute="top" secondItem="Mwx-EV-uF4" secondAttribute="top" id="qtN-3X-EAg"/>
+                            <constraint firstItem="Oot-vU-I6D" firstAttribute="bottom" secondItem="Mwx-EV-uF4" secondAttribute="bottom" id="waA-lZ-CMP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imgView" destination="Kak-bv-h4e" id="Nc3-Yl-jdG"/>
+                        <outlet property="popupWebView" destination="Oot-vU-I6D" id="Sao-hL-T2l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hb2-G6-Kxe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="440.57971014492756" y="77.678571428571431"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="multiply.circle.fill" catalog="system" width="128" height="121"/>
         <image name="paperclip" catalog="system" width="121" height="128"/>
         <image name="paperplane" catalog="system" width="128" height="118"/>
         <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -201,7 +201,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let imgCell = tableView.dequeueReusableCell(withIdentifier:"ImageChatCell") as! ImageChatCell
                 imgCell.configureImg(obj: rowData)
                 return imgCell
-             case .audioP:
+             case .audio:
                 print("audioP")
                 break
                 

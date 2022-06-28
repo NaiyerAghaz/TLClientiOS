@@ -171,6 +171,7 @@
 		7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */; };
 		7362A7EE281BB56000BBEFB8 /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */; };
 		7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */; };
+		736EFB2B28658B1A0075277A /* ImagePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736EFB2A28658B1A0075277A /* ImagePopupViewController.swift */; };
 		737511FD282A371200619EA7 /* RecurrenceCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737511FC282A371200619EA7 /* RecurrenceCalendarView.swift */; };
 		737511FF282A3F9800619EA7 /* ProtocolsMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 737511FE282A3F9800619EA7 /* ProtocolsMethods.swift */; };
 		73751201282A7ACE00619EA7 /* RecurrenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73751200282A7ACE00619EA7 /* RecurrenceModel.swift */; };
@@ -205,6 +206,8 @@
 		73BAF2F127E3380500AAF30C /* VendorCallStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */; };
 		73BAF2F327E8A69600AAF30C /* DraggedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BAF2F227E8A69600AAF30C /* DraggedView.swift */; };
 		73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */; };
+		73C95E5B2862EE6B00D19AD2 /* AudioTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C95E592862EE6B00D19AD2 /* AudioTVCell.swift */; };
+		73C95E5C2862EE6B00D19AD2 /* AudioTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73C95E5A2862EE6B00D19AD2 /* AudioTVCell.xib */; };
 		73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB308227D9C90D006A17DE /* FeedbackModel.swift */; };
 		73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
 		73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
@@ -463,6 +466,7 @@
 		7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
 		7362A7E9281BB56000BBEFB8 /* ActiveBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveBuilder.swift; sourceTree = "<group>"; };
 		7362A7EA281BB56000BBEFB8 /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
+		736EFB2A28658B1A0075277A /* ImagePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePopupViewController.swift; sourceTree = "<group>"; };
 		737511FC282A371200619EA7 /* RecurrenceCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceCalendarView.swift; sourceTree = "<group>"; };
 		737511FE282A3F9800619EA7 /* ProtocolsMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolsMethods.swift; sourceTree = "<group>"; };
 		73751200282A7ACE00619EA7 /* RecurrenceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurrenceModel.swift; sourceTree = "<group>"; };
@@ -493,6 +497,8 @@
 		73BAF2F027E3380500AAF30C /* VendorCallStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorCallStatusModel.swift; sourceTree = "<group>"; };
 		73BAF2F227E8A69600AAF30C /* DraggedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggedView.swift; sourceTree = "<group>"; };
 		73C059F927BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnsiteAppointmentTableWork.swift; sourceTree = "<group>"; };
+		73C95E592862EE6B00D19AD2 /* AudioTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTVCell.swift; sourceTree = "<group>"; };
+		73C95E5A2862EE6B00D19AD2 /* AudioTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioTVCell.xib; sourceTree = "<group>"; };
 		73CB308227D9C90D006A17DE /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
 		73DFFC7427BB896C007EE602 /* ConstantString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantString.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1026,7 +1032,6 @@
 		73165B6D27D793EB008FCCC2 /* VideoCall */ = {
 			isa = PBXGroup;
 			children = (
-				7338E1C328607B4900740336 /* ChatsView */,
 				73BAF2E727E1E2B900AAF30C /* SwitchToAudioVC */,
 				738878F027D8AE0D00C7614B /* Feedback */,
 				29F8CFE7274E76BA006243EC /* CallingPopUpVC.swift */,
@@ -1053,14 +1058,6 @@
 			path = BlockedAppointmentDetailsVC;
 			sourceTree = "<group>";
 		};
-		7338E1C328607B4900740336 /* ChatsView */ = {
-			isa = PBXGroup;
-			children = (
-				7338E1C428607BAE00740336 /* ChatsView.swift */,
-			);
-			path = ChatsView;
-			sourceTree = "<group>";
-		};
 		7341BD31284DC60B00BA8E29 /* ChatViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,7 +1065,9 @@
 				7341BD32284DD19400BA8E29 /* TLCChat.storyboard */,
 				7341BD34284DD1B200BA8E29 /* ChatViewController.swift */,
 				7341BD3B284E03D300BA8E29 /* ChatModels.swift */,
+				7338E1C428607BAE00740336 /* ChatsView.swift */,
 				7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */,
+				736EFB2A28658B1A0075277A /* ImagePopupViewController.swift */,
 			);
 			path = ChatViewController;
 			sourceTree = "<group>";
@@ -1080,6 +1079,8 @@
 				7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */,
 				738364DB285760E8004C2B15 /* ImageChatCell.swift */,
 				738364DC285760E8004C2B15 /* ImageChatCell.xib */,
+				73C95E592862EE6B00D19AD2 /* AudioTVCell.swift */,
+				73C95E5A2862EE6B00D19AD2 /* AudioTVCell.xib */,
 			);
 			path = ChatCells;
 			sourceTree = "<group>";
@@ -1730,6 +1731,7 @@
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
 				CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */,
+				73C95E5C2862EE6B00D19AD2 /* AudioTVCell.xib in Resources */,
 				7341BD33284DD19400BA8E29 /* TLCChat.storyboard in Resources */,
 				7341BD3A284DDADD00BA8E29 /* ChatTVCell.xib in Resources */,
 				29B3C754274CF255006345E0 /* incoming.mp3 in Resources */,
@@ -1926,6 +1928,7 @@
 				7382637E27FD5CF400FD3695 /* AddUpdateVenueVC.swift in Sources */,
 				CE2704B026BCE7BE00009E77 /* TLClientApp.xcdatamodeld in Sources */,
 				73ACC5E3280D7AC400128217 /* BookedStatusVC.swift in Sources */,
+				73C95E5B2862EE6B00D19AD2 /* AudioTVCell.swift in Sources */,
 				04CB27C7273E6EB300E54408 /* ApiAppointmentDetailResponseModel.swift in Sources */,
 				CE3FE08D26C90210000BD19F /* CalendarTVCell.swift in Sources */,
 				04C17E5E273154A800297528 /* DocumentTranslationJobTypeDataModel.swift in Sources */,
@@ -2038,6 +2041,7 @@
 				C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */,
 				73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */,
 				29981FE527721486003DF75E /* ApiPostTableData.swift in Sources */,
+				736EFB2B28658B1A0075277A /* ImagePopupViewController.swift in Sources */,
 				04C5E3D42739290B00C910A5 /* ApiUSERLOGOSDataModel.swift in Sources */,
 				CE76024B26CF77D300550B68 /* ScheduledVRIVIewController.swift in Sources */,
 				C63805D127982EA400A4AB39 /* ApiGetCustomerDetailResponseModel.swift in Sources */,
@@ -2314,8 +2318,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6Z22496273;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
@@ -2324,10 +2329,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.69;
+				MARKETING_VERSION = 1.72;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ClientDist15Feb2022;
+				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2341,8 +2346,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6Z22496273;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2350,10 +2356,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.69;
+				MARKETING_VERSION = 1.72;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ClientDist15Feb2022;
+				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;

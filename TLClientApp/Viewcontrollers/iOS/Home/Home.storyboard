@@ -13041,13 +13041,108 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="z0m-KI-g4W">
-                                        <rect key="frame" x="0.0" y="30" width="414" height="718"/>
+                                        <rect key="frame" x="0.0" y="30" width="414" height="692"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="Ve2-hr-cH7" id="tGE-uC-WbH"/>
                                             <outlet property="delegate" destination="Ve2-hr-cH7" id="mJQ-8E-ZfG"/>
                                         </connections>
                                     </tableView>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="nmo-JR-Rlg">
+                                        <rect key="frame" x="0.0" y="622" width="414" height="100"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="77k-LO-e6P"/>
+                                        </constraints>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PrivateMessageTVCell" id="g1C-Mb-a3A" customClass="PrivateMessageTVCell" customModule="TLClientApp" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="44.5" width="414" height="45"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g1C-Mb-a3A" id="6CA-QM-wLb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L50-yi-22Q">
+                                                            <rect key="frame" x="10" y="5" width="25" height="35"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="25" id="5tF-mY-Lpm"/>
+                                                            </constraints>
+                                                            <color key="tintColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                            <state key="normal">
+                                                                <imageReference key="image" image="square" catalog="system" symbolScale="large"/>
+                                                            </state>
+                                                            <state key="selected">
+                                                                <imageReference key="image" image="checkmark.square.fill" catalog="system" symbolScale="large"/>
+                                                            </state>
+                                                        </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uge-es-juy">
+                                                            <rect key="frame" x="40" y="12" width="369" height="21"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="L50-yi-22Q" secondAttribute="bottom" constant="5" id="5nP-zn-DUa"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Uge-es-juy" secondAttribute="bottom" constant="12" id="9Hb-sJ-2Or"/>
+                                                        <constraint firstItem="Uge-es-juy" firstAttribute="top" secondItem="6CA-QM-wLb" secondAttribute="top" constant="12" id="LOZ-3b-gBl"/>
+                                                        <constraint firstItem="L50-yi-22Q" firstAttribute="top" secondItem="6CA-QM-wLb" secondAttribute="top" constant="5" id="aTq-uy-ZRl"/>
+                                                        <constraint firstItem="L50-yi-22Q" firstAttribute="leading" secondItem="6CA-QM-wLb" secondAttribute="leading" constant="10" id="h7H-ph-6AC"/>
+                                                        <constraint firstItem="Uge-es-juy" firstAttribute="leading" secondItem="L50-yi-22Q" secondAttribute="trailing" constant="5" id="pVw-F7-9SN"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Uge-es-juy" secondAttribute="trailing" constant="5" id="xfG-Hb-gbL"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="btnCheck" destination="L50-yi-22Q" id="VkI-B4-pjm"/>
+                                                    <outlet property="lblName" destination="Uge-es-juy" id="jad-8u-WLF"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="Ve2-hr-cH7" id="mEa-Li-wzI"/>
+                                            <outlet property="delegate" destination="Ve2-hr-cH7" id="sf5-an-5pI"/>
+                                        </connections>
+                                    </tableView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pH-8j-ECF">
+                                        <rect key="frame" x="0.0" y="723" width="414" height="24"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udX-sr-OVX">
+                                                <rect key="frame" x="10" y="0.0" width="113.5" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="tintColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Select Users">
+                                                    <color key="titleColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <imageReference key="image" image="arrowtriangle.down.fill" catalog="system" symbolScale="medium"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <imageReference key="image" image="arrowtriangle.up.fill" catalog="system" symbolScale="medium"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="btnOpenPrivateChatUsers:" destination="Ve2-hr-cH7" eventType="touchUpInside" id="aCE-P3-Rb1"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crH-yu-QL9">
+                                                <rect key="frame" x="393" y="0.0" width="11" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <color key="textColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="udX-sr-OVX" secondAttribute="bottom" id="7Vx-0U-mCT"/>
+                                            <constraint firstItem="udX-sr-OVX" firstAttribute="top" secondItem="2pH-8j-ECF" secondAttribute="top" id="9uR-LE-dq7"/>
+                                            <constraint firstAttribute="bottom" secondItem="crH-yu-QL9" secondAttribute="bottom" id="FF4-G5-Z3b"/>
+                                            <constraint firstItem="crH-yu-QL9" firstAttribute="top" secondItem="2pH-8j-ECF" secondAttribute="top" id="G0y-oq-zo9"/>
+                                            <constraint firstAttribute="trailing" secondItem="crH-yu-QL9" secondAttribute="trailing" constant="10" id="iyb-Oe-fge"/>
+                                            <constraint firstItem="udX-sr-OVX" firstAttribute="leading" secondItem="2pH-8j-ECF" secondAttribute="leading" constant="10" id="mLS-Eh-WxH"/>
+                                            <constraint firstAttribute="height" constant="24" id="ons-CP-neK"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="haN-sF-YGd">
                                         <rect key="frame" x="0.0" y="748" width="414" height="70"/>
                                         <subviews>
@@ -13143,15 +13238,21 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="haN-sF-YGd" firstAttribute="top" secondItem="z0m-KI-g4W" secondAttribute="bottom" id="6ZR-6p-2KU"/>
+                                    <constraint firstItem="2pH-8j-ECF" firstAttribute="top" secondItem="nmo-JR-Rlg" secondAttribute="bottom" constant="1" id="9SI-Vt-LBB"/>
+                                    <constraint firstItem="2pH-8j-ECF" firstAttribute="top" secondItem="z0m-KI-g4W" secondAttribute="bottom" constant="1" id="9uC-8v-eEH"/>
                                     <constraint firstAttribute="trailing" secondItem="z0m-KI-g4W" secondAttribute="trailing" id="AaR-cb-SDL"/>
+                                    <constraint firstAttribute="trailing" secondItem="nmo-JR-Rlg" secondAttribute="trailing" id="AcP-ez-JIn"/>
                                     <constraint firstItem="z0m-KI-g4W" firstAttribute="top" secondItem="bfy-ub-yTo" secondAttribute="top" constant="30" id="ITi-ZW-Ggk"/>
                                     <constraint firstAttribute="trailing" secondItem="R5o-4o-c10" secondAttribute="trailing" constant="15" id="KKp-f9-OAf"/>
                                     <constraint firstItem="haN-sF-YGd" firstAttribute="leading" secondItem="bfy-ub-yTo" secondAttribute="leading" id="Kta-Tt-yUD"/>
                                     <constraint firstAttribute="trailing" secondItem="haN-sF-YGd" secondAttribute="trailing" id="Sdn-jy-OnV"/>
                                     <constraint firstItem="z0m-KI-g4W" firstAttribute="leading" secondItem="bfy-ub-yTo" secondAttribute="leading" id="bKe-1S-BjL"/>
+                                    <constraint firstItem="2pH-8j-ECF" firstAttribute="leading" secondItem="bfy-ub-yTo" secondAttribute="leading" id="btG-uF-8aZ"/>
+                                    <constraint firstItem="nmo-JR-Rlg" firstAttribute="leading" secondItem="bfy-ub-yTo" secondAttribute="leading" id="dgK-Nc-fcF"/>
                                     <constraint firstItem="R5o-4o-c10" firstAttribute="top" secondItem="bfy-ub-yTo" secondAttribute="top" id="jPj-4W-NwH"/>
+                                    <constraint firstAttribute="trailing" secondItem="2pH-8j-ECF" secondAttribute="trailing" id="mJB-19-vm3"/>
                                     <constraint firstAttribute="bottom" secondItem="haN-sF-YGd" secondAttribute="bottom" id="uGa-Xz-L0W"/>
+                                    <constraint firstItem="haN-sF-YGd" firstAttribute="top" secondItem="2pH-8j-ECF" secondAttribute="bottom" constant="1" id="zWG-Sg-6GN"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -13199,6 +13300,7 @@
                         <outlet property="imgLocalPrivacy" destination="hhj-DV-46t" id="cFE-zp-tCt"/>
                         <outlet property="lblAudio" destination="9q5-sI-XqO" id="fk9-kI-haK"/>
                         <outlet property="lblParticipantName" destination="z4b-E0-ulc" id="Rtb-4a-aXQ"/>
+                        <outlet property="lblPrivateChatCounts" destination="crH-yu-QL9" id="FnC-Sp-yNJ"/>
                         <outlet property="lblReconecting" destination="zFY-ad-G2I" id="2Pr-Aj-mV0"/>
                         <outlet property="lblTimeSpeak" destination="9sf-De-6BB" id="Gf6-vq-Rgh"/>
                         <outlet property="lblTotalParticipant" destination="VaZ-dT-dKL" id="Htd-uI-hQl"/>
@@ -13209,9 +13311,11 @@
                         <outlet property="parentSpeakerView" destination="SbP-IG-Wew" id="EUP-0x-XeJ"/>
                         <outlet property="participantView" destination="qw0-L8-wKO" id="0Yx-Nm-f2D"/>
                         <outlet property="previewOriginal" destination="wrO-XX-0cZ" id="qPR-Ru-Mwb"/>
+                        <outlet property="privateUserView" destination="2pH-8j-ECF" id="bOJ-is-x1B"/>
                         <outlet property="speakerImgPrivacy" destination="xgk-6l-VZk" id="Ktk-Lg-3o6"/>
                         <outlet property="speakerViewOriginal" destination="Yg1-Vc-Rbq" id="gvE-YN-8oP"/>
                         <outlet property="stopVideoView" destination="wcQ-FN-x3E" id="EUQ-9j-vOU"/>
+                        <outlet property="tblPrivateView" destination="nmo-JR-Rlg" id="yZH-el-D8f"/>
                         <outlet property="tblView" destination="z0m-KI-g4W" id="0bx-gO-R7a"/>
                         <outlet property="topView" destination="3tK-Vx-fLG" id="2oO-m7-t0y"/>
                         <outlet property="txtMessage" destination="hcJ-t8-0sV" id="uhe-vi-RNo"/>
@@ -20565,9 +20669,10 @@
         <image name=" ic_addparticipant" width="55" height="45"/>
         <image name="Back" width="25" height="25"/>
         <image name="arrowtriangle.down.fill" catalog="system" width="128" height="124"/>
+        <image name="arrowtriangle.up.fill" catalog="system" width="128" height="124"/>
         <image name="bell.fill" catalog="system" width="128" height="124"/>
-        <image name="calendar" width="512" height="512"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
+        <image name="calendar" width="512" height="512"/>
         <image name="camera" catalog="system" width="128" height="94"/>
         <image name="camera.fill" catalog="system" width="128" height="94"/>
         <image name="camera.rotate" catalog="system" width="128" height="94"/>
@@ -20582,7 +20687,7 @@
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="google-docs" width="512" height="512"/>
         <image name="handshake" width="512" height="512"/>
-        <image name="ic_call" width="50" height="51"/>
+        <image name="ic_call" width="120" height="120"/>
         <image name="ic_cancel" width="16" height="16"/>
         <image name="ic_circle" width="96" height="96"/>
         <image name="ic_close" width="128" height="128"/>
@@ -20638,6 +20743,7 @@
         <image name="speaker.slash" catalog="system" width="124" height="128"/>
         <image name="speaker.wave.2" catalog="system" width="128" height="90"/>
         <image name="speaker.wave.3" catalog="system" width="128" height="86"/>
+        <image name="square" catalog="system" width="128" height="114"/>
         <image name="tick-mark" width="512" height="512"/>
         <image name="trash.fill" catalog="system" width="121" height="128"/>
         <image name="us.png" width="36" height="36"/>

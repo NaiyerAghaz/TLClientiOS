@@ -11,6 +11,7 @@ import UIKit
 class ChatManager: NSObject, TwilioChatClientDelegate {
     static let share  = ChatManager()
     var client : TwilioChatClient?
+    
     func loginWithIdentityChat(indentityName: String, handler:@escaping(Bool?, Error?) -> ()){
         if (self.client != nil) {
            //logout will add here token will be unregister

@@ -8,9 +8,10 @@
 import UIKit
 
 class ChatTVCell: UITableViewCell {
-
+    
     //Text Chat Cell
     
+    @IBOutlet weak var lblPrivateCustomerName: UILabel!
     @IBOutlet weak var rightCustomerView: UIView!
     @IBOutlet weak var customerView: UIView!
     @IBOutlet weak var lblCustomerChar: UILabel!
@@ -19,6 +20,7 @@ class ChatTVCell: UITableViewCell {
     @IBOutlet weak var lblCustomerTime: UILabel!
     @IBOutlet weak var lblCustomerName: UILabel!
     
+    @IBOutlet weak var lblPrivateVendorName: UILabel!
     @IBOutlet weak var leftVendorView: UIView!
     @IBOutlet weak var vendorView: UIView!
     @IBOutlet weak var lblVendorChar: UILabel!
@@ -30,10 +32,10 @@ class ChatTVCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     public func configureText(obj: RowData){
@@ -41,7 +43,6 @@ class ChatTVCell: UITableViewCell {
             //customer cell
             var pImg = nBaseUrl + obj.profileImg!
             pImg = pImg.replacingOccurrences(of: " ", with: "%20")
-            
             vendorView.isHidden = true
             customerView.isHidden = false
             if obj.profileImg != "" && obj.profileImg != nil {
@@ -53,36 +54,40 @@ class ChatTVCell: UITableViewCell {
                 imgCustomer.isHidden = true
                 lblCustomerChar.text = obj.name?.first?.uppercased()
             }
-            lblCustomerChat.text = obj.txt
+            let text = NSMutableAttributedString()
+            text.append(NSAttributedString(string: obj.privatechatUser ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.blue]));
+            text.append(NSAttributedString(string: obj.txt ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+            //lblPrivateCustomerName.text = obj.privatechatUser
+            lblCustomerChat.attributedText = text
             lblCustomerTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblCustomerName.text = obj.name
-           
+            
         }
         else {
             //vendor cell
-          
-                var pImg = nBaseUrl + obj.profileImg!
-                pImg = pImg.replacingOccurrences(of: " ", with: "%20")
-              
-                vendorView.isHidden = false
-                customerView.isHidden = true
-                if obj.profileImg != "" && obj.profileImg != nil {
-                    ImgVendor.sd_setImage(with: URL(string: pImg), placeholderImage: UIImage(named: "person.circle"))
-                    lblVendorChar.isHidden = true
-                }
-                else {
-                    lblVendorChar.isHidden = false
-                    ImgVendor.isHidden = true
-                    lblVendorChar.text = obj.name?.first?.uppercased()
-                }
-                lblVendorChat.text = obj.txt
-                lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
-                lblVendorName.text = obj.name
-                
             
-        }
-        
-        
-    }
+            var pImg = nBaseUrl + obj.profileImg!
+            pImg = pImg.replacingOccurrences(of: " ", with: "%20")
+            vendorView.isHidden = false
+            customerView.isHidden = true
+            if obj.profileImg != "" && obj.profileImg != nil {
+                ImgVendor.sd_setImage(with: URL(string: pImg), placeholderImage: UIImage(named: "person.circle"))
+                lblVendorChar.isHidden = true
+            }
+            else {
+                lblVendorChar.isHidden = false
+                ImgVendor.isHidden = true
+                lblVendorChar.text = obj.name?.first?.uppercased()
+            }
+            let text = NSMutableAttributedString()
+            text.append(NSAttributedString(string: obj.privatechatUser ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.blue]));
+            text.append(NSAttributedString(string: obj.txt ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
+            //lblPrivateVendorName.text = obj.privatechatUser
+            lblVendorChat.attributedText = text
+            lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
+            lblVendorName.text = obj.name
+            
+            
+        }}
     
 }

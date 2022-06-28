@@ -471,9 +471,12 @@ extension UITableView {
         self.separatorStyle = .singleLine
     }
 }
-public func print(_ object: Any) {
+public func print(_ object: Any...) {
 #if DEBUG
-    Swift.print(object)
+    for item in object {
+        Swift.print(item)
+    }
+    
 #endif
 }
 

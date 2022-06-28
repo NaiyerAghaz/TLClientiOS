@@ -65,10 +65,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="2DC-ZJ-CGs" firstAttribute="leading" secondItem="Y1O-N9-gkf" secondAttribute="leading" constant="8" id="JeN-yG-RWh"/>
-                                    <constraint firstItem="2DC-ZJ-CGs" firstAttribute="top" secondItem="Y1O-N9-gkf" secondAttribute="top" constant="10" id="RJX-Ec-u9q"/>
-                                    <constraint firstAttribute="trailing" secondItem="2DC-ZJ-CGs" secondAttribute="trailing" constant="8" id="RpF-DI-pIU"/>
-                                    <constraint firstAttribute="bottom" secondItem="2DC-ZJ-CGs" secondAttribute="bottom" constant="10" id="a7H-zj-TQe"/>
+                                    <constraint firstAttribute="bottom" secondItem="2DC-ZJ-CGs" secondAttribute="bottom" constant="10" id="8Wb-xb-8qb"/>
+                                    <constraint firstItem="2DC-ZJ-CGs" firstAttribute="top" secondItem="Y1O-N9-gkf" secondAttribute="top" constant="10" id="FKX-8q-DNa"/>
+                                    <constraint firstItem="2DC-ZJ-CGs" firstAttribute="leading" secondItem="Y1O-N9-gkf" secondAttribute="leading" constant="8" id="ok6-e5-aqd"/>
+                                    <constraint firstAttribute="trailing" secondItem="2DC-ZJ-CGs" secondAttribute="trailing" constant="8" id="vZL-6O-Rea"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.CornerRadius" value="12"/>
@@ -162,10 +162,10 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.72941176470588232" green="0.95686274509803915" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstItem="CTV-AH-7UD" firstAttribute="top" secondItem="yei-6K-f6c" secondAttribute="top" constant="10" id="1zN-z0-JS5"/>
-                                    <constraint firstAttribute="bottom" secondItem="CTV-AH-7UD" secondAttribute="bottom" constant="10" id="5tp-Us-pV7"/>
-                                    <constraint firstAttribute="trailing" secondItem="CTV-AH-7UD" secondAttribute="trailing" constant="8" id="BLC-dh-Oso"/>
-                                    <constraint firstItem="CTV-AH-7UD" firstAttribute="leading" secondItem="yei-6K-f6c" secondAttribute="leading" constant="8" id="Wgg-3x-cun"/>
+                                    <constraint firstAttribute="trailing" secondItem="CTV-AH-7UD" secondAttribute="trailing" constant="8" id="7uq-m4-hdG"/>
+                                    <constraint firstItem="CTV-AH-7UD" firstAttribute="top" secondItem="yei-6K-f6c" secondAttribute="top" constant="10" id="TGY-yt-fQ7"/>
+                                    <constraint firstItem="CTV-AH-7UD" firstAttribute="leading" secondItem="yei-6K-f6c" secondAttribute="leading" constant="8" id="TKl-1P-UuW"/>
+                                    <constraint firstAttribute="bottom" secondItem="CTV-AH-7UD" secondAttribute="bottom" constant="10" id="Z8R-MS-DRs"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.CornerRadius" value="12"/>

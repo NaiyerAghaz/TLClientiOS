@@ -53,7 +53,7 @@ class TotalParticipantVC: BottomPopupViewController {
       }
   @IBAction func btnInviteTapped(_ sender: Any) {
         // dismiss(animated: true, completion: nil)
-      if conferrenceInfoArr!.count >= 3 {
+      if conferrenceInfoArr!.count >= 5 {
           return self.view.makeToast("You have reached maximum participants limit", position: .center)
       }
       else {

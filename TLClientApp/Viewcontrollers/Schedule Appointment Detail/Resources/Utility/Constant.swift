@@ -21,6 +21,7 @@ struct Control_Name {
     static let tTotalP = "TotalParticipantVC"
     static let vrifeedback = "VRIOPIFeedbackController"
     static let chatVC = "ChatViewController"
+    static let imgPopup = "ImagePopupViewController"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
@@ -39,6 +40,7 @@ enum viewIndentifier: String {
     case CallingOPIPopUpVC = "CallingOPIPopUpVC"
     case InviteParticipantVC  = "InviteParticipantVC"
 }
+
 class DynamicTableView: UITableView {
 
     /// Will assign automatic dimension to the rowHeight variable

@@ -91,6 +91,13 @@ extension VideoCallViewController:RoomDelegate{
         if room.localParticipant != nil {
             self.localParticipant = room.localParticipant
         }
+        if remoteParticipantArr.count != vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count {
+            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: (participant?.sid!)!, isfromHostcontrol: false) { success, err in
+                    print("getParticipantList2 --->6:",success)
+                self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0)"
+                }
+        }
+        
         print("domainantParticipant-->", participant)
         if participant != nil {
             if isChangeView {
@@ -113,11 +120,7 @@ extension VideoCallViewController:RoomDelegate{
                             self.vdoCollectionView.reloadItems(at: [indexPath])
                         }
                     }
-//
-//                    let previousSpeaker = currentSpeakerParticipant
-//
-//                    currentSpeakerParticipant = participant
-//                    self.vdoCollectionView.reloadData()
+
                     
                 }
                 else {
@@ -168,117 +171,9 @@ extension VideoCallViewController:RoomDelegate{
                   }
             }
         }
-      // remoteParticipant = participant
+    
        print("participantisSpeakerSId:", participant?.sid)
-       /* currentSpeakerParticipant = participant
-        if remoteParticipantArr.count > 1 {
-        if previousSpeakerParticipant == nil && participant != nil{
-           print("pp----------------01")
-            for newP in remoteParticipantArr {
-                if newP == currentSpeakerParticipant {
-                    if let index = remoteParticipantArr.firstIndex(of: newP) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index + 1, section: 0)
-                        previousSpeakerParticipant = participant
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
-                        }
-                    }
-                }
-            }
-        }
-        else if previousSpeakerParticipant != nil && participant != nil{
-            
-            if currentSpeakerParticipant != previousSpeakerParticipant {
-                for newP in remoteParticipantArr {
-                    if newP == currentSpeakerParticipant {
-                        if let index = remoteParticipantArr.firstIndex(of: newP) {
-                          previousSpeakerParticipant = participant
-                            let indexPath = IndexPath(item: index + 1, section: 0)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                self.vdoCollectionView.reloadItems(at: [indexPath])
-                            }
-                        }
-                    }
-                }
-                for newP in remoteParticipantArr {
-                    if newP == previousSpeakerParticipant {
-                        if let index = remoteParticipantArr.firstIndex(of: newP) {
-                            //  remoteParticipantArr.remove(at: index)
-                            
-                            let indexPath = IndexPath(item: index + 1, section: 0)
-                           
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                                self.vdoCollectionView.reloadItems(at: [indexPath])
-                            }
-                        }
-                    }
-                }
-               
-            }
-            else {
-                for newP in remoteParticipantArr {
-                    if newP == currentSpeakerParticipant {
-                        if let index = remoteParticipantArr.firstIndex(of: newP) {
-                            //  remoteParticipantArr.remove(at: index)
-                            let indexPath = IndexPath(item: index + 1, section: 0)
-                            self.previousSpeakerParticipant = participant
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.vdoCollectionView.reloadItems(at: [indexPath])
-                            }
-                        }
-                    }
-                }
-               
-            }
-        }
-        else {
-            for newP in remoteParticipantArr {
-                if newP == previousSpeakerParticipant {
-                    if let index = remoteParticipantArr.firstIndex(of: newP) {
-                        //  remoteParticipantArr.remove(at: index)
-                        let indexPath = IndexPath(item: index, section: 0)
-                        previousSpeakerParticipant = participant
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.vdoCollectionView.reloadItems(at: [indexPath])
-                        }
-                    }
-                }
-            }
-           
-        }
-        }
-        else {
-            if participant != nil {
-                
-                for newP in remoteParticipantArr {
-                    if newP == currentSpeakerParticipant {
-                        if let index = remoteParticipantArr.firstIndex(of: newP) {
-                            //  remoteParticipantArr.remove(at: index)
-                            let indexPath = IndexPath(item: index, section: 0)
-                            self.previousSpeakerParticipant = participant
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.vdoCollectionView.reloadItems(at: [indexPath])
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                for newP in remoteParticipantArr {
-                    if newP == previousSpeakerParticipant {
-                        if let index = remoteParticipantArr.firstIndex(of: newP) {
-                            //  remoteParticipantArr.remove(at: index)
-                            let indexPath = IndexPath(item: index, section: 0)
-                            currentSpeakerParticipant = participant
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.vdoCollectionView.reloadItems(at: [indexPath])
-                            }
-                        }
-                    }
-                }
-            }
-         }*/
+      
         
     }
 
@@ -309,10 +204,12 @@ extension VideoCallViewController:RoomDelegate{
     
     func participantDidConnect(room: Room, participant: RemoteParticipant) {
         print("particiapnt did connect-->")
-        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
-            print("getParticipantList2 --->6:")
-            print(success)
-        }
+        participant.delegate = self
+        self.remoteParticipantArr.append(participant)
+//        self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
+//            print("getParticipantList2 --->6:")
+//            print(success)
+//        }
         if !recordTime.isValid {
             callStartTime = cEnum.instance.getCurrentDateAndTime()
             recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
@@ -337,11 +234,7 @@ extension VideoCallViewController:RoomDelegate{
 //            }
 //        }
       //  SecondaryRemoteParticipant = participant
-        participant.delegate = self
-        self.remoteParticipantArr.append(participant)
-        
-       
-//        participant.delegate = self
+ //        participant.delegate = self
 //        self.remoteParticipantArr.append(participant)
         
     }

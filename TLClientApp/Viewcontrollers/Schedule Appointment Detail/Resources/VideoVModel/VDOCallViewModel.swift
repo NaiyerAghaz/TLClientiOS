@@ -163,15 +163,15 @@ class VDOCallViewModel {
                             if httpResponse.statusCode == 200 {
                                 self.conferrenceDetail = ConferenceInfoResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
                                 
-                                let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
-                                print("itmesmute-->\(items.MUTE) req: \(self.addParticipantReqApi(Lsid: lid, roomID: roomID)) response---Host: \(response)")
+                              //  let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
+                             
                                 if isfromHostcontrol {
                                     DispatchQueue.global(qos: .background).async {
                                         self.participantRuleMethod(participantsArr: self.conferrenceDetail.CONFERENCEInfo!, lid: lid, roomID: roomID, participantSID: partSID)
                                     }
                                 }
                               
-                              print("update particiapnt rule:")
+                             
                                 completionHandler(true, nil)
                             }
                             else {

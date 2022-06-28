@@ -13,6 +13,8 @@ import DropDown
 import TwilioChatClient
 import Malert
 import IQKeyboardManager
+import AVFoundation
+import AVKit
 
 
 class VideoCallViewController: UIViewController, LocalParticipantDelegate, TwilioChatClientDelegate,AcceptAndRejectDelegate,UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
@@ -54,8 +56,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
-   
-   
+    
+    
     @IBOutlet weak var btnSpeak: UIButton!
     @IBOutlet weak var btnCameraFlip: UIButton!
     @IBOutlet weak var btnMore: UIButton!
@@ -81,18 +83,21 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     @IBOutlet weak var lblVideo: PaddingLabel!
     @IBOutlet weak var lblParticipantName: PaddingLabel!
     @IBOutlet weak var lblAudio: PaddingLabel!
-    
+    @IBOutlet weak var lblPrivateChatCounts: UILabel!
     @IBOutlet weak var chatIndicatorView: UIView!
     //End
     //Chat Outlets and var
+    var privateChatArr = [String]()
     @IBOutlet weak var chatView: UIView!
     var isOpenChat = false
     var chatVModel = chatViewModels()
     @IBOutlet weak var chatBottomConstant: NSLayoutConstraint!
     let imagePicker = UIImagePickerController()
     @IBOutlet weak var tblView: UITableView!
-  
-   @IBOutlet weak var txtMessage: UITextField!
+    var playerViewController = AVPlayerViewController()
+    @IBOutlet weak var txtMessage: UITextField!
+    @IBOutlet weak var tblPrivateView: UITableView!
+    @IBOutlet weak var privateUserView: UIView!
     //END
     
     var vendorTbl : UITableView = UITableView()
@@ -140,6 +145,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var isSwitchToRemote = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         chatView.isHidden = true
         chatIndicatorView.isHidden = true
         mainPreview.frame = CGRect(x: self.view.frame.size.width - 140, y: 60, width: 160, height: 160)
@@ -237,7 +243,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
             self.pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: self.localParticipant, rp: remoteParticipant)]
-            
             isSwitchToRemote = true
             fullFlashViewChangesMethod(isFlip:false)
         }
@@ -305,8 +310,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         moreView.isHidden = ishide
         btnMic.isHidden = true
         if ishide == true {
-            //myAudio.stop()
-            //timer.invalidate()
+           
             speakerImgPrivacy.isHidden = ishide
             parentSpeakerView.isHidden = ishide
             lblParticipant.frame = CGRect(x: 0, y: 0, width: topView.frame.size.width, height: topView.frame.size.height)
@@ -355,23 +359,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         moreDropDown.selectionAction = { [self] (index, item) in
             print("Index seletected more:", index, item)
             if index == 0 {
+                tblPrivateView.isHidden = true
+                self.chatIndicatorView.isHidden = true
                 self.chatView.isHidden = false
                 self.chatView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
                 isOpenChat = true
                 if chatListArr.count > 0 {
                     self.tblView.reloadData()
                 }
-                //test call
-                /*let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
-                let vc = sB.instantiateViewController(withIdentifier: Control_Name.chatVC) as! ChatViewController
-                vc.chatChannel = myChannel
-                chatIndicatorView.isHidden = true
-                vc.isOpenChat = true
-                vc.chatDelegate = self
-                isOpenChat = true
-               vc.arrChatSection = self.chatListArr
-                vc.modalPresentationStyle = .overFullScreen
-                self.present(vc, animated: true, completion: nil)*/
+               
             }else if index == 1{
                 print("camera--------->", camera?.device, "::", camera)
                 if self.isChangeView == false  {
@@ -427,7 +423,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                         moreDropDown.dataSource = moreArr
                         self.pinVideoArr = [pinModels(isRemotePin: true, isLocalPin: false, lp: self.localParticipant, rp: self.remoteParticipantArr[0])]
                     }
-                     }
+                }
                 
             }else if index == 3 {
                 print(item)
@@ -561,7 +557,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             if self.channels != nil {
                 for i in 0...self.channels!.count - 1 {
                     let channel = self.channels![i] as? TCHChannel
-                    print("channel------\(self.channels?.count)------>:friendlyName:\(channel?.friendlyName), roomID:\(self.roomID):")
+                    
                     if channel?.friendlyName != nil {
                         if (channel?.friendlyName!.count)! > 0 {
                             if channel?.friendlyName == self.roomID {
@@ -584,7 +580,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 isChatCreated = true
                 myChannel = channel
                 joinChannelJoin(channel: channel!)
-           }
+            }
             else {
                 if result.resultCode == 50307 {
                     if channel != nil {
@@ -774,17 +770,11 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                                 DispatchQueue.main.async {
                                     print("backtomain---------->3")
                                     self.updateYourFeedback()
-                                }
-                                
-                            }
+                                }}
                             else {
                                 SwiftLoader.hide()
                                 self.view.makeToast("Please try again to hangup this call")
-                            }
-                            
-                        }
-                        
-                    }
+                            }}}
                     else {
                         vdoCallVM.customerEndCallWithoutConnect(roomID: roomID ?? "") { success, err in
                             if success! {
@@ -799,11 +789,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                                 self.view.makeToast("Please try again to hangup this call")
                             }
                             
-                        }
-                        
-                    }
-                    
-                }
+                        }}}
             }}}
     
     //MARK: Feedback Method call:
@@ -857,7 +843,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         sender.isSelected = !sender.isSelected
         self.audioDevice.block = {
             do {
-               let audioSession = AVAudioSession.sharedInstance()
+                let audioSession = AVAudioSession.sharedInstance()
                 if(!sender.isSelected) {
                     try audioSession.setMode(AVAudioSession.Mode.videoChat)
                 } else {
@@ -904,9 +890,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             }
             builder.bandwidthProfileOptions = BandwidthProfileOptions(videoOptions: videoBandwidthProfileOptions)
             builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
-            
-            
-            
             //end
             builder.isDominantSpeakerEnabled = true
             builder.roomName = self.roomID
@@ -939,7 +922,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     //====================END=============================
     @objc  func ringingCallStart(){
         CEnumClass.share.playSounds(audioName: "incoming")
-       
+        
     }
     
     // MARK:- Private
@@ -1082,7 +1065,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             previewOriginal.removeAllSubViews()
             speakerViewOriginal.removeAllSubViews()
             if isSwitchToRemote {
-               
+                
                 btnPinLocal.isHidden = true
                 btnMic.isHidden = false
                 lblAudio.isHidden = true
@@ -1161,7 +1144,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 for publication in videoPublications {
                     if let subscribedVideoTrack = publication.remoteTrack,
                        publication.isTrackSubscribed {
-                       subscribedVideoTrack.addRenderer(speakerView)
+                        subscribedVideoTrack.addRenderer(speakerView)
                     }
                 }
                 if localVideoTrack != nil {
@@ -1171,7 +1154,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
                 self.speakerView.addGestureRecognizer(tap)
             }
-            }}
+        }}
     public func previewTapped(nView:VideoView){
         let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
         nView.addGestureRecognizer(tap)
@@ -1219,14 +1202,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     func cleanupRemoteParticipant() {
         if self.remoteParticipant != nil {
             self.remoteView?.removeFromSuperview()
-          //  self.remoteView = nil
+            //  self.remoteView = nil
             self.remoteParticipant = nil
         }
     }
     func cleanRemoteParticipants(){
         if self.remoteParticipant != nil {
             self.speakerView.removeFromSuperview()
-          //  self.speakerView = nil
+            //  self.speakerView = nil
             self.remoteParticipant = nil
         }
     }
@@ -1251,18 +1234,21 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     //MARK: Chat Implementations
     //<************Chat Implementation start******************>//
     func getChatConfig(){
+        txtMessage.inputAccessoryView = UIView()
         imagePicker.delegate = self
-        tblView.register(UINib(nibName: "ChatTVCell", bundle: nil), forCellReuseIdentifier: "TextChatCell")
-        tblView.register(UINib(nibName: "ImageChatCell", bundle: nil), forCellReuseIdentifier: "ImageChatCell")
-        IQKeyboardManager.shared().isEnableAutoToolbar = false
+        tblView.register(UINib(nibName: NibChatNames.chat, bundle: nil), forCellReuseIdentifier: chatDetailIndentifier.txtCell.rawValue)
+        tblView.register(UINib(nibName: NibChatNames.chatImg, bundle: nil), forCellReuseIdentifier: chatDetailIndentifier.imgCell.rawValue)
+        tblView.register(UINib(nibName: NibChatNames.audio, bundle: nil), forCellReuseIdentifier: chatDetailIndentifier.audioCell.rawValue)
         
-        IQKeyboardManager.shared().isEnabled = false
-     addKeyBoardListener()
-//        chatChannel?.delegate = self
-//        joinChannel()
+        addKeyBoardListener()
+        
         txtMessage.delegate = self
         tblView.tableFooterView = UIView(frame: .zero)
+        tblView.rowHeight = UITableView.automaticDimension
         tblView.separatorStyle = .none
+        tblPrivateView.tableFooterView = UIView(frame: .zero)
+        tblPrivateView.rowHeight = UITableView.automaticDimension
+        tblPrivateView.separatorStyle = .none
     }
     
     @IBAction func btnSendMszTapped(_ sender: Any) {
@@ -1271,15 +1257,37 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         
         if !txtMessage.text!.isEmpty {
             mszCounts = mszCounts + 1
-            let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCounts)##\(txtMessage.text!)#\((userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg"))#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
-            print("message body->", msz)
-          
+            
+            var mszReq = chatDetails.share.getchatTextReq(msz: txtMessage.text!, mszCount: mszCounts)
+            var privateMSz = ""
+            for pChat in privateChatArr {
+                privateMSz = privateMSz + "@\(pChat)"
+                print("pchat--->",pChat)
+                mszReq = "@\(pChat)" + mszReq
+            }
+            let finalMsz = "\(userDefaults.string(forKey: "firstName") ?? ""):" + mszReq
+            print("message body->", mszReq)
+            var data = RowData.init()
+            data.rowType = .txt
+            data.cellIdentifier = .txtCell
+            data.privatechatUser = privateMSz
+            data.sender = 0
+            data.txt =  self.txtMessage.text
+            let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
+            data.profileImg = pImage
+            data.name = "\(userDefaults.string(forKey: "firstName") ?? "")"
+            data.time = CEnumClass.share.createDateAndTimeChat()
+            self.chatListArr.append(data)
+            
+            
+            self.tblView.reloadData()
+            self.view.layoutIfNeeded()
+            self.tblView.scrollToBottomRow()
+            self.txtMessage.text = ""
             let mszOption = TCHMessageOptions.init()
-            mszOption.withBody(msz)
+            mszOption.withBody(finalMsz)
             self.myChannel?.messages?.sendMessage(with: mszOption, completion: { chResult, chMessage in
                 if chResult.isSuccessful() {
-                    self.txtMessage.text = ""
-                    debugPrint("message has updated----------------->>",chMessage, "chResult:",chResult)
                 }
             })
         }
@@ -1310,21 +1318,21 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         let imgDoc = UIImage(systemName: "doc.circle.fill", withConfiguration: largeConfig)
         doc.setValue(imgDoc?.withRenderingMode(.alwaysOriginal), forKey: "image")
         chatAlert.addAction(doc)
-       
+        
         //gallery
         
         let imgGallery =  UIImage(systemName: "photo.on.rectangle.angled", withConfiguration: largeConfig)
         gallery.setValue(imgGallery?.withRenderingMode(.alwaysOriginal), forKey: "image")
         chatAlert.addAction(gallery)
         //Audio
-      let imgAudio =  UIImage(systemName: "headphones.circle.fill", withConfiguration: largeConfig)
+        let imgAudio =  UIImage(systemName: "headphones.circle.fill", withConfiguration: largeConfig)
         audio.setValue(imgAudio?.withRenderingMode(.alwaysOriginal), forKey: "image")
-       chatAlert.addAction(audio)
+        chatAlert.addAction(audio)
         //Video
         let imgVdo =  UIImage(systemName: "video.circle.fill", withConfiguration: largeConfig)
         video.setValue(imgVdo?.withRenderingMode(.alwaysOriginal), forKey: "image")
         chatAlert.addAction(video)
-       
+        
         chatAlert.addAction(cancel)
         self.present(chatAlert, animated: true)
     }

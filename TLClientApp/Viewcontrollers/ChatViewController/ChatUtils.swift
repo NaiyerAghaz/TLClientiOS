@@ -65,9 +65,24 @@ extension Dictionary {
 class chatDetails: NSObject {
     static let share = chatDetails()
     func getchatString(filename: String, mszCount: Int) -> [AnyHashable: Any] {
-        let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(filename)#\((userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg"))#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+        let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
+        let msz = "\(userDefaults.string(forKey: "firstName") ?? ""):#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(filename)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
         let jsonObj:[AnyHashable:Any] = ["attributes": msz]
         return jsonObj
+    }
+    func getchatPrivateString(filename: String, mszCount: Int) -> String {
+        let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
+        let msz = "#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(filename)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+       // let jsonObj:[AnyHashable:Any] = ["attributes": msz]
+        return msz
+    }
+    
+    func getchatTextReq(msz: String, mszCount: Int) -> String {
+        let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
+        
+        let msz = "#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(msz)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+       // let jsonObj:[AnyHashable:Any] = ["attributes": msz]
+        return msz
     }
     func getUploadedFileExtension(file:String) -> Int {
         
@@ -126,6 +141,62 @@ class chatDetails: NSObject {
             return 0
         }
     }
+    func getImageFromExt(file:String) -> UIImage {
+       
+        switch file {
+        case "doc":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+            let largeBoldDoc = UIImage(systemName: "doc.text", withConfiguration: largeConfig)!.withTintColor(.blue)
+            return largeBoldDoc
+        case "docx":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+            let largeBoldDoc = UIImage(systemName: "doc.text", withConfiguration: largeConfig)?.withTintColor(.blue)
+           
+            return largeBoldDoc!
+        case "pdf":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+            let largeBoldDoc = UIImage(systemName: "doc.fill", withConfiguration: largeConfig)!.withTintColor(.red)
+            return largeBoldDoc
+        case "xls":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+             let largeBoldDoc = UIImage(systemName: "doc.plaintext", withConfiguration: largeConfig)?.withTintColor(.green)
+            return largeBoldDoc!
+        case "xlsx":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+            let largeBoldDoc = UIImage(systemName: "doc.append", withConfiguration: largeConfig)?.withTintColor(.green)
+            return largeBoldDoc!
+        case "ppt":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+            let largeBoldDoc = UIImage(systemName: "doc.text.image.fill", withConfiguration: largeConfig)?.withTintColor(.green)
+            return largeBoldDoc!
+        case "pptx":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+             let largeBoldDoc = UIImage(systemName: "chart.bar.doc.horizontal.fill", withConfiguration: largeConfig)?.withTintColor(.green)
+            return largeBoldDoc!
+        case "txt":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+             let largeBoldDoc = UIImage(systemName: "doc.plaintext", withConfiguration: largeConfig)?.withTintColor(.darkGray)
+            return largeBoldDoc!
+        case "zip":
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+            let largeBoldDoc = UIImage(systemName: "doc.zipper", withConfiguration: largeConfig)?.withTintColor(.black)
+            return largeBoldDoc!
+        default:
+            let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
+
+             let largeBoldDoc = UIImage(systemName: "doc.text", withConfiguration: largeConfig)!.withTintColor(.blue)
+            return largeBoldDoc
+        }
+    }
     func getThumbnailFrom(path: URL) -> UIImage? {
 
             do {
@@ -180,17 +251,21 @@ class chatDetails: NSObject {
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
-    func downloadImage(from url: URL, completion:@escaping(UIImage?) ->()){
+    func downloadImage(from url: URL, completion:@escaping(UIImage?, Bool?) ->()){
         print("Download Started")
         getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
+            guard let data = data, error == nil else {
+                completion(nil, true)
+                return
+                
+            }
           //  print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
             // always update the UI from the main thread
 //            DispatchQueue.main.async() { [weak self] in
 //                self?.imageView.image = UIImage(data: data)
 //            }
-            completion(UIImage(data: data))
+            completion(UIImage(data: data), false)
            
         }
        

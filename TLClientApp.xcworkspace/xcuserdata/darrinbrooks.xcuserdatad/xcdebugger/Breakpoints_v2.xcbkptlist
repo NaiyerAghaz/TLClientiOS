@@ -1466,8 +1466,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "669"
-            endingLineNumber = "669"
+            startingLineNumber = "665"
+            endingLineNumber = "665"
             landmarkName = "refresh(isaccept:pid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1482,8 +1482,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "667"
-            endingLineNumber = "667"
+            startingLineNumber = "663"
+            endingLineNumber = "663"
             landmarkName = "refresh(isaccept:pid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1498,8 +1498,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "724"
-            endingLineNumber = "724"
+            startingLineNumber = "720"
+            endingLineNumber = "720"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1514,8 +1514,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "723"
-            endingLineNumber = "723"
+            startingLineNumber = "719"
+            endingLineNumber = "719"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1610,8 +1610,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "693"
-            endingLineNumber = "693"
+            startingLineNumber = "689"
+            endingLineNumber = "689"
             landmarkName = "getHostControl(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1626,8 +1626,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "696"
-            endingLineNumber = "696"
+            startingLineNumber = "692"
+            endingLineNumber = "692"
             landmarkName = "getHostControl(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1658,8 +1658,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1085"
-            endingLineNumber = "1085"
+            startingLineNumber = "1068"
+            endingLineNumber = "1068"
             landmarkName = "fullFlashViewChangesMethod(isFlip:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1674,8 +1674,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1117"
-            endingLineNumber = "1117"
+            startingLineNumber = "1100"
+            endingLineNumber = "1100"
             landmarkName = "fullFlashViewChangesMethod(isFlip:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1690,8 +1690,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "720"
-            endingLineNumber = "720"
+            startingLineNumber = "716"
+            endingLineNumber = "716"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1706,8 +1706,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "721"
-            endingLineNumber = "721"
+            startingLineNumber = "717"
+            endingLineNumber = "717"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1802,41 +1802,9 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/RoomDelegates.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "participantDidDisconnect(room:participant:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F9B740A5-D9A8-422D-8F98-A57650D0EE81"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatUtils.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "scrollToBottomRow()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E88AFE50-80A6-4F96-98AA-D9B102D52CDA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatUtils.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "scrollToBottomRow()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1850,10 +1818,10 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
-            landmarkName = "chatClient(_:channel:messageAdded:)"
-            landmarkType = "7">
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "ChatViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1866,8 +1834,8 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatCells/ImageChatCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "configureImg(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1882,9 +1850,121 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatCells/ImageChatCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "configureImg(obj:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0ABD319A-00DF-4DD7-867B-B1492BDA2A67"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/ChatsView/ChatsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "352"
+            endingLineNumber = "352"
+            landmarkName = "displayImageFullImage(gesture:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4278698C-DF22-42F0-8213-66A5B180335C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/ChatsView/ChatsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
+            landmarkName = "displayImageFullImage(gesture:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E2037C80-C746-4CEF-BE07-C55DE0C41DCB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/ChatsView/ChatsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
+            landmarkName = "displayImageFullImage(gesture:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C6A77A6-92AB-4A69-8E4D-FFB6E2ADCEAC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/ChatsView/ChatsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "displayImageFullImage(gesture:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0265E04B-26E2-4C17-A00F-8268C185A2D7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/ChatsView/ChatsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "384"
+            endingLineNumber = "384"
+            landmarkName = "displayDocs(gesture:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "23175AC6-AA1B-491D-B5EC-F40877DB346C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "175"
+            endingLineNumber = "175"
+            landmarkName = "getChatMessage(message:istypeImg:url:completionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1DA41EFA-DC56-40F6-B94F-C2FDACADCE17"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "getChatMessage(message:istypeImg:url:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
