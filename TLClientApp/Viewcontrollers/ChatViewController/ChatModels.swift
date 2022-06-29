@@ -27,7 +27,7 @@ struct RowData {
     var audioUrl : String? = ""
     var name : String? = ""
     var time: String? = ""
-    var privatechatUser:String? = ""
+    var privatechatUser: String? = ""
 }
 enum RowType:Int {
     case txt = 0
@@ -58,7 +58,7 @@ class chatViewModels {
     public func getChatMessage(message:TCHMessage, istypeImg: Bool,url:String, completionHandler:@escaping(RowData?, Bool?) -> ()) {
         if istypeImg {
             let ndict = message.attributes()?.dictionary
-            
+          
             let mszStr = ndict![AnyHashable("attributes")] as! String
             print("mszStr---->",mszStr)
             if mszStr.contains(":") && mszStr.contains("##") {
@@ -66,111 +66,226 @@ class chatViewModels {
                 let arr = nMsz.split(separator: ":")
                 let senderName = arr.first
                 let tags = "\(arr.last!)"
-               
-                let lastObj = arr.last?.dropFirst()// drop first characters
-                let mszArr = lastObj?.split(separator: "#")
-                let sName2 = mszArr?.first
-                let msz = mszArr?[1] ?? ""
-                let sImage = mszArr?[2]
-               // let sIdentity = mszArr?[3] ?? ""
-                var data = RowData.init()
-                let imgName = msz.replacingOccurrences(of: " ", with: "%20")
-                let urlPath = URL(string: String(imgName))
-                let urlExt = urlPath?.pathExtension
-                if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
-                    let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
-                    chatDetails.share.downloadImage(from: URL(string: url)!) { img, err in
-                        if err == false {
-                            chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
-                            data.rowType = .img
-                            data.cellIdentifier = .imgCell
-                            data.sender = 1
-                            data.sid = message.sid
-                            data.imgUrl = fileName
-                            data.txt = String(msz)
-                            data.profileImg = "\(sImage ?? "")"
-                            data.name = "\(senderName ?? "")"
-                            data.time = message.dateCreated
+                print("tags--------->",tags)
+                if tags.contains("@") {
+                    let privateMSZ = "@" + "\(userDefaults.string(forKey: "firstName") ?? "")"
+                    print("privateMSZ:",privateMSZ)
+                    if tags.contains(privateMSZ){
+                        let tagsArr = tags.split(separator: "#",omittingEmptySubsequences: false)
+                        let privateUser = tagsArr.first
+                        let msz = tagsArr[3]
+                        let sImage = tagsArr[4]
+                        let imgName = msz.replacingOccurrences(of: " ", with: "%20")
+                        let urlPath = URL(string: String(imgName))
+                        let urlExt = urlPath?.pathExtension
+                        print("private---->\(tagsArr.first!), msz:\(msz),sImage:\(sImage)")
+                        if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
+                            let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                            chatDetails.share.downloadImage(from: URL(string: url)!) { img, err in
+                                var data = RowData.init()
+                                if err == false {
+                                    data.rowType = .img
+                                    data.cellIdentifier = .imgCell
+                                    chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
+                                    data.sender = 1
+                                    data.sid = message.sid
+                                    data.imgUrl = fileName
+                                    data.txt = String(msz)
+                                    data.profileImg = "\(sImage)"
+                                    data.name = "\(senderName ?? "")"
+                                    data.time = message.dateCreated
+                                    data.privatechatUser = "\(privateUser ?? "")"
+                                    completionHandler(data, false)
+                                }
+                                else {
+                                    completionHandler(data, true)
+                                }
+                            }
+                        }
+                        else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 2 {
+                            let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                            downloadVideo(fileName: fileName, url: url) { success in
+                                var data = RowData.init()
+                                if success! {
+                                    data.rowType = .img
+                                    data.cellIdentifier = .imgCell
+                                   data.sender = 1
+                                    data.vdoUrl = url
+                                    data.sid = message.sid
+                                    data.imgUrl = fileName
+                                    data.txt = String(msz)
+                                    data.profileImg = "\(sImage)"
+                                    data.name = "\(senderName ?? "")"
+                                    data.time = message.dateCreated
+                                    data.privatechatUser = "\(privateUser ?? "")"
+                                    completionHandler(data, false)
+                                }
+                                else {
+                                    completionHandler(data, true)
+                                }
+                            }
+                        }
+                        else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
+                            let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                            downloadVideo(fileName: fileName, url: url) { success in
+                                var data = RowData.init()
+                                if success! {
+                                    data.rowType = .audio
+                                    data.cellIdentifier = .audioCell
+                                 
+                                    data.sender = 1
+                                    data.vdoUrl = url
+                                    data.sid = message.sid
+                                    data.imgUrl = fileName
+                                    data.txt = String(msz)
+                                    data.profileImg = "\(sImage)"
+                                    data.name = "\(senderName ?? "")"
+                                    data.time = message.dateCreated
+                                    data.privatechatUser = "\(privateUser ?? "")"
+                                    completionHandler(data, false)
+                                }
+                                else {
+                                    completionHandler(data, true)
+                                }
+                            }}
+                        else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
+                            let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                            downloadVideo(fileName: fileName, url: url) { success in
+                               
+                                var data = RowData.init()
+                                if success! {
+                                    data.rowType = .audio
+                                    data.cellIdentifier = .audioCell
+                                   
+                                    data.sender = 1
+                                    data.vdoUrl = url
+                                    data.sid = message.sid
+                                    data.imgUrl = fileName
+                                    data.txt = String(msz)
+                                    data.profileImg = "\(sImage)"
+                                    data.name = "\(senderName ?? "")"
+                                    data.time = message.dateCreated
+                                    data.privatechatUser = "\(privateUser ?? "")"
+                                    completionHandler(data, false)
+                                }
+                                else {
+                                    completionHandler(data, true)
+                                }
+                            }
                             
-                            completionHandler(data, false)
                         }
-                        else {
-                            completionHandler(data, true)
                         }
+                    else {
+                        completionHandler(nil, true)
                     }
                 }
-                else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 2 {
-                    let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
-                    downloadVideo(fileName: fileName, url: url) { success in
-                        if success! {
-                            data.rowType = .img
-                            data.cellIdentifier = .imgCell
-                            data.sender = 1
-                            data.vdoUrl = url
-                            data.sid = message.sid
-                            data.imgUrl = fileName
-                            data.txt = String(msz)
-                            data.profileImg = "\(sImage ?? "")"
-                            data.name = "\(senderName ?? "")"
-                            data.time = message.dateCreated
-                            
-                            completionHandler(data, false)
-                        }
-                        else {
-                            completionHandler(data, true)
-                        }
-                    }
-                }
-                else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
-                    let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
-                    downloadVideo(fileName: fileName, url: url) { success in
-                        if success! {
-                            data.rowType = .audio
-                            data.cellIdentifier = .audioCell
-                            data.sender = 1
-                            data.vdoUrl = url
-                            data.sid = message.sid
-                            data.imgUrl = fileName
-                            data.txt = String(msz)
-                            data.profileImg = "\(sImage ?? "")"
-                            data.name = "\(senderName ?? "")"
-                            data.time = message.dateCreated
-                            
-                            completionHandler(data, false)
-                        }
-                        else {
-                            completionHandler(data, true)
+                else {
+                    let lastObj = arr.last?.dropFirst()// drop first characters
+                    let mszArr = lastObj?.split(separator: "#")
+                 //   let sName2 = mszArr?.first
+                    let msz = mszArr?[1] ?? ""
+                    let sImage = mszArr?[2]
+                   // let sIdentity = mszArr?[3] ?? ""
+                  
+                    let imgName = msz.replacingOccurrences(of: " ", with: "%20")
+                    let urlPath = URL(string: String(imgName))
+                    let urlExt = urlPath?.pathExtension
+                    if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
+                        let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                        chatDetails.share.downloadImage(from: URL(string: url)!) { img, err in
+                            var data = RowData.init()
+                            if err == false {
+                                chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
+                                data.rowType = .img
+                                data.cellIdentifier = .imgCell
+                                data.sender = 1
+                                data.sid = message.sid
+                                data.imgUrl = fileName
+                                data.txt = String(msz)
+                                data.profileImg = "\(sImage ?? "")"
+                                data.name = "\(senderName ?? "")"
+                                data.time = message.dateCreated
+                                data.privatechatUser = ""
+                                completionHandler(data, false)
+                            }
+                            else {
+                                completionHandler(data, true)
+                            }
                         }
                     }
-                    
-                }
-                else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
-                    let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
-                    downloadVideo(fileName: fileName, url: url) { success in
-                        if success! {
-                            data.rowType = .audio
-                            data.cellIdentifier = .audioCell
-                            data.sender = 1
-                            data.vdoUrl = url
-                            data.sid = message.sid
-                            data.imgUrl = fileName
-                            data.txt = String(msz)
-                            data.profileImg = "\(sImage ?? "")"
-                            data.name = "\(senderName ?? "")"
-                            data.time = message.dateCreated
-                            
-                            completionHandler(data, false)
-                        }
-                        else {
-                            completionHandler(data, true)
+                    else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 2 {
+                        let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                        downloadVideo(fileName: fileName, url: url) { success in
+                            var data = RowData.init()
+                            if success! {
+                                data.rowType = .img
+                                data.cellIdentifier = .imgCell
+                                data.sender = 1
+                                data.vdoUrl = url
+                                data.sid = message.sid
+                                data.imgUrl = fileName
+                                data.txt = String(msz)
+                                data.profileImg = "\(sImage ?? "")"
+                                data.name = "\(senderName ?? "")"
+                                data.time = message.dateCreated
+                                data.privatechatUser = ""
+                                
+                                completionHandler(data, false)
+                            }
+                            else {
+                                completionHandler(data, true)
+                            }
                         }
                     }
-                    
-                }
-                //  print("senderName:\(senderName),sName2:\(sName2), sImage:\(sImage),sIdentity:\(sIdentity), imgurl = \( data.imgUrl),msz::\(msz)")
-            }
-            
-        }
+                    else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
+                        let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                        downloadVideo(fileName: fileName, url: url) { success in
+                            var data = RowData.init()
+                            if success! {
+                                data.rowType = .audio
+                                data.cellIdentifier = .audioCell
+                                data.sender = 1
+                                data.vdoUrl = url
+                                data.sid = message.sid
+                                data.imgUrl = fileName
+                                data.txt = String(msz)
+                                data.profileImg = "\(sImage ?? "")"
+                                data.name = "\(senderName ?? "")"
+                                data.time = message.dateCreated
+                                data.privatechatUser = ""
+                                
+                                completionHandler(data, false)
+                            }
+                            else {
+                                completionHandler(data, true)
+                            }
+                        }
+                        
+                    }
+                    else if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
+                        let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
+                        downloadVideo(fileName: fileName, url: url) { success in
+                            var data = RowData.init()
+                            if success! {
+                                data.rowType = .audio
+                                data.cellIdentifier = .audioCell
+                                data.sender = 1
+                                data.vdoUrl = url
+                                data.sid = message.sid
+                                data.imgUrl = fileName
+                                data.txt = String(msz)
+                                data.profileImg = "\(sImage ?? "")"
+                                data.name = "\(senderName ?? "")"
+                                data.time = message.dateCreated
+                                data.privatechatUser = ""
+                                
+                                completionHandler(data, false)
+                            }
+                            else {
+                                completionHandler(data, true)
+                            }
+                        }}
+                }}}
         else {
             let mszStr = message.body ?? ""
             print("mszStr---->",mszStr)
@@ -190,11 +305,9 @@ class chatViewModels {
                 if tags.contains("@") {
                    let privateMSZ = "@" + "\(userDefaults.string(forKey: "firstName") ?? "")"
                     if tags.contains(privateMSZ){
-                       
-                        let tagsArr = tags.split(separator: "#",omittingEmptySubsequences: false)
+                       let tagsArr = tags.split(separator: "#",omittingEmptySubsequences: false)
                         data.privatechatUser = "\(tagsArr.first!)"
-                     
-                         sName2 = "\(tagsArr[1])"
+                        sName2 = "\(tagsArr[1])"
                          msz = "\(tagsArr[3])"
                         if tagsArr[4] != "" {
                             sImage = "\(tagsArr[4])"
@@ -202,8 +315,7 @@ class chatViewModels {
                         else {
                             sImage = ""
                         }
-                         
-                        // sIdentity = "\(tagsArr[4])"
+                       // sIdentity = "\(tagsArr[4])"
                         data.sender = 1
                       //  sIdentity == (userDefaults.string(forKey: "twilioIdentity") ?? "") ? (data.sender = 0) : (data.sender = 1)
                          data.sid = message.sid
@@ -424,11 +536,11 @@ extension ChatViewController:UIDocumentPickerDelegate,MPMediaPickerControllerDel
               //  let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
               let jsonObj2 = chatDetails.share.getchatPrivateString(filename: fileName, mszCount: mszCounts)
                 var privateMSz = ""
-                for pChat in privateChatArr {
-                    privateMSz = privateMSz + "@\(pChat)"
-                    print("pchat--->",pChat)
-                   
-                }
+//                for pChat in privateChatArr {
+//                    privateMSz = privateMSz + "@\(pChat)"
+//                    print("pchat--->",pChat)
+//
+//                }
                 let fullMsz = "\(userDefaults.string(forKey: "firstName") ?? ""):\(privateMSz)\(jsonObj2)"
                 let jsonObj3:[AnyHashable:Any] = ["attributes": fullMsz]
                 
@@ -448,7 +560,7 @@ extension ChatViewController:UIDocumentPickerDelegate,MPMediaPickerControllerDel
                 imgdata.sender = 0
                 imgdata.sid = ""
                 imgdata.imgUrl = fileName
-                imgdata.txt = ""
+                imgdata.txt = fileName
                 imgdata.privatechatUser = privateMSz
                 let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
                 imgdata.profileImg = pImage //(userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg")

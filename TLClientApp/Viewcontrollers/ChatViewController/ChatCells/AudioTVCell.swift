@@ -18,8 +18,10 @@ class AudioTVCell: UITableViewCell {
     @IBOutlet weak var vendorDocImg: UIImageView!
     @IBOutlet weak var vendorProfileImg: UIImageView!
     @IBOutlet weak var vendorNameChar: UILabel!
+    @IBOutlet weak var vendorPrivateName: UILabel!
     
     
+    @IBOutlet weak var customerPrivateName: UILabel!
     @IBOutlet weak var customerView: UIView!
     @IBOutlet weak var customerNameChar: UILabel!
     @IBOutlet weak var customerProfileImg: UIImageView!
@@ -78,6 +80,7 @@ class AudioTVCell: UITableViewCell {
             customerDocName.text = obj.txt
             customerTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             customerName.text = obj.name
+            customerPrivateName.text = obj.privatechatUser
             
         }
         else {
@@ -120,6 +123,7 @@ class AudioTVCell: UITableViewCell {
             vendorDocName.text = obj.txt
             vendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             vendorName.text = obj.name
+            vendorPrivateName.text = obj.privatechatUser
 
         }
     }

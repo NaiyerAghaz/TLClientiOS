@@ -1802,10 +1802,10 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/RoomDelegates.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "participantDidDisconnect(room:participant:)"
-            landmarkType = "7">
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "VideoCallViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1818,10 +1818,10 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
-            landmarkName = "ChatViewController"
-            landmarkType = "21">
+            startingLineNumber = "392"
+            endingLineNumber = "392"
+            landmarkName = "chatClient(_:channel:messageAdded:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1834,8 +1834,8 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatCells/ImageChatCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "configureImg(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1850,8 +1850,8 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatCells/ImageChatCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "configureImg(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1946,8 +1946,8 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "getChatMessage(message:istypeImg:url:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1962,8 +1962,8 @@
             filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "getChatMessage(message:istypeImg:url:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>

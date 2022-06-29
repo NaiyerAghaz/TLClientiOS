@@ -55,7 +55,7 @@ class ChatTVCell: UITableViewCell {
                 lblCustomerChar.text = obj.name?.first?.uppercased()
             }
             let text = NSMutableAttributedString()
-            text.append(NSAttributedString(string: obj.privatechatUser ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.blue]));
+            text.append(NSAttributedString(string: obj.privatechatUser ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.cyan]));
             text.append(NSAttributedString(string: obj.txt ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             //lblPrivateCustomerName.text = obj.privatechatUser
             lblCustomerChat.attributedText = text

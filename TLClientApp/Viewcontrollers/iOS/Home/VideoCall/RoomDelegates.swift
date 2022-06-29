@@ -91,12 +91,18 @@ extension VideoCallViewController:RoomDelegate{
         if room.localParticipant != nil {
             self.localParticipant = room.localParticipant
         }
-        if remoteParticipantArr.count != vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count {
-            self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: (participant?.sid!)!, isfromHostcontrol: false) { success, err in
-                    print("getParticipantList2 --->6:",success)
-                self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0)"
-                }
+        if participant?.sid != nil {
+            if remoteParticipantArr.count != vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count {
+                self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: (participant?.sid!)!, isfromHostcontrol: false) { success, err in
+                        print("getParticipantList2 --->6:",success)
+                    DispatchQueue.main.async {
+                        self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0)"
+                    }
+                    
+                    }
+            }
         }
+        
         
         print("domainantParticipant-->", participant)
         if participant != nil {

@@ -37,6 +37,7 @@ class ImageChatCell: UITableViewCell {
         // Configure the view for the selected state
     }
     public func configureImg(obj: RowData){
+        
         if obj.sender == 0 {
             //customer cell
             var pImg = nBaseUrl + obj.profileImg!
@@ -63,6 +64,7 @@ class ImageChatCell: UITableViewCell {
                 let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)//chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
                 customerImg.image = img
             }
+            print("privateusernameReceiver--------->",obj.privatechatUser)
             lblCustTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblCustomerName.text = obj.name
             lblPChatCustomerName.text = obj.privatechatUser
@@ -97,6 +99,7 @@ class ImageChatCell: UITableViewCell {
                 let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)
                 vendorImg.image = img
             }
+            print("privateusernameSender--------->",obj.privatechatUser)
             lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblVendorName.text = obj.name
             lblPChatVendorName.text = obj.privatechatUser

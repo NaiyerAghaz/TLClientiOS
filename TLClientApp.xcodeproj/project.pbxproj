@@ -962,13 +962,6 @@
 			path = CallUtility;
 			sourceTree = "<group>";
 		};
-		29B3C71B274CB428006345E0 /* TVCells */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TVCells;
-			sourceTree = "<group>";
-		};
 		29B3C72D274CB7F2006345E0 /* VideoVModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1338,7 +1331,6 @@
 				29D1D2EC275F89F000573E58 /* CountryCode */,
 				29B3C752274CF23F006345E0 /* Audio */,
 				29B3C74C274CD605006345E0 /* image */,
-				29B3C71B274CB428006345E0 /* TVCells */,
 				046334DB27280BC30079CFCB /* API */,
 				049AB17426E74D4C001D5766 /* GoogleService-Info.plist */,
 				CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */,

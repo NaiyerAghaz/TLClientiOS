@@ -102,26 +102,33 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
                 let imgData = newImage.jpegData(compressionQuality: 1)
                 let imgStream : InputStream = InputStream(data: imgData!)
               
-                let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
-               // let jsonData = try? JSONSerialization.data(withJSONObject: jsonObj, options: [])
-                //let jsonString = String(data: jsonData!, encoding: .utf8)!
+                //let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
+              let jsonObj2 = chatDetails.share.getchatPrivateString(filename: fileName, mszCount: mszCounts)
+                var privateMSz = ""
+                for pChat in privateChatArr {
+                    privateMSz = privateMSz + "@\(pChat)"
+                   }
+                let fullMsz = "\(userDefaults.string(forKey: "firstName") ?? ""):\(privateMSz)\(jsonObj2)"
+                let jsonObj3:[AnyHashable:Any] = ["attributes": fullMsz]
                 
                 //save url photo from picked photo
                 chatDetails.share.saveImageLocally(image: newImage, fileName: fileName)
                 // saveImageLocally(image: newImage, fileName: fileName)
                 var imgdata = RowData.init()
+              
                 imgdata.rowType = .img
                 imgdata.cellIdentifier = .imgCell
+              imgdata.privatechatUser = privateMSz
                 imgdata.sender = 0
                 imgdata.sid = ""
                 imgdata.imgUrl = fileName
-                imgdata.txt = ""
+                imgdata.txt = fileName
                 let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
                 imgdata.profileImg = pImage//(userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg")
                 imgdata.name = (userDefaults.string(forKey: "firstName") ?? "")
                 imgdata.time = CEnumClass.share.createDateAndTimeChat()
                 self.chatListArr.append(imgdata)
-                let jsonAtrr = TCHJsonAttributes(dictionary: jsonObj)
+                let jsonAtrr = TCHJsonAttributes(dictionary: jsonObj3)
                 mszOption.withMediaStream(imgStream, contentType: "image/jpg", defaultFilename: fileName) {
                     print("start--upload", fileName)
                     SwiftLoader.show(title: "Uploading..", animated: true)
@@ -163,7 +170,14 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
             print("uploadVideoUrl----->", url)
             let vData = try Data(contentsOf: url as URL)
             let vStream : InputStream = InputStream(data: vData)
-            let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
+          //  let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
+            let jsonObj2 = chatDetails.share.getchatPrivateString(filename: fileName, mszCount: mszCounts)
+              var privateMSz = ""
+              for pChat in privateChatArr {
+                  privateMSz = privateMSz + "@\(pChat)"
+                 }
+              let fullMsz = "\(userDefaults.string(forKey: "firstName") ?? ""):\(privateMSz)\(jsonObj2)"
+              let jsonObj3:[AnyHashable:Any] = ["attributes": fullMsz]
           //  let jsonData = try? JSONSerialization.data(withJSONObject: jsonObj, options: [])
            //save file to local
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -183,11 +197,12 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
                 imgdata.rowType = .audio
                 imgdata.cellIdentifier = .audioCell
             }
-            
+            imgdata.privatechatUser = privateMSz
           imgdata.sender = 0
             imgdata.sid = ""
             imgdata.imgUrl = fileName
             imgdata.txt = fileName
+            
             let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
             imgdata.profileImg = pImage//(userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg")
             imgdata.name = (userDefaults.string(forKey: "firstName") ?? "")
@@ -195,7 +210,7 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
             imgdata.time = CEnumClass.share.createDateAndTimeChat()
             self.chatListArr.append(imgdata)
             
-            let jsonAtrr = TCHJsonAttributes(dictionary: jsonObj)
+            let jsonAtrr = TCHJsonAttributes(dictionary: jsonObj3)
             mszOption.withMediaStream(vStream, contentType: "*/*", defaultFilename: fileName) {
                 print("start--upload", fileName)
                 SwiftLoader.show(title: "Uploading..", animated: true)
@@ -302,6 +317,13 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             pCell.lblName.text = dataNames.UserName
             pCell.btnCheck.tag = indexPath.row
             pCell.btnCheck.addTarget(self, action: #selector(getCheckUpdate(sender:)), for: .touchUpInside)
+            if dataNames.UserName == privateChatArr[indexPath.row] {
+                pCell.btnCheck.isSelected = true
+            }
+            else {
+                pCell.btnCheck.isSelected = false
+            }
+            
             return pCell
         }
       return UITableViewCell()
