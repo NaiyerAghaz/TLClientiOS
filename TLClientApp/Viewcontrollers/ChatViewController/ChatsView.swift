@@ -242,14 +242,11 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
         if(textField == txtMessage){
             print("COUNT==\(convertedTxt.count)")
             if convertedTxt.count == 0 {
-                //            messageTV.keyboardType = .default
-                //            messageTV.reloadInputViews()
+            
                 self.txtMessage.resignFirstResponder()
                 self.txtMessage.text = ""
             }
-            else{
-                
-            }
+            
         }
         return true
     }
@@ -317,12 +314,14 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             pCell.lblName.text = dataNames.UserName
             pCell.btnCheck.tag = indexPath.row
             pCell.btnCheck.addTarget(self, action: #selector(getCheckUpdate(sender:)), for: .touchUpInside)
-            if dataNames.UserName == privateChatArr[indexPath.row] {
+           
+            if privateChatArr.contains(dataNames.UserName!){
                 pCell.btnCheck.isSelected = true
             }
             else {
                 pCell.btnCheck.isSelected = false
             }
+           
             
             return pCell
         }

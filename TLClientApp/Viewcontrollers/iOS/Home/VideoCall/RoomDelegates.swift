@@ -94,7 +94,7 @@ extension VideoCallViewController:RoomDelegate{
         if participant?.sid != nil {
             if remoteParticipantArr.count != vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count {
                 self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: (participant?.sid!)!, isfromHostcontrol: false) { success, err in
-                        print("getParticipantList2 --->6:",success)
+                       
                     DispatchQueue.main.async {
                         self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0)"
                     }
@@ -102,9 +102,7 @@ extension VideoCallViewController:RoomDelegate{
                     }
             }
         }
-        
-        
-        print("domainantParticipant-->", participant)
+       
         if participant != nil {
             if isChangeView {
                 if currentSpeakerParticipant != nil && participant != currentSpeakerParticipant{
@@ -159,9 +157,7 @@ extension VideoCallViewController:RoomDelegate{
                             self.vdoCollectionView.reloadItems(at: [indexPath])
                         }
                     }
-
-                    
-                }
+}
                 else {
                     if participant != nil {
                         currentSpeakerParticipant = participant
@@ -177,11 +173,7 @@ extension VideoCallViewController:RoomDelegate{
                   }
             }
         }
-    
-       print("participantisSpeakerSId:", participant?.sid)
-      
-        
-    }
+   }
 
     
     func roomDidFailToConnect(room: Room, error: Error) {
@@ -220,28 +212,7 @@ extension VideoCallViewController:RoomDelegate{
             callStartTime = cEnum.instance.getCurrentDateAndTime()
             recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)
         }
-     
-       
-//        let vdoModel = VDOCallViewModel()
-//        let req = vdoModel.companyReqDetails(userID: userDefaults.string(forKey: .kUSER_ID)!)
-//        print("participantDidConnectCount----->",self.remoteParticipantArr.count)
-//        vdoModel.getCompanydetails(req: req) { success, err in
-//            print("getCompanydetails:",success,(vdoModel.apiCompanyDetailsModel?.resultData![0].pARTCOUNT)!)
-//            if (vdoModel.apiCompanyDetailsModel?.resultData![0].pARTCOUNT)! > self.remoteParticipantArr.count {
-//                print("getCompanydetails 11111:")
-//                DispatchQueue.main.async {
-//
-//                    self.remoteParticipantArr.append(participant)
-//                }
-//
-//            }
-//            else {
-//                self.view.makeToast("You have reached maximum participants limit", position: .center)
-//            }
-//        }
-      //  SecondaryRemoteParticipant = participant
- //        participant.delegate = self
-//        self.remoteParticipantArr.append(participant)
+  
         
     }
     
@@ -249,8 +220,7 @@ extension VideoCallViewController:RoomDelegate{
 
         if remoteParticipantArr.count > 1{
                     self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: participant.sid!, isfromHostcontrol: false) { success, err in
-                        print("getParticipantList2 --->7:")
-                        print(success)
+                      
                     }
             if remoteParticipant != nil {
                 recordTime.invalidate()

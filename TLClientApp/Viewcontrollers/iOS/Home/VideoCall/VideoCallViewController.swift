@@ -359,6 +359,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         moreDropDown.selectionAction = { [self] (index, item) in
             print("Index seletected more:", index, item)
             if index == 0 {
+                (vdoCallVM.conferrenceDetail.CONFERENCEInfo!.count > 1) ? (self.privateUserView.isHidden = false) : (self.privateUserView.isHidden = true)
+                   
+                
                 tblPrivateView.isHidden = true
                 self.chatIndicatorView.isHidden = true
                 self.chatView.isHidden = false
@@ -369,7 +372,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 }
                
             }else if index == 1{
-                print("camera--------->", camera?.device, "::", camera)
+                
                 if self.isChangeView == false  {
                     
                     DispatchQueue.main.async {
