@@ -18,6 +18,7 @@ class ImageChatCell: UITableViewCell {
     @IBOutlet weak var lblPChatVendorName: UILabel!
     @IBOutlet weak var btnVendorPlay: UIButton!
     
+    @IBOutlet weak var vendorImgHeight: NSLayoutConstraint!
     @IBOutlet weak var lblPChatCustomerName: UILabel!
     @IBOutlet weak var customerView: UIView!
     @IBOutlet weak var customerImg: UIImageView!
@@ -26,6 +27,8 @@ class ImageChatCell: UITableViewCell {
     @IBOutlet weak var btnCustomerPlay: UIButton!
     @IBOutlet weak var customerImgProfile: UIImageView!
     @IBOutlet weak var lblCustomerChar: UILabel!
+    
+    @IBOutlet weak var customerImgHeight: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -57,14 +60,18 @@ class ImageChatCell: UITableViewCell {
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
                 btnCustomerPlay.isHidden = true
-                customerImg.image = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
-            }
+                let img = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
+       
+                customerImg.image = img
+                
+           }
             else {
                 btnCustomerPlay.isHidden = false
-                let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)//chatDetails.share.getThumbnailFrom(path: URL(string: obj.imgUrl!)!)
+                let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)
                 customerImg.image = img
+                
             }
-            print("privateusernameReceiver--------->",obj.privatechatUser)
+           
             lblCustTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblCustomerName.text = obj.name
             lblPChatCustomerName.text = obj.privatechatUser
@@ -91,13 +98,17 @@ class ImageChatCell: UITableViewCell {
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
                 btnVendorPlay.isHidden = true
-                vendorImg.image = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
-                
-            }
+                let img = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
+              
+                vendorImg.image = img
+              }
             else {
                 btnVendorPlay.isHidden = false
                 let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)
+              
                 vendorImg.image = img
+                
+                
             }
             print("privateusernameSender--------->",obj.privatechatUser)
             lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
@@ -111,3 +122,11 @@ class PrivateMessageTVCell: UITableViewCell {
     @IBOutlet weak var btnCheck: UIButton!
     @IBOutlet weak var lblName: UILabel!
 }
+extension UIImage {
+
+    func getImgRatio() -> CGFloat {
+        let ratio = CGFloat(self.size.width/self.size.height)
+        return ratio
+    }
+}
+

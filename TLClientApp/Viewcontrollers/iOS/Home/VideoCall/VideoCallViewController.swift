@@ -360,8 +360,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             print("Index seletected more:", index, item)
             if index == 0 {
                 (vdoCallVM.conferrenceDetail.CONFERENCEInfo!.count > 1) ? (self.privateUserView.isHidden = false) : (self.privateUserView.isHidden = true)
-                   
-                
                 tblPrivateView.isHidden = true
                 self.chatIndicatorView.isHidden = true
                 self.chatView.isHidden = false

@@ -340,6 +340,30 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
         }
     
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == tblView {
+            let rowData = chatListArr[indexPath.row]
+            switch rowData.rowType {
+            case .img:
+                let urlPath = URL(string: rowData.imgUrl!)
+                let urlExt = urlPath?.pathExtension
+                if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
+                    let img = chatDetails.share.getImageFromName(fileName: rowData.imgUrl ?? "")
+                    let imgCrop = img?.getImgRatio()
+                    return (tableView.frame.width - 90)/imgCrop!
+                }
+                else {
+                    let img = chatDetails.share.createVideoThumbnail(fileName: rowData.imgUrl!)
+                    let imgCrop = img?.getImgRatio()
+                    return (tableView.frame.width - 90)/imgCrop!
+                }
+            default:
+                return tableView.estimatedRowHeight
+            }
+        }
+       return tableView.estimatedRowHeight
+     
+    }
     
     func addKeyBoardListener() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil);

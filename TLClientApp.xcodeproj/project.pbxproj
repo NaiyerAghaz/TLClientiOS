@@ -160,6 +160,8 @@
 		73165B7127D79473008FCCC2 /* RoomDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B7027D79473008FCCC2 /* RoomDelegates.swift */; };
 		7325CDD128168AED003027C4 /* BlockedMV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7325CDD028168AED003027C4 /* BlockedMV.swift */; };
 		7338E1C528607BAE00740336 /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7338E1C428607BAE00740336 /* ChatsView.swift */; };
+		73393958286EF06100E1ABD2 /* ReplyMessageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */; };
+		73393959286EF06100E1ABD2 /* ReplyMessageTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */; };
 		7341BD33284DD19400BA8E29 /* TLCChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7341BD32284DD19400BA8E29 /* TLCChat.storyboard */; };
 		7341BD35284DD1B200BA8E29 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD34284DD1B200BA8E29 /* ChatViewController.swift */; };
 		7341BD39284DDADD00BA8E29 /* ChatTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */; };
@@ -455,6 +457,8 @@
 		73165B7027D79473008FCCC2 /* RoomDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDelegates.swift; sourceTree = "<group>"; };
 		7325CDD028168AED003027C4 /* BlockedMV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedMV.swift; sourceTree = "<group>"; };
 		7338E1C428607BAE00740336 /* ChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsView.swift; sourceTree = "<group>"; };
+		73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyMessageTVCell.swift; sourceTree = "<group>"; };
+		73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyMessageTVCell.xib; sourceTree = "<group>"; };
 		7341BD32284DD19400BA8E29 /* TLCChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TLCChat.storyboard; sourceTree = "<group>"; };
 		7341BD34284DD1B200BA8E29 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTVCell.swift; sourceTree = "<group>"; };
@@ -1074,6 +1078,8 @@
 				738364DC285760E8004C2B15 /* ImageChatCell.xib */,
 				73C95E592862EE6B00D19AD2 /* AudioTVCell.swift */,
 				73C95E5A2862EE6B00D19AD2 /* AudioTVCell.xib */,
+				73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */,
+				73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */,
 			);
 			path = ChatCells;
 			sourceTree = "<group>";
@@ -1708,6 +1714,7 @@
 			files = (
 				73ACC5DA2806A9AC00128217 /* SchedulingAppointments.storyboard in Resources */,
 				29D1D2F1275F89F000573E58 /* assets.bundle in Resources */,
+				73393959286EF06100E1ABD2 /* ReplyMessageTVCell.xib in Resources */,
 				29D1D2F3275F89F000573E58 /* CallingCodes.plist in Resources */,
 				29F8D006274E7D2D006243EC /* MoreCell.xib in Resources */,
 				049AB17526E74D4C001D5766 /* GoogleService-Info.plist in Resources */,
@@ -1930,6 +1937,7 @@
 				04E701882732782D00C57A8E /* CancelledAppointmentDataModel.swift in Sources */,
 				CE74B2B926BE5A7C008BBA8C /* ForgotPasswordVC.swift in Sources */,
 				04BFEDE127202A1E00EB38B7 /* CustomerAddressResponseModel.swift in Sources */,
+				73393958286EF06100E1ABD2 /* ReplyMessageTVCell.swift in Sources */,
 				CE74B2C926BE7378008BBA8C /* Navigator.swift in Sources */,
 				04BFEDDE27202A1E00EB38B7 /* CustomerdetailResponseModel.swift in Sources */,
 				04C7751F273BDD9600AE934A /* ApiUpdateDeviceTokenRespose.swift in Sources */,
@@ -2321,7 +2329,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.72;
+				MARKETING_VERSION = 1.73;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
@@ -2348,7 +2356,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.72;
+				MARKETING_VERSION = 1.73;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
