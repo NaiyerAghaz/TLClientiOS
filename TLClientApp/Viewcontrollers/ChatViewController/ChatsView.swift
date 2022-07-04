@@ -309,6 +309,7 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         else if tableView == tblPrivateView {
+            
             let pCell = tblPrivateView.dequeueReusableCell(withIdentifier: chatDetailIndentifier.pMessageCell.rawValue) as! PrivateMessageTVCell
             let dataNames = vdoCallVM.conferrenceDetail.CONFERENCEInfo![indexPath.row] as! ConferenceInfoModels
             pCell.lblName.text = dataNames.UserName
@@ -339,6 +340,34 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             return chatListArr.count
         }
     
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var configure = UISwipeActionsConfiguration()
+        let rowData = chatListArr[indexPath.row]
+        if rowData.sender == 1 {
+            let replyAction = UIContextualAction(style: .destructive, title: nil) { _, _, complete in
+                       // self.Items.remove(at: indexPath.row)
+                        //self.tblView.deleteRows(at: [indexPath], with: .automatic)
+                print("complete swipe---")
+                        complete(true)
+                    }
+                    
+                    // here set your image and background color
+            replyAction.image = UIImage(named: "reply")
+            replyAction.backgroundColor = .clear
+            configure = UISwipeActionsConfiguration(actions: [replyAction])
+            configure.performsFirstActionWithFullSwipe = true
+                    return configure
+        }
+        else {
+            return configure
+        }
+       
+            
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == tblView {
