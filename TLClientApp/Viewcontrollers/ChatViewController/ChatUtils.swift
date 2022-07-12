@@ -70,17 +70,17 @@ class chatDetails: NSObject {
         let jsonObj:[AnyHashable:Any] = ["attributes": msz]
         return jsonObj
     }
-    func getchatPrivateString(filename: String, mszCount: Int) -> String {
+    func getchatPrivateString(filename: String, mszCount: Int,replyID:String) -> String {
         let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
-        let msz = "#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(filename)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+        let msz = "#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)#\(replyID)#\(filename)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
        // let jsonObj:[AnyHashable:Any] = ["attributes": msz]
         return msz
     }
     
-    func getchatTextReq(msz: String, mszCount: Int) -> String {
+    func getchatTextReq(msz: String, mszCount: Int,replyID:String) -> String {
         let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
         
-        let msz = "#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)##\(msz)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
+        let msz = "#\(userDefaults.string(forKey: "firstName") ?? "")\(mszCount)#\(replyID)#\(msz)#\(pImage!)#\(userDefaults.string(forKey: "twilioIdentity") ?? "")"
        // let jsonObj:[AnyHashable:Any] = ["attributes": msz]
         return msz
     }

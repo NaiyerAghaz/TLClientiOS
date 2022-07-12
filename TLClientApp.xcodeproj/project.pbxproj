@@ -168,6 +168,10 @@
 		7341BD3A284DDADD00BA8E29 /* ChatTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */; };
 		7341BD3C284E03D300BA8E29 /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD3B284E03D300BA8E29 /* ChatModels.swift */; };
 		7341BD3E284E2CF000BA8E29 /* ChatUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */; };
+		73446FD3287573B6006EFA6F /* ReplyImgTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73446FD1287573B6006EFA6F /* ReplyImgTVCell.swift */; };
+		73446FD4287573B6006EFA6F /* ReplyImgTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73446FD2287573B6006EFA6F /* ReplyImgTVCell.xib */; };
+		735BE0522876F7FD00C94358 /* ReplyAudioTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735BE0502876F7FD00C94358 /* ReplyAudioTVCell.swift */; };
+		735BE0532876F7FD00C94358 /* ReplyAudioTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 735BE0512876F7FD00C94358 /* ReplyAudioTVCell.xib */; };
 		7362A7EB281BB56000BBEFB8 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E6281BB56000BBEFB8 /* ActiveType.swift */; };
 		7362A7EC281BB56000BBEFB8 /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E7281BB56000BBEFB8 /* RegexParser.swift */; };
 		7362A7ED281BB56000BBEFB8 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */; };
@@ -465,6 +469,10 @@
 		7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTVCell.xib; sourceTree = "<group>"; };
 		7341BD3B284E03D300BA8E29 /* ChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModels.swift; sourceTree = "<group>"; };
 		7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUtils.swift; sourceTree = "<group>"; };
+		73446FD1287573B6006EFA6F /* ReplyImgTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyImgTVCell.swift; sourceTree = "<group>"; };
+		73446FD2287573B6006EFA6F /* ReplyImgTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyImgTVCell.xib; sourceTree = "<group>"; };
+		735BE0502876F7FD00C94358 /* ReplyAudioTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyAudioTVCell.swift; sourceTree = "<group>"; };
+		735BE0512876F7FD00C94358 /* ReplyAudioTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyAudioTVCell.xib; sourceTree = "<group>"; };
 		7362A7E6281BB56000BBEFB8 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
 		7362A7E7281BB56000BBEFB8 /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
 		7362A7E8281BB56000BBEFB8 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
@@ -1080,6 +1088,10 @@
 				73C95E5A2862EE6B00D19AD2 /* AudioTVCell.xib */,
 				73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */,
 				73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */,
+				73446FD1287573B6006EFA6F /* ReplyImgTVCell.swift */,
+				73446FD2287573B6006EFA6F /* ReplyImgTVCell.xib */,
+				735BE0502876F7FD00C94358 /* ReplyAudioTVCell.swift */,
+				735BE0512876F7FD00C94358 /* ReplyAudioTVCell.xib */,
 			);
 			path = ChatCells;
 			sourceTree = "<group>";
@@ -1721,6 +1733,7 @@
 				CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */,
 				73ACC5D42805538700128217 /* OpenSans-Bold.ttf in Resources */,
 				04BDA09F27450EF700A40B84 /* Home.storyboard in Resources */,
+				73446FD4287573B6006EFA6F /* ReplyImgTVCell.xib in Resources */,
 				048AE80B26E08D8700FB9309 /* ringtone.wav in Resources */,
 				CE2704B526BCE7C000009E77 /* LaunchScreen.storyboard in Resources */,
 				29B3C74E274CD61F006345E0 /* call.gif in Resources */,
@@ -1728,6 +1741,7 @@
 				73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */,
 				73BAF2ED27E1EACB00AAF30C /* SwitchToAudioView.xib in Resources */,
 				29F8D00B274E7DA7006243EC /* VendorTVCell.xib in Resources */,
+				735BE0532876F7FD00C94358 /* ReplyAudioTVCell.xib in Resources */,
 				CE2704B226BCE7C000009E77 /* Assets.xcassets in Resources */,
 				CE3FE08826C8FF31000BD19F /* CalenderVCell.xib in Resources */,
 				73C95E5C2862EE6B00D19AD2 /* AudioTVCell.xib in Resources */,
@@ -2005,6 +2019,7 @@
 				CE74B2D926BEFA27008BBA8C /* Toast.swift in Sources */,
 				049AB17226E743E3001D5766 /* Models.swift in Sources */,
 				CE2704AA26BCE7BE00009E77 /* ViewController.swift in Sources */,
+				73446FD3287573B6006EFA6F /* ReplyImgTVCell.swift in Sources */,
 				04B225C226E9E40E0063129C /* AppConstants.swift in Sources */,
 				04C17E60273154A800297528 /* ApiGetAuthCoderesponseModel.swift in Sources */,
 				04E701822732714200C57A8E /* ApiCreateAppointmentResponseModel.swift in Sources */,
@@ -2087,6 +2102,7 @@
 				CE74B2CF26BE7F10008BBA8C /* Then.swift in Sources */,
 				C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */,
 				CE3FE08426C7B8B6000BD19F /* UIAlertControllerExtensions.swift in Sources */,
+				735BE0522876F7FD00C94358 /* ReplyAudioTVCell.swift in Sources */,
 				29915D4F27856C7D00162033 /* ApiAddparticipantsOPIResponseModle.swift in Sources */,
 				04CBAD7D271D498B00055797 /* VRIAndOPILogsViewController.swift in Sources */,
 				046334E2272813970079CFCB /* ApiNotificationConversionModel.swift in Sources */,
@@ -2318,7 +2334,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6Z22496273;
@@ -2329,10 +2345,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.74;
+				MARKETING_VERSION = 1.76;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ClientDist15Feb2022;
+				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2346,7 +2362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6Z22496273;
@@ -2356,10 +2372,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.74;
+				MARKETING_VERSION = 1.76;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ClientDist15Feb2022;
+				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;

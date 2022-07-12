@@ -17,8 +17,7 @@ class ImageChatCell: UITableViewCell {
     @IBOutlet weak var lblVendorChar: UILabel!
     @IBOutlet weak var lblPChatVendorName: UILabel!
     @IBOutlet weak var btnVendorPlay: UIButton!
-    
-    @IBOutlet weak var vendorImgHeight: NSLayoutConstraint!
+   
     @IBOutlet weak var lblPChatCustomerName: UILabel!
     @IBOutlet weak var customerView: UIView!
     @IBOutlet weak var customerImg: UIImageView!
@@ -28,7 +27,7 @@ class ImageChatCell: UITableViewCell {
     @IBOutlet weak var customerImgProfile: UIImageView!
     @IBOutlet weak var lblCustomerChar: UILabel!
     
-    @IBOutlet weak var customerImgHeight: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -69,7 +68,6 @@ class ImageChatCell: UITableViewCell {
                 btnCustomerPlay.isHidden = false
                 let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)
                 customerImg.image = img
-                
             }
            
             lblCustTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
@@ -99,16 +97,12 @@ class ImageChatCell: UITableViewCell {
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
                 btnVendorPlay.isHidden = true
                 let img = chatDetails.share.getImageFromName(fileName: obj.imgUrl ?? "")
-              
-                vendorImg.image = img
+              vendorImg.image = img
               }
             else {
                 btnVendorPlay.isHidden = false
                 let img = chatDetails.share.createVideoThumbnail(fileName: obj.imgUrl!)
-              
-                vendorImg.image = img
-                
-                
+              vendorImg.image = img
             }
             print("privateusernameSender--------->",obj.privatechatUser)
             lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)

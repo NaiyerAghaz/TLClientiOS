@@ -28,12 +28,17 @@ struct RowData {
     var name : String? = ""
     var time: String? = ""
     var privatechatUser: String? = ""
+    var mszID :String? = ""
+    var replyMszID : String? = ""
 }
 enum RowType:Int {
-    case txt = 0
+    case txt 
+    case txtReply
     case img
+    case imgReply
     case audio
-    case vdo
+   
+    case audioReply
     
 }
 enum chatDetailIndentifier : String {
@@ -41,11 +46,16 @@ enum chatDetailIndentifier : String {
     case imgCell = "ImageChatCell"
     case audioCell = "AudioTVCell"
     case pMessageCell = "PrivateMessageTVCell"
+    case txtReplyCell = "ReplyMessageTVCell"
+    case imgReplyCell = "ReplyImgTVCell"
+    case audioReplyCell = "ReplyAudioTVCell"
 }
 enum CellType_Idx : Int {
     case txtCell = 0
     case imgCell
     case audioCell
+    case txtReplyCell
+    
 }
 
 //Nib Name
@@ -53,6 +63,9 @@ struct NibChatNames {
     static let chat = "ChatTVCell"
     static let chatImg = "ImageChatCell"
     static let audio = "AudioTVCell"
+    static let replyChatTxt = "ReplyMessageTVCell"
+    static let replyImg = "ReplyImgTVCell"
+    static let replyAudio = "ReplyAudioTVCell"
 }
 class chatViewModels {
     public func getChatMessage(message:TCHMessage, istypeImg: Bool,url:String, completionHandler:@escaping(RowData?, Bool?) -> ()) {
@@ -60,8 +73,8 @@ class chatViewModels {
             let ndict = message.attributes()?.dictionary
           
             let mszStr = ndict![AnyHashable("attributes")] as! String
-            print("mszStr---->",mszStr)
-            if mszStr.contains(":") && mszStr.contains("##") {
+            print("mszStr--------------->",mszStr)
+            if mszStr.contains(":") && mszStr.contains("#") {
                 let nMsz = mszStr.replacingOccurrences(of: "\n", with: "")
                 let arr = nMsz.split(separator: ":")
                 let senderName = arr.first
@@ -73,6 +86,8 @@ class chatViewModels {
                     if tags.contains(privateMSZ){
                         let tagsArr = tags.split(separator: "#",omittingEmptySubsequences: false)
                         let privateUser = tagsArr.first
+                        let messageId = senderName! + "\(tagsArr[1])"
+                        let replyMszId = tagsArr[2]
                         let msz = tagsArr[3]
                         let sImage = tagsArr[4]
                         let imgName = msz.replacingOccurrences(of: " ", with: "%20")
@@ -84,10 +99,19 @@ class chatViewModels {
                             chatDetails.share.downloadImage(from: URL(string: url)!) { img, err in
                                 var data = RowData.init()
                                 if err == false {
-                                    data.rowType = .img
-                                    data.cellIdentifier = .imgCell
+                                    if replyMszId != "" {
+                                        data.rowType = .imgReply
+                                        data.cellIdentifier = .imgReplyCell
+                                    }
+                                    else {
+                                        data.rowType = .img
+                                        data.cellIdentifier = .imgCell
+                                    }
+                                   
                                     chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
                                     data.sender = 1
+                                    data.mszID = String(messageId)
+                                    data.replyMszID = String(replyMszId)
                                     data.sid = message.sid
                                     data.imgUrl = fileName
                                     data.txt = String(msz)
@@ -107,9 +131,17 @@ class chatViewModels {
                             downloadVideo(fileName: fileName, url: url) { success in
                                 var data = RowData.init()
                                 if success! {
-                                    data.rowType = .img
-                                    data.cellIdentifier = .imgCell
+                                    if replyMszId != "" {
+                                        data.rowType = .imgReply
+                                        data.cellIdentifier = .imgReplyCell
+                                    }
+                                    else {
+                                        data.rowType = .img
+                                        data.cellIdentifier = .imgCell
+                                    }
                                    data.sender = 1
+                                    data.mszID = String(messageId)
+                                    data.replyMszID = String(replyMszId)
                                     data.vdoUrl = url
                                     data.sid = message.sid
                                     data.imgUrl = fileName
@@ -130,10 +162,18 @@ class chatViewModels {
                             downloadVideo(fileName: fileName, url: url) { success in
                                 var data = RowData.init()
                                 if success! {
-                                    data.rowType = .audio
-                                    data.cellIdentifier = .audioCell
-                                 
+                                    if replyMszId != "" {
+                                        data.rowType = .audioReply
+                                        data.cellIdentifier = .audioReplyCell
+                                    }
+                                    else {
+                                        data.rowType = .audio
+                                        data.cellIdentifier = .audioCell
+                                    }
+                                    
                                     data.sender = 1
+                                    data.mszID = String(messageId)
+                                    data.replyMszID = String(replyMszId)
                                     data.vdoUrl = url
                                     data.sid = message.sid
                                     data.imgUrl = fileName
@@ -154,10 +194,17 @@ class chatViewModels {
                                
                                 var data = RowData.init()
                                 if success! {
-                                    data.rowType = .audio
-                                    data.cellIdentifier = .audioCell
-                                   
+                                    if replyMszId != "" {
+                                        data.rowType = .audioReply
+                                        data.cellIdentifier = .audioReplyCell
+                                    }
+                                    else {
+                                        data.rowType = .audio
+                                        data.cellIdentifier = .audioCell
+                                    }
                                     data.sender = 1
+                                    data.mszID = String(messageId)
+                                    data.replyMszID = String(replyMszId)
                                     data.vdoUrl = url
                                     data.sid = message.sid
                                     data.imgUrl = fileName
@@ -171,9 +218,7 @@ class chatViewModels {
                                 else {
                                     completionHandler(data, true)
                                 }
-                            }
-                            
-                        }
+                            }}
                         }
                     else {
                         completionHandler(nil, true)
@@ -181,10 +226,12 @@ class chatViewModels {
                 }
                 else {
                     let lastObj = arr.last?.dropFirst()// drop first characters
-                    let mszArr = lastObj?.split(separator: "#")
+                    let mszArr = lastObj?.split(separator: "#",omittingEmptySubsequences: false)
                  //   let sName2 = mszArr?.first
-                    let msz = mszArr?[1] ?? ""
-                    let sImage = mszArr?[2]
+                    let messageId = senderName! + "\(mszArr![0])"
+                    let replyMszid = mszArr![1]
+                    let msz = mszArr?[2] ?? ""
+                    let sImage = mszArr?[3]
                    // let sIdentity = mszArr?[3] ?? ""
                   
                     let imgName = msz.replacingOccurrences(of: " ", with: "%20")
@@ -196,8 +243,17 @@ class chatViewModels {
                             var data = RowData.init()
                             if err == false {
                                 chatDetails.share.saveImageLocally(image: img!, fileName: fileName)
-                                data.rowType = .img
-                                data.cellIdentifier = .imgCell
+                                if replyMszid != "" {
+                                    data.rowType = .imgReply
+                                    data.cellIdentifier = .imgReplyCell
+                                }
+                                else {
+                                    data.rowType = .img
+                                    data.cellIdentifier = .imgCell
+                                }
+                               
+                                data.replyMszID = String(replyMszid)
+                                data.mszID = String(messageId)
                                 data.sender = 1
                                 data.sid = message.sid
                                 data.imgUrl = fileName
@@ -218,8 +274,17 @@ class chatViewModels {
                         downloadVideo(fileName: fileName, url: url) { success in
                             var data = RowData.init()
                             if success! {
-                                data.rowType = .img
-                                data.cellIdentifier = .imgCell
+                                if replyMszid != "" {
+                                    data.rowType = .imgReply
+                                    data.cellIdentifier = .imgReplyCell
+                                }
+                                else {
+                                    data.rowType = .img
+                                    data.cellIdentifier = .imgCell
+                                }
+                              
+                                data.mszID = String(messageId)
+                                data.replyMszID = String(replyMszid)
                                 data.sender = 1
                                 data.vdoUrl = url
                                 data.sid = message.sid
@@ -242,9 +307,18 @@ class chatViewModels {
                         downloadVideo(fileName: fileName, url: url) { success in
                             var data = RowData.init()
                             if success! {
-                                data.rowType = .audio
-                                data.cellIdentifier = .audioCell
+                               
+                                if replyMszid != "" {
+                                    data.rowType = .audioReply
+                                    data.cellIdentifier = .audioReplyCell
+                                }
+                                else {
+                                    data.rowType = .audio
+                                    data.cellIdentifier = .audioCell
+                                }
                                 data.sender = 1
+                                data.mszID = String(messageId)
+                                data.replyMszID = String(replyMszid)
                                 data.vdoUrl = url
                                 data.sid = message.sid
                                 data.imgUrl = fileName
@@ -267,8 +341,16 @@ class chatViewModels {
                         downloadVideo(fileName: fileName, url: url) { success in
                             var data = RowData.init()
                             if success! {
-                                data.rowType = .audio
-                                data.cellIdentifier = .audioCell
+                                if replyMszid != "" {
+                                    data.rowType = .audioReply
+                                    data.cellIdentifier = .audioReplyCell
+                                }
+                                else {
+                                    data.rowType = .audio
+                                    data.cellIdentifier = .audioCell
+                                }
+                                data.mszID = String(messageId)
+                                data.replyMszID = String(replyMszid)
                                 data.sender = 1
                                 data.vdoUrl = url
                                 data.sid = message.sid
@@ -289,11 +371,10 @@ class chatViewModels {
         else {
             let mszStr = message.body ?? ""
             print("mszStr---->",mszStr)
-            if mszStr.contains(":") && mszStr.contains("##") {
+            if mszStr.contains(":") && mszStr.contains("#") {
                 var data = RowData.init()
-                data.rowType = .txt
-                data.cellIdentifier = .txtCell
-                var  sName2 = ""
+                var messageID = ""
+                var replymszId = ""
                 var msz = ""
                 var sImage = ""
                 var sIdentity = ""
@@ -301,13 +382,13 @@ class chatViewModels {
                 let arr = nMsz.split(separator: ":")
                 let senderName = arr.first
                 let tags = "\(arr.last!)"
-                
-                if tags.contains("@") {
+               if tags.contains("@") {
                    let privateMSZ = "@" + "\(userDefaults.string(forKey: "firstName") ?? "")"
                     if tags.contains(privateMSZ){
                        let tagsArr = tags.split(separator: "#",omittingEmptySubsequences: false)
                         data.privatechatUser = "\(tagsArr.first!)"
-                        sName2 = "\(tagsArr[1])"
+                        messageID = senderName! + "\(tagsArr[1])"
+                        replymszId = "\(tagsArr[2])"
                          msz = "\(tagsArr[3])"
                         if tagsArr[4] != "" {
                             sImage = "\(tagsArr[4])"
@@ -315,8 +396,20 @@ class chatViewModels {
                         else {
                             sImage = ""
                         }
+                        print("messageid-------1>",messageID,"sname:", senderName)
+                        if replymszId != "" {
+                            
+                            data.rowType = .txtReply
+                            data.cellIdentifier = .txtReplyCell
+                        }
+                        else {
+                            data.rowType = .txt
+                            data.cellIdentifier = .txtCell
+                        }
                        // sIdentity = "\(tagsArr[4])"
                         data.sender = 1
+                        data.mszID = messageID
+                        data.replyMszID = replymszId
                       //  sIdentity == (userDefaults.string(forKey: "twilioIdentity") ?? "") ? (data.sender = 0) : (data.sender = 1)
                          data.sid = message.sid
                          data.txt = msz
@@ -327,14 +420,12 @@ class chatViewModels {
                     }
                     else {
                         completionHandler(data, true)
-                    }
-                    
-                    
-                }
+                    }}
                 else {
                     let lastObj = arr.last?.dropFirst()
                     let mszArr = lastObj?.split(separator: "#",omittingEmptySubsequences: false)
-                    sName2 = "\(mszArr?.first ?? "")"
+                    messageID = senderName! + "\(mszArr?.first ?? "")"
+                    replymszId = String(mszArr?[1] ?? "")
                     msz = "\(mszArr?[2] ?? "")"
                     if mszArr?[3] != "" {
                         sImage = "\(mszArr![3])"
@@ -342,7 +433,19 @@ class chatViewModels {
                     else {
                         sImage = ""
                     }
+                    print("messageid-------2>",messageID,"sname:", senderName)
+                    if replymszId != "" {
+                        replymszId = "\(mszArr![1])".replacingOccurrences(of: senderName!, with: "")
+                        data.rowType = .txtReply
+                        data.cellIdentifier = .txtReplyCell
+                    }
+                    else {
+                        data.rowType = .txt
+                        data.cellIdentifier = .txtCell
+                    }
                     sIdentity = "\(mszArr?[4] ?? "")"
+                    data.mszID = messageID
+                    data.replyMszID = replymszId
                     data.sender = 1
                     data.sid = message.sid
                      data.txt = msz
@@ -352,7 +455,7 @@ class chatViewModels {
                     completionHandler(data, false)
                 }
             
-              print("senderName1:\(senderName),sName21:\(sName2), sImage1:\(sImage),sIdentity1:\(sIdentity), msz::\(msz)")
+              print("senderName1:\(senderName),sName21:\(messageID), sImage1:\(sImage),sIdentity1:\(sIdentity), msz::\(msz)")
                
             }
         }
@@ -534,7 +637,7 @@ extension ChatViewController:UIDocumentPickerDelegate,MPMediaPickerControllerDel
                 
                 
               //  let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
-              let jsonObj2 = chatDetails.share.getchatPrivateString(filename: fileName, mszCount: mszCounts)
+                let jsonObj2 = chatDetails.share.getchatPrivateString(filename: fileName, mszCount: mszCounts, replyID: "")
                 var privateMSz = ""
 //                for pChat in privateChatArr {
 //                    privateMSz = privateMSz + "@\(pChat)"

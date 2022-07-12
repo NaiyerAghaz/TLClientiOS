@@ -24,16 +24,23 @@ extension VideoCallViewController:VideoViewDelegate {
         
     }
     func chatClient(_ client: TwilioChatClient, typingStartedOn channel: TCHChannel, member: TCHMember) {
+        typingView.isHidden = false
+        lblTyping.startBlink()
+       // typingViewHeight.constant = 16
+        
         print("typing member-->", member.identity?.first, "last:",member.identity?.last, "indentity:",member.identity)
     }
     func chatClient(_ client: TwilioChatClient, typingEndedOn channel: TCHChannel, member: TCHMember) {
+        typingView.isHidden = true
+        lblTyping.stopBlink()
+       // typingViewHeight.constant = 0.0
         print("typing end--->",member.identity)
     }
     //When new client added in call this method will call
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
         let messString = message.body!
         //chat message adding:
-        
+        print("messString------>",messString)
         if message.hasMedia() {
             isOpenChat == true ? (chatIndicatorView.isHidden = true) : (chatIndicatorView.isHidden = false)
             
@@ -83,7 +90,7 @@ extension VideoCallViewController:VideoViewDelegate {
                 else{
                     self.chatIndicatorView.isHidden = false
                 }}}
-        else if messString.contains(":") && messString.contains("##"){
+        else if messString.contains(":") && messString.contains("#"){
             let cusIndetity = userDefaults.string(forKey: "twilioIdentity")
             if !messString.contains(cusIndetity!){
                 self.chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
@@ -108,6 +115,7 @@ extension VideoCallViewController:VideoViewDelegate {
         //        if remoteParticipantArr.count >= 10 {
         //            return self.view.makeToast("You have reached maximum participants limit", position: .center)
         //        }
+        
         else {
             if messString.contains("meetingfrominvitenotification") {
                 DispatchQueue.main.async {

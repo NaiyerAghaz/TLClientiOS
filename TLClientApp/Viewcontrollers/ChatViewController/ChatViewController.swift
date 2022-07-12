@@ -196,17 +196,20 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let tCell = tableView.dequeueReusableCell(withIdentifier:"TextChatCell") as! ChatTVCell
                 tCell.configureText(obj: rowData)
                 return tCell
-              
-            case .img:
+             case .img:
                 let imgCell = tableView.dequeueReusableCell(withIdentifier:"ImageChatCell") as! ImageChatCell
                 imgCell.configureImg(obj: rowData)
                 return imgCell
              case .audio:
                 print("audioP")
                 break
-                
-            case .vdo:
-                print("vdo")
+          
+            case .txtReply:
+                print("txtReply")
+            case .imgReply:
+                print("txtReply")
+            case .audioReply:
+                print("audioReply")
             }
       return UITableViewCell()
     }
@@ -231,37 +234,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // setViewOnHold(onHold: false)
     }
     
-    // Disable user input and show activity indicator
-    //    func setViewOnHold(onHold: Bool) {
-    //        //self.isTextInputbarHidden = onHold;
-    //        UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
-    //    }
-    //    func loadMessages() {
-    //        messages.removeAll()
-    //        if chatChannel!.synchronizationStatus == .all {
-    //            chatChannel!.messages?.getLastWithCount(100) { (result, items) in
-    //                print("message result::", items?.count, items, result)
-    //                self.addMessages(newMessages: Set(items!))
-    //            }
-    //        }
-    //    }
-    //    func addMessages(newMessages:Set<TCHMessage>) {
-    //        messages =  messages.union(newMessages)
-    //        sortMessages()
-    ////        DispatchQueue.main.async {
-    ////            self.tableView!.reloadData()
-    ////            if self.messages.count > 0 {
-    ////                self.scrollToBottom()
-    ////            }
-    ////        }
-    //    }
-    //    func sortMessages() {
-    //        sortedMessages = messages.sorted { (a, b) -> Bool in
-    //
-    //            (a.dateCreated ?? "") > (b.dateCreated ?? "")
-    //        }
-    //
-    //    }
 }
 
 

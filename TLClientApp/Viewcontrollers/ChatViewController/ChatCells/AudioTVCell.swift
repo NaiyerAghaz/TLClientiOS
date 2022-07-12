@@ -110,16 +110,14 @@ class AudioTVCell: UITableViewCell {
                 
                 let largeBoldDoc = UIImage(systemName: "headphones.circle.fill", withConfiguration: largeConfig)!.withTintColor(.blue)
                 vendorDocImg.image = largeBoldDoc
-                
-                
-            }
+              }
             else {
                 vendorBtnPlay.isHidden = true
                 vendorBtnPlayWidth.constant = 0.0
                 
                 vendorDocImg.image = chatDetails.share.getImageFromExt(file: urlExt!)
             }
-            print("filesName---->",obj.txt ?? "","extension--->",urlExt)
+
             vendorDocName.text = obj.txt
             vendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             vendorName.text = obj.name

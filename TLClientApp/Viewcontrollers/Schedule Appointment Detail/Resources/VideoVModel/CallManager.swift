@@ -322,10 +322,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                             
                                         }
                                     }
-                                }
-                                
-                                
-                            }
+                                }}
                         }
                     }
                     else {
@@ -333,10 +330,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         isFeedback = true
                         if customerEndCall == false {
                             self.backToMainController()
-                        }
-                        
-                    }
-                }
+                        }} }
             } }
         else {
             
@@ -385,8 +379,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             DispatchQueue.main.async {
                 self.switchToAudioMethod()
             }
-            
-        }
+       }
         
     }
     //MARK: Switch To AudioCall
