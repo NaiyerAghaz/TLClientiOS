@@ -22,7 +22,6 @@
 		046334E92728186C0079CFCB /* ApiGetGroupDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046334E72728186C0079CFCB /* ApiGetGroupDataModel.swift */; };
 		046334ED272825F40079CFCB /* ADDUDATECATEGORY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046334EB272825F30079CFCB /* ADDUDATECATEGORY.swift */; };
 		046334EE272825F40079CFCB /* ApiGetCategoryResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046334EC272825F40079CFCB /* ApiGetCategoryResponseData.swift */; };
-		048007BD26D3B9FF00E9E2FB /* OPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */; };
 		048AE7FF26D63A1700FB9309 /* AddParticipantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048AE7FE26D63A1700FB9309 /* AddParticipantController.swift */; };
 		048AE80126D64D3600FB9309 /* OPIFeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048AE80026D64D3600FB9309 /* OPIFeedbackController.swift */; };
 		048AE80626DF434A00FB9309 /* OnDemandOPIVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048AE80526DF434A00FB9309 /* OnDemandOPIVM.swift */; };
@@ -120,7 +119,6 @@
 		2932820E2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2932820D2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift */; };
 		29328241276A062800698592 /* ApiCreateVRICallClientResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29328240276A062800698592 /* ApiCreateVRICallClientResponseModel.swift */; };
 		29328246276A144A00698592 /* ApiCheckCallStatusResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29328245276A144A00698592 /* ApiCheckCallStatusResponseModel.swift */; };
-		296D81772763609D005ADBB0 /* CallingOPIPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */; };
 		2971A9D7276389B70096C730 /* AudioCallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2971A9D6276389B70096C730 /* AudioCallViewController.swift */; };
 		298FA12D2771F15E0023019C /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298FA12C2771F15E0023019C /* RatingViewController.swift */; };
 		298FA1852771F2800023019C /* ApiGetRatindScreenResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 298FA1842771F2800023019C /* ApiGetRatindScreenResponseModel.swift */; };
@@ -321,7 +319,6 @@
 		046334E72728186C0079CFCB /* ApiGetGroupDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetGroupDataModel.swift; sourceTree = "<group>"; };
 		046334EB272825F30079CFCB /* ADDUDATECATEGORY.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ADDUDATECATEGORY.swift; sourceTree = "<group>"; };
 		046334EC272825F40079CFCB /* ApiGetCategoryResponseData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiGetCategoryResponseData.swift; sourceTree = "<group>"; };
-		048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPIViewController.swift; sourceTree = "<group>"; };
 		048AE7FE26D63A1700FB9309 /* AddParticipantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddParticipantController.swift; sourceTree = "<group>"; };
 		048AE80026D64D3600FB9309 /* OPIFeedbackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPIFeedbackController.swift; sourceTree = "<group>"; };
 		048AE80526DF434A00FB9309 /* OnDemandOPIVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnDemandOPIVM.swift; sourceTree = "<group>"; };
@@ -417,7 +414,6 @@
 		2932820D2769BDF800698592 /* ApiScheduleVRIMeetResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiScheduleVRIMeetResponseModel.swift; sourceTree = "<group>"; };
 		29328240276A062800698592 /* ApiCreateVRICallClientResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCreateVRICallClientResponseModel.swift; sourceTree = "<group>"; };
 		29328245276A144A00698592 /* ApiCheckCallStatusResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCheckCallStatusResponseModel.swift; sourceTree = "<group>"; };
-		296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingOPIPopUpVC.swift; sourceTree = "<group>"; };
 		2971A9D6276389B70096C730 /* AudioCallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCallViewController.swift; sourceTree = "<group>"; };
 		298FA12C2771F15E0023019C /* RatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		298FA1842771F2800023019C /* ApiGetRatindScreenResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiGetRatindScreenResponseModel.swift; sourceTree = "<group>"; };
@@ -1572,9 +1568,7 @@
 			children = (
 				CE76024726CF778800550B68 /* OnDemandOPIViewController.swift */,
 				04DCB7C426D3AE3C003A99E1 /* OnDemandCallInfoController.swift */,
-				048007BC26D3B9FE00E9E2FB /* OPIViewController.swift */,
 				048AE7FE26D63A1700FB9309 /* AddParticipantController.swift */,
-				296D81762763609D005ADBB0 /* CallingOPIPopUpVC.swift */,
 				2971A9D6276389B70096C730 /* AudioCallViewController.swift */,
 				298FA12C2771F15E0023019C /* RatingViewController.swift */,
 			);
@@ -2034,7 +2028,6 @@
 				7341BD35284DD1B200BA8E29 /* ChatViewController.swift in Sources */,
 				73ACC5DC2806D29900128217 /* EditUpdateAnDeleteVC.swift in Sources */,
 				CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */,
-				296D81772763609D005ADBB0 /* CallingOPIPopUpVC.swift in Sources */,
 				7362A7EE281BB56000BBEFB8 /* ActiveBuilder.swift in Sources */,
 				CEB2569226C236DE007A951E /* WebServicesAlamoFire.swift in Sources */,
 				04C17E63273154A800297528 /* GenderDataModel.swift in Sources */,
@@ -2126,7 +2119,6 @@
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
 				0439C798271008FE00DA3D61 /* UIColor.swift in Sources */,
-				048007BD26D3B9FF00E9E2FB /* OPIViewController.swift in Sources */,
 				7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */,
 				C6EAE8C927D217EF009F7261 /* TelephonicBlockedNewVC.swift in Sources */,
 				04B225C926EF68820063129C /* SharedManager.swift in Sources */,
@@ -2345,7 +2337,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.76;
+				MARKETING_VERSION = 1.78;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
@@ -2372,7 +2364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.76;
+				MARKETING_VERSION = 1.78;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;

@@ -99,6 +99,7 @@ func configureUI(){
                 if roomId != nil {
                     
                     let req = callManagerVM.normalCallClientReq( ccid: "0", clientID: GetPublicData.sharedInstance.userID, roomID: self.roomId ?? "", sourceId: self.sourceID ?? "", targetID: self.targetID ?? "")
+                    print("getVRICallClientreq------->",req)
                     getVRICallClient(req: req)
                     postOPIAcceptCall()
                 }else {
@@ -158,7 +159,7 @@ func configureUI(){
     
     func getVRICallClient(req:[String:Any]){
        
-     
+     print("getCreateVRICallClientReq-------1>",req)
    
         self.getCreateVRICallClient(req: req) { (completion, error) in
             if completion ?? false {
@@ -265,6 +266,7 @@ func configureUI(){
         }else {
             let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let odoCall = sB.instantiateViewController(identifier: "AudioCallViewController") as! AudioCallViewController
+            print("allPara--->",roomId, "sourceID:",sourceID, "targetID:",targetID, "ccid:",ccid,"sourceName::",sourceName,"targetName:",targetName,"vendorID:",vendorID,"vendorName:",vendorName,"vendorImgUrl:",vendorImgUrl)
             odoCall.roomID = roomId
             odoCall.sourceLangID = sourceID
             odoCall.targetLangID = targetID
@@ -297,6 +299,7 @@ func configureUI(){
                    
                     guard let daata8 = response.data else { return }
                     do {
+                        print("createVRICallClientREQ-------",req)
                         let jsonDecoder = JSONDecoder()
                         self.apiCreateVRICallClientResponseModel = try jsonDecoder.decode([ApiCreateVRICallClientResponseModel].self, from: daata8)
                         print("Success getCreateVRICallClient Model ",self.apiCreateVRICallClientResponseModel)

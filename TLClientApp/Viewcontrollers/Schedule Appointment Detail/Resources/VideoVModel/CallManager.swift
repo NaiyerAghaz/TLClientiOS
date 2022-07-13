@@ -36,7 +36,8 @@ class CallManagerVM {
         }
     }
     func roomCreateReq() -> [String: Any]{
-        let para :[String: Any] = ["strSearchString":"<Info><STATUS>Get</STATUS></Info>"]
+       // let para :[String: Any] = ["strSearchString":"<Info><STATUS>Get</STATUS></Info>"]
+        let para :[String: Any] = ["strSearchString":"<Info><STATUS>GET</STATUS></Info>"]
         return para
     }
     func getTwilioTokenWithCompletion(userID: String,Handler:@escaping(String?, Error?) ->()){

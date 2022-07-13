@@ -266,8 +266,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1094"
-            endingLineNumber = "1094"
+            startingLineNumber = "1101"
+            endingLineNumber = "1101"
             landmarkName = "performEndCallAction(uuid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,8 +282,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "931"
-            endingLineNumber = "931"
+            startingLineNumber = "937"
+            endingLineNumber = "937"
             landmarkName = "provider(_:perform:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,8 +298,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
+            startingLineNumber = "940"
+            endingLineNumber = "940"
             landmarkName = "provider(_:perform:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,8 +314,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1092"
-            endingLineNumber = "1092"
+            startingLineNumber = "1099"
+            endingLineNumber = "1099"
             landmarkName = "performEndCallAction(uuid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,8 +330,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1091"
-            endingLineNumber = "1091"
+            startingLineNumber = "1098"
+            endingLineNumber = "1098"
             landmarkName = "performEndCallAction(uuid:)"
             landmarkType = "7">
             <Locations>
@@ -410,8 +410,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
             landmarkName = "onTimerStart()"
             landmarkType = "7">
          </BreakpointContent>
@@ -426,8 +426,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "298"
-            endingLineNumber = "298"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "onTimerStart()"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,8 +442,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
             landmarkName = "onTimerStart()"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,8 +538,8 @@
             filePath = "TLClientApp/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
+            startingLineNumber = "296"
+            endingLineNumber = "296"
             landmarkName = "handleNotification(userInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,8 +554,8 @@
             filePath = "TLClientApp/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "handleNotification(userInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,8 +570,8 @@
             filePath = "TLClientApp/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
+            startingLineNumber = "290"
+            endingLineNumber = "290"
             landmarkName = "handleNotification(userInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,8 +586,8 @@
             filePath = "TLClientApp/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
             landmarkName = "handleNotification(userInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1226,8 +1226,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "649"
-            endingLineNumber = "649"
+            startingLineNumber = "650"
+            endingLineNumber = "650"
             landmarkName = "remoteParticipantDidDisableAudioTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1242,8 +1242,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "594"
-            endingLineNumber = "594"
+            startingLineNumber = "595"
+            endingLineNumber = "595"
             landmarkName = "remoteParticipantDidEnableAudioTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1418,8 +1418,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "495"
-            endingLineNumber = "495"
+            startingLineNumber = "496"
+            endingLineNumber = "496"
             landmarkName = "remoteParticipantDidEnableVideoTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1434,8 +1434,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "498"
-            endingLineNumber = "498"
+            startingLineNumber = "499"
+            endingLineNumber = "499"
             landmarkName = "remoteParticipantDidEnableVideoTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1450,8 +1450,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "493"
-            endingLineNumber = "493"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
             landmarkName = "remoteParticipantDidEnableVideoTrack(participant:publication:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1770,8 +1770,8 @@
             filePath = "TLClientApp/Viewcontrollers/Schedule Appointment Detail/Resources/VideoVModel/CallManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "348"
-            endingLineNumber = "348"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "backToMainController()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1904,7 +1904,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "23175AC6-AA1B-491D-B5EC-F40877DB346C - 9fba42fcf3b06bb1"
+                  uuid = "23175AC6-AA1B-491D-B5EC-F40877DB346C - 9fba42fcf3b0562b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1914,12 +1914,12 @@
                   urlString = "file:///Users/darrinbrooks/Desktop/Naiyer/TLClientiOS/TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "330"
-                  endingLineNumber = "330"
+                  startingLineNumber = "372"
+                  endingLineNumber = "372"
                   offsetFromSymbolStart = "22912">
                </Location>
                <Location
-                  uuid = "23175AC6-AA1B-491D-B5EC-F40877DB346C - 9fba42fcf3b06bb1"
+                  uuid = "23175AC6-AA1B-491D-B5EC-F40877DB346C - 9fba42fcf3b0562b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1929,8 +1929,8 @@
                   urlString = "file:///Users/darrinbrooks/Desktop/Naiyer/TLClientiOS/TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "330"
-                  endingLineNumber = "330"
+                  startingLineNumber = "372"
+                  endingLineNumber = "372"
                   offsetFromSymbolStart = "22960">
                </Location>
             </Locations>
@@ -1952,7 +1952,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "1DA41EFA-DC56-40F6-B94F-C2FDACADCE17 - 9fba42fcf3b06aea"
+                  uuid = "1DA41EFA-DC56-40F6-B94F-C2FDACADCE17 - 9fba42fcf3b05504"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1962,12 +1962,12 @@
                   urlString = "file:///Users/darrinbrooks/Desktop/Naiyer/TLClientiOS/TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "339"
-                  endingLineNumber = "339"
+                  startingLineNumber = "381"
+                  endingLineNumber = "381"
                   offsetFromSymbolStart = "24356">
                </Location>
                <Location
-                  uuid = "1DA41EFA-DC56-40F6-B94F-C2FDACADCE17 - 9fba42fcf3b06aea"
+                  uuid = "1DA41EFA-DC56-40F6-B94F-C2FDACADCE17 - 9fba42fcf3b05504"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1977,8 +1977,8 @@
                   urlString = "file:///Users/darrinbrooks/Desktop/Naiyer/TLClientiOS/TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "339"
-                  endingLineNumber = "339"
+                  startingLineNumber = "381"
+                  endingLineNumber = "381"
                   offsetFromSymbolStart = "24404">
                </Location>
             </Locations>
@@ -2029,6 +2029,54 @@
             startingLineNumber = "126"
             endingLineNumber = "126"
             landmarkName = "replyUpdates(obj:send:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F2A9E16C-7EC1-4332-BF75-FCACAB7FC5DF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "recallVendor()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C6792FF2-B8F5-4D0D-896F-A16E3F031A1C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "718"
+            endingLineNumber = "718"
+            landmarkName = "createVRICallVendor()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2544BE76-41BE-4312-AB22-56072C9925EA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "717"
+            endingLineNumber = "717"
+            landmarkName = "createVRICallVendor()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

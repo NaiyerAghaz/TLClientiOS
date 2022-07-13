@@ -102,7 +102,9 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         super.viewDidLoad()
         addParticipantsBtn.isHidden = true
         //  self.vendorIMG.layer.cornerRadius = self.vendorIMG.bounds.height / 2
-        
+        let bundle = "assets.bundle/"
+        let image = UIImage( named: bundle + "us.png")
+        countryCodeImg.image = image
         createVRICallVendor()
         self.addParticipantsBtn.isUserInteractionEnabled = false
         self.showParticipantsListCV.delegate = self
@@ -114,7 +116,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.callDurationLbl.isHidden = true
         self.participentListView.isHidden = true
         
-        
+        phoneNumTF.attributedPlaceholder = NSAttributedString(
+            string: "Phone",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.vendorAnswered(notification:)), name: Notification.Name("vendorAnswered"), object: nil)
         
@@ -144,7 +149,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         getProfileimg()
         
         self.countryCodeTF.setLeftPaddingPoints(60)
-        self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "(US)+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+       // self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "(US)+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
         setFlagAndPhoneNumberCodeLeftViewIcon(icon: UIImage(named: "down button arrow")!)
     }
     @objc func removeParticipants(notification: Notification){
@@ -272,7 +277,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         print("vendor answer")
         self.timerDuration = nil
         self.isCallReceivedNotify = true
-        self.addParticipantsBtn.isHidden = false
+        //self.addParticipantsBtn.isHidden = true
         self.isVoiceConnected = true
         self.stopRingback()
         let dateFormatter = DateFormatter()
@@ -312,11 +317,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.navigationItem.setHidesBackButton(false, animated: true)
         
         let picker = MICountryPicker { (name, code ) -> () in
-            
-            //            print("picked code : ",code)
-            //            print("PICKED COUNTRY IS \(name)")
-            //            let bundle = "assets.bundle/"
-            //            print("IMAGE IS \(UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil))")
+          
         }
         picker.delegate = self
         // Display calling codes
@@ -326,11 +327,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             picker.navigationController?.isNavigationBarHidden=true
             //picker.navigationController?.popViewController(animated: true)
             picker.dismiss(animated: true, completion: nil)
-            //            print("code is ",code)
-            //            let bundle = "assets.bundle/"
-            //
-            //            let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-            //            print("IMAGE IS \(image)")
+          
             
         }
         picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
@@ -418,6 +415,11 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         }
         
     }
+    
+    @IBAction func addParticipatnTapped(_ sender: Any) {
+        print("button tapped22")
+        self.conferenceCallView.isHidden = false
+    }
     func getVendorIDs(request : [String : Any], completionHandler : @escaping(Bool?, Error?) -> ()){
         self.apiCheckCallStatusResponseModel.removeAll()
         
@@ -425,7 +427,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         print("url and parameter are getVendorIDs", request , urlString)
         AF.request(urlString, method: .post, parameters: request, encoding: JSONEncoding.default, headers: nil)
             .validate()
-            .responseData(completionHandler: { (response) in
+            .responseData(completionHandler: { [self] (response) in
                 SwiftLoader.hide()
                 switch(response.result){
                     
@@ -454,12 +456,16 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                                 let vendorimg = userIfo?["CustomerImage"] as? String
                                 self.vendorID = String(vendorId ?? 0)
                                 self.vendorName = vendorName ?? ""
-                                self.vendorImg = vendorimg ?? ""
+                                self.vendorImg = (vendorimg ?? "")
                                 self.vendorNameLbl.text = ""// self.vendorName
                                 // let baseUrl = "https://lsp.totallanguage.com/"
-                                let vendorImgUrl = nBaseUrl + self.vendorImg
                                 
-                                self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
+                               // print("vendorImg--------->\(vendorImg)")
+                                let vendorImgUrl = nBaseUrl + self.vendorImg
+                                //vendorImgUrl = vendorImgUrl.replacingOccurrences(of:" ", with: "%20")
+                               
+                               // print("vendorImgUrl--->\(vendorImgUrl)")
+                               // self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
                                 
                                 completionHandler(true , nil)
                                 
@@ -747,7 +753,8 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         let urlString = APi.getOPIDetailsByRoomID.url
         // self.apiCreateVRICallClientResponseModel.removeAll()
         let parameter = [
-            "RoomNo":self.roomID ?? ""
+            "Roomno":self.roomID ?? ""
+            
         ]
         print("url and parameter for getCreateVRICallVendor", urlString)
         AF.request(urlString, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: nil)
@@ -758,7 +765,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                     
                 case .success(_):
                     
-                    print("call start Audio Controller ")
+                    print("call start Audio Controller ",response)
                     guard let daata88 = response.data else { return }
                     do {
                         let jsonDecoder = JSONDecoder()
@@ -766,8 +773,8 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                         self.vendorImg = self.apiOPiCallRoomDetailsResponseModel?.roomDetails?.first?.vendorImage ?? ""
                         self.vendorName = self.apiOPiCallRoomDetailsResponseModel?.roomDetails?.first?.vendorName ?? ""
                         
-                        let vendorImgUrl = nBaseUrl + self.vendorImg
-                        print("vendorImgUrl--->",vendorImgUrl)
+                        let vendorImgUrl = nBaseUrl + self.vendorImg.replacingOccurrences(of: " ", with: "%20")
+                        print("vendorImgUrl---222>",vendorImgUrl)
                         self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
                         self.vendorNameLbl.text = self.vendorName
                     }catch {
@@ -842,8 +849,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 self.showParticipantsListCV.reloadData()
                 self.phoneCallsList.append(phoneNum)
                 self.callSIDList.append(callSid ?? "")
-                
-            }else {
+                self.phoneNumTF.text = ""
                 
             }
         }
@@ -1056,6 +1062,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     }
     
     func performAnswerVoiceCall(uuid: UUID, completionHandler: @escaping (Bool) -> Void) {
+        print("Answer Call:")
         guard let callInvite = activeCallInvites[uuid.uuidString] else {
             NSLog("No CallInvite matches the UUID")
             return
@@ -1277,7 +1284,7 @@ extension AudioCallViewController : CXProviderDelegate {
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         NSLog("-------provider:performAnswerCallAction:-------")
         
-        self.addParticipantsBtn.isHidden = false
+      //  self.addParticipantsBtn.isHidden = false
         isCallReceivedNotify = true
         performAnswerVoiceCall(uuid: action.callUUID) { success in
             if success {

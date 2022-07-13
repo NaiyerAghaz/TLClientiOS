@@ -218,8 +218,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 break
                 
             case "opicall":
+               
                 NotificationCenter.default.post(name: Notification.Name("vendorAnswered"), object: nil, userInfo: nil)
                 break
+            
             case "tokenupdate":
                 if Reachability.isConnectedToNetwork() {
                     userDefaults.removeObject(forKey: "isDeclineTimeZone")
@@ -264,7 +266,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 break
                 
             default:
-                print("type not available")
+                if type?.contains("ParticipantLeave") ?? false {
+                   
+                    let participantsValue = type?.components(separatedBy: ",")
+                    if (participantsValue?.count ?? 0 ) > 0 {
+                        let participantsStr = participantsValue?[0]
+                        let conferenceSID = participantsValue?[1] ?? ""
+                        let objConferenceSID:[String:String] = ["conferenceSID":conferenceSID]
+                        if participantsStr == "ParticipantLeave" {
+                            NotificationCenter.default.post(name: Notification.Name("removeParticipants"), object: nil, userInfo: objConferenceSID)
+                        }
+                    }
+                    
+                    
+                }
+                else {
+                    print("type not available")
+                }
+               
             }
            /* if type == TypeNotification.notavailable.rawValue {
                 if userInfo[AnyHashable("gcm.notification.Callstatus")]  != nil{
