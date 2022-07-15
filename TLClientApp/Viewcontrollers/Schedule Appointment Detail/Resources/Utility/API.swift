@@ -17,7 +17,7 @@ let twiliBaseURL = "https://sai1.smsionline.com"
 let baseOPI = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken"
 //let baseOPI = "https://lsp.smsionline.com/OPI/GetOPIAccessToken"
 let chatURL = "https://vriservices.totallanguage.com"
-
+let scheduleURL = "https://lsp.totallanguage.com/CustomerManagement/CustomerDetail/GetData?methodType=SCHEDULVRIDETAILSBYID&id="
 
 //https://lsp.totallanguage.com/Voicecall/Logoutfromwebforall
 enum APi{

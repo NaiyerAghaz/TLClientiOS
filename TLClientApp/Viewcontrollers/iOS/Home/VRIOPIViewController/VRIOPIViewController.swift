@@ -9,6 +9,10 @@ import UIKit
 import XLPagerTabStrip
 class VRIOPIViewController: ButtonBarPagerTabStripViewController {
     var navigator = Navigator()
+    var isFromAppointmentVRI = false
+    var isFromAppointmentOPI = false
+    var apmntID = ""
+    var selectedIndex = 0
     static func createWith(navigator: Navigator, storyboard: UIStoryboard) -> ScheduledVRIVIewController {
         return storyboard.instantiateViewController(ofType: ScheduledVRIVIewController.self).then { viewController in
             
@@ -42,7 +46,16 @@ class VRIOPIViewController: ButtonBarPagerTabStripViewController {
     @IBAction func btnBackTapped(_ sender: Any){
         self.navigationController?.popViewController(animated: true)
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if isFromAppointmentVRI{
+            self.moveToViewController(at: selectedIndex)
+        }
+        else if isFromAppointmentOPI {
+            self.moveToViewController(at: selectedIndex)
+        }
+       
+    }
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController]
     {
        // ChildExampleViewController(itemInfo: "YOU")
@@ -50,10 +63,16 @@ class VRIOPIViewController: ButtonBarPagerTabStripViewController {
        //here are the my VC the number of VC u give u can get those many upon swipe left to right,Right to left....
         let vri = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"OnDemandVRIViewController") as! OnDemandVRIViewController
         vri.itemInfo = IndicatorInfo(title: "Ondemand VRI")
+       
         let opi = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"OnDemandOPIViewController") as! OnDemandOPIViewController
         opi.itemInfo = IndicatorInfo(title: "Ondemand OPI")
         let scheduleVRI = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"ScheduledVRIVIewController") as! ScheduledVRIVIewController
+        scheduleVRI.isFromAppointment = isFromAppointmentVRI
+        scheduleVRI.apmtID = apmntID
+        
         let scheduleOPI = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"ScheduledOPIViewController") as! ScheduledOPIViewController
+        scheduleOPI.isFromAppointment = isFromAppointmentOPI
+        scheduleOPI.apmtID = apmntID
         let meetingVC = navigator.homeStoryBoard.instantiateViewController(withIdentifier:"MeetingViewController") as! MeetingViewController
         
        // return [vri,opi]

@@ -190,6 +190,7 @@
 		738364DD285760E8004C2B15 /* ImageChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738364DB285760E8004C2B15 /* ImageChatCell.swift */; };
 		738364DE285760E8004C2B15 /* ImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 738364DC285760E8004C2B15 /* ImageChatCell.xib */; };
 		738878F227D8AE4100C7614B /* FeedbackVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738878F127D8AE4100C7614B /* FeedbackVModel.swift */; };
+		739BD3F6287EF7720062B61D /* ScheduleVModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739BD3F5287EF7720062B61D /* ScheduleVModel.swift */; };
 		73A03E5527BFA56C0075BDDB /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */; };
 		73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1A76527C36921007281DC /* FeedbackVC.swift */; };
 		73A3EB6C2833C4A5001C4B05 /* videoCallMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3EB6B2833C4A5001C4B05 /* videoCallMethods.swift */; };
@@ -489,6 +490,7 @@
 		738364DB285760E8004C2B15 /* ImageChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageChatCell.swift; sourceTree = "<group>"; };
 		738364DC285760E8004C2B15 /* ImageChatCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageChatCell.xib; sourceTree = "<group>"; };
 		738878F127D8AE4100C7614B /* FeedbackVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVModel.swift; sourceTree = "<group>"; };
+		739BD3F5287EF7720062B61D /* ScheduleVModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleVModel.swift; sourceTree = "<group>"; };
 		73A03E5427BFA56C0075BDDB /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		73A1A76527C36921007281DC /* FeedbackVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		73A3EB6B2833C4A5001C4B05 /* videoCallMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoCallMethods.swift; sourceTree = "<group>"; };
@@ -1579,6 +1581,7 @@
 			isa = PBXGroup;
 			children = (
 				CE76024A26CF77D300550B68 /* ScheduledVRIVIewController.swift */,
+				739BD3F5287EF7720062B61D /* ScheduleVModel.swift */,
 			);
 			path = ScheduledVRIVIewController;
 			sourceTree = "<group>";
@@ -1915,6 +1918,7 @@
 				29F8CFF2274E7831006243EC /* TotalParticipantVC.swift in Sources */,
 				046334E92728186C0079CFCB /* ApiGetGroupDataModel.swift in Sources */,
 				04C17E62273154A800297528 /* AuthenticationCodeDataModel.swift in Sources */,
+				739BD3F6287EF7720062B61D /* ScheduleVModel.swift in Sources */,
 				737511FD282A371200619EA7 /* RecurrenceCalendarView.swift in Sources */,
 				048AE80626DF434A00FB9309 /* OnDemandOPIVM.swift in Sources */,
 				29B3C748274CC86E006345E0 /* iOSDevCenters+GIF.swift in Sources */,

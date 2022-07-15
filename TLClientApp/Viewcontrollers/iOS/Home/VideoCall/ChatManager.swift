@@ -32,11 +32,10 @@ class ChatManager: NSObject, TwilioChatClientDelegate {
            // print("url:\( fullUrl) response:\(response)")
             let twilioData = TwilioChatModel.getData(dicts: response as! NSDictionary)
             userDefaults.set(twilioData.identity, forKey: "twilioIdentity")
-            print("TWILIO DATA IS--> \(twilioData.token)", twilioData.identity)
+         
             TwilioChatClient.chatClient(withToken: twilioData.token!, properties: nil, delegate: self) { result, chatClient in
                 self.client = chatClient
 
-                print("chatClient---:", chatClient)
                 handler(true, twilioData)
               //  self.updateChatClient()
             }

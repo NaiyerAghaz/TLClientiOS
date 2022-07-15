@@ -74,67 +74,37 @@ class ScheduleAppointmentDetailVC: UIViewController {
     }
     func updateUI(){
         let showAppointmentArr =  self.apiAppointmentDetailResponseModel?.appointmentCutomerData?.first
-       /* if self.showAppointmentArr?.appointmentStatusType?.lowercased() ?? "" == "cancelled" || self.showAppointmentArr?.appointmentStatusType?.lowercased() ?? "" == "botched" || self.showAppointmentArr?.appointmentStatusType?.lowercased() ?? "" == "couldnotbook" {
-            self.statusLbl.text =  "CANCELLED"
-            self.appointStatusHeadingLbl.text = "Cancelled Appointment "// self.showAppointmentArr?.appointmentStatusType ?? "N/A"
-           // cell.statusOfAppointmentLbl.text = "CANCELLED"
-            
-        }
-        else {
-            getAppointmentStatus(appointmentType: (showAppointmentArr?.appointmentStatusType)!) { headingStr, statusStr in
-                self.appointStatusHeadingLbl.text = headingStr
-               // cell.statusOfAppointmentLbl.text = "CANCELLED"
-                self.statusLbl.text =  statusStr
-            }
-           
-        }*/
-       // hexStringToUIColor(hex: getHexaString(status: (index.appointmentStatusType!.lowercased()))!)
+       
         getAppointmentStatus(appointmentType: (showAppointmentArr?.appointmentStatusType)!) { headingStr, statusStr, colorStr in
             self.appointStatusHeadingLbl.text = headingStr
             self.statusLbl.text =  statusStr
             self.appointStatusHeadingLbl.backgroundColor = hexStringToUIColor(hex: colorStr!)
             self.statusLbl.textColor = hexStringToUIColor(hex: colorStr!)
         }
-        lblClientPatientName.text = showAppointmentArr?.clientName != "" ? showAppointmentArr?.clientName : "N/A"
-        lblServiceType.text = showAppointmentArr?.specialityName != "" ? showAppointmentArr?.specialityName : "N/A"
-        lblServiceType.text = showAppointmentArr?.appointmentType != nil ? showAppointmentArr?.appointmentType : "N/A"
+        lblClientPatientName.text = (showAppointmentArr?.clientName != "" && showAppointmentArr?.clientName != nil) ? showAppointmentArr?.clientName : "N/A"
+        lblServiceType.text = (showAppointmentArr?.specialityName != "" && showAppointmentArr?.specialityName != nil) ? showAppointmentArr?.specialityName : "N/A"
+        lblServiceType.text = (showAppointmentArr?.appointmentType != nil && showAppointmentArr?.appointmentType != "") ? showAppointmentArr?.appointmentType : "N/A"
        
-       // self.jobTypeLbl.text = showAppointmentArr?.appointmentType ?? "N/A"
-       // if showAppointmentArr?.text?.replacingOccurrences(of: "\\", with: "").isValidURL ?? false{
-
-            
-            specialNotesLbl.text =  showAppointmentArr?.text != "" ? showAppointmentArr?.text : "N/A"
+   specialNotesLbl.text =  (showAppointmentArr?.text != "" && showAppointmentArr?.text != nil ) ? showAppointmentArr?.text : "N/A"
             specialNotesLbl.handleURLTap { url in
                 
                 CEnumClass.share.activeLinkCall(activeURL: url)
             }
         
         
-        locationLbl.text =  showAppointmentArr?.location != "" ? showAppointmentArr?.location : "N/A"
+        locationLbl.text =  (showAppointmentArr?.location != "" && showAppointmentArr?.location != nil ) ? showAppointmentArr?.location : "N/A"
         locationLbl.handleURLTap { url in
             
             CEnumClass.share.activeLinkCall(activeURL: url)
         }
         
-//        if showAppointmentArr?.location ?? "N/A" == "" {
-//            self.locationLbl.text =  "N/A"
-//        }else {
-//            self.locationLbl.text = showAppointmentArr?.location ?? "N/A"
-//        }
-//            
-            
-        //}
-//        else {
-//            specialNotesLbl.text =  showAppointmentArr?.text != "" ? showAppointmentArr?.text : "N/A"
-//           // linkLbl.removeEmptyString()
-//
-//        }
+
       
-        lblReference.text = showAppointmentArr?.caseNumber != "" ? showAppointmentArr?.caseNumber : "N/A"
+        lblReference.text = (showAppointmentArr?.caseNumber != "" && showAppointmentArr?.caseNumber != nil) ? showAppointmentArr?.caseNumber : "N/A"
         
        
        
-            self.lblSpeciality.text = showAppointmentArr?.displayValue ?? "N/A"
+        self.lblSpeciality.text = (showAppointmentArr?.displayValue != "" && showAppointmentArr?.displayValue != nil) ? showAppointmentArr?.displayValue : "N/A"
       
         
        
@@ -145,9 +115,7 @@ class ScheduleAppointmentDetailVC: UIViewController {
            
             self.venueNameView.visibility = .gone
             self.venueAddressView.visibility = .gone
-//            self.stateView.isHidden = true
-//            self.cityView.isHidden = true
-//            self.zipcodeView.isHidden = true
+
             self.departmentView.visibility = .gone
             self.contactView.visibility = .visible
         }
@@ -157,18 +125,14 @@ class ScheduleAppointmentDetailVC: UIViewController {
            
             self.venueNameView.visibility = .gone
             self.venueAddressView.visibility = .gone
-//            self.stateView.isHidden = true
-//            self.cityView.isHidden = true
-//            self.zipcodeView.isHidden = true
+
             self.departmentView.visibility = .gone
             self.contactView.visibility = .visible
         }
         else {
             self.venueNameView.visibility = .visible
             self.venueAddressView.visibility = .visible
-//            self.stateView.isHidden = true
-//            self.cityView.isHidden = true
-//            self.zipcodeView.isHidden = true
+        
             self.departmentView.visibility = .visible
             self.contactView.visibility = .visible
         }
@@ -186,17 +150,10 @@ class ScheduleAppointmentDetailVC: UIViewController {
         self.nameLbl.text = showAppointmentArr?.venueName ?? "N/A"
         let totalAddress = "\(showAppointmentArr?.address ?? "N/A"),\(showAppointmentArr?.city ?? ""),\(showAppointmentArr?.stateName ?? ""),\(showAppointmentArr?.zipcode ?? "")"
         print("total adddress \(totalAddress)")
-        self.addressLbl.text =  totalAddress //showAppointmentArr?.address ?? "N/A"
-//        self.cityLbl.text = showAppointmentArr?.city ?? "N/A"
-//        self.stateLbl.text = showAppointmentArr?.stateName ?? "N/A"
-//        self.statusLbl.text = showAppointmentArr?.appointmentStatusType ?? "N/A"
-//        self.zipcodeLbl.text = showAppointmentArr?.zipcode ?? "N/A"
+        self.addressLbl.text =  totalAddress
+
         self.departmentLbl.text = showAppointmentArr?.departmentName ?? "N/A"
-//        if showAppointmentArr?.gender == "" {
-//            self.genderLbl.text = "N/A"
-//        }else {
-//            self.genderLbl.text = showAppointmentArr?.caseNumber ?? "N/A"
-//        }
+
        
         self.contactLbl.text = showAppointmentArr?.providerName ?? "N/A"
        
@@ -247,7 +204,7 @@ class ScheduleAppointmentDetailVC: UIViewController {
             self.interpreterLbl.attributedText = showAppointmentArr?.vendorName?.convertHtmlToAttributedStringWithCSS(font: UIFont.systemFont(ofSize: 10), csscolor: "black", lineheight: 5, csstextalign: "left")
         }else {
             
-            self.interpreterLbl.text = showAppointmentArr?.vendorName ?? "N/A"
+            self.interpreterLbl.text = (showAppointmentArr?.vendorName != "" && showAppointmentArr?.vendorName != nil) ? showAppointmentArr?.vendorName : "N/A"
             
         }
         

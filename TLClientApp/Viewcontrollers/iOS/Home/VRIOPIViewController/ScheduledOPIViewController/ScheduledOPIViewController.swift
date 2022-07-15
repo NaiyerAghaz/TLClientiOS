@@ -56,6 +56,8 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     @IBOutlet weak var tempImageView: UIImageView!
     @IBOutlet weak var countryCodeTF: UITextField!
     @IBOutlet weak var minTxt: iOSDropDown!
+    var isFromAppointment = false
+    var apmtID = ""
     var apiScheduleVRIMeetResponseModel:ApiScheduleVRIMeetResponseModel?
     var callManagerVM = CallManagerVM()
     var languageViewModel = LanguageVM()
@@ -67,6 +69,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     var showSecoundparticipants = false
     var showThirdParticipants = false
     var participantsList = [String]()
+    var scheduleViewModel = ScheduleViewModel()
     var srcLngID = "0"
     var trgtLngID = "0"
     let hourArr = ["1","2","3","4","5","6","7","8","9","10","11","12"]
@@ -91,11 +94,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         self.minTxt.text = "\(selectedText)"
         
         }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy h:mm a"
-        let startDate =  dateFormatter.string(from: Date())
-        self.selectDateTimeTF.text = startDate
+       self.selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI()
         
         srcLngTF.optionArray = GetPublicData.sharedInstance.languageArray
         srcLngTF.selectedRowColor = UIColor.clear
@@ -148,11 +147,18 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                 //
                 
             }}
-        let bundle = "assets.bundle/"
+      
         
-        let image = UIImage( named: bundle + "us.png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-        tempImageView.image = image
+        
          updateUI()
+        if isFromAppointment {
+            getDataRedirectReload()
+        }
+        else {
+            let image = UIImage( named: bundle + "us.png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+            tempImageView.image = image
+            getDataReload()
+        }
     }
     @IBAction func openCountryCodeAction(_ sender: Any) {
         picker.showCallingCodes = true
@@ -160,19 +166,15 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
             picker.navigationController?.isNavigationBarHidden=true
             //picker.navigationController?.popViewController(animated: true)
             picker.dismiss(animated: true, completion: nil)
-          
-            
-        }
-        picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
+      }
+        picker.didSelectCountryWithCallingCodeClosure = { [self] name , code , dialCode in
             self.picker.navigationController?.isNavigationBarHidden=true
             //picker.navigationController?.popViewController(animated: true)
             print("code is ",code)
-            let bundle = "assets.bundle/"
+          
             
             let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-          
-          
-            self.DialCode = "\(dialCode)"
+          self.DialCode = "\(dialCode)"
             self.countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
             self.tempImageView.image = image
             
@@ -180,49 +182,12 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         self.present(picker, animated: true, completion: nil)
         }
         
-//    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String ) {
-//                 picker.navigationController?.isNavigationBarHidden=true//?.popViewController(animated: true)
-//                self.navigationController?.setNavigationBarHidden(true, animated: true)
-//                self.navigationItem.setHidesBackButton(true, animated: true)
-//        let bundle = "assets.bundle/"
-//                DialCode = "\(dialCode)"
-//                countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
-//                tempImageView.image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-//
-//        }
-    
-    /* @IBAction func selectPhoneCodeTapped(_ sender: Any) {
-     picker.showCallingCodes = true
-     picker.didSelectCountryClosure = { [self] name, code in
-         picker.navigationController?.isNavigationBarHidden=true
-         //picker.navigationController?.popViewController(animated: true)
-         picker.dismiss(animated: true, completion: nil)
-       
-         
-     }
-     picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
-         self.picker.navigationController?.isNavigationBarHidden=true
-         //picker.navigationController?.popViewController(animated: true)
-         print("code is ",code)
-         let bundle = "assets.bundle/"
-         
-         let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-       
-         self.txtPhoneCode.text = dialCode
-        // self.countryCode = dialCode
-         self.imgCountry.image = image
-         
-     }
-     self.present(picker, animated: true, completion: nil)
- }*/
-    
+
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clientPatientName {
-//            let textS = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-//            let initials = textS?.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first!)") + "\($1.first!)" }
-//            print(initials)
+
             let stringInput = textField.text?.trimmingCharacters(in: .whitespaces)
             let abc = stringInput ?? ""
             let stringInputArr = abc.components(separatedBy:" ")
@@ -252,41 +217,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         self.firstParticipantsTF.text = ""
     }
     @IBAction func actionAddParticipants(_ sender: UIButton) {
-        print("BOOLEAN VALUE IS \(firstParticipantsTF.visibility == .visible)")
-        print("BOOLEAN VALUE IS \(secoundParticipantsTF.visibility == .visible)")
-        print("BOOLEAN VALUE IS \(thirdParticipantsTF.visibility == .visible)")
-         let firstVisisble = firstParticipantsTF.visibility
-        let secoundVisible = secoundParticipantsTF.visibility
-        let thirdVisible = thirdParticipantsTF.visibility
         
-        
-        /*if firstVisisble == .visible {
-            if firstParticipantsTF.text == "" {
-                self.view.makeToast("Please fill First Participants Name.",duration: 1, position: .center)
-                self.secoundParticipantsView.visibility = .gone
-                self.thirsParicipantsView.visibility = .gone
-                return
-            }else {
-                if secoundVisible == .visible {
-                    if secoundParticipantsTF.text == "" {
-                        //self.view.makeToast("Please fill Secound Participants Name.",duration: 1, position: .center)
-                        self.secoundParticipantsView.visibility = .visible
-                        self.thirsParicipantsView.visibility = .gone
-                        return
-                        
-                    }else {
-                        self.secoundParticipantsView.visibility = .visible
-                        self.thirsParicipantsView.visibility = .visible
-                        return
-                    }
-                }else {
-                    self.secoundParticipantsView.visibility = .visible
-                    self.thirsParicipantsView.visibility = .gone
-                    return
-                }
-                
-            }
-        }*/
         if (showFisrtParticipants == true) && (showSecoundparticipants == false) && (showThirdParticipants == false ){
             print("1 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
             if  firstParticipantsTF.text == ""{
@@ -506,6 +437,80 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
             self.view.makeToast(ConstantStr.noItnernet.val)
         }
      }
+    public func getDataRedirectReload(){
+        SwiftLoader.show(animated: true)
+        ///https://lsp.totallanguage.com/CustomerManagement/CustomerDetail/GetData?methodType=SCHEDULVRIDETAILSBYID&id=1340&userid=218905&Type=1
+        let uID = GetPublicData.sharedInstance.userID
+        let urlStr = scheduleURL + "\(apmtID)&userid=\(uID)&Type=2"
+        scheduleViewModel.scheduleData(urlStr: urlStr) { [self] scheduleData, err in
+            SwiftLoader.hide()
+            let obj = scheduleData?.SCHEDULVRIDETAILSBYID?[0] as! ScheduleDataModel
+            self.roomId = obj.Random
+            let mainRoom = "Room No: \(self.roomId)"
+            let range = (mainRoom as NSString).range(of: self.roomId)
+            let mutableStr = NSMutableAttributedString.init(string: mainRoom)
+            mutableStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
+            self.roomNoLbl.attributedText = mutableStr
+//            if let index = GetPublicData.sharedInstance.apiGetAllLanguageResponse?.languageData?.firstIndex(where: {$0.languageID == Int(obj.SourceLanguageID)}) {
+//                self.srcLngTF.text = GetPublicData.sharedInstance.apiGetAllLanguageResponse?.languageData![index].languageName
+//
+//            }
+            self.srcLngTF.text = obj.SLanguageName
+            self.trgtLngTF.text = obj.TLanguageName
+           
+            firstNameTF.text = obj.FirstName
+            lastNameTF.text = obj.LastName
+            confirmationEmailTF.text = obj.ConfMail
+            let sepratDuration = obj.AnticipatedDuration.split(separator: ":")
+            HrTxt.text = "\(sepratDuration[0])"
+            minTxt.text = "\(sepratDuration[1])"
+            clientPatientName.text = obj.CaseName
+            cPinitialsTF.text = obj.CaseInitial
+            patientClientNumberTF.text = obj.CaseNo
+            specialityTF.text = obj.Speciality
+            notesTF.text = obj.Notes
+            let phoneSeprate = obj.PhNo.split(separator: " ")
+            if phoneSeprate.count > 1 {
+                countryCodeTF.text = "\(phoneSeprate[0])"
+                phoneNumberTF.text = "\(phoneSeprate[1])"
+            }
+            else {
+                if phoneSeprate.count != 0 {
+                    phoneNumberTF.text = "\(phoneSeprate[0])"
+                }
+            }
+            
+            
+            //firstParticipantsTF.text = ""
+          //  secoundParticipantsTF.text = ""
+           // thirdParticipantsTF.text = ""
+            self.firstParticipantsView.visibility = .visible
+            self.secoundParticipantsView.visibility = .gone
+            self.thirsParicipantsView.visibility = .gone
+        }
+        
+        
+    }
+    public func getDataReload(){
+        self.selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI()
+        SwiftLoader.show(animated: true)
+        callManagerVM.getRoomList { roolist, error in
+            if error == nil {
+                
+                self.roomId = roolist?[0].RoomNo ?? "0"
+                let mainRoom = "Room No: \(self.roomId)"
+                let range = (mainRoom as NSString).range(of: self.roomId)
+                let mutableStr = NSMutableAttributedString.init(string: mainRoom)
+                mutableStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
+                self.roomNoLbl.attributedText = mutableStr
+                
+                SwiftLoader.hide()
+                
+            }}
+        self.notesTF.placeholder = "Notes"
+        self.secoundParticipantsView.visibility = .gone
+        self.thirsParicipantsView.visibility = .gone
+    }
     func updateUI(){
         self.srcLngView.layer.borderWidth = 0.6
         self.srcLngView.layer.cornerRadius = 10
@@ -532,9 +537,9 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         self.notesView.layer.cornerRadius = 10
         self.notesView.layer.borderColor = UIColor.lightGray.cgColor
         
-        self.secoundParticipantsView.visibility = .gone
-        self.thirsParicipantsView.visibility = .gone
-        self.notesTF.placeholder = "Notes"
+       // self.secoundParticipantsView.visibility = .gone
+       // self.thirsParicipantsView.visibility = .gone
+      //  self.notesTF.placeholder = "Notes"
         
         self.countryCodeTF.setLeftPaddingPoints(60)
         self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])

@@ -20,6 +20,7 @@ class OnDemandVRIViewController: UIViewController,IndicatorInfoProvider {
     var sourceLang = true
     var languageViewModel = LanguageVM()
     var isShownParti = false
+   
     var itemInfo = IndicatorInfo(title: "view")
     
     

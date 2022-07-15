@@ -194,11 +194,10 @@ class LoginVM {
     
     func registerForPushNotification(fcmToken: String,userid: String){
         let pushNotificationStr = nBaseUrl + "/registerForPushNotification?userid=\(userid)&fcm_device_token=\(fcmToken)&notifytype=fcm&user_type=clientio"
-        print("pushNotificationStrurl------>",pushNotificationStr)
+        
         let requserURL = URL(string: pushNotificationStr)
         WebServices.get(url: requserURL!) { (response, _) in
             
-           print("registerPushNotification:",response)
            
         } failureHandler: { (error, _) in
             print("registerPushNotificationerr----",error.localizations)

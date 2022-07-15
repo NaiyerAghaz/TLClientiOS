@@ -99,6 +99,12 @@ class CEnumClass: NSObject {
         let startDate =  dateFormatter.string(from: Date())
         return startDate
     }
+    func getcurrentdateAndTimeVRI() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+        let startDate =  dateFormatter.string(from: Date())
+        return startDate
+    }
     func getcurrentdateAndTimeForChat() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy HH-mm-ss"

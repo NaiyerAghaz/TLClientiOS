@@ -101,7 +101,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     override func viewDidLoad() {
         super.viewDidLoad()
         addParticipantsBtn.isHidden = true
-        //  self.vendorIMG.layer.cornerRadius = self.vendorIMG.bounds.height / 2
+        //self.vendorIMG.layer.cornerRadius = self.vendorIMG.bounds.height / 2
         let bundle = "assets.bundle/"
         let image = UIImage( named: bundle + "us.png")
         countryCodeImg.image = image

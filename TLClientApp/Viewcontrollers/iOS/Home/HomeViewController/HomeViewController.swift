@@ -409,9 +409,30 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         print("Last button tapped ")
         if sender.tag == 3 {
             
-            let vc = storyboard?.instantiateViewController(identifier: "VRIOPIViewController") as! VRIOPIViewController
-            self.navigationController?.pushViewController(vc, animated: true)
+            GetVriOPIController(fromAppointment: false, appointmentId: "", index: 0)
             
+        }
+        
+    }
+    public func GetVriOPIController(fromAppointment: Bool,appointmentId: String, index : Int){
+        if index == 2 {
+            let vc = storyboard?.instantiateViewController(identifier: "VRIOPIViewController") as! VRIOPIViewController
+            vc.isFromAppointmentVRI = fromAppointment
+            vc.selectedIndex = index
+            vc.apmntID = appointmentId
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if index == 3 {
+            let vc = storyboard?.instantiateViewController(identifier: "VRIOPIViewController") as! VRIOPIViewController
+            vc.isFromAppointmentOPI = fromAppointment
+            vc.selectedIndex = index
+            vc.apmntID = appointmentId
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            let vc = storyboard?.instantiateViewController(identifier: "VRIOPIViewController") as! VRIOPIViewController
+          
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
     }
@@ -833,21 +854,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             let timeValue = convertTimeFormater(dateValue)
             cell.sourceLanguageLbl.text = endTimeValue
             cell.startDateLbl.text = "\(timeValue) (\(userDefaults.string(forKey: "zoneShortForm")!))"
-          /* self.apiScheduleAppointmentResponseModel?.appointmentStatus?.forEach({ statusDetail in
-                print("Status is \(statusDetail.code) and related color is \(statusDetail.color)")
-                print("Status from Api is \(index.appointmentStatusType)")
-                if statusDetail.code == index.appointmentStatusType {
-                   
-                    cell.statusOfAppointmentLbl.backgroundColor = UIColor(hexString: statusDetail.color!)
-                    cell.statusOfAppointmentLbl.lineBreakMode = .byWordWrapping
-                }else if index.appointmentStatusType == "Meeting"{
-                    cell.statusOfAppointmentLbl.backgroundColor = .clear
-                    cell.statusOfAppointmentLbl.lineBreakMode = .byWordWrapping
-                }else {
-                    
-                }
-            })*/
-           // cell.statusOfAppointmentLbl.backgroundColor = hexStringToUIColor(hex: getHexaString(status: (index.appointmentStatusType!.lowercased()))!)
+          
             
             let checkInStatus = index.checkIn ?? 0
             let checkOutStatus = index.checkOut  ?? 0
@@ -901,10 +908,17 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
         self.hitApiCheckMeetingStatus(roomNo: roomNo, callTime: newTime)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let typeid = self.showAppointmentArr[indexPath.row].appointmentTypeID ?? 0
-        if typeid != 12 {
+        let rowData = self.showAppointmentArr[indexPath.row]
+        if rowData.appointmentTypeID != 12 {
             let title = self.showAppointmentArr[indexPath.row].title ?? ""
-            if title == "B " {
+           if rowData.appointmentType == "Schedule VRI" {
+               GetVriOPIController(fromAppointment: true, appointmentId: "\(rowData.appointmentID!)", index: 2)
+               
+           }
+            else if rowData.appointmentType == "Schedule OPI" {
+                GetVriOPIController(fromAppointment: true, appointmentId: "\(rowData.appointmentID!)", index: 3)
+            }
+            else if title == "B " {
                 let vc = self.storyboard?.instantiateViewController(identifier: "BlockedAppointmentDetailVC") as! BlockedAppointmentDetailVC
                 vc.startDateString = convertDateFormater(self.showAppointmentArr[indexPath.row].startDateTime ?? "")
                 vc.startTime = convertTimeFormater(self.showAppointmentArr[indexPath.row].startDateTime ?? "")
