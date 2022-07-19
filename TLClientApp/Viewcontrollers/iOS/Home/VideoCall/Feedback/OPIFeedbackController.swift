@@ -29,6 +29,7 @@ class VRIOPIFeedbackController: UIViewController {
     var dateAndTime: String?
     var targetLang: String?
     var ratingValue = 3
+    var isScheduled = false
     var apiGetfeedbackDetail:APIGetfeedbackDetail?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -174,7 +175,13 @@ extension VRIOPIFeedbackController {
     
     public func dismissToVC(){
         //  dismiss(animated: true, completion: nil)
-        self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        if isScheduled == true {
+            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        }
+        else {
+            self.presentingViewController?.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        }
+        
     }
 }
 //MARK: Common Functions

@@ -103,10 +103,26 @@ class CallManagerVM {
         }
     }
     
-    func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String) -> [String: Any]{
+    func addAppCallReqAPI(sourceID: String,targetID: String,roomId: String,targetName: String,sourceName: String, patientName: String, patientNo:String,toUserId: String) -> [String: Any]{
         var parameter:[String:Any] = [:]
         
-        parameter  = ["sourceLid":sourceID ,"lid":targetID,"Roomno":roomId ,"senderid":userDefaults.string(forKey: .kUSER_ID)! ,"touserid":"","statustype":1,"TLname":targetName,"sLName":sourceName ,"devicetype":"I","calltype":"V","patientname":"","patientno":"","Slid":sourceID,"companyID":userDefaults.string(forKey: "companyID") ?? "","callfrom":"app","ondemandvendorid":"","CallGetInType":"vri"]
+        parameter  = ["sourceLid":sourceID,
+                      "lid":targetID,
+                      "Roomno":roomId,
+                      "senderid":userDefaults.string(forKey: .kUSER_ID)!,
+                      "touserid":toUserId,
+                      "statustype":1,
+                      "TLname":targetName,
+                      "sLName":sourceName,
+                      "devicetype":"I",
+                      "calltype":"V",
+                      "patientname":"",
+                      "patientno":"",
+                      "Slid":sourceID,
+                      "companyID":userDefaults.string(forKey: "companyID") ?? "",
+                      "callfrom":"app",
+                      "ondemandvendorid":toUserId,
+                      "CallGetInType":"vri"]
         print("addAppcall parameter:",parameter)
         
         return parameter

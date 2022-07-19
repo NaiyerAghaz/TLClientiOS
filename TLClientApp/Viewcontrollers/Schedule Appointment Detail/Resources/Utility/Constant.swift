@@ -22,6 +22,7 @@ struct Control_Name {
     static let vrifeedback = "VRIOPIFeedbackController"
     static let chatVC = "ChatViewController"
     static let imgPopup = "ImagePopupViewController"
+    static let vdoCall = "VideoCallViewController"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"

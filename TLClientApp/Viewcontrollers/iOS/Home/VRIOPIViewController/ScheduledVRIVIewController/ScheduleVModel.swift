@@ -4,7 +4,7 @@
 //
 //  Created by Darrin Brooks on 13/07/22.
 //
-
+import UIKit
 import Foundation
 class ScheduleModel: NSObject {
     var SCHEDULVRIDETAILSBYID: NSMutableArray?
@@ -172,6 +172,8 @@ class ScheduleDataModel : NSObject{
 }
 class ScheduleViewModel: NSObject {
     var scheduleModel = ScheduleModel()
+    var countriesArr = [MICountry]()
+    open var customCountriesCode: [String]?
     func scheduleData(urlStr:String,complitionBlock: @escaping(ScheduleModel?, Error?) -> ()){
         
         WebServices.get(url: URL(string: urlStr)!) { (response, _) in
@@ -182,6 +184,56 @@ class ScheduleViewModel: NSObject {
         } failureHandler: { (error, _) in
             complitionBlock(nil,nil)
             SwiftLoader.hide()
+        }
+        
+    }
+    func addScheduleReq(firstName : String,lastName : String,date : String,time : String,userID : String,companyID : String,active : Bool, LanguageID: String,caseNumber:String,anticipatedHR:String,cPintials : String, srcLngID : String,mobileNo:String,emailID:String,participantsList:String,notes:String,caseName:String,speciality:String,amptID:String,roomID: String,reqType:String) -> [String: Any] {
+        let parameters = [
+            "RequestType":reqType,
+            "UserType":"Customer",
+            "LanguageID":LanguageID,
+            "DateTime":date,
+            "Id":amptID,
+            "CreatedBy":userID,
+            "RequestedBy":userID,
+            "CaseName":caseName,
+            "CaseNo":caseNumber,
+            "AnticipatedDuration":anticipatedHR,
+            "CaseInitial":cPintials,
+            "Notes":notes,
+            "Status":2,
+            "Random":roomID,
+            "SourceLanguageID":srcLngID,
+            "FirstName":firstName,
+            "LastName":lastName,
+            "PhNo":mobileNo,
+            "ConfMail":emailID,
+            "Speciality":speciality,
+            "ReasonCall":"",
+            "VendorList":0,
+            "Inviteparticipant":participantsList,
+            "ThirdPartyCompanyId":""] as [String:Any]
+        return parameters
+    }
+     lazy var CallingCodes = { () -> [[String: String]] in
+        let resourceBundle = Bundle(for: MICountryPicker.classForCoder())
+        guard let pathZ = resourceBundle.path(forResource: "CallingCodes", ofType: "plist") else { return [] }
+        return NSArray(contentsOfFile: pathZ) as! [[String: String]]
+    }()
+    func countryDetails() {
+        let countriesCodes = customCountriesCode == nil ? Locale.isoRegionCodes : customCountriesCode!
+        let locale = Locale.current
+        for countryCode in countriesCodes {
+            let displayName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: countryCode)
+            let countryData = CallingCodes.filter { $0["code"] == countryCode }
+            let country: MICountry
+
+            if countryData.count > 0, let dialCode = countryData[0]["dial_code"] {
+                country = MICountry(name: displayName!, code: countryCode, dialCode: dialCode)
+            } else {
+                country = MICountry(name: displayName!, code: countryCode)
+            }
+            countriesArr.append(country)
         }
         
     }

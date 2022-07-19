@@ -164,13 +164,18 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
         let startDate =  dateFormatter.string(from: Date().nearestHour() ?? Date())
         
         
-        self.startDateTF.text = startDate
+        self.startDateTF.text = CEnumClass.share.getcurrentdateAndTimeVRI()
         if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         callManagerVM.getRoomList { roolist, error in
             if error == nil {
                 self.roomId = roolist?[0].RoomNo ?? "0"
-                self.roomNoLbl.text = "Room No: \(self.roomId)"
+               // self.roomNoLbl.text = "Room No: \(self.roomId)"
+                let mainRoom = "Room No: \(self.roomId)"
+                let range = (mainRoom as NSString).range(of: self.roomId)
+                let mutableStr = NSMutableAttributedString.init(string: mainRoom)
+                mutableStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.red, range: range)
+                self.roomNoLbl.attributedText = mutableStr
                 SwiftLoader.hide()
                 
             }
@@ -221,7 +226,6 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
                         // TODO: Your implementation for date
                         let roundOff = selectedDate.nearestHour() ?? selectedDate
                         self?.startDateTF.text = roundOff.dateString("MM/dd/YYYY hh:mm a")
-                         
                     })
         
     }

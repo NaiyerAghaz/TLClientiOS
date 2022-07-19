@@ -36,15 +36,12 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     @IBOutlet weak var trgtLngTF: iOSDropDown!
     
     @IBOutlet weak var trgtLngView: UIView!
-    @IBOutlet weak var thirsParicipantsView: UIView!
-    @IBOutlet weak var secoundParticipantsView: UIView!
-    @IBOutlet weak var firstParticipantsView: UIView!
     @IBOutlet weak var srcLngTF: iOSDropDown!
     @IBOutlet weak var srcLngView: UIView!
     @IBOutlet weak var roomNoLbl: UILabel!
     
     @IBOutlet weak var thirdParticipantsTF: UITextField!
-    @IBOutlet weak var secoundParticipantsTF: UITextField!
+    @IBOutlet weak var secondParticipantsTF: UITextField!
     @IBOutlet weak var firstParticipantsTF: UITextField!
     @IBOutlet weak var notesTF: GrowingTextView!
     @IBOutlet weak var notesView: UIView!
@@ -57,6 +54,9 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     @IBOutlet weak var countryCodeTF: UITextField!
     @IBOutlet weak var minTxt: iOSDropDown!
     var isFromAppointment = false
+    
+    @IBOutlet weak var secondInvitePHeight: NSLayoutConstraint!
+    @IBOutlet weak var thirdInvitePHeight: NSLayoutConstraint!
     var apmtID = ""
     var apiScheduleVRIMeetResponseModel:ApiScheduleVRIMeetResponseModel?
     var callManagerVM = CallManagerVM()
@@ -72,8 +72,11 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     var scheduleViewModel = ScheduleViewModel()
     var srcLngID = "0"
     var trgtLngID = "0"
-    let hourArr = ["1","2","3","4","5","6","7","8","9","10","11","12"]
-    let minArr = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60"]
+    
+    
+    @IBOutlet weak var btnSchedule: UIButton!
+    let hourArr = ["0","1","2","3","4","5","6","7","8","9","10","11","12"]
+    let minArr = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60"]
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .yellow
@@ -141,16 +144,12 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         languageViewModel.languageData { list, err in
             if err == nil {
                 SwiftLoader.hide()
-               //
+             
                 self.srcLngTF.text = "English"
-                //self.languageViewModel.titleToTxtField(row: 0, txtField: self.txtSourceLanguage)
-                //
+               
                 
             }}
-      
-        
-        
-         updateUI()
+       updateUI()
         if isFromAppointment {
             getDataRedirectReload()
         }
@@ -164,28 +163,20 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         picker.showCallingCodes = true
         picker.didSelectCountryClosure = { [self] name, code in
             picker.navigationController?.isNavigationBarHidden=true
-            //picker.navigationController?.popViewController(animated: true)
+          
             picker.dismiss(animated: true, completion: nil)
       }
         picker.didSelectCountryWithCallingCodeClosure = { [self] name , code , dialCode in
             self.picker.navigationController?.isNavigationBarHidden=true
-            //picker.navigationController?.popViewController(animated: true)
-            print("code is ",code)
-          
-            
-            let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+         let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
           self.DialCode = "\(dialCode)"
-            self.countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
+            self.countryCodeTF.text = "\(dialCode)"
             self.tempImageView.image = image
             
         }
         self.present(picker, animated: true, completion: nil)
         }
-        
-
-    
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
+func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == clientPatientName {
 
             let stringInput = textField.text?.trimmingCharacters(in: .whitespaces)
@@ -203,14 +194,16 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     }
     @IBAction func cancelThirsParticipants(_ sender: UIButton) {
         self.showThirdParticipants = false
-        self.thirsParicipantsView.visibility = .gone
+        thirdInvitePHeight.constant = 0.0
+      
         self.thirdParticipantsTF.text = ""
         
     }
     @IBAction func cancelSecoundParticipants(_ sender: UIButton) {
         self.showSecoundparticipants = false
-        self.secoundParticipantsView.visibility = .gone
-        self.secoundParticipantsTF.text = ""
+        secondInvitePHeight.constant = 0.0
+      
+        self.secondParticipantsTF.text = ""
     }
     @IBAction func cancelFirstParticipants(_ sender: UIButton) {
         self.showFisrtParticipants = true
@@ -219,51 +212,50 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     @IBAction func actionAddParticipants(_ sender: UIButton) {
         
         if (showFisrtParticipants == true) && (showSecoundparticipants == false) && (showThirdParticipants == false ){
-            print("1 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
+           
             if  firstParticipantsTF.text == ""{
-                self.thirsParicipantsView.visibility = .gone
-                self.secoundParticipantsView.visibility = .gone
-                self.firstParticipantsView.visibility = .visible
+                secondInvitePHeight.constant = 0.0
+                thirdInvitePHeight.constant = 0.0
+             
                 self.view.makeToast("Please fill First Participants Name.",duration: 1, position: .center)
                 return
                 
             }else {
+                secondInvitePHeight.constant = 50.0
+                thirdInvitePHeight.constant = 0.0
                
-                    self.thirsParicipantsView.visibility = .gone
-                    self.secoundParticipantsView.visibility = .visible
-                    self.firstParticipantsView.visibility = .visible
                     showSecoundparticipants = true
                 
                 
             }
            
         }else if (showFisrtParticipants == true) && (showSecoundparticipants == true) && (showThirdParticipants == false ){
-            print("2 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
-            if secoundParticipantsTF.text == "" {
-                self.thirsParicipantsView.visibility = .gone
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+           
+            if secondParticipantsTF.text == "" {
+                secondInvitePHeight.constant = 50.0
+                thirdInvitePHeight.constant = 0.0
+              
                 self.view.makeToast("Please fill Secound Participants Name.",duration: 1, position: .center)
                 return
             }else {
-                self.thirsParicipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+                secondInvitePHeight.constant = 50.0
+                thirdInvitePHeight.constant = 50.0
+            
                 showThirdParticipants = true
             }
             
         }else if (showFisrtParticipants == true) && (showSecoundparticipants == false) && (showThirdParticipants == true ){
-            print("3 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
+            
             if thirdParticipantsTF.text == "" {
-                self.thirsParicipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .gone
-                self.firstParticipantsView.visibility = .visible
+                secondInvitePHeight.constant = 0.0
+                thirdInvitePHeight.constant = 50.0
+               
                 self.view.makeToast("Please fill Secound Participants Name.",duration: 1, position: .center)
                 return
             }else {
-                self.thirsParicipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+                secondInvitePHeight.constant = 50.0
+                thirdInvitePHeight.constant = 50.0
+             
                 showSecoundparticipants = true
             }
         }
@@ -278,7 +270,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
             print("add first participants ")
             self.participantsList.append(firstParticipants)
         }
-        if let secoundParticipants = self.secoundParticipantsTF.text , !secoundParticipants.isEmpty {
+        if let secoundParticipants = self.secondParticipantsTF.text , !secoundParticipants.isEmpty {
             print("add secound participants ")
             self.participantsList.append(secoundParticipants)
         }
@@ -304,52 +296,53 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                  }
             })
         if self.selectDateTimeTF.text!.isEmpty {
-            self.view.makeToast("Please fill Start Date.",duration: 1, position: .center)
-            return
+            
+            return self.view.makeToast("Please fill Start Date.",duration: 1, position: .center)
                     
         }else if self.firstNameTF.text!.isEmpty {
             
-            self.view.makeToast("Please fill First Name.",duration: 1, position: .center)
             
-            return
+            
+            return self.view.makeToast("Please fill First Name.",duration: 1, position: .center)
            
             
         }else if self.lastNameTF.text!.isEmpty {
            
-            self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
-            return
+            
+            return self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
             
         }else if self.firstParticipantsTF.text!.isEmpty  {
-            self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
-            return
+            
+            return self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
             
         }else if self.confirmationEmailTF.text!.isEmpty  {
-            self.view.makeToast("Please fill Email Address.",duration: 1, position: .center)
-            return
             
-        }else if self.clientPatientName.text!.isEmpty  {
-            self.view.makeToast("Please fill Client/Patient Name.",duration: 1, position: .center)
-            return
+            return self.view.makeToast("Please fill Email Address.",duration: 1, position: .center)
+            
+        }
+        else if !(self.confirmationEmailTF.text?.isValidEmail())! {
+            return self.view.makeToast("Please enter valid email", duration: 1.0, position: .center)
+        }
+        else if self.clientPatientName.text!.isEmpty  {
+            
+            return self.view.makeToast("Please fill Client/Patient Name.",duration: 1, position: .center)
             
         }else {
-            let firstName = self.firstNameTF.text ?? ""
-            let lastName = self.lastNameTF.text ?? ""
-            let date = self.selectDateTimeTF.text ?? ""
-            let userID = GetPublicData.sharedInstance.userID
-            let companyID = GetPublicData.sharedInstance.companyID
-            let emailId = self.confirmationEmailTF.text ?? ""
+           
             let countryCode = self.countryCodeTF.text ?? ""
             let mobileNo =  self.phoneNumberTF.text ?? ""
-            let mobileWithCode = countryCode + mobileNo
-            let cPIntial = self.cPinitialsTF.text ?? ""
+            let mobileWithCode = "\(countryCode) " + mobileNo
             let hrTxt = self.HrTxt.text ?? ""
             let minTxt = self.minTxt.text ?? ""
             let anticipatedHr = "\(hrTxt):\(minTxt)"
-            let clientNumber = self.patientClientNumberTF.text ?? ""
-            let notes = self.notesTF.text ?? ""
-            let caseName = self.clientPatientName.text ?? ""
-            let speciality = self.specialityTF.text ?? ""
-            hitApiScheduleVRIAppointment(firstName: firstName, lastName: lastName, date: date, time: date, userID: userID, companyID: companyID, active: true, LanguageID: self.trgtLngID, caseNumber: clientNumber, anticipatedHR: anticipatedHr, cPintials: cPIntial, srcLngID: self.srcLngID, mobileNo: mobileWithCode, emailID: emailId, participantsList: participantsList,notes: notes,caseName: caseName,speciality: speciality)
+            var totalParticipants = ""
+            for obj in participantsList {
+                totalParticipants = totalParticipants + "\(obj),"
+            }
+            let particiapnts = String(totalParticipants.dropLast())
+         let req = scheduleViewModel.addScheduleReq(firstName: self.firstNameTF.text ?? "", lastName: self.lastNameTF.text ?? "", date: self.selectDateTimeTF.text ?? "", time: self.selectDateTimeTF.text ?? "", userID: GetPublicData.sharedInstance.userID, companyID: GetPublicData.sharedInstance.companyID, active: true, LanguageID: self.trgtLngID, caseNumber: self.patientClientNumberTF.text ?? "", anticipatedHR: anticipatedHr, cPintials: self.cPinitialsTF.text ?? "", srcLngID: self.srcLngID, mobileNo: mobileWithCode, emailID: self.confirmationEmailTF.text ?? "", participantsList: particiapnts,notes: self.notesTF.text ?? "",caseName: self.clientPatientName.text ?? "",speciality: self.specialityTF.text ?? "", amptID: apmtID, roomID: roomId,reqType: "2")
+            hitApiScheduleVRIAppointment(request: req)
+          
         }
     }
     @IBAction func selectDateAndTime(_ sender: UIButton) {
@@ -359,59 +352,42 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                          
                     })
     }
-    func hitApiScheduleVRIAppointment(firstName : String,lastName : String,date : String,time : String,userID : String,companyID : String,active : Bool, LanguageID: String,caseNumber:String,anticipatedHR:String,cPintials : String, srcLngID : String,mobileNo:String,emailID:String,participantsList:[String],notes:String,caseName:String,speciality:String){
+    func hitApiScheduleVRIAppointment(request:[String:Any]){
         if Reachability.isConnectedToNetwork() {
         SwiftLoader.show(animated: true)
         
         let urlString = APi.AddScheduleVRI.url
-        let parameters = [
-            "RequestType":"2",
-            "UserType":"Customer",
-            "LanguageID":LanguageID,//"1205",
-            "DateTime":date,//"11/26/2021 03:59 pm",
-            "id":"0",
-            "createdby":userID,//"217888",
-            "requestedby":userID,//"217888",
-            "casename":caseName,//"test",
-            "caseno":caseNumber,//"test",
-            "anticipatedduration":anticipatedHR,//"6:5",
-            "caseinitial":cPintials,//"t",
-            "notes":notes,
-            "status":2,
-            "random":self.roomId,//"21112692",
-            "sourcelanguageid":srcLngID,//"3",
-            "firstname":firstName,//"leo",
-            "lastname":lastName,//"m",
-            "phno":mobileNo,//"",
-            "confmail":emailID,//"marikanti2289@gmail.com",
-            "speciality":speciality,
-            "reasoncall":"",
-            "vendorlist":0,
-            "inviteparticipant":participantsList,//"marikanti2289",
-            "ThirdPartyCompanyId":""
-                                
-                
-            
-        ] as [String:Any]
-             print("url to create Meet Appointment \(urlString),\(parameters)")
-                AF.request(urlString, method: .post , parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+
+             print("url to create Meet Appointment \(urlString),\(request)")
+                AF.request(urlString, method: .post , parameters: request, encoding: JSONEncoding.default, headers: nil)
                     .validate()
                     .responseData(completionHandler: { [self] (response) in
                         SwiftLoader.hide()
                         switch(response.result){
                         
                         case .success(_):
-                            print("Respose Success  create Meet appointment ")
+                            print("Respose Success  create Meet appointment")
                             guard let daata84 = response.data else { return }
                             do {
                                 let jsonDecoder = JSONDecoder()
                                 self.apiScheduleVRIMeetResponseModel = try jsonDecoder.decode(ApiScheduleVRIMeetResponseModel.self, from: daata84)
                                 let status = self.apiScheduleVRIMeetResponseModel?.scheduleVRI?.first?.success ?? 0
                                 if status == 3 {
-                                    print("Success Meet Requset ")
-                                     //self.view.makeToast("Address added successfuly.",duration: 2, position: .center)
                                     
-                                    self.navigationController?.popViewController(animated: true)
+                                    if apmtID != "0" {
+                                        self.view.makeToast("OPI schedul has been updated successfuly.",duration: 2, position: .center)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2 ) {
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                    }
+                                    else {
+                                        self.view.makeToast("OPI is scheduled successfuly.",duration: 2, position: .center)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2 ) {
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                    }
+                                    
+                                    
                                 }else {
                                     
                                     if let message = self.apiScheduleVRIMeetResponseModel?.scheduleVRI?.first?.fastTrackOrNot  {
@@ -439,7 +415,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
      }
     public func getDataRedirectReload(){
         SwiftLoader.show(animated: true)
-        ///https://lsp.totallanguage.com/CustomerManagement/CustomerDetail/GetData?methodType=SCHEDULVRIDETAILSBYID&id=1340&userid=218905&Type=1
+        scheduleViewModel.countryDetails()
         let uID = GetPublicData.sharedInstance.userID
         let urlStr = scheduleURL + "\(apmtID)&userid=\(uID)&Type=2"
         scheduleViewModel.scheduleData(urlStr: urlStr) { [self] scheduleData, err in
@@ -470,7 +446,17 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
             specialityTF.text = obj.Speciality
             notesTF.text = obj.Notes
             let phoneSeprate = obj.PhNo.split(separator: " ")
+            if  Int(obj.Status) == 1 {
+                btnSchedule.isHidden = true
+            }
             if phoneSeprate.count > 1 {
+                let countryArr = scheduleViewModel.countriesArr
+                print("countryCounts2--------->",countryArr.count)
+                if let indx = countryArr.firstIndex(where: {$0.dialCode == "\(phoneSeprate[0])"}){
+                    let image = UIImage( named: bundle + countryArr[indx].code.lowercased(), in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+                    tempImageView.image = image
+                }
+                
                 countryCodeTF.text = "\(phoneSeprate[0])"
                 phoneNumberTF.text = "\(phoneSeprate[1])"
             }
@@ -479,14 +465,32 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                     phoneNumberTF.text = "\(phoneSeprate[0])"
                 }
             }
-            
-            
-            //firstParticipantsTF.text = ""
-          //  secoundParticipantsTF.text = ""
-           // thirdParticipantsTF.text = ""
-            self.firstParticipantsView.visibility = .visible
-            self.secoundParticipantsView.visibility = .gone
-            self.thirsParicipantsView.visibility = .gone
+            let emails = obj.Inviteparticipant.split(separator: ",")
+            if emails.count > 0 {
+                if emails.count == 1 {
+                    secondInvitePHeight.constant = 0.0
+                    thirdInvitePHeight.constant = 0.0
+                    firstParticipantsTF.text = "\(emails[0])"
+                }
+                else if emails.count == 2 {
+                    secondInvitePHeight.constant = 50.0
+                    thirdInvitePHeight.constant = 0.0
+                    firstParticipantsTF.text = "\(emails[0])"
+                    secondParticipantsTF.text = "\(emails[1])"
+                }
+                else if emails.count == 3 {
+                    secondInvitePHeight.constant = 50.0
+                    thirdInvitePHeight.constant = 50.0
+                    firstParticipantsTF.text = "\(emails[0])"
+                    secondParticipantsTF.text = "\(emails[1])"
+                    thirdParticipantsTF.text = "\(emails[2])"
+                }
+            }
+            else {
+                firstParticipantsTF.text = ""
+            }
+          selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI(date: obj.DateTime)
+           
         }
         
         
@@ -508,8 +512,8 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
                 
             }}
         self.notesTF.placeholder = "Notes"
-        self.secoundParticipantsView.visibility = .gone
-        self.thirsParicipantsView.visibility = .gone
+        secondInvitePHeight.constant = 0.0
+        thirdInvitePHeight.constant = 0.0
     }
     func updateUI(){
         self.srcLngView.layer.borderWidth = 0.6

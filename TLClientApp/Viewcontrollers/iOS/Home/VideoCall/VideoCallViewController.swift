@@ -46,7 +46,9 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var ifTimereach = false
     var roomID,sourceLangID,targetLangID,sourceLangName,targetLangName,patientname,patientno: String?
     var roomlocalParticipantSIDrule: String?
-    var isClientDetails,isScheduled : Bool?
+    var isClientDetails : Bool?
+    var isScheduled = false
+    var parameter : [String:Any] = [:]
     var twilioToken : String?
     var vdoCallVM = VDOCallViewModel()
     var timer = Timer()
@@ -146,6 +148,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var lblParticipantSearching = UILabel()
     var pinVideoArr = [pinModels]()
     var chatListArr = [RowData]()
+    var callManagerVM = CallManagerVM()
     //end--
     let moreDropDown = DropDown()
     lazy var dropDowns: [DropDown] = {
@@ -204,6 +207,22 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         }
         self.vdoCollectionView.isPrefetchingEnabled = false
         getChatConfig()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isScheduled == true {
+            self.callManagerVM.addAppCall(req: parameter) { success, err in
+                if success! {
+                    
+                  print("call initiated")
+                   
+                }
+                else{
+                    SwiftLoader.hide()
+                    self.view.makeToast("Something is wrong, please try again")
+                }
+            }
+        }
     }
     
     //MARK: Configure With Twilio
@@ -813,6 +832,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         fb.targetLang = targetLangName
         fb.duration = lblTimeSpeak.text//callStartTime
         fb.dateAndTime = callStartTime
+        fb.isScheduled = isScheduled
         fb.calltype = "V"
         fb.modalPresentationStyle = .overFullScreen
         // SwiftLoader.hide()
@@ -1224,6 +1244,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         }
     }
     func holdCall(onHold: Bool) {
+        
         localAudioTrack?.isEnabled = !onHold
         localVideoTrack?.isEnabled = !onHold
     }

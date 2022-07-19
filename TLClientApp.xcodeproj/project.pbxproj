@@ -157,6 +157,7 @@
 		73165B6F27D7946A008FCCC2 /* videoViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */; };
 		73165B7127D79473008FCCC2 /* RoomDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73165B7027D79473008FCCC2 /* RoomDelegates.swift */; };
 		7325CDD128168AED003027C4 /* BlockedMV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7325CDD028168AED003027C4 /* BlockedMV.swift */; };
+		73276B3C2886B2A700A9B572 /* AppoinmentTVCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73276B3B2886B2A700A9B572 /* AppoinmentTVCells.swift */; };
 		7338E1C528607BAE00740336 /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7338E1C428607BAE00740336 /* ChatsView.swift */; };
 		73393958286EF06100E1ABD2 /* ReplyMessageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */; };
 		73393959286EF06100E1ABD2 /* ReplyMessageTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */; };
@@ -457,6 +458,7 @@
 		73165B6E27D7946A008FCCC2 /* videoViewDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = videoViewDelegates.swift; sourceTree = "<group>"; };
 		73165B7027D79473008FCCC2 /* RoomDelegates.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDelegates.swift; sourceTree = "<group>"; };
 		7325CDD028168AED003027C4 /* BlockedMV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedMV.swift; sourceTree = "<group>"; };
+		73276B3B2886B2A700A9B572 /* AppoinmentTVCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppoinmentTVCells.swift; sourceTree = "<group>"; };
 		7338E1C428607BAE00740336 /* ChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsView.swift; sourceTree = "<group>"; };
 		73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyMessageTVCell.swift; sourceTree = "<group>"; };
 		73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyMessageTVCell.xib; sourceTree = "<group>"; };
@@ -1189,6 +1191,14 @@
 			path = "OnsiteInterpretation ";
 			sourceTree = "<group>";
 		};
+		73EB63FF288572EC00D3ED9F /* scheduleMeetings */ = {
+			isa = PBXGroup;
+			children = (
+				29D5F7AD2754EB2B0015F16B /* MeetingViewController.swift */,
+			);
+			path = scheduleMeetings;
+			sourceTree = "<group>";
+		};
 		78D55CABACDA4EDE037C40F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1435,8 +1445,8 @@
 				0423678A271832CF003BC021 /* DocumentTransaltionHistoryVC.swift */,
 				0423678C271833DA003BC021 /* TelephoneConferenceServiceHistoryVC.swift */,
 				CE3FE08C26C90210000BD19F /* CalendarTVCell.swift */,
-				29D5F7AD2754EB2B0015F16B /* MeetingViewController.swift */,
 				29988E15277F38E80034F2D9 /* TimeZoneViewController.swift */,
+				73276B3B2886B2A700A9B572 /* AppoinmentTVCells.swift */,
 			);
 			path = HomeViewController;
 			sourceTree = "<group>";
@@ -1545,6 +1555,7 @@
 		CE76024026CF752F00550B68 /* VRIOPIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				73EB63FF288572EC00D3ED9F /* scheduleMeetings */,
 				CE76024326CF76E700550B68 /* OnDemandVRIViewController */,
 				CE76024C26CF77EB00550B68 /* ScheduledOPIViewController */,
 				CE76024926CF77A400550B68 /* ScheduledVRIVIewController */,
@@ -2084,6 +2095,7 @@
 				73CB308327D9C90D006A17DE /* FeedbackModel.swift in Sources */,
 				CE74B2DF26C046FA008BBA8C /* LoginModel.swift in Sources */,
 				CE2704A826BCE7BE00009E77 /* SceneDelegate.swift in Sources */,
+				73276B3C2886B2A700A9B572 /* AppoinmentTVCells.swift in Sources */,
 				C6CA04EB278FEC7E003B98DA /* ApiCheckMeetSatusResponseModel.swift in Sources */,
 				C62D0BED27D5EB8B0083C337 /* VirtualMeetingNewRecurrenceVC.swift in Sources */,
 				CE0DDFF726D13B2F003D4FC7 /* LanguageVModel.swift in Sources */,

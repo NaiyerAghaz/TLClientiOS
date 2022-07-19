@@ -13,6 +13,8 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
     func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
         print(code)
     }
+    
+    @IBOutlet weak var btnSchedule: UIButton!
     @IBOutlet weak var selectDateTimeTF: UITextField!
     @IBOutlet weak var selectVRIView: UIView!
     @IBOutlet weak var phoneNumberTF: UITextField!
@@ -43,6 +45,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
     @IBOutlet weak var HrTxt: iOSDropDown!
     var isFromAppointment = false
     var apmtID = "0"
+   
     @IBOutlet weak var countryCodeTF: UITextField!
     @IBOutlet weak var minTxt: iOSDropDown!
     var picker = MICountryPicker()
@@ -70,6 +73,9 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
      return IndicatorInfo(title:"Scheduled VRI")
     }
     var scheduleViewModel = ScheduleViewModel()
+    
+    @IBOutlet weak var thirdparticipantHeight: NSLayoutConstraint!
+    @IBOutlet weak var SecondParticipantHeight: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -122,8 +128,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
             }}
         
         
-        let image = UIImage( named: bundle + "us.png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-        tempImageView.image = image
+       
         updateUI()
        
         if isFromAppointment {
@@ -168,13 +173,15 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
     }
     @IBAction func cancelThirsParticipants(_ sender: UIButton) {
         self.showThirdParticipants = false
-        self.thirsParicipantsView.visibility = .gone
+      
+        self.thirdparticipantHeight.constant = 0.0
         self.thirdParticipantsTF.text = ""
         
     }
     @IBAction func cancelSecoundParticipants(_ sender: UIButton) {
         self.showSecoundparticipants = false
-        self.secoundParticipantsView.visibility = .gone
+        self.SecondParticipantHeight.constant = 0.0
+     
         self.secoundParticipantsTF.text = ""
     }
     @IBAction func cancelFirstParticipants(_ sender: UIButton) {
@@ -185,17 +192,17 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         if (showFisrtParticipants == true) && (showSecoundparticipants == false) && (showThirdParticipants == false ){
             print("1 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
             if  firstParticipantsTF.text == ""{
-                self.thirsParicipantsView.visibility = .gone
-                self.secoundParticipantsView.visibility = .gone
-                self.firstParticipantsView.visibility = .visible
+             
+                SecondParticipantHeight.constant = 0.0
+                thirdparticipantHeight.constant = 0.0
+                
                 self.view.makeToast("Please fill First Participants Name.",duration: 1, position: .center)
                 return
                 
             }else {
-                
-                self.thirsParicipantsView.visibility = .gone
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+              
+                SecondParticipantHeight.constant = 50.0
+                thirdparticipantHeight.constant = 0.0
                 showSecoundparticipants = true
                 
                 
@@ -204,30 +211,30 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         }else if (showFisrtParticipants == true) && (showSecoundparticipants == true) && (showThirdParticipants == false ){
             print("2 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
             if secoundParticipantsTF.text == "" {
-                self.thirsParicipantsView.visibility = .gone
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+                SecondParticipantHeight.constant = 50.0
+                thirdparticipantHeight.constant = 0.0
+            
                 self.view.makeToast("Please fill Secound Participants Name.",duration: 1, position: .center)
                 return
             }else {
-                self.thirsParicipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+                SecondParticipantHeight.constant = 50.0
+                thirdparticipantHeight.constant = 50.0
+              
                 showThirdParticipants = true
             }
             
         }else if (showFisrtParticipants == true) && (showSecoundparticipants == false) && (showThirdParticipants == true ){
             print("3 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
             if thirdParticipantsTF.text == "" {
-                self.thirsParicipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .gone
-                self.firstParticipantsView.visibility = .visible
+            
+                SecondParticipantHeight.constant = 0.0
+                thirdparticipantHeight.constant = 50.0
                 self.view.makeToast("Please fill Secound Participants Name.",duration: 1, position: .center)
                 return
             }else {
-                self.thirsParicipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .visible
-                self.firstParticipantsView.visibility = .visible
+                SecondParticipantHeight.constant = 50.0
+                thirdparticipantHeight.constant = 50.0
+              
                 showSecoundparticipants = true
             }
         }
@@ -263,57 +270,54 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
             }
         })
         if self.selectDateTimeTF.text!.isEmpty {
-            self.view.makeToast("Please fill Start Date.",duration: 1, position: .center)
-            return
+            
+            return self.view.makeToast("Please fill Start Date.",duration: 1, position: .center)
             
         }else if self.firstNameTF.text!.isEmpty {
             
-            self.view.makeToast("Please fill First Name.",duration: 1, position: .center)
             
-            return
+            
+            return self.view.makeToast("Please fill First Name.",duration: 1, position: .center)
             
             
         }else if self.lastNameTF.text!.isEmpty {
             
-            self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
-            return
+            
+            return self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
             
         }else if self.firstParticipantsTF.text!.isEmpty  {
-            self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
-            return
+           
+            return  self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
             
         }else if self.confirmationEmailTF.text!.isEmpty  {
-            self.view.makeToast("Please fill Email Address.",duration: 1, position: .center)
-            return
             
-        }else if self.clientPatientName.text!.isEmpty  {
-            self.view.makeToast("Please fill Client/Patient Name.",duration: 1, position: .center)
-            return
+            return self.view.makeToast("Please fill Email Address.",duration: 1, position: .center)
+            
+        }
+        else if !(self.confirmationEmailTF.text?.isValidEmail())! {
+            return self.view.makeToast("Please enter valid email", duration: 1.0, position: .center)
+        }
+        else if self.clientPatientName.text!.isEmpty  {
+           
+            return  self.view.makeToast("Please fill Client/Patient Name.",duration: 1, position: .center)
             
         }else {
-            let firstName = self.firstNameTF.text ?? ""
-            let lastName = self.lastNameTF.text ?? ""
-            let date = self.selectDateTimeTF.text ?? ""
-            let userID = GetPublicData.sharedInstance.userID
-            let companyID = GetPublicData.sharedInstance.companyID
-            let emailId = self.confirmationEmailTF.text ?? ""
+            
             let countryCode = self.countryCodeTF.text ?? ""
             let mobileNo =  self.phoneNumberTF.text ?? ""
             let mobileWithCode = countryCode + " \(mobileNo)"
-            let cPIntial = self.cPinitialsTF.text ?? ""
+            
             let hrTxt = self.HrTxt.text ?? ""
             let minTxt = self.minTxt.text ?? ""
             let anticipatedHr = "\(hrTxt):\(minTxt)"
-            let clientNumber = self.patientClientNumberTF.text ?? ""
-            let notes = self.notesTF.text ?? ""
-            let caseName = self.clientPatientName.text ?? ""
-            let speciality = self.specialityTF.text ?? ""
+           
             var totalParticipants = ""
             for obj in participantsList {
                 totalParticipants = totalParticipants + "\(obj),"
             }
             let particiapnts = String(totalParticipants.dropLast())
-            hitApiScheduleVRIAppointment(firstName: firstName, lastName: lastName, date: date, time: date, userID: userID, companyID: companyID, active: true, LanguageID: self.trgtLngID, caseNumber: clientNumber, anticipatedHR: anticipatedHr, cPintials: cPIntial, srcLngID: self.srcLngID, mobileNo: mobileWithCode, emailID: emailId, participantsList: particiapnts,notes: notes,caseName: caseName,speciality: speciality)
+            let req = scheduleViewModel.addScheduleReq(firstName: self.firstNameTF.text ?? "", lastName: self.lastNameTF.text ?? "", date: self.selectDateTimeTF.text ?? "", time: self.selectDateTimeTF.text ?? "", userID: GetPublicData.sharedInstance.userID, companyID: GetPublicData.sharedInstance.companyID, active: true, LanguageID: self.trgtLngID, caseNumber: self.patientClientNumberTF.text ?? "", anticipatedHR: anticipatedHr, cPintials: self.cPinitialsTF.text ?? "", srcLngID: self.srcLngID, mobileNo: mobileWithCode, emailID: self.confirmationEmailTF.text ?? "", participantsList: particiapnts,notes: self.notesTF.text ?? "",caseName: self.clientPatientName.text ?? "",speciality: self.specialityTF.text ?? "",amptID: apmtID,roomID: self.roomId, reqType: "1")
+            hitApiScheduleVRIAppointment(request: req)
         }
     }
     @IBAction func selectDateAndTime(_ sender: UIButton) {
@@ -323,48 +327,19 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
             
         })
     }
-    func hitApiScheduleVRIAppointment(firstName : String,lastName : String,date : String,time : String,userID : String,companyID : String,active : Bool, LanguageID: String,caseNumber:String,anticipatedHR:String,cPintials : String, srcLngID : String,mobileNo:String,emailID:String,participantsList:String,notes:String,caseName:String,speciality:String){
+    func hitApiScheduleVRIAppointment(request:[String:Any]){
         if Reachability.isConnectedToNetwork() {
             SwiftLoader.show(animated: true)
-            
             let urlString = APi.AddScheduleVRI.url
-            let parameters = [
-                "RequestType":"1",
-                "UserType":"Customer",
-                "LanguageID":LanguageID,//"1205",
-                "DateTime":date,//"11/26/2021 03:59 pm",
-                "Id":apmtID,
-                "CreatedBy":userID,//"217888",
-                "RequestedBy":userID,//"217888",
-                "CaseName":caseName,//"test",
-                "CaseNo":caseNumber,//"test",
-                "AnticipatedDuration":anticipatedHR,//"6:5",
-                "CaseInitial":cPintials,//"t",
-                "Notes":notes,
-                "Status":2,
-                "Random":self.roomId,//"21112692",
-                "SourceLanguageID":srcLngID,//"3",
-                "FirstName":firstName,//"leo",
-                "LastName":lastName,//"m",
-                "PhNo":mobileNo,//"",
-                "ConfMail":emailID,//"marikanti2289@gmail.com",
-                "Speciality":speciality,
-                "ReasonCall":"",
-                "VendorList":0,
-                "Inviteparticipant":participantsList,//"marikanti2289",
-                "ThirdPartyCompanyId":""] as [String:Any]
-            
-         
-          
-            print("url to create Meet Appointment \(urlString),\(parameters)")
-            AF.request(urlString, method: .post , parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+print("url to create Meet Appointment \(urlString),\(request)")
+            AF.request(urlString, method: .post , parameters: request, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
                     SwiftLoader.hide()
                     switch(response.result){
                         
                     case .success(_):
-                        print("Respose Success  create Meet appointment ")
+                       
                         guard let daata85 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
@@ -372,11 +347,20 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
                             let status = self.apiScheduleVRIMeetResponseModel?.scheduleVRI?.first?.success ?? 0
                             print("status--------->",status)
                             if status == 3 {
-                                print("Success Meet Requset ")
-                                //self.view.makeToast("Address added successfuly.",duration: 2, position: .center)
-                                
-                                self.navigationController?.popViewController(animated: true)
-                            }else {
+                              
+                                if apmtID != "0" {
+                                    self.view.makeToast("VRI schedul has been updated successfuly.",duration: 2, position: .center)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2 ) {
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                }
+                                else {
+                                    self.view.makeToast("VRI is scheduled successfuly.",duration: 2, position: .center)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2 ) {
+                                        self.navigationController?.popViewController(animated: true)
+                                    }
+                                }
+                         }else {
                                 
                                 if let message = self.apiScheduleVRIMeetResponseModel?.scheduleVRI?.first?.fastTrackOrNot  {
                                     
@@ -403,7 +387,8 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
     }
     public func getDataRedirectReload(){
         SwiftLoader.show(animated: true)
-        ///https://lsp.totallanguage.com/CustomerManagement/CustomerDetail/GetData?methodType=SCHEDULVRIDETAILSBYID&id=1340&userid=218905&Type=1
+        scheduleViewModel.countryDetails()
+        
         let uID = GetPublicData.sharedInstance.userID
         let urlStr = scheduleURL + "\(apmtID)&userid=\(uID)&Type=1"
         scheduleViewModel.scheduleData(urlStr: urlStr) { [self] scheduleData, err in
@@ -431,8 +416,17 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
                 patientClientNumberTF.text = obj.CaseNo
                 specialityTF.text = obj.Speciality
                 notesTF.text = obj.Notes
+                if  Int(obj.Status) == 1 {
+                    btnSchedule.isHidden = true
+                }
                 let phoneSeprate = obj.PhNo.split(separator: " ")
                 if phoneSeprate.count > 1 {
+                    let countryArr = scheduleViewModel.countriesArr
+                    print("countryCounts--------->",countryArr.count)
+                    if let indx = countryArr.firstIndex(where: {$0.dialCode == "\(phoneSeprate[0])"}){
+                        let image = UIImage( named: bundle + countryArr[indx].code.lowercased(), in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+                        tempImageView.image = image
+                    }
                     countryCodeTF.text = "\(phoneSeprate[0])"
                     phoneNumberTF.text = "\(phoneSeprate[1])"
                     
@@ -442,20 +436,36 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
                         phoneNumberTF.text = "\(phoneSeprate[0])"
                     }
                 }
-                
-                
-               firstParticipantsTF.text = "test@gmail.com"
-              //  secoundParticipantsTF.text = ""
-               // thirdParticipantsTF.text = ""
-              //  self.firstParticipantsView.visibility = .visible
-                self.secoundParticipantsView.visibility = .gone
-                self.thirsParicipantsView.visibility = .gone
+                let emails = obj.Inviteparticipant.split(separator: ",")
+                if emails.count > 0 {
+                    if emails.count == 1 {
+                        SecondParticipantHeight.constant = 0.0
+                        thirdparticipantHeight.constant = 0.0
+                        firstParticipantsTF.text = "\(emails[0])"
+                    }
+                    else if emails.count == 2 {
+                        SecondParticipantHeight.constant = 50.0
+                        thirdparticipantHeight.constant = 0.0
+                        firstParticipantsTF.text = "\(emails[0])"
+                        secoundParticipantsTF.text = "\(emails[1])"
+                    }
+                    else if emails.count == 3 {
+                        SecondParticipantHeight.constant = 50.0
+                        thirdparticipantHeight.constant = 50.0
+                        firstParticipantsTF.text = "\(emails[0])"
+                        secoundParticipantsTF.text = "\(emails[1])"
+                        thirdParticipantsTF.text = "\(emails[2])"
+                    }
+                }
+                else {
+                    firstParticipantsTF.text = ""
+                }
+              selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI(date: obj.DateTime)
+             
             }
             
         }
-        
-        
-    }
+      }
     public func getDataReload(){
         self.selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI()
         SwiftLoader.show(animated: true)
@@ -473,9 +483,13 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
                 
             }}
         self.notesTF.placeholder = "Notes"
-        self.secoundParticipantsView.visibility = .gone
-        self.thirsParicipantsView.visibility = .gone
+        SecondParticipantHeight.constant = 0.0
+        thirdparticipantHeight.constant = 0.0
+       // self.secoundParticipantsView.visibility = .gone
+       // self.thirsParicipantsView.visibility = .gone
         self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        let image = UIImage( named: bundle + "us.png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+        tempImageView.image = image
     }
     func updateUI(){
         

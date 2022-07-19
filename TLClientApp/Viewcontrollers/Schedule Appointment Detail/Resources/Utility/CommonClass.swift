@@ -101,10 +101,31 @@ class CEnumClass: NSObject {
     }
     func getcurrentdateAndTimeVRI() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
         let startDate =  dateFormatter.string(from: Date())
         return startDate
     }
+    func getcurrentdateAndTimeVRI(date:String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" //MM-dd-yyyy'T'hh:mm a"
+        let uDate = dateFormatter.date(from: date)
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        let startDate =  dateFormatter.string(from: uDate!)
+        return startDate
+    }
+    func scheduleApmtDateAndTime(sDate: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" //MM-dd-yyyy'T'hh:mm a"
+        let apmtDate = dateFormatter.date(from: sDate)
+        return apmtDate!
+    }
+    func scheduleCurrentApmtDateAndTime() -> Date{
+        let dFormate = DateFormatter()
+        dFormate.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        let dStr = dFormate.string(from: Date())
+        return dFormate.date(from: dStr)!
+    }
+    
     func getcurrentdateAndTimeForChat() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy HH-mm-ss"
@@ -437,6 +458,47 @@ extension Date {
         let components = DateComponents(year: years, month: months, day: days, hour: hours, minute: minutes, second: seconds)
         return Calendar.current.date(byAdding: components, to: self)
     }
+    /// Returns the amount of years from another date
+       func years(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.year], from: date, to: self).year ?? 0
+       }
+       /// Returns the amount of months from another date
+       func months(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.month], from: date, to: self).month ?? 0
+       }
+       /// Returns the amount of weeks from another date
+       func weeks(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.weekOfMonth], from: date, to: self).weekOfMonth ?? 0
+       }
+       /// Returns the amount of days from another date
+       func days(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.day], from: date, to: self).day ?? 0
+       }
+       /// Returns the amount of hours from another date
+       func hours(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.hour], from: date, to: self).hour ?? 0
+       }
+       /// Returns the amount of minutes from another date
+       func minutes(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.minute], from: date, to: self).minute ?? 0
+       }
+       /// Returns the amount of seconds from another date
+       func seconds(from date: Date) -> Int {
+           return Calendar.current.dateComponents([.second], from: date, to: self).second ?? 0
+       }
+       /// Returns the a custom time interval description from another date
+       func offset(from date: Date) -> String {
+           if years(from: date)   > 0 { return "\(years(from: date))y"   }
+           if months(from: date)  > 0 { return "\(months(from: date))M"  }
+           if weeks(from: date)   > 0 { return "\(weeks(from: date))w"   }
+           if days(from: date)    > 0 { return "\(days(from: date))d"    }
+           if hours(from: date)   > 0 { return "\(hours(from: date))h"   }
+           if minutes(from: date) > 0 { return "\(minutes(from: date))m" }
+           if seconds(from: date) > 0 { return "\(seconds(from: date))s" }
+           return ""
+       }
+   
+    
 }
 extension String {
     mutating func add(prefix: String) {

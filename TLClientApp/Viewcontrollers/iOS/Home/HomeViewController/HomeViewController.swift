@@ -12,63 +12,10 @@ import GoogleMaps
 var userImageURl = ""
 import SwiftPullToRefresh
 import SideMenu
-class ScheduleAppointmentTableViewCell:UITableViewCell{
-    
-    @IBOutlet weak var jobTypeText: UILabel!
-    @IBOutlet weak var lblTextVenue: UILabel!
-    @IBOutlet weak var cancelMessageStack: UIStackView!
-    @IBOutlet weak var appointmentTitleLbl: UILabel!
-    @IBOutlet var statusOuterView: UIView!
-    @IBOutlet var checkOutOuterView: UIView!
-    @IBOutlet var startDateLbl: UILabel!
-    @IBOutlet var customerName: UILabel!
-    @IBOutlet var checkInLbl: UILabel!
-    @IBOutlet weak var CustomerNameStack: UIStackView!
-    @IBOutlet weak var clientValueStack: UIStackView!
-    @IBOutlet var statusOfAppointmentLbl: UILabel!
-    @IBOutlet weak var customerValueStack: UIStackView!
-    @IBOutlet weak var clientnameStack: UIStackView!
-    @IBOutlet var outerView: UIView!
-    @IBOutlet var interpreterLbl: UILabel!
-    @IBOutlet var typeOfMeetLbl: UILabel!
-    @IBOutlet var venuLbl: UILabel!
-    @IBOutlet var checkOutHeadingLbl: UILabel!
-    @IBOutlet var clientNameLbl: UILabel!
-    @IBOutlet var targetLanguageLbl: UILabel!
-    @IBOutlet var sourceLanguageLbl: UILabel!
-    @IBOutlet var appointmentTimeLbl: UILabel!
-    @IBOutlet var appointmentIDLbl: UILabel!
-    override func awakeFromNib() {
-        outerView.addShadowGrey()
-        self.customerValueStack.isHidden = false
-        self.CustomerNameStack.isHidden = false
-        self.clientnameStack.isHidden = false
-        self.clientValueStack.isHidden = false
-        self.cancelMessageStack.isHidden = true
-    }
-}
-class ScheduleMeetingTableViewCell:UITableViewCell{
-    
-    //   @IBOutlet weak var appointmentTitleLbl: UILabel!
-    @IBOutlet var statusOuterView: UIView!
-    
-    @IBOutlet var startDateLbl: UILabel!
-    
-    @IBOutlet var checkInLbl: UILabel!
-    @IBOutlet var statusOfAppointmentLbl: UILabel!
-    @IBOutlet var outerView: UIView!
-    @IBOutlet var interpreterLbl: UILabel!
-    @IBOutlet weak var joinMeetBtn: UIButton!
-    @IBOutlet weak var documentTranslationView: UIView!
-    @IBOutlet var appointmentTimeLbl: UILabel!
-    @IBOutlet var appointmentIDLbl: UILabel!
-    override func awakeFromNib() {
-        outerView.addShadowGrey()
-    }
-}
+
+
 class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerDelegate{
-   
-     @IBOutlet weak var tblCalenderView: UITableView!
+   @IBOutlet weak var tblCalenderView: UITableView!
     var navigator = Navigator()
     var loginVM = DetailsModal()
     var eventColor = [UIColor]()
@@ -89,6 +36,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     var apiCheckMeetSatusResponseModel = [ApiCheckMeetSatusResponseModel]()
     fileprivate weak var calendarObject: FSCalendar!
     @IBOutlet weak var calenderView: UIView!
+    var callManagerVM = CallManagerVM()
+    var callingScheduleArr = [Int]()
+    let app = UIApplication.shared.delegate as? AppDelegate
     var calendar = FSCalendar()
     static func createWith(navigator: Navigator, storyboard: UIStoryboard,userModel: DetailsModal) -> HomeViewController {
         return storyboard.instantiateViewController(ofType: HomeViewController.self).then { viewController in
@@ -570,10 +520,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
             DispatchQueue.main.async {
                 SwiftLoader.show(animated: true)
             }
-           
-            
-            let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
+           let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
             print("url to get schedule \(urlString)")
+            callingScheduleArr.removeAll()
             AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -592,16 +541,12 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in
                                 let rawDate = appointmentData.startDateTime ?? ""
                                 let newDate = convertDateFormater(rawDate)
-                                print("raw date is ",rawDate)
-                                print("new date is ",newDate)
-                                print("selected date is ",selectedDate)
+                              
                                 if selectedDate == newDate {
                                     self.showAppointmentArr.append(appointmentData)
                                 }
                             })
-                            
-                            print("total appointment for \(selectedDate) are \(self.showAppointmentArr.count)")
-                           
+                         
                             DispatchQueue.main.async {
                                 self.tblCalenderView.spr_endRefreshing()
                                 self.tblCalenderView.reloadData()
@@ -717,7 +662,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // let cell  = tableView.dequeueReusableCell(withIdentifier: HomeCellIdentifier.calendarTVCell.rawValue, for: indexPath) as! CalendarTVCell
+       
         let index = showAppointmentArr[indexPath.row]
         let statustype = index.appointmentStatusType ?? ""
         
@@ -873,7 +818,25 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                     cell.checkInLbl.isHidden = true
                     cell.checkOutHeadingLbl.isHidden = true
                 }
+                if index.appointmentType == "Schedule OPI" {
+                    cell.btnVideoAndAudioCall.isHidden = false
+                    cell.btnVideoAndAudioWidth.constant = 45.0
+                }
+                else if index.appointmentType == "Schedule VRI" {
+                    cell.btnVideoAndAudioCall.isHidden = false
+                    cell.btnVideoAndAudioWidth.constant = 45.0
+                    if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
+                        cell.lblCallWarning.text = "Button will be enabled 10 minutes before and disable 20 minutes after the schedules time."
+                    }
+                    else {
+                        cell.lblCallWarning.text = ""
+                    }
+                    
+                }
             }else{
+                cell.lblCallWarning.text = ""
+                cell.btnVideoAndAudioWidth.constant = 0.0
+                cell.btnVideoAndAudioCall.isHidden = true
                 cell.checkInLbl.isHidden = true
                 cell.checkOutHeadingLbl.isHidden = true
             }
@@ -887,6 +850,9 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                 
                 cell.interpreterLbl.attributedText = interpretorname?.convertHtmlToAttributedStringWithCSS(font: UIFont.systemFont(ofSize: 12), csscolor: "black", lineheight: 5, csstextalign: "left")
                 cell.interpreterLbl.textColor = UIColor.black
+                cell.btnVideoAndAudioCall.tag = indexPath.row
+                cell.btnVideoAndAudioCall.addTarget(self, action: #selector(scheduleCallMethod(sender:)), for: .touchUpInside)
+                
             }else {
                 let str = index.authCode ?? ""
                 let components = str.components(separatedBy: " ")
@@ -899,14 +865,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
         }
         
     }
-    @objc func actionJoinMeet(_ sender: UIButton){
-        print("sendervalue ",self.showAppointmentArr[sender.tag])
-        let timeOfcall = self.showAppointmentArr[sender.tag].startDateTime ?? ""
-        //  let rawTime = index.startDateTime ?? ""
-        let newTime = convertTimeFormater(timeOfcall)
-        let roomNo = self.showAppointmentArr[sender.tag].authCode ?? ""
-        self.hitApiCheckMeetingStatus(roomNo: roomNo, callTime: newTime)
-    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let rowData = self.showAppointmentArr[indexPath.row]
         if rowData.appointmentTypeID != 12 {
@@ -954,6 +913,76 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension //240
     }
+    
+    @objc func scheduleCallMethod(sender: UIButton) {
+        let obj  = showAppointmentArr[sender.tag]
+        let cDate = CEnumClass.share.scheduleCurrentApmtDateAndTime
+        let tMinutes = CEnumClass.share.scheduleApmtDateAndTime(sDate: obj.startDateTime!).minutes(from: cDate())
+        print("tminutes------>",tMinutes)
+        if tMinutes <= 10 && tMinutes >= -20 {
+           if Reachability.isConnectedToNetwork() {
+                 DispatchQueue.main.async { SwiftLoader.show(animated: true)}
+                 callManagerVM.getRoomList { roolist, error in
+                     if error == nil {
+                        let roomID = roolist?[0].RoomNo ?? "0"
+                         self.app?.roomIDAppdel = roomID
+                         let para = self.callManagerVM.addAppCallReqAPI(sourceID:"\(obj.sLanguageID!)", targetID: "\(obj.languageID!)", roomId: roomID, targetName: obj.languageName ?? "", sourceName: obj.sLanguageName ?? "", patientName: "",patientNo: "", toUserId: "\(obj.interpreterID!)")
+                         print("Addappcall Para---->",para)
+                         self.addAppCall(para: para, roomid: roomID, sID: "\(obj.sLanguageID!)", tID: "\(obj.languageID!)", sName: obj.sLanguageName ?? "", tName: obj.languageName ?? "")
+                    }
+                     else {
+                         SwiftLoader.hide()
+                     }
+                 }}
+             else {
+                 self.view.makeToast(ConstantStr.noItnernet.val)
+             }
+        }
+        else {
+            self.callingScheduleArr.append(obj.appointmentID!)
+            DispatchQueue.main.async {
+                let indexPath = IndexPath(item: sender.tag, section: 0)
+               
+                self.tblCalenderView.reloadRows(at: [indexPath], with: .fade)
+            }
+          
+          
+        }
+      
+       
+        
+    }
+    @objc func actionJoinMeet(_ sender: UIButton){
+        print("sendervalue ",self.showAppointmentArr[sender.tag])
+        let timeOfcall = self.showAppointmentArr[sender.tag].startDateTime ?? ""
+        //  let rawTime = index.startDateTime ?? ""
+        let newTime = convertTimeFormater(timeOfcall)
+        let roomNo = self.showAppointmentArr[sender.tag].authCode ?? ""
+        
+        self.hitApiCheckMeetingStatus(roomNo: roomNo, callTime: newTime)
+    }
+    func addAppCall(para: [String:Any],roomid:String,sID:String,tID:String,sName:String,tName:String){
+        DispatchQueue.main.async {
+            SwiftLoader.hide()
+            let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+            let vdoCall = sB.instantiateViewController(identifier: Control_Name.vdoCall) as! VideoCallViewController
+            vdoCall.roomID = roomid
+            vdoCall.sourceLangID = sID
+            vdoCall.targetLangID = tID
+            vdoCall.parameter = para
+            vdoCall.isScheduled = true
+            vdoCall.sourceLangName = sName
+            vdoCall.targetLangName = tName
+            vdoCall.patientno =  ""
+            vdoCall.patientname =  ""
+           
+            vdoCall.modalPresentationStyle = .overFullScreen
+          
+            self.present(vdoCall, animated: true, completion: nil)
+        }
+        
+    }
+ 
 }
 
 

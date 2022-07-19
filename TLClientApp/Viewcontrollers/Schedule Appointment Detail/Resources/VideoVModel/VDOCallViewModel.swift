@@ -23,7 +23,7 @@ class VDOCallViewModel {
             
         }
       }
-    func addAppCall( apiReq: [String: Any],completionBlock:@escaping(Bool?, Error?) ->()){
+    func addAppCall(apiReq: [String: Any],completionBlock:@escaping(Bool?, Error?) ->()){
         
         ApiServices.shareInstace.getDataFromApi(url: APi.vriCallStart.url, para: apiReq) { response, error in
             if response != nil {
