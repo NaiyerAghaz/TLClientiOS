@@ -158,8 +158,7 @@ func configureUI(){
     }
     
     func getVRICallClient(req:[String:Any]){
-       
-     print("getCreateVRICallClientReq-------1>",req)
+    
    
         self.getCreateVRICallClient(req: req) { (completion, error) in
             if completion ?? false {

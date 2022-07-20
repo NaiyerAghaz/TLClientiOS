@@ -10,8 +10,10 @@ import TwilioVideo
 import TwilioVoice
 import Malert
 import UIKit
+import Alamofire
 class CallManagerVM {
-    
+    var apiCreateVRICallClientResponseModel = [ApiCreateVRICallClientResponseModel]()
+    var apiCheckCallStatusResponseModel = [ApiCheckCallStatusResponseModel]()
     func getRoomList(complitionBlock: @escaping([RoomResultModel]?, Error?) -> ()){
         WebServices.postJson(url: APi.getRoomId.url, jsonObject: roomCreateReq()) { response, error in
             do {
@@ -123,7 +125,7 @@ class CallManagerVM {
                       "callfrom":"app",
                       "ondemandvendorid":toUserId,
                       "CallGetInType":"vri"]
-        print("addAppcall parameter:",parameter)
+      
         
         return parameter
     }
@@ -180,6 +182,125 @@ class CallManagerVM {
         let para:[String:Any] = ["strSearchString":"<VRICLIENT><ACTION>C</ACTION><ID>\(ccid)</ID><CLIENTID>\(clientID)</CLIENTID><ROOMID>\(roomID)</ROOMID><CALLTYPE>OPI</CALLTYPE><SOURCE>\(sourceId)</SOURCE><TARGET>\(targetID)</TARGET></VRICLIENT>"]
         return para
         
+    }
+    //OPI call implementation:
+    func getCreateVRICallClientForCCID(req:[String:Any], completionHandler:@escaping(Bool?, Error?, String?) -> ()){
+       
+        let urlString = APi.createVRICallClient.url
+        self.apiCreateVRICallClientResponseModel.removeAll()
+        AF.request(urlString, method: .post, parameters: req, encoding: JSONEncoding.default, headers: nil)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                SwiftLoader.hide()
+                switch(response.result){
+                
+                case .success(_):
+                   guard let daata8 = response.data else { return }
+                    do {
+                        print("createVRICallClientREQ-------",req)
+                        let jsonDecoder = JSONDecoder()
+                        self.apiCreateVRICallClientResponseModel = try jsonDecoder.decode([ApiCreateVRICallClientResponseModel].self, from: daata8)
+                        print("Success getCreateVRICallClient Model ",self.apiCreateVRICallClientResponseModel)
+                        
+                        let ccid = self.apiCreateVRICallClientResponseModel.first?.id ?? ""
+                        
+                        completionHandler(true, nil, ccid)
+                    } catch{
+                        completionHandler(false, nil, "")
+                        print(error)
+                    }
+                case .failure(_):
+                    print("Respose Failure getCreateVRICallClient ")
+                    completionHandler(false, nil, "")
+                    
+                }
+            })
+        
+    }
+    func postOPIAcceptReq(roomId: String,targetID: String,sourceID: String, toUserid:String) -> [String:Any] {
+        let parameter = [
+            "lid": targetID,
+            "Roomno": roomId,
+            "senderid": GetPublicData.sharedInstance.userID,
+            "touserid": toUserid,
+            "statustype": "O",
+            "sourceLid": sourceID,
+            "Accepttype": "C",
+            "patientname":  "",
+            "patientno":  ""
+        ]
+        return parameter
+    }
+    func postOPIAcceptCall(req:[String:Any], completionHandler:@escaping(Bool?, Error?) -> ()){
+        ApiServices.shareInstace.getDataFromApi(url: APi.opiAcceptCall.url, para: req) { response, err in
+           if response != nil {
+                completionHandler(true, nil)
+            }
+            else {
+                completionHandler(false, err)
+            }
+        }
+    }
+    func getVendorIDs(sourceID:String,targetID: String,ccid: String, completionHandler:@escaping(String?, String?,String?) -> ()){
+        self.apiCheckCallStatusResponseModel.removeAll()
+        let userID = GetPublicData.sharedInstance.userID
+        //let sourceID = self.sourceID ?? ""
+        //let targetID = self.targetID ?? ""
+       // let ccid = self.ccid
+        let srchString = "<Info><CUSTOMERID>\(userID)</CUSTOMERID><TYPE>O</TYPE><SOURCE>\(sourceID)</SOURCE><TARGET>\(targetID)</TARGET><CC_ID>\(ccid)</CC_ID></Info>"
+        let param = ["strSearchString" :srchString]
+        let urlString = APi.getCheckCallStatus.url
+        print("url and parameter are getVendorIDs", param , urlString)
+        AF.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: nil)
+            .validate()
+            .responseData(completionHandler: { (response) in
+                SwiftLoader.hide()
+                switch(response.result){
+                
+                case .success(_):
+                    guard let daata7 = response.data else { return }
+                    do {
+                        let jsonDecoder = JSONDecoder()
+                        self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata7)
+                        print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
+                        let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
+                        
+                        print("STRING DATA IS \(str)")
+                        let data = str.data(using: .utf8)!
+                        do {
+                            //
+                            print("DATAAA ISSS \(data)")
+                            if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
+                            {
+                                
+                                let newjson = jsonArray.first
+                                let userInfo = newjson?["UserInfo"] as? [[String:Any]]
+                                //let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
+                                let userIfo = userInfo?.first
+                                let vendorId = userIfo?["UserId"] as? Int
+                                let vendorName = userIfo?["CustomerDisplayName"] as? String
+                                let vendorimg = userIfo?["CustomerImage"] as? String
+                                
+                               let vid = String(vendorId ?? 0)
+                              let vName = vendorName ?? ""
+                              let vImgUrl = vendorimg ?? ""
+                              
+                                completionHandler(vid,vName,vImgUrl)
+                            } else {
+                                print("bad json")
+                            }
+                        } catch let error as NSError {
+                            print(error)
+                        }
+                      } catch{
+                        
+                        print("error block getVendorIDs Data  " ,error)
+                    }
+                case .failure(_):
+                    print("Respose Failure getVendorIDs ")
+                    
+                }
+            })
     }
 }
 

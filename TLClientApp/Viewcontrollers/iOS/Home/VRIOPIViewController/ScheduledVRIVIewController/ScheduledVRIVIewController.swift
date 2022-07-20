@@ -390,7 +390,7 @@ print("url to create Meet Appointment \(urlString),\(request)")
         scheduleViewModel.countryDetails()
         
         let uID = GetPublicData.sharedInstance.userID
-        let urlStr = scheduleURL + "\(apmtID)&userid=\(uID)&Type=1"
+        let urlStr = constantAPI.scheduleURL.rawValue + "\(apmtID)&userid=\(uID)&Type=1"
         scheduleViewModel.scheduleData(urlStr: urlStr) { [self] scheduleData, err in
             SwiftLoader.hide()
             DispatchQueue.main.async {[self] in

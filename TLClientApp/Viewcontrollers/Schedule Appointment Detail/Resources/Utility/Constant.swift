@@ -23,6 +23,7 @@ struct Control_Name {
     static let chatVC = "ChatViewController"
     static let imgPopup = "ImagePopupViewController"
     static let vdoCall = "VideoCallViewController"
+    static let audioCall = "AudioCallViewController"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"

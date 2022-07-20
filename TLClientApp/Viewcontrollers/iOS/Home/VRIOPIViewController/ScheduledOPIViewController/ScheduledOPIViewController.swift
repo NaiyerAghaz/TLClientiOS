@@ -417,7 +417,7 @@ func textFieldDidEndEditing(_ textField: UITextField) {
         SwiftLoader.show(animated: true)
         scheduleViewModel.countryDetails()
         let uID = GetPublicData.sharedInstance.userID
-        let urlStr = scheduleURL + "\(apmtID)&userid=\(uID)&Type=2"
+        let urlStr = constantAPI.scheduleURL.rawValue + "\(apmtID)&userid=\(uID)&Type=2"
         scheduleViewModel.scheduleData(urlStr: urlStr) { [self] scheduleData, err in
             SwiftLoader.hide()
             let obj = scheduleData?.SCHEDULVRIDETAILSBYID?[0] as! ScheduleDataModel

@@ -69,6 +69,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     @IBOutlet weak var hosterView: UIView!
     var activeCalls: [String: Call]! = [:]
     var vdoCallVM = VDOCallViewModel()
+    var isSchedule = false
     @IBOutlet weak var conferenceCallView: UIView!
     @IBOutlet weak var countryCodeImg: UIImageView!
     @IBOutlet weak var countryCodeTF: UITextField!
@@ -84,7 +85,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     @IBOutlet weak var hostImg: UIImageView!
     @IBOutlet weak var callDurationLbl: UILabel!
     @IBOutlet weak var callTimeTitleLbl: UILabel!
-    
+    var callManagerVM = CallManagerVM()
     var isVoiceConnected = false
     var timerDuration : Timer?
     var isNewVendor = false
@@ -96,6 +97,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     var conferenceSIDList = [String]()
     var participantsList = [ParticipantsList]()
     var callKitCallController = CXCallController()
+    var toUserID = "0"
     @IBOutlet weak var addParticipantsBtn: UIButton!
     var apiAddparticipantsOPIResponseModle:ApiAddparticipantsOPIResponseModle?
     override func viewDidLoad() {
@@ -129,11 +131,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         
         self.vendorNameLbl.text = ""
         self.titleLbl.text = "Connecting To Interpreters"
-        //        let imageData = try? Data(contentsOf: Bundle.main.url(forResource: "call", withExtension: "gif")!)
-        //        let advTimeGif = UIImage.gifImageWithData(imageData!)
-        //        let callingImageView = UIImageView(image: advTimeGif)
-        //        callingImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100.0)
-        //        self.ringingImgView.addSubview(callingImageView)
+        
         self.playCustomRingback = true
         let configuration = CXProviderConfiguration(localizedName: "Voice Quickstart")
         configuration.maximumCallGroups = 1
@@ -149,8 +147,18 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         getProfileimg()
         
         self.countryCodeTF.setLeftPaddingPoints(60)
-       // self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "(US)+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        
         setFlagAndPhoneNumberCodeLeftViewIcon(icon: UIImage(named: "down button arrow")!)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isSchedule{
+            let req = self.callManagerVM.postOPIAcceptReq(roomId: roomID!, targetID: targetLangID!, sourceID: sourceLangID!, toUserid: toUserID)
+            print("opi request-->", req)
+            self.callManagerVM.postOPIAcceptCall(req: req) { success, err in
+                print("scheduled call initaited ")
+            }
+        }
     }
     @objc func removeParticipants(notification: Notification){
         
@@ -212,7 +220,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         sender.value = round(sender.value)
         switch sender.value {
         case 0:
-           
+            
             self.callQualityValue = "Poor"
             experienceLbl.text = "Poor"
         case 1:
@@ -224,7 +232,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             self.callQualityValue = "Good"
             experienceLbl.text = "Good"
         case 3:
-           
+            
             self.callQualityValue = "Very Good"
             experienceLbl.text = "Very Good"
         case 4:
@@ -261,7 +269,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             ratingValue = 4
             ratingChangelbl.text = "Very Good"
         case 4:
-           
+            
             ratingValue = 5
             ratingChangelbl.text = "Excellent"
         case 5:
@@ -304,7 +312,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             let seconds = CountNumber % 60;
             let  minutes = (CountNumber / 60) % 60;
             let hours = (CountNumber / 3600);
-            print("time duration ",hours,minutes,seconds)
+            //print("time duration ",hours,minutes,seconds)
             self.titleLbl.text = "OPI Call"
             //   self.callDurationLbl.text = "\(hours):\(minutes):\(seconds)"
             self.callDurationLbl.text = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
@@ -317,7 +325,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.navigationItem.setHidesBackButton(false, animated: true)
         
         let picker = MICountryPicker { (name, code ) -> () in
-          
+            
         }
         picker.delegate = self
         // Display calling codes
@@ -327,7 +335,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             picker.navigationController?.isNavigationBarHidden=true
             //picker.navigationController?.popViewController(animated: true)
             picker.dismiss(animated: true, completion: nil)
-          
+            
             
         }
         picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
@@ -337,7 +345,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             let bundle = "assets.bundle/"
             
             let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-          
+            
             self.countryCodeTF.text = dialCode
             self.countryCode = dialCode
             self.countryCodeImg.image = image
@@ -460,12 +468,12 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                                 self.vendorNameLbl.text = ""// self.vendorName
                                 // let baseUrl = "https://lsp.totallanguage.com/"
                                 
-                               // print("vendorImg--------->\(vendorImg)")
+                                // print("vendorImg--------->\(vendorImg)")
                                 let vendorImgUrl = nBaseUrl + self.vendorImg
                                 //vendorImgUrl = vendorImgUrl.replacingOccurrences(of:" ", with: "%20")
-                               
-                               // print("vendorImgUrl--->\(vendorImgUrl)")
-                               // self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
+                                
+                                // print("vendorImgUrl--->\(vendorImgUrl)")
+                                // self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
                                 
                                 completionHandler(true , nil)
                                 
@@ -506,6 +514,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         //new changes
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
         let fb = sB.instantiateViewController(identifier: "VRIOPIFeedbackController") as! VRIOPIFeedbackController
+        fb.isScheduled = isSchedule
         fb.roomID = roomID
         fb.targetLang = targetLangName
         fb.duration = self.callDuration //lblTimeSpeak.text//callStartTime
@@ -620,19 +629,12 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                         do {
                             let jsonDecoder = JSONDecoder()
                             self.apiGetProfileResponseModel = try jsonDecoder.decode(ApiGetProfileResponseModel.self, from: daata87)
-                            print("Success")
-                            // let baseUrl = "https://lsp.totallanguage.com"
                             let postUrl = self.apiGetProfileResponseModel?.uSERLOGOS?.first?.imageData ?? ""
                             let imgUrl = nBaseUrl + postUrl
-                            // let vendorImgUrl = nBaseUrl + self.vendorImg
                             hostImg.sd_setImage(with: URL(string: imgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
-                            
-                            //print("vendorImg",vendorImgUrl)
                             userImageURl = imgUrl
                             let userName = userDefaults.string(forKey: "username")
                             self.hostNameLbl.text = userName
-                            // self.vendorNameLbl.text = self.vendorName
-                            
                             self.languageLbl.text = sourceLangName ?? ""
                             self.lblTargetLang.text =  targetLangName ?? ""
                         } catch{
@@ -670,7 +672,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             DispatchQueue.main.async {
                 self.callDisconnetedByVendorAndCustomerEnd()
             }
-          }))
+        }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
             print("Handle Cancel Logic here")
@@ -689,7 +691,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 self.timerDuration!.invalidate()
                 self.timerDuration = nil
             }
-           
+            
             self.isClientDisconnectCall = true
             
             if (self.callKitProvider != nil) {
@@ -715,13 +717,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 
                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
                     print("Handle Ok logic here")
-                   
-                    /*  self.ringToneTimer.invalidate()
-                     if self.activeCall != nil{
-                     
-                     let uuid = self.activeCall?.uuid ?? UUID()
-                     self.performEndCallAction(uuid: uuid)
-                     }*/
+                    
                     DispatchQueue.main.async {
                         self.callDisconnetedByVendorAndCustomerEnd()
                     }
@@ -999,10 +995,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     
     func getTwillioToken(completionHandler:@escaping(Bool?, String?,Error?) -> ()){
         
-        let urlString = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken?identity=USER_ID&deviceType=clientIos"
+       // let urlString = "https://lsp.totallanguage.com/OPI/GetOPIAccessToken?identity=USER_ID&deviceType=clientIos"
         
-        print("url and parameter for getCreateVRICallVendor", urlString)
-        AF.request(urlString, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
+      
+        AF.request(constantAPI.opiAccessToken.rawValue, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseData(completionHandler: { (response) in
                 SwiftLoader.hide()
@@ -1158,7 +1154,7 @@ extension AudioCallViewController : CallDelegate{
             provider.reportCall(with: call.uuid!, endedAt: Date(), reason: CXCallEndedReason.failed)
         }
         
-        callDisconnected(call: call)
+        callDisconnecteds(call: call)
     }
     
     func callDidDisconnect(call: Call, error: Error?) {
@@ -1181,7 +1177,7 @@ extension AudioCallViewController : CallDelegate{
             }
         }
         
-        callDisconnected(call: call)
+        callDisconnecteds(call: call)
         
         //        self.endVRICallOPI()
         //        self.opiEndCall()
@@ -1209,7 +1205,7 @@ extension AudioCallViewController : CallDelegate{
         
     }
     
-    func callDisconnected(call: Call) {
+    func callDisconnecteds(call: Call) {
         if call == activeCall {
             activeCall = nil
         }
@@ -1282,9 +1278,8 @@ extension AudioCallViewController : CXProviderDelegate {
         action.fulfill()
     }
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        NSLog("-------provider:performAnswerCallAction:-------")
-        
-      //  self.addParticipantsBtn.isHidden = false
+       
+        //  self.addParticipantsBtn.isHidden = false
         isCallReceivedNotify = true
         performAnswerVoiceCall(uuid: action.callUUID) { success in
             if success {
@@ -1356,8 +1351,6 @@ extension AudioCallViewController: NotificationDelegate {
             self.activeCallInvites.removeValue(forKey: callInvite.uuid.uuidString)
         }
     }
-    
-    
 }
 //MARK: - Collection Work
 extension AudioCallViewController: UICollectionViewDelegate, UICollectionViewDataSource {

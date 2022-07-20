@@ -15,7 +15,7 @@ import SideMenu
 
 
 class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerDelegate{
-   @IBOutlet weak var tblCalenderView: UITableView!
+    @IBOutlet weak var tblCalenderView: UITableView!
     var navigator = Navigator()
     var loginVM = DetailsModal()
     var eventColor = [UIColor]()
@@ -53,7 +53,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
             self?.action()
         }
         tblCalenderView.separatorStyle = .none
-       
+        
         //checkSingleSignin()
         getServiceType()
         getallweekDate()
@@ -70,14 +70,14 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         //tblCalenderView.spr_beginRefreshing()
-       // locAuthentication()
+        // locAuthentication()
         // updateUI()
         //calenderView.removeFromSuperview()
-       
-       self.appointmentScheduling()
-       }
+        
+        self.appointmentScheduling()
+    }
     
-  
+    
     @IBAction func actionVirtualMeeting(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "SchedulingAppointments", bundle: nil)
         let vc = storyboard.instantiateViewController(identifier: "VirtualMeetingParentNewVC" ) as! VirtualMeetingParentNewVC
@@ -143,7 +143,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         
         hitApiGetNotificationCount()
         appointmentScheduling()
-       // createCalendar()
+        // createCalendar()
         //  DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         //self.tblCalenderView.spr_endRefreshing()
         // }
@@ -156,9 +156,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
             self.present(vc, animated: true, completion: nil)
         }
         else if notification.userInfo?["val"] as? String == "2" {
-        print("got scanner ----->")
-       
-    }
+            print("got scanner ----->")
+            
+        }
     }
     
     func locAuthentication(){
@@ -174,7 +174,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         AF.request(url, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
             .validate()
             .responseData(completionHandler: { [self] (response) in
-              
+                
                 switch(response.result){
                     
                 case .success(_):
@@ -189,9 +189,9 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             timeConverter1.dateFormat = "MM/dd/yyyy"
                             let dateStr = timeConverter1.string(from: Date())
                             let timeZone = self.apiGoogleTimeZoneresponse?.timeZoneName ?? ""
-                           
+                            
                             let previousTimeZone = userDefaults.string(forKey: "TimeZone") ?? ""
-                           
+                            
                             if previousTimeZone == timeZone {
                                 
                             }else {
@@ -236,7 +236,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         
     }
     func appointmentScheduling(){
-      
+        
         let FirstDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/yyyy"
@@ -256,7 +256,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         calenderView.subviews.forEach { (item) in
             item.removeFromSuperview()
         }
-       
+        
         //calendar.removeFromSuperview()+
         calendar.placeholderType = .none
         //calendar.appearance.separators = .interRows
@@ -274,7 +274,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         calendar.appearance.todayColor = .clear
         calendar.appearance.titleTodayColor = .blue
         calendar.today = Date()
-       
+        
         calendar.setCurrentPage(Date(), animated: true)
         calendar.calendarHeaderView.backgroundColor = UIColor(hexString: "#33A5FF")
         calendar.appearance.headerMinimumDissolvedAlpha = (0.3)
@@ -283,7 +283,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         calendar.scope = .month
         
         calenderView.addSubview(calendar)
-       
+        
     }
     
     func userLogout(userGuid : String ){
@@ -381,14 +381,14 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         }
         else {
             let vc = storyboard?.instantiateViewController(identifier: "VRIOPIViewController") as! VRIOPIViewController
-          
+            
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
     }
     @IBAction func actionNotification(_ sender: UIButton) {
-       
-      let vc = storyboard?.instantiateViewController(identifier: "NotificationViewController" ) as! NotificationViewController
+        
+        let vc = storyboard?.instantiateViewController(identifier: "NotificationViewController" ) as! NotificationViewController
         vc.modalPresentationStyle = .overCurrentContext
         let transition = CATransition()
         transition.duration = 0.5
@@ -401,7 +401,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     }
     
     //test doc only:
-   
+    
     //end
     private func updateUI(){
         
@@ -520,7 +520,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
             DispatchQueue.main.async {
                 SwiftLoader.show(animated: true)
             }
-           let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
+            let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
             print("url to get schedule \(urlString)")
             callingScheduleArr.removeAll()
             AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
@@ -541,12 +541,12 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                             self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in
                                 let rawDate = appointmentData.startDateTime ?? ""
                                 let newDate = convertDateFormater(rawDate)
-                              
+                                
                                 if selectedDate == newDate {
                                     self.showAppointmentArr.append(appointmentData)
                                 }
                             })
-                         
+                            
                             DispatchQueue.main.async {
                                 self.tblCalenderView.spr_endRefreshing()
                                 self.tblCalenderView.reloadData()
@@ -574,7 +574,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     }
     func getServiceType(){
         if Reachability.isConnectedToNetwork() {
-          
+            
             let companyId = userDefaults.string(forKey: "companyID") ?? ""
             
             let urlPostFix = "&CompanyId=\(companyId)&SpType1=1"
@@ -662,7 +662,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+        
         let index = showAppointmentArr[indexPath.row]
         let statustype = index.appointmentStatusType ?? ""
         
@@ -754,7 +754,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                 cell.cancelMessageStack.visibility = .gone
             }
             cell.targetLanguageLbl.text = index.languageName ?? ""
-           
+            
             if index.appointmentType?.lowercased() == "telephone conference" || index.appointmentType?.lowercased() == "virtual meeting"{
                 cell.venuLbl.isHidden = true
                 cell.lblTextVenue.isHidden = true
@@ -799,7 +799,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             let timeValue = convertTimeFormater(dateValue)
             cell.sourceLanguageLbl.text = endTimeValue
             cell.startDateLbl.text = "\(timeValue) (\(userDefaults.string(forKey: "zoneShortForm")!))"
-          
+            
             
             let checkInStatus = index.checkIn ?? 0
             let checkOutStatus = index.checkOut  ?? 0
@@ -821,8 +821,20 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                 if index.appointmentType == "Schedule OPI" {
                     cell.btnVideoAndAudioCall.isHidden = false
                     cell.btnVideoAndAudioWidth.constant = 45.0
+                    let large = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+                    let imgAudio =  UIImage(systemName: "mic.fill", withConfiguration: large)
+                    cell.btnVideoAndAudioCall.setImage(imgAudio, for: .normal)
+                    if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
+                        cell.lblCallWarning.text = "Button will be enabled 10 minutes before and disable 20 minutes after the schedules time."
+                    }
+                    else {
+                        cell.lblCallWarning.text = ""
+                    }
                 }
                 else if index.appointmentType == "Schedule VRI" {
+                    let large = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
+                    let imgAudio =  UIImage(systemName: "video.fill", withConfiguration: large)
+                    cell.btnVideoAndAudioCall.setImage(imgAudio, for: .normal)
                     cell.btnVideoAndAudioCall.isHidden = false
                     cell.btnVideoAndAudioWidth.constant = 45.0
                     if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
@@ -870,10 +882,10 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
         let rowData = self.showAppointmentArr[indexPath.row]
         if rowData.appointmentTypeID != 12 {
             let title = self.showAppointmentArr[indexPath.row].title ?? ""
-           if rowData.appointmentType == "Schedule VRI" {
-               GetVriOPIController(fromAppointment: true, appointmentId: "\(rowData.appointmentID!)", index: 2)
-               
-           }
+            if rowData.appointmentType == "Schedule VRI" {
+                GetVriOPIController(fromAppointment: true, appointmentId: "\(rowData.appointmentID!)", index: 2)
+                
+            }
             else if rowData.appointmentType == "Schedule OPI" {
                 GetVriOPIController(fromAppointment: true, appointmentId: "\(rowData.appointmentID!)", index: 3)
             }
@@ -919,37 +931,83 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
         let cDate = CEnumClass.share.scheduleCurrentApmtDateAndTime
         let tMinutes = CEnumClass.share.scheduleApmtDateAndTime(sDate: obj.startDateTime!).minutes(from: cDate())
         print("tminutes------>",tMinutes)
-        if tMinutes <= 10 && tMinutes >= -20 {
-           if Reachability.isConnectedToNetwork() {
-                 DispatchQueue.main.async { SwiftLoader.show(animated: true)}
-                 callManagerVM.getRoomList { roolist, error in
-                     if error == nil {
-                        let roomID = roolist?[0].RoomNo ?? "0"
-                         self.app?.roomIDAppdel = roomID
-                         let para = self.callManagerVM.addAppCallReqAPI(sourceID:"\(obj.sLanguageID!)", targetID: "\(obj.languageID!)", roomId: roomID, targetName: obj.languageName ?? "", sourceName: obj.sLanguageName ?? "", patientName: "",patientNo: "", toUserId: "\(obj.interpreterID!)")
-                         print("Addappcall Para---->",para)
-                         self.addAppCall(para: para, roomid: roomID, sID: "\(obj.sLanguageID!)", tID: "\(obj.languageID!)", sName: obj.sLanguageName ?? "", tName: obj.languageName ?? "")
-                    }
-                     else {
-                         SwiftLoader.hide()
-                     }
-                 }}
-             else {
-                 self.view.makeToast(ConstantStr.noItnernet.val)
-             }
+        if obj.appointmentType == "Schedule OPI" {
+            if tMinutes <= 10 && tMinutes >= -20 {
+                if Reachability.isConnectedToNetwork() {
+                    self.callManagerVM.getRoomList { roolist, error in
+                        if error == nil {
+                            let roomID = roolist?[0].RoomNo ?? "0"
+                            self.app?.roomIDAppdel = roomID
+                            let req = self.callManagerVM.normalCallClientReq(ccid: "0", clientID: GetPublicData.sharedInstance.userID, roomID: roomID, sourceId: "\(obj.sLanguageID!)", targetID: "\(obj.languageID!)")
+                            self.callManagerVM.getCreateVRICallClientForCCID(req: req) { status, err, ccid in
+                                let ccid = ccid ?? ""
+                                self.callManagerVM.getVendorIDs(sourceID: "\(obj.sLanguageID!)", targetID: "\(obj.languageID!)", ccid: ccid) { vendorid, vendorname, vendorImg in
+                                    
+                                    let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                                    let audioCall = sB.instantiateViewController(identifier: Control_Name.audioCall) as! AudioCallViewController
+                                    //                                        print("allPara--->",roomId, "sourceID:",sourceID, "targetID:",targetID, "ccid:",ccid,"sourceName::",sourceName,"targetName:",targetName,"vendorID:",vendorID,"vendorName:",vendorName,"vendorImgUrl:",vendorImgUrl)
+                                    audioCall.roomID = roomID
+                                    audioCall.isSchedule = true
+                                    audioCall.sourceLangID = "\(obj.sLanguageID!)"
+                                    audioCall.targetLangID = "\(obj.languageID!)"
+                                    audioCall.ccid = ccid
+                                    audioCall.isToThirdPartyCall = false
+                                    audioCall.sourceLangName = obj.sLanguageName ?? ""
+                                    audioCall.targetLangName = obj.languageName ?? ""
+                                    audioCall.patientno =  ""
+                                    audioCall.patientname = ""
+                                    audioCall.vendorID = vendorid ?? ""
+                                    audioCall.vendorName = vendorname ?? ""
+                                    audioCall.vendorImg = vendorImg ?? ""
+                                    audioCall.toUserID = "\(obj.interpreterID!)"
+                                    audioCall.modalPresentationStyle = .overFullScreen
+                                    self.present(audioCall, animated: true, completion: nil)
+                                }} }}
+                    
+                }}
+            else {
+                self.callingScheduleArr.append(obj.appointmentID!)
+                DispatchQueue.main.async {
+                    let indexPath = IndexPath(item: sender.tag, section: 0)
+                    
+                    self.tblCalenderView.reloadRows(at: [indexPath], with: .fade)
+                }
+            }
         }
         else {
-            self.callingScheduleArr.append(obj.appointmentID!)
-            DispatchQueue.main.async {
-                let indexPath = IndexPath(item: sender.tag, section: 0)
-               
-                self.tblCalenderView.reloadRows(at: [indexPath], with: .fade)
+            if tMinutes <= 10 && tMinutes >= -20 {
+                if Reachability.isConnectedToNetwork() {
+                    DispatchQueue.main.async { SwiftLoader.show(animated: true)}
+                    callManagerVM.getRoomList { roolist, error in
+                        if error == nil {
+                            let roomID = roolist?[0].RoomNo ?? "0"
+                            self.app?.roomIDAppdel = roomID
+                            let para = self.callManagerVM.addAppCallReqAPI(sourceID:"\(obj.sLanguageID!)", targetID: "\(obj.languageID!)", roomId: roomID, targetName: obj.languageName ?? "", sourceName: obj.sLanguageName ?? "", patientName: "",patientNo: "", toUserId: "\(obj.interpreterID!)")
+                            print("Addappcall Para---->",para)
+                            self.addAppCall(para: para, roomid: roomID, sID: "\(obj.sLanguageID!)", tID: "\(obj.languageID!)", sName: obj.sLanguageName ?? "", tName: obj.languageName ?? "")
+                        }
+                        else {
+                            SwiftLoader.hide()
+                        }
+                    }}
+                else {
+                    self.view.makeToast(ConstantStr.noItnernet.val)
+                }
             }
-          
-          
+            else {
+                self.callingScheduleArr.append(obj.appointmentID!)
+                DispatchQueue.main.async {
+                    let indexPath = IndexPath(item: sender.tag, section: 0)
+                    
+                    self.tblCalenderView.reloadRows(at: [indexPath], with: .fade)
+                }
+            }
+            
+            
+            
         }
-      
-       
+        
+        
         
     }
     @objc func actionJoinMeet(_ sender: UIButton){
@@ -975,14 +1033,14 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             vdoCall.targetLangName = tName
             vdoCall.patientno =  ""
             vdoCall.patientname =  ""
-           
+            
             vdoCall.modalPresentationStyle = .overFullScreen
-          
+            
             self.present(vdoCall, animated: true, completion: nil)
         }
         
     }
- 
+    
 }
 
 
@@ -1002,7 +1060,7 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         
         let dateInWeek = Date()//7th June 2017
         
-       let calendar = Calendar.current
+        let calendar = Calendar.current
         let currentMonth = calendar.component(.month, from: dateInWeek)
         //let currentMonth = Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
         // self.hitApiGetWeeklyJournals(dateStr: endDate, calender: calendar )
@@ -1011,7 +1069,7 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         let userId = userDefaults.string(forKey: "userId") ?? ""
         print("userId is \(userId)")
         if currentMonth == calendarmonth {
-        
+            
             let tDate = Date()
             let formatterTest = DateFormatter()
             formatterTest.dateFormat = "yyyy/MM/dd"
@@ -1019,8 +1077,8 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
             let finalDate = formatterTest.string(from: tDate)
             
             self.calendar.select(formatterTest.date(from: finalDate)!)
-
-           
+            
+            
             
             
             self.hitApigetAllScheduleAppointment(date: endDate, customerId: userId, selectedDate: CEnumClass.share.getCurrentDates2())
@@ -1048,19 +1106,19 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
             
             if newDate == resultA {
                 eventCount = eventCount + 1
-           }
+            }
         }
         if eventCount > 3 {
             return UIImage(named: "addTest")
         }else {
             return UIImage(named: "")
         }
-        }
+    }
     
-   func getallweekDate (){
+    func getallweekDate (){
         let dateInWeek = Date()//7th June 2017
         
-       let calendar = Calendar.current
+        let calendar = Calendar.current
         let dayOfWeek = calendar.component(.weekday, from: dateInWeek)
         let weekdays = calendar.range(of: .weekday, in: .weekOfYear, for: dateInWeek)!
         let days = (weekdays.lowerBound ..< weekdays.upperBound)
@@ -1082,7 +1140,7 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
                     
                     if  appointmentStatusData.code  == appointmentData.appointmentStatusType
                     {
-                       
+                        
                         let statusCode = getHexaString(status: (appointmentData.appointmentStatusType?.lowercased())!)
                         //let statusColor = appointmentStatusData.color ?? ""
                         eventColor.append(UIColor(hexString: statusCode!))
@@ -1125,14 +1183,14 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         formatter.dateFormat = "MM/dd/yyyy"
         guard let result : String = formatter.string(from: date) as String? else { return 0}
         var eventCount = 0
-       
+        
         for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
             let rawDate = scheduleAppointment.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-          
+            
             if newDate == result {
                 eventCount = eventCount + 1
-           }
+            }
         }
         // SwiftLoader.hide()
         return eventCount
@@ -1159,7 +1217,7 @@ extension Date {
     }
     func timePicker(time:Date) -> Date? {
         let components = NSCalendar.current.dateComponents([.minute], from: time)
-       
+        
         return Calendar.current.date(byAdding: components, to: self)
     }
 }
