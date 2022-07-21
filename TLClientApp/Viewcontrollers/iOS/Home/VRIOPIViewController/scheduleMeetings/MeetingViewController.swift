@@ -222,7 +222,8 @@ class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswe
         
     }
     @IBAction func actionSelectDate(_ sender: UIButton) {
-        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        let selectDate = CEnumClass.share.getSelectedDate(date: startDateTF.text!)
+        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime,selectedDate: selectDate, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
                         // TODO: Your implementation for date
                         let roundOff = selectedDate.nearestHour() ?? selectedDate
                         self?.startDateTF.text = roundOff.dateString("MM/dd/YYYY hh:mm a")

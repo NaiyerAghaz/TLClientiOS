@@ -58,7 +58,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var localParicipantDictionary: NSMutableDictionary?
     var remoteParicipantDictionary: NSMutableDictionary?
     var remoteParticipantArr = [RemoteParticipant]()
-    
+    var isMeetings = false
     
     @IBOutlet weak var btnSpeak: UIButton!
     @IBOutlet weak var btnCameraFlip: UIButton!
@@ -175,30 +175,28 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 // start call here
                 self.topView.isHidden = false
                 configure()
-                // isMeetingCall = true
+                
                 vdoCollectionView.isHidden = true
                 self.vdoCollectionView.delegate = self
                 self.vdoCollectionView.dataSource = self
                 self.vdoCollectionView.bounces = false
-                genarateChatTokenCreate()
-            }else {
-                self.topView.isHidden = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    let refreshAlert = UIAlertController(title: "Alert", message: "Waiting for the Participants.", preferredStyle: UIAlertController.Style.alert)
-                    
-                    refreshAlert.addAction(UIAlertAction(title: "Close", style: .default, handler: { (action: UIAlertAction!) in
-                        
-                        self.dismiss(animated: true, completion: nil)
-                    }))
-                    self.present(refreshAlert, animated: true, completion: nil)
-                }
+                // genarateChatTokenCreate()
+                self.genarateChatTokenJoin()
+            }//else {
+            //self.topView.isHidden = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                let refreshAlert = UIAlertController(title: "Alert", message: "Waiting for the Participants.", preferredStyle: UIAlertController.Style.alert)
+                
+                refreshAlert.addAction(UIAlertAction(title: "Close", style: .cancel, handler:nil))
+                self.present(refreshAlert, animated: true, completion: nil)
             }
+            // }
             
         }else {
             imgLocalPrivacy.isHidden = true
             self.topView.isHidden = false
             configure()
-            // isMeetingCall = true
+            
             vdoCollectionView.isHidden = true
             self.vdoCollectionView.delegate = self
             self.vdoCollectionView.dataSource = self
@@ -214,8 +212,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             self.callManagerVM.addAppCall(req: parameter) { success, err in
                 if success! {
                     
-                  print("call initiated")
-                   
+                    print("call initiated")
+                    
                 }
                 else{
                     SwiftLoader.hide()
@@ -240,6 +238,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 // self.startPreview()
                 // myAudio.stop()
                 // self.timer.invalidate()
+                print("twiliotoken----->",model?.token)
                 self.doConnectTwilio(twilioToken: (model?.token)!)
             }
         }
@@ -502,11 +501,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     }
     //MARK:******** Generate Chat token creation  ********
     func genarateChatTokenCreate(){
-        chatManager.loginWithIdentityChat(indentityName: userDefaults.string(forKey: "username")!) { success, err in
+        self.chatManager.loginWithIdentityChat(indentityName: userDefaults.string(forKey: "username")!) { success, err in
             if success! {
                 if self.chatManager.client != nil {
+                    print("channel added -------->",userDefaults.string(forKey: "username"))
                     self.chatManager.client?.delegate = self
+                    
                     self.newChannelPrivateCreate()
+                    
+                    
                 }
             }
             
@@ -523,19 +526,21 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             if result.isSuccessful() {
                 isChatCreated = true
                 myChannel = channel
-                
+                print("channel added 2 -------->")
                 populateChannelsJoin()
                 joinChannelCreate(channel: channel!)
             }
             else {
                 if result.resultCode == 50307 {
                     if channel != nil {
+                        print("channel added 3 -------->")
                         isChatCreated = true
                         myChannel = channel
                         joinChannelCreate(channel: channel!)
                     }
                     else {
                         if !isChatCreated {
+                            print("channel added 4 -------->")
                             genarateChatTokenJoin()
                         }
                     }}
@@ -590,14 +595,16 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         
         DispatchQueue.main.async {
             self.channels = newChannels
+            print("total channels----------->",newChannels?.count,"<---->", self.channels?.count)
             if self.channels != nil {
                 for i in 0...self.channels!.count - 1 {
                     let channel = self.channels![i] as? TCHChannel
-                    
+                    print("frindlyname-------------->",channel?.friendlyName)
                     if channel?.friendlyName != nil {
                         if (channel?.friendlyName!.count)! > 0 {
                             if channel?.friendlyName == self.roomID {
                                 self.myChannel = channel
+                                print("frindlyname--------------2>",self.myChannel,channel?.friendlyName,"rid:",self.roomID)
                             }
                         }
                     }
@@ -1037,7 +1044,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     func fullFlashViewChangesMethod(isFlip:Bool){
         if isFlip {
             if isSwitchToRemote {
-                
                 //speakerView.removeFromSuperview()
                 btnPinLocal.isHidden = true
                 btnMic.isHidden = false
@@ -1113,6 +1119,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 for publication in videoPublications {
                     if let subscribedVideoTrack = publication.remoteTrack,
                        publication.isTrackSubscribed {
+                        
+                        if subscribedVideoTrack.isEnabled == true {
+                            imgLocalPrivacy.isHidden = true
+                            imgLocalPrivacy.backgroundColor = UIColor.clear
+                        }
+                        else {
+                            imgLocalPrivacy.isHidden = false
+                            imgLocalPrivacy.backgroundColor = UIColor.black
+                        }
                         subscribedVideoTrack.addRenderer(self.preview)
                     }
                 }
@@ -1123,19 +1138,31 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                         audio.isEnabled == true ? (btnMic.isSelected = false) : (btnMic.isSelected = true)
                     }
                 }
+                
                 self.speakerView = VideoView(frame: CGRect(x: 0, y: 0, width:  self.view.bounds.width, height: self.view.bounds.height))
                 self.speakerView.contentMode = .scaleAspectFill
                 self.speakerView.layer.cornerRadius = 0
                 self.speakerView.clipsToBounds = false
+                
+                if localVideoTrack!.isEnabled {
+                    //local come to speaker
+                    speakerImgPrivacy.isHidden = true
+                    speakerImgPrivacy.backgroundColor = UIColor.clear
+                }
+                else {
+                    speakerImgPrivacy.isHidden = false
+                    speakerImgPrivacy.backgroundColor = UIColor.black
+                }
                 self.speakerViewOriginal.addSubview(self.speakerView)
                 localVideoTrack!.addRenderer(self.speakerView)
                 self.speakerView.isUserInteractionEnabled = true
                 let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
                 self.speakerView.addGestureRecognizer(tap)
+                
             }
             
             else {
-                print("localParticiapant------------>2:",localVideoTrack)
+                
                 // add remote particiapnts name and host
                 for pObj in  self.vdoCallVM.conferrenceDetail.CONFERENCEInfo! {
                     let obj = pObj as! ConferenceInfoModels
@@ -1174,16 +1201,36 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 for publication in videoPublications {
                     if let subscribedVideoTrack = publication.remoteTrack,
                        publication.isTrackSubscribed {
+                        
+                        if subscribedVideoTrack.isEnabled == true {
+                            speakerImgPrivacy.isHidden = true
+                            speakerImgPrivacy.backgroundColor = UIColor.clear
+                        }
+                        else {
+                            speakerImgPrivacy.isHidden = false
+                            speakerImgPrivacy.backgroundColor = UIColor.black
+                        }
                         subscribedVideoTrack.addRenderer(speakerView)
                     }
                 }
                 if localVideoTrack != nil {
                     localVideoTrack!.addRenderer(preview)
                 }
+                
+                if localVideoTrack!.isEnabled {
+                    //local come to speaker
+                    imgLocalPrivacy.backgroundColor = UIColor.clear
+                    imgLocalPrivacy.isHidden = true
+                    
+                }
+                else {
+                    imgLocalPrivacy.isHidden = false
+                    imgLocalPrivacy.backgroundColor = UIColor.black
+                }
                 self.speakerView.isUserInteractionEnabled = true
                 let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.handlerTopbottom(gesture:)))
                 self.speakerView.addGestureRecognizer(tap)
-            }
+          }
         }}
     public func previewTapped(nView:VideoView){
         let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
@@ -1208,7 +1255,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                publication.isTrackSubscribed {
                 
                 subscribedVideoTrack.addRenderer(self.speakerView)
-                
                 return true
             }
         }

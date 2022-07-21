@@ -309,7 +309,7 @@ fileprivate extension ACFloatingTextfield {
 
     //MARK:- Float & Resign
     func floatTheLabel() -> Void {
-        self.textColor = UIColor.lightGray
+        self.textColor = UIColor.black
         DispatchQueue.main.async {
             if self.text == "" && self.isFirstResponder {
                 self.floatPlaceHolder(selected: true)

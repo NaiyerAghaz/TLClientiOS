@@ -105,6 +105,12 @@ class CEnumClass: NSObject {
         let startDate =  dateFormatter.string(from: Date())
         return startDate
     }
+    func getSelectedDate(date: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        let startDate =  dateFormatter.date(from: date)
+        return startDate!
+    }
     func getcurrentdateAndTimeVRI(date:String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss" //MM-dd-yyyy'T'hh:mm a"

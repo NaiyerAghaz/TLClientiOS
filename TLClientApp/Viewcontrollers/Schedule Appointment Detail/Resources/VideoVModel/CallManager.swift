@@ -56,6 +56,11 @@ class CallManagerVM {
         }
         
     }
+    func conferenceParticipantReq(userid: String, roomid: String) -> [String: Any]{
+      //  "<Info><ACTION>C</ACTION><ID></ID><ACTUALROOM>" + roomid + "</ACTUALROOM><USERID>" + SessionSave.getsession(AppConstants.USER_ID, activity) + "</USERID></Info>"
+        let para :[String:Any] = ["strSearchString":"<Info><ACTION>C</ACTION><ID></ID><ACTUALROOM>\(roomid)</ACTUALROOM><USERID>\(userid)</USERID></Info>"]
+        return para
+    }
     
     func getTwilioWithCompletion(userID: String,deviceToken: Data,completionBlock: @escaping(Bool?) -> ()){
         getTwilioTokenWithCompletion(userID: userID) { accessToken, err in

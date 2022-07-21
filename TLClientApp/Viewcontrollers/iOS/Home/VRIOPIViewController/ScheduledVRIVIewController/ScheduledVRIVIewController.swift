@@ -76,6 +76,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
     
     @IBOutlet weak var thirdparticipantHeight: NSLayoutConstraint!
     @IBOutlet weak var SecondParticipantHeight: NSLayoutConstraint!
+    @IBOutlet weak var firstparticipantsHeight: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -240,7 +241,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         }
 }
     @IBAction func actionScheduleTapped(_ sender: UIButton) {
-        if let firstParticipants = self.firstParticipantsTF.text , !firstParticipants.isEmpty {
+       /* if let firstParticipants = self.firstParticipantsTF.text , !firstParticipants.isEmpty {
             print("add first participants ")
             self.participantsList.append(firstParticipants)
         }
@@ -251,8 +252,8 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         if let thirdParticipants = self.thirdParticipantsTF.text , !thirdParticipants.isEmpty {
             print("add third participants ")
             self.participantsList.append(thirdParticipants)
-        }
-        print("participants list ",participantsList)
+        }*/
+      //  print("participants list ",participantsList)
         let selectedText = srcLngTF.text ?? ""
         let selectedText1 = trgtLngTF.text ?? ""
         GetPublicData.sharedInstance.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
@@ -273,17 +274,13 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
             
             return self.view.makeToast("Please fill Start Date.",duration: 1, position: .center)
             
-        }else if self.firstNameTF.text!.isEmpty {
-            
-            
-            
-            return self.view.makeToast("Please fill First Name.",duration: 1, position: .center)
+        }
+        else if self.firstNameTF.text!.isEmpty {
+         return self.view.makeToast("Please fill First Name.",duration: 1, position: .center)
             
             
         }else if self.lastNameTF.text!.isEmpty {
-            
-            
-            return self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
+          return self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
             
         }else if self.firstParticipantsTF.text!.isEmpty  {
            
@@ -311,17 +308,19 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
             let minTxt = self.minTxt.text ?? ""
             let anticipatedHr = "\(hrTxt):\(minTxt)"
            
-            var totalParticipants = ""
+          /*  var totalParticipants = ""
             for obj in participantsList {
                 totalParticipants = totalParticipants + "\(obj),"
             }
             let particiapnts = String(totalParticipants.dropLast())
-            let req = scheduleViewModel.addScheduleReq(firstName: self.firstNameTF.text ?? "", lastName: self.lastNameTF.text ?? "", date: self.selectDateTimeTF.text ?? "", time: self.selectDateTimeTF.text ?? "", userID: GetPublicData.sharedInstance.userID, companyID: GetPublicData.sharedInstance.companyID, active: true, LanguageID: self.trgtLngID, caseNumber: self.patientClientNumberTF.text ?? "", anticipatedHR: anticipatedHr, cPintials: self.cPinitialsTF.text ?? "", srcLngID: self.srcLngID, mobileNo: mobileWithCode, emailID: self.confirmationEmailTF.text ?? "", participantsList: particiapnts,notes: self.notesTF.text ?? "",caseName: self.clientPatientName.text ?? "",speciality: self.specialityTF.text ?? "",amptID: apmtID,roomID: self.roomId, reqType: "1")
+           */
+            let req = scheduleViewModel.addScheduleReq(firstName: self.firstNameTF.text ?? "", lastName: self.lastNameTF.text ?? "", date: self.selectDateTimeTF.text ?? "", time: self.selectDateTimeTF.text ?? "", userID: GetPublicData.sharedInstance.userID, companyID: GetPublicData.sharedInstance.companyID, active: true, LanguageID: self.trgtLngID, caseNumber: self.patientClientNumberTF.text ?? "", anticipatedHR: anticipatedHr, cPintials: self.cPinitialsTF.text ?? "", srcLngID: self.srcLngID, mobileNo: mobileWithCode, emailID: self.confirmationEmailTF.text ?? "", participantsList: "",notes: self.notesTF.text ?? "",caseName: self.clientPatientName.text ?? "",speciality: self.specialityTF.text ?? "",amptID: apmtID,roomID: self.roomId, reqType: "1")
             hitApiScheduleVRIAppointment(request: req)
         }
     }
     @IBAction func selectDateAndTime(_ sender: UIButton) {
-        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        let selectDate = CEnumClass.share.getSelectedDate(date: selectDateTimeTF.text!)
+        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime,  selectedDate: selectDate, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
             // TODO: Your implementation for date
             self?.selectDateTimeTF.text = selectedDate.dateString("MM/dd/YYYY hh:mm a")
             
@@ -404,7 +403,7 @@ print("url to create Meet Appointment \(urlString),\(request)")
 
                 self.srcLngTF.text = obj.SLanguageName
                 self.trgtLngTF.text = obj.TLanguageName
-               
+               // self.firstNameTF.placeHolderColor = UIColor.black
                 firstNameTF.text = obj.FirstName
                 lastNameTF.text = obj.LastName
                 confirmationEmailTF.text = obj.ConfMail
@@ -436,7 +435,10 @@ print("url to create Meet Appointment \(urlString),\(request)")
                         phoneNumberTF.text = "\(phoneSeprate[0])"
                     }
                 }
-                let emails = obj.Inviteparticipant.split(separator: ",")
+                firstparticipantsHeight.constant = 0.0
+                SecondParticipantHeight.constant = 0.0
+                thirdparticipantHeight.constant = 0.0
+               /* let emails = obj.Inviteparticipant.split(separator: ",")
                 if emails.count > 0 {
                     if emails.count == 1 {
                         SecondParticipantHeight.constant = 0.0
@@ -459,7 +461,7 @@ print("url to create Meet Appointment \(urlString),\(request)")
                 }
                 else {
                     firstParticipantsTF.text = ""
-                }
+                }*/
               selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI(date: obj.DateTime)
              
             }
@@ -485,8 +487,8 @@ print("url to create Meet Appointment \(urlString),\(request)")
         self.notesTF.placeholder = "Notes"
         SecondParticipantHeight.constant = 0.0
         thirdparticipantHeight.constant = 0.0
-       // self.secoundParticipantsView.visibility = .gone
-       // self.thirsParicipantsView.visibility = .gone
+        firstparticipantsHeight.constant = 0.0
+       
         self.countryCodeTF.attributedPlaceholder = NSAttributedString(string: "+1", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
         let image = UIImage( named: bundle + "us.png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
         tempImageView.image = image

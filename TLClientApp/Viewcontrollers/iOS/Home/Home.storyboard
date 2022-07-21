@@ -243,7 +243,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uZQ-Bm-ggO">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="1294"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="1231"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhq-eo-ctb">
                                                         <rect key="frame" x="10" y="60" width="394" height="22"/>
@@ -326,6 +326,7 @@
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JQm-NM-Vsm" customClass="ACFloatingTextfield" customModule="TLClientApp" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="239" width="394" height="50"/>
+                                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="7VB-FJ-AU4"/>
                                                         </constraints>
@@ -557,7 +558,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dqm-pf-1Yk">
                                                                 <rect key="frame" x="0.0" y="0.0" width="196" height="50"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tQg-TL-1Cz" customClass="iOSDropDown" customModule="iOSDropDown">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tQg-TL-1Cz" customClass="iOSDropDown" customModule="iOSDropDown">
                                                                         <rect key="frame" x="2" y="2" width="152" height="46"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
@@ -593,7 +594,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t1t-fm-SBP">
                                                                 <rect key="frame" x="198" y="0.0" width="196" height="50"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vi1-JY-N9m" customClass="iOSDropDown" customModule="iOSDropDown">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vi1-JY-N9m" customClass="iOSDropDown" customModule="iOSDropDown">
                                                                         <rect key="frame" x="2" y="2" width="150" height="46"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
@@ -691,7 +692,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Patient.Client Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OFR-d0-U1u" customClass="ACFloatingTextfield" customModule="TLClientApp" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Patient/Case Reference" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OFR-d0-U1u" customClass="ACFloatingTextfield" customModule="TLClientApp" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="751" width="394" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="fAm-ea-6Ka"/>
@@ -801,28 +802,17 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WmO-1m-pNv">
-                                                        <rect key="frame" x="10" y="996" width="394" height="20"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="20" id="urS-mF-xZp"/>
-                                                        </constraints>
-                                                        <attributedString key="attributedText">
-                                                            <fragment content="INVITE PARTICIPANT">
-                                                                <attributes>
-                                                                    <color key="NSColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <font key="NSFont" size="16" name="OpenSans-Regular"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
+                                                        <rect key="frame" x="10" y="996" width="394" height="0.0"/>
+                                                        <attributedString key="attributedText"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTi-uW-73N">
-                                                        <rect key="frame" x="10" y="1021" width="394" height="156"/>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTi-uW-73N">
+                                                        <rect key="frame" x="10" y="1001" width="394" height="158"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PWR-2F-Ian">
-                                                                <rect key="frame" x="0.0" y="0.0" width="394" height="50"/>
+                                                                <rect key="frame" x="0.0" y="2" width="394" height="50"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Invite particiapnt email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dO4-J9-QZz">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Enter email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dO4-J9-QZz">
                                                                         <rect key="frame" x="2" y="2" width="345" height="46"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
@@ -854,9 +844,9 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cd5-5O-nls">
-                                                                <rect key="frame" x="0.0" y="52" width="394" height="50"/>
+                                                                <rect key="frame" x="0.0" y="54" width="394" height="50"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Invite particiapnt email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Xf-34-VMF">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Enter email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Xf-34-VMF">
                                                                         <rect key="frame" x="2" y="2" width="345" height="46"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
@@ -888,9 +878,9 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cY1-S9-znG">
-                                                                <rect key="frame" x="0.0" y="104" width="394" height="50"/>
+                                                                <rect key="frame" x="0.0" y="106" width="394" height="50"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Invite particiapnt email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zzb-Vj-bY4">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Enter email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zzb-Vj-bY4">
                                                                         <rect key="frame" x="2" y="2" width="345" height="46"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="15"/>
@@ -932,12 +922,12 @@
                                                             <constraint firstItem="cY1-S9-znG" firstAttribute="top" secondItem="cd5-5O-nls" secondAttribute="bottom" constant="2" id="kio-DI-2c1"/>
                                                             <constraint firstAttribute="trailing" secondItem="PWR-2F-Ian" secondAttribute="trailing" id="sOe-wm-f1O"/>
                                                             <constraint firstItem="cd5-5O-nls" firstAttribute="top" secondItem="PWR-2F-Ian" secondAttribute="bottom" constant="2" id="vBL-a7-yvX"/>
-                                                            <constraint firstItem="PWR-2F-Ian" firstAttribute="top" secondItem="YTi-uW-73N" secondAttribute="top" id="w8J-9G-On0"/>
+                                                            <constraint firstItem="PWR-2F-Ian" firstAttribute="top" secondItem="YTi-uW-73N" secondAttribute="top" constant="2" id="w8J-9G-On0"/>
                                                             <constraint firstAttribute="trailing" secondItem="cY1-S9-znG" secondAttribute="trailing" id="wYm-WM-SNU"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CW1-CN-wAe">
-                                                        <rect key="frame" x="10" y="1189" width="140" height="22"/>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CW1-CN-wAe">
+                                                        <rect key="frame" x="10" y="1171" width="140" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="NPh-W0-h9i"/>
                                                             <constraint firstAttribute="width" constant="140" id="Ue9-et-Ce2"/>
@@ -952,11 +942,11 @@
                                                         </attributedString>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdd-NG-ysM">
-                                                        <rect key="frame" x="155" y="1179" width="45" height="40"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vdd-NG-ysM">
+                                                        <rect key="frame" x="155" y="1161" width="10" height="10"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="45" id="6J3-uo-gxT"/>
-                                                            <constraint firstAttribute="height" constant="40" id="IDa-es-eHc"/>
+                                                            <constraint firstAttribute="width" constant="10" id="6J3-uo-gxT"/>
+                                                            <constraint firstAttribute="height" constant="10" id="IDa-es-eHc"/>
                                                         </constraints>
                                                         <state key="normal" image="plus.app.fill" catalog="system"/>
                                                         <connections>
@@ -964,7 +954,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KeF-2G-aUK">
-                                                        <rect key="frame" x="30" y="1234" width="354" height="50"/>
+                                                        <rect key="frame" x="30" y="1171" width="354" height="50"/>
                                                         <color key="backgroundColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="WAj-rf-5F8"/>
@@ -1013,7 +1003,7 @@
                                                     <constraint firstItem="ewO-Dk-icI" firstAttribute="leading" secondItem="uZQ-Bm-ggO" secondAttribute="leading" constant="10" id="JvT-CI-bpn"/>
                                                     <constraint firstItem="CW1-CN-wAe" firstAttribute="top" secondItem="YTi-uW-73N" secondAttribute="bottom" constant="12" id="Kak-Ic-AvP"/>
                                                     <constraint firstItem="KeF-2G-aUK" firstAttribute="leading" secondItem="uZQ-Bm-ggO" secondAttribute="leading" constant="30" id="Lmt-oq-GW5"/>
-                                                    <constraint firstItem="KeF-2G-aUK" firstAttribute="top" secondItem="Vdd-NG-ysM" secondAttribute="bottom" constant="15" id="MgG-ih-euO"/>
+                                                    <constraint firstItem="KeF-2G-aUK" firstAttribute="top" secondItem="Vdd-NG-ysM" secondAttribute="bottom" id="MgG-ih-euO"/>
                                                     <constraint firstAttribute="bottom" secondItem="KeF-2G-aUK" secondAttribute="bottom" constant="10" id="NAG-Pr-rdZ"/>
                                                     <constraint firstAttribute="trailing" secondItem="uXU-ea-kof" secondAttribute="trailing" constant="10" id="NmA-GA-RSX"/>
                                                     <constraint firstAttribute="trailing" secondItem="mwl-zL-cOv" secondAttribute="trailing" constant="10" id="OVS-ke-IFK"/>
@@ -1103,6 +1093,7 @@
                         <outlet property="firstNameTF" destination="JQm-NM-Vsm" id="4HD-Mm-gKu"/>
                         <outlet property="firstParticipantsTF" destination="dO4-J9-QZz" id="mgb-7k-XQ5"/>
                         <outlet property="firstParticipantsView" destination="PWR-2F-Ian" id="qCO-mH-dT3"/>
+                        <outlet property="firstparticipantsHeight" destination="ShK-L5-FRe" id="6WU-oQ-Zwt"/>
                         <outlet property="lastNameTF" destination="rug-3R-aGB" id="G6V-Ys-8kr"/>
                         <outlet property="minTxt" destination="vi1-JY-N9m" id="gwv-Kl-2FS"/>
                         <outlet property="notesTF" destination="Ses-gv-5fK" id="ZYH-BH-AJ7"/>
@@ -1790,7 +1781,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dG6-TK-ZSZ">
-                                                <rect key="frame" x="0.0" y="0.0" width="406" height="1307"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="406" height="1242"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTg-mI-k94">
                                                         <rect key="frame" x="10" y="60" width="386" height="22"/>
@@ -2097,7 +2088,7 @@
                                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="70O-AZ-MWK" customClass="iOSDropDown" customModule="iOSDropDown">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="70O-AZ-MWK" customClass="iOSDropDown" customModule="iOSDropDown">
                                                                         <rect key="frame" x="0.0" y="0.0" width="152" height="50"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
@@ -2118,7 +2109,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFB-O0-CBZ">
                                                                 <rect key="frame" x="194" y="0.0" width="192" height="50"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Shu-wh-Epb" customClass="iOSDropDown" customModule="iOSDropDown">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Shu-wh-Epb" customClass="iOSDropDown" customModule="iOSDropDown">
                                                                         <rect key="frame" x="0.0" y="0.0" width="152" height="50"/>
                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
@@ -2198,7 +2189,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Patient.Client Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b7k-nx-AiJ" customClass="ACFloatingTextfield" customModule="TLClientApp" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Patient/Case Reference" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b7k-nx-AiJ" customClass="ACFloatingTextfield" customModule="TLClientApp" customModuleProvider="target">
                                                         <rect key="frame" x="10" y="754" width="386" height="50"/>
                                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -2278,19 +2269,16 @@
                                                             <constraint firstAttribute="height" constant="100" id="wAG-VP-FaL"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INVITE PARTICIPANT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCj-pd-cUf">
-                                                        <rect key="frame" x="10" y="993" width="386" height="25"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="25" id="RbG-7z-ow3"/>
-                                                        </constraints>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCj-pd-cUf">
+                                                        <rect key="frame" x="10" y="993" width="386" height="0.0"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbV-3Z-siS">
-                                                        <rect key="frame" x="10" y="1023" width="386" height="50"/>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VbV-3Z-siS">
+                                                        <rect key="frame" x="10" y="998" width="386" height="50"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Invite participant email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZQT-GX-wH1">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Enter email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZQT-GX-wH1">
                                                                 <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
@@ -2321,10 +2309,10 @@
                                                             <constraint firstAttribute="trailing" secondItem="cer-Rp-P3e" secondAttribute="trailing" constant="2" id="tb6-tV-4bG"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfi-tV-JXb">
-                                                        <rect key="frame" x="10" y="1075" width="386" height="50"/>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfi-tV-JXb">
+                                                        <rect key="frame" x="10" y="1050" width="386" height="50"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Invite participant email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fXc-Us-UFr">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Enter email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fXc-Us-UFr">
                                                                 <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
@@ -2355,10 +2343,10 @@
                                                             <constraint firstAttribute="height" constant="50" id="tRg-Tl-2p6"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-bU-fLe">
-                                                        <rect key="frame" x="10" y="1127" width="386" height="50"/>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-bU-fLe">
+                                                        <rect key="frame" x="10" y="1102" width="386" height="50"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Invite participant email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KAU-vY-hGE">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Enter email address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KAU-vY-hGE">
                                                                 <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="OpenSans-Regular" family="Open Sans" pointSize="16"/>
@@ -2389,8 +2377,8 @@
                                                             <constraint firstAttribute="bottom" secondItem="Mmp-Jf-euc" secondAttribute="bottom" constant="2" id="x6q-RA-Czu"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite Participant" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qg9-0e-Tec">
-                                                        <rect key="frame" x="10" y="1192" width="140" height="22"/>
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite Participant" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qg9-0e-Tec">
+                                                        <rect key="frame" x="10" y="1167" width="140" height="22"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="R4W-j6-gxI"/>
                                                             <constraint firstAttribute="width" constant="140" id="RXR-nV-O9v"/>
@@ -2399,11 +2387,11 @@
                                                         <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0QE-bC-dbB">
-                                                        <rect key="frame" x="155" y="1182" width="40" height="40"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0QE-bC-dbB">
+                                                        <rect key="frame" x="155" y="1157" width="40" height="10"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="40" id="JEH-ZJ-w6w"/>
-                                                            <constraint firstAttribute="height" constant="40" id="pPW-Ui-NDE"/>
+                                                            <constraint firstAttribute="height" constant="10" id="pPW-Ui-NDE"/>
                                                         </constraints>
                                                         <state key="normal" image="plus.app.fill" catalog="system"/>
                                                         <connections>
@@ -2411,7 +2399,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdJ-Qw-GPO">
-                                                        <rect key="frame" x="30" y="1232" width="346" height="50"/>
+                                                        <rect key="frame" x="30" y="1167" width="346" height="50"/>
                                                         <color key="backgroundColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="9Kw-Dm-BYn"/>
@@ -2435,7 +2423,7 @@
                                                     <constraint firstAttribute="trailing" secondItem="NSJ-nu-MSc" secondAttribute="trailing" constant="10" id="0Y5-xD-Dch"/>
                                                     <constraint firstItem="1mF-dA-BHD" firstAttribute="leading" secondItem="dG6-TK-ZSZ" secondAttribute="leading" constant="10" id="18g-8s-IhF"/>
                                                     <constraint firstItem="2JQ-Ai-yD6" firstAttribute="leading" secondItem="dG6-TK-ZSZ" secondAttribute="leading" constant="10" id="1yj-E9-ger"/>
-                                                    <constraint firstItem="CdJ-Qw-GPO" firstAttribute="top" secondItem="0QE-bC-dbB" secondAttribute="bottom" constant="10" id="3gQ-R7-FAQ"/>
+                                                    <constraint firstItem="CdJ-Qw-GPO" firstAttribute="top" secondItem="0QE-bC-dbB" secondAttribute="bottom" id="3gQ-R7-FAQ"/>
                                                     <constraint firstAttribute="trailing" secondItem="pTg-Lf-Wrn" secondAttribute="trailing" constant="10" id="4WA-MD-BDI"/>
                                                     <constraint firstAttribute="trailing" secondItem="YNz-f6-KMI" secondAttribute="trailing" constant="10" id="5uE-ME-0Sq"/>
                                                     <constraint firstAttribute="trailing" secondItem="0aZ-Fd-MNo" secondAttribute="trailing" constant="10" id="63f-Qg-nge"/>
@@ -2549,6 +2537,7 @@
                         <outlet property="clientPatientName" destination="EzG-lr-bBl" id="Xjr-3A-G4B"/>
                         <outlet property="confirmationEmailTF" destination="1mF-dA-BHD" id="dec-2f-ZJd"/>
                         <outlet property="countryCodeTF" destination="Sep-49-CPw" id="zbW-eA-bm9"/>
+                        <outlet property="firstInvitePHeight" destination="DBl-uT-TX7" id="6pG-SI-Gol"/>
                         <outlet property="firstNameTF" destination="6ru-Ba-fbE" id="4EE-Zx-oPn"/>
                         <outlet property="firstParticipantsTF" destination="ZQT-GX-wH1" id="wnY-a0-1EO"/>
                         <outlet property="lastNameTF" destination="K7t-v8-vh2" id="Gzb-7N-vds"/>
@@ -19047,13 +19036,13 @@
             <size key="intrinsicContentSize" width="66" height="20.5"/>
         </designable>
         <designable name="OFR-d0-U1u">
-            <size key="intrinsicContentSize" width="148" height="19"/>
+            <size key="intrinsicContentSize" width="159" height="19"/>
         </designable>
         <designable name="Si3-hX-yNU">
             <size key="intrinsicContentSize" width="30" height="34"/>
         </designable>
         <designable name="b7k-nx-AiJ">
-            <size key="intrinsicContentSize" width="158" height="20.5"/>
+            <size key="intrinsicContentSize" width="169.5" height="20.5"/>
         </designable>
         <designable name="bwK-XD-eTU">
             <size key="intrinsicContentSize" width="24.5" height="17"/>

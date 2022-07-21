@@ -57,6 +57,8 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     
     @IBOutlet weak var secondInvitePHeight: NSLayoutConstraint!
     @IBOutlet weak var thirdInvitePHeight: NSLayoutConstraint!
+   
+    @IBOutlet weak var firstInvitePHeight: NSLayoutConstraint!
     var apmtID = ""
     var apiScheduleVRIMeetResponseModel:ApiScheduleVRIMeetResponseModel?
     var callManagerVM = CallManagerVM()
@@ -72,9 +74,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     var scheduleViewModel = ScheduleViewModel()
     var srcLngID = "0"
     var trgtLngID = "0"
-    
-    
-    @IBOutlet weak var btnSchedule: UIButton!
+@IBOutlet weak var btnSchedule: UIButton!
     let hourArr = ["0","1","2","3","4","5","6","7","8","9","10","11","12"]
     let minArr = ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60"]
     override func viewDidLoad() {
@@ -136,12 +136,8 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
               
                 SwiftLoader.hide()
                 
-            }
-            
-        }
-       
-      
-        languageViewModel.languageData { list, err in
+            }}
+     languageViewModel.languageData { list, err in
             if err == nil {
                 SwiftLoader.hide()
              
@@ -346,7 +342,8 @@ func textFieldDidEndEditing(_ textField: UITextField) {
         }
     }
     @IBAction func selectDateAndTime(_ sender: UIButton) {
-        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
+        let selectDate = CEnumClass.share.getSelectedDate(date: selectDateTimeTF.text!)
+        RPicker.selectDate(title: "Select Date & Time", cancelText: "Cancel", datePickerMode: .dateAndTime, selectedDate:selectDate, minDate: Date(), maxDate: Date().dateByAddingYears(5), didSelectDate: {[weak self] (selectedDate) in
                         // TODO: Your implementation for date
                         self?.selectDateTimeTF.text = selectedDate.dateString("MM/dd/YYYY hh:mm a")
                          
@@ -465,7 +462,10 @@ func textFieldDidEndEditing(_ textField: UITextField) {
                     phoneNumberTF.text = "\(phoneSeprate[0])"
                 }
             }
-            let emails = obj.Inviteparticipant.split(separator: ",")
+            firstInvitePHeight.constant = 0.0
+            secondInvitePHeight.constant = 0.0
+            thirdInvitePHeight.constant = 0.0
+           /* let emails = obj.Inviteparticipant.split(separator: ",")
             if emails.count > 0 {
                 if emails.count == 1 {
                     secondInvitePHeight.constant = 0.0
@@ -488,7 +488,7 @@ func textFieldDidEndEditing(_ textField: UITextField) {
             }
             else {
                 firstParticipantsTF.text = ""
-            }
+            }*/
           selectDateTimeTF.text = CEnumClass.share.getcurrentdateAndTimeVRI(date: obj.DateTime)
            
         }
@@ -512,6 +512,7 @@ func textFieldDidEndEditing(_ textField: UITextField) {
                 
             }}
         self.notesTF.placeholder = "Notes"
+        firstInvitePHeight.constant = 0.0
         secondInvitePHeight.constant = 0.0
         thirdInvitePHeight.constant = 0.0
     }

@@ -411,7 +411,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         tblCalenderView.dataSource = self
         
     }
-    func hitApiCheckMeetingStatus(roomNo: String, callTime : String){
+    func hitApiCheckMeetingStatus(roomNo: String){
         self.apiCheckMeetSatusResponseModel.removeAll()
         let urlString = APi.getMeetingClientStatus.url
         
@@ -436,70 +436,24 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         print("check meet data ", self.apiCheckMeetSatusResponseModel)
                         let roomId = self.apiCheckMeetSatusResponseModel.first?.resultData?.first?.rOOMNO ?? ""
                         if duration < 1 {
-                            //Move to VRI and OPI
-                            //print("call started", callTime)
-                            // check time of call
+                            let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                            let vdoCall = sB.instantiateViewController(identifier: Control_Name.vdoCall) as! VideoCallViewController
+                            vdoCall.roomID = roomId
+                            vdoCall.ifComeFromMeet = true
+                            vdoCall.ifTimereach = true
+                             vdoCall.sourceLangID = ""
+                            vdoCall.targetLangID = ""
+                            vdoCall.isClientDetails = true
+                            vdoCall.isScheduled = false
+                             vdoCall.sourceLangName = ""
+                           vdoCall.targetLangName = ""
+                            vdoCall.patientno =  ""
+                            vdoCall.patientname =  ""
+                            vdoCall.isMeetings = true
+                            vdoCall.modalPresentationStyle = .overFullScreen
                             
-                            // let isoDate = "2016-04-14T10:44:00+0000"
-                            print("time of call before conversion ", callTime)
-                            let dateFormatter1 = DateFormatter()
-                            dateFormatter1.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-                            dateFormatter1.dateFormat = "h:mm a"//"yyyy-MM-dd'T'HH:mm:ssZ"
-                            let finalDate = dateFormatter1.date(from:callTime)!
+                            self.present(vdoCall, animated: true, completion: nil)
                             
-                            
-                            
-                            let calendar = Calendar.current
-                            let timeBeforeCall = calendar.date(byAdding: .minute, value: -10, to: finalDate) ?? Date()
-                            
-                            print("date from string", finalDate , timeBeforeCall)
-                            
-                            
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "h:mm a"
-                            let time10Before = dateFormatter.string(from: timeBeforeCall)
-                            let currentTime =  dateFormatter.string(from: Date())
-                            print("time for call ", callTime, currentTime , time10Before)
-                            
-                            
-                            if time10Before > currentTime {
-                                print("call not started , wait ")
-                                let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-                                let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
-                                vdoCall.ifComeFromMeet = true
-                                vdoCall.ifTimereach = false
-                                vdoCall.modalPresentationStyle = .overFullScreen
-                                
-                                self.present(vdoCall, animated: true, completion: nil)
-                            }else {
-                                print("call can start ")
-                                
-                                print("VRI call start ")
-                                if roomId != "" {
-                                    //self.addAppCall()
-                                    // self.getCallPriorityVideoWithCompletion()
-                                    // debugPrint("roomId:\(roomId),sourceID:\(sourceID),targetID:\(targetID),sourceName:\(sourceName),targetName:\(targetName)")
-                                    let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-                                    let vdoCall = sB.instantiateViewController(identifier: "VideoCallViewController") as! VideoCallViewController
-                                    vdoCall.roomID = roomId
-                                    vdoCall.ifComeFromMeet = true
-                                    vdoCall.ifTimereach = true
-                                    // vdoCall.sourceLangID = sourceID
-                                    // vdoCall.targetLangID = targetID
-                                    vdoCall.isClientDetails = true
-                                    vdoCall.isScheduled = false
-                                    // vdoCall.sourceLangName = sourceName
-                                    //vdoCall.targetLangName = targetName
-                                    //vdoCall.patientno = txtPatientClientNumber.text ?? ""
-                                    // vdoCall.patientname = txtPatientClientName.text ?? ""
-                                    vdoCall.modalPresentationStyle = .overFullScreen
-                                    
-                                    self.present(vdoCall, animated: true, completion: nil)
-                                    
-                                }
-                                
-                                
-                            }
                         }else {
                             self.view.makeToast("Meeting is already Completed.")
                         }
@@ -857,6 +811,8 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             let newTime = convertTimeFormater(rawTime)
             cell.appointmentTimeLbl.text = newTime
             if index.appointmentType == "Schedule OPI" || index.appointmentType == "Schedule VRI" {
+                cell.venuLbl.isHidden = true
+                cell.lblTextVenue.isHidden = true
                 cell.appointmentIDLbl.text = index.assignedByName
                 let interpretorname  = index.interpretorName?.replacingOccurrences(of: "fffb4a", with: "000000")
                 
@@ -1002,22 +958,16 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                     self.tblCalenderView.reloadRows(at: [indexPath], with: .fade)
                 }
             }
-            
-            
-            
-        }
-        
-        
-        
-    }
+          }
+   }
     @objc func actionJoinMeet(_ sender: UIButton){
         print("sendervalue ",self.showAppointmentArr[sender.tag])
-        let timeOfcall = self.showAppointmentArr[sender.tag].startDateTime ?? ""
+        let obj = self.showAppointmentArr[sender.tag]
         //  let rawTime = index.startDateTime ?? ""
-        let newTime = convertTimeFormater(timeOfcall)
-        let roomNo = self.showAppointmentArr[sender.tag].authCode ?? ""
-        
-        self.hitApiCheckMeetingStatus(roomNo: roomNo, callTime: newTime)
+      //  let newTime = convertTimeFormater(timeOfcall)
+       // let roomNo = obj.authCode ?? ""
+       // (sourceID:"\(obj.sLanguageID!)", targetID: "\(obj.languageID!)", roomId: roomID, targetName: obj.languageName ?? "", sourceName: obj.sLanguageName ?? "", patientName: "",patientNo: "", toUserId: "\(obj.interpreterID!)")
+        self.hitApiCheckMeetingStatus(roomNo: obj.authCode ?? "")
     }
     func addAppCall(para: [String:Any],roomid:String,sID:String,tID:String,sName:String,tName:String){
         DispatchQueue.main.async {
