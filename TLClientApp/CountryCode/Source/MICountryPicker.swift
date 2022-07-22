@@ -195,7 +195,7 @@ extension MICountryPicker {
 
         let bundle = "assets.bundle/"
         cell.imageView!.image = UIImage(named: bundle + country.code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-        print("IMAGE IN COUNTRY PICKER IS \(bundle + country.code.lowercased() + ".png")")
+       // print("IMAGE IN COUNTRY PICKER IS \(bundle + country.code.lowercased() + ".png")")
         return cell
     }
     

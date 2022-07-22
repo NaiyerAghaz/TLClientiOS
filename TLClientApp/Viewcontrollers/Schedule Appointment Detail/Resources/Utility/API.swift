@@ -77,6 +77,8 @@ enum APi{
     case tladdupdateRecurringappointment
     case getCompanydetails
     case participantRule
+    case acceptMember
+    
     var url: URL{
         switch self {
         case .login:
@@ -199,6 +201,8 @@ enum APi{
             return URL(string: baseUrl + "/GetCompanydetails")!
         case .participantRule:
             return URL(string: chatURL + "/ParticipantRule")!
+        case .acceptMember:
+            return URL(string: nBaseUrl + "/Appointment/AcceptMember")!
             
         }
     }

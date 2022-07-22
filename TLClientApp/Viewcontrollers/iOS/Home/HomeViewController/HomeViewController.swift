@@ -428,7 +428,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                 case .success(_):
                     
                     guard let daata96 = response.data else { return }
-                    print("response are ", response.data)
+                    
                     do {
                         let jsonDecoder = JSONDecoder()
                         self.apiCheckMeetSatusResponseModel = try jsonDecoder.decode([ApiCheckMeetSatusResponseModel].self, from: daata96)
@@ -436,37 +436,58 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                         print("check meet data ", self.apiCheckMeetSatusResponseModel)
                         let roomId = self.apiCheckMeetSatusResponseModel.first?.resultData?.first?.rOOMNO ?? ""
                         if duration < 1 {
-                            let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
-                            let vdoCall = sB.instantiateViewController(identifier: Control_Name.vdoCall) as! VideoCallViewController
-                            vdoCall.roomID = roomId
-                            vdoCall.ifComeFromMeet = true
-                            vdoCall.ifTimereach = true
-                             vdoCall.sourceLangID = ""
-                            vdoCall.targetLangID = ""
-                            vdoCall.isClientDetails = true
-                            vdoCall.isScheduled = false
-                             vdoCall.sourceLangName = ""
-                           vdoCall.targetLangName = ""
-                            vdoCall.patientno =  ""
-                            vdoCall.patientname =  ""
-                            vdoCall.isMeetings = true
-                            vdoCall.modalPresentationStyle = .overFullScreen
+                            DispatchQueue.main.async {
+                                self.acceptMemberMethods(roomNo: roomId)
+                            }
                             
-                            self.present(vdoCall, animated: true, completion: nil)
+                            
                             
                         }else {
                             self.view.makeToast("Meeting is already Completed.")
                         }
                         
                     }catch (let error) {
+                        SwiftLoader.hide()
                         print("error in do catch ", error.localizedDescription)
                     }
                     
                 case .failure(_):
-                    print("Respose Failure hitApiCheckMeetingStatus ")
+                    SwiftLoader.hide()
+                    
                     
                 }
             })
+        
+    }
+    func acceptMemberMethods(roomNo:String){
+        let req = callManagerVM.acceptMemberReq(roomid: roomNo, userId: GetPublicData.sharedInstance.userID)
+        callManagerVM.acceptMemberMethods(req: req)
+        let confReq = callManagerVM.conferenceParticipantReq(userid: roomNo, roomid:GetPublicData.sharedInstance.userID)
+        callManagerVM.aconferenceParticiapntsMethods(parameter: confReq) { success in
+            SwiftLoader.hide()
+            if success! {
+                DispatchQueue.main.async {
+                    let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                    let vdoCall = sB.instantiateViewController(identifier: Control_Name.vdoCall) as! VideoCallViewController
+                    vdoCall.roomID = roomNo
+                    vdoCall.ifComeFromMeet = true
+                    vdoCall.ifTimereach = true
+                    vdoCall.sourceLangID = ""
+                    vdoCall.targetLangID = ""
+                    vdoCall.isClientDetails = true
+                    vdoCall.isScheduled = false
+                    vdoCall.sourceLangName = ""
+                    vdoCall.targetLangName = ""
+                    vdoCall.patientno =  ""
+                    vdoCall.patientname =  ""
+                    vdoCall.isMeetings = true
+                    vdoCall.modalPresentationStyle = .overFullScreen
+                    
+                    self.present(vdoCall, animated: true, completion: nil)
+                }
+                
+            }
+        }
         
     }
     func hitApigetAllScheduleAppointment(date:String ,customerId:String , selectedDate:String){
@@ -580,8 +601,6 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         }else {
             return ""
         }
-        
-        
     }
     func convertDateFormater(_ date: String) -> String
     {
@@ -593,9 +612,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         }else {
             return ""
         }
-        
-        
-    }
+ }
     func convertTimeFormater(_ date: String) -> String
     {
         let dateFormatter = DateFormatter()
@@ -635,8 +652,7 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                 cell.statusOfAppointmentLbl.text = "CANCELLED"
                 
             }else {
-                
-                cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
+               cell.statusOfAppointmentLbl.text = index.appointmentStatusType ?? ""
                 
             }
             cell.statusOfAppointmentLbl.lineBreakMode = .byWordWrapping
@@ -753,13 +769,13 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             let timeValue = convertTimeFormater(dateValue)
             cell.sourceLanguageLbl.text = endTimeValue
             cell.startDateLbl.text = "\(timeValue) (\(userDefaults.string(forKey: "zoneShortForm")!))"
-            
-            
             let checkInStatus = index.checkIn ?? 0
             let checkOutStatus = index.checkOut  ?? 0
             let statusType = index.appointmentStatusType ?? ""
             print("stsus of appointment  \(statusType) ,\(checkInStatus) , \(checkOutStatus)")
             if statusType == "BOOKED"{
+                let cDate = CEnumClass.share.scheduleCurrentApmtDateAndTime
+                let tMinutes = CEnumClass.share.scheduleApmtDateAndTime(sDate: index.startDateTime!).minutes(from: cDate())
                 if checkInStatus == 1  && checkOutStatus == 0 {
                     cell.checkInLbl.isHidden = false
                     cell.checkOutHeadingLbl.isHidden = false
@@ -773,36 +789,53 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                     cell.checkOutHeadingLbl.isHidden = true
                 }
                 if index.appointmentType == "Schedule OPI" {
-                    cell.btnVideoAndAudioCall.isHidden = false
-                    cell.btnVideoAndAudioWidth.constant = 45.0
-                    let large = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
-                    let imgAudio =  UIImage(systemName: "mic.fill", withConfiguration: large)
-                    cell.btnVideoAndAudioCall.setImage(imgAudio, for: .normal)
-                    if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
-                        cell.lblCallWarning.text = "Button will be enabled 10 minutes before and disable 20 minutes after the schedules time."
+                    if tMinutes < -20 {
+                        cell.btnCall.isHidden = true
+                        cell.btnCallHeight.constant = 0.0
                     }
                     else {
-                        cell.lblCallWarning.text = ""
+                        cell.btnCall.isHidden = false
+                        cell.btnCallHeight.constant = 30.0
+                        let large = UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large)
+                        let imgAudio =  UIImage(systemName: "mic.fill", withConfiguration: large)
+                        cell.btnCall.setTitle(" Make a call", for: .normal)
+                        cell.btnCall.setImage(imgAudio, for: .normal)
+                        if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
+                            cell.lblCallWarning.text = "Button will be enabled 10 minutes before and disable 20 minutes after the schedules time."
+                        }
+                        else {
+                            cell.lblCallWarning.text = ""
+                        }
                     }
+                    
                 }
                 else if index.appointmentType == "Schedule VRI" {
-                    let large = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .large)
-                    let imgAudio =  UIImage(systemName: "video.fill", withConfiguration: large)
-                    cell.btnVideoAndAudioCall.setImage(imgAudio, for: .normal)
-                    cell.btnVideoAndAudioCall.isHidden = false
-                    cell.btnVideoAndAudioWidth.constant = 45.0
-                    if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
-                        cell.lblCallWarning.text = "Button will be enabled 10 minutes before and disable 20 minutes after the schedules time."
+                    if tMinutes < -20 {
+                        cell.btnCall.isHidden = true
+                        cell.btnCallHeight.constant = 0.0
                     }
                     else {
-                        cell.lblCallWarning.text = ""
+                        cell.btnCall.isHidden = false
+                        let large = UIImage.SymbolConfiguration(pointSize: 16, weight: .bold, scale: .large)
+                        let imgvideo =  UIImage(systemName: "video.fill", withConfiguration: large)
+                        cell.btnCall.setTitle(" Make a call", for: .normal)
+                        cell.btnCall.setImage(imgvideo, for: .normal)
+                        
+                        cell.btnCallHeight.constant = 30.0
+                        if let obj = callingScheduleArr.firstIndex(where: {$0 == index.appointmentID}) {
+                            cell.lblCallWarning.text = "Button will be enabled 10 minutes before and disable 20 minutes after the schedules time."
+                        }
+                        else {
+                            cell.lblCallWarning.text = ""
+                        }
                     }
+                    
                     
                 }
             }else{
                 cell.lblCallWarning.text = ""
-                cell.btnVideoAndAudioWidth.constant = 0.0
-                cell.btnVideoAndAudioCall.isHidden = true
+                cell.btnCallHeight.constant = 0.0
+                cell.btnCall.isHidden = true
                 cell.checkInLbl.isHidden = true
                 cell.checkOutHeadingLbl.isHidden = true
             }
@@ -811,6 +844,8 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
             let newTime = convertTimeFormater(rawTime)
             cell.appointmentTimeLbl.text = newTime
             if index.appointmentType == "Schedule OPI" || index.appointmentType == "Schedule VRI" {
+                
+                
                 cell.venuLbl.isHidden = true
                 cell.lblTextVenue.isHidden = true
                 cell.appointmentIDLbl.text = index.assignedByName
@@ -818,8 +853,9 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                 
                 cell.interpreterLbl.attributedText = interpretorname?.convertHtmlToAttributedStringWithCSS(font: UIFont.systemFont(ofSize: 12), csscolor: "black", lineheight: 5, csstextalign: "left")
                 cell.interpreterLbl.textColor = UIColor.black
-                cell.btnVideoAndAudioCall.tag = indexPath.row
-                cell.btnVideoAndAudioCall.addTarget(self, action: #selector(scheduleCallMethod(sender:)), for: .touchUpInside)
+                cell.btnCall.tag = indexPath.row
+                cell.btnCall.tintColor = UIColor.white
+                cell.btnCall.addTarget(self, action: #selector(scheduleCallMethod(sender:)), for: .touchUpInside)
                 
             }else {
                 let str = index.authCode ?? ""
@@ -954,20 +990,17 @@ extension HomeViewController:UITableViewDelegate, UITableViewDataSource {
                 self.callingScheduleArr.append(obj.appointmentID!)
                 DispatchQueue.main.async {
                     let indexPath = IndexPath(item: sender.tag, section: 0)
-                    
                     self.tblCalenderView.reloadRows(at: [indexPath], with: .fade)
                 }
             }
-          }
-   }
+        }
+    }
     @objc func actionJoinMeet(_ sender: UIButton){
+        SwiftLoader.show(animated: true)
         print("sendervalue ",self.showAppointmentArr[sender.tag])
         let obj = self.showAppointmentArr[sender.tag]
-        //  let rawTime = index.startDateTime ?? ""
-      //  let newTime = convertTimeFormater(timeOfcall)
-       // let roomNo = obj.authCode ?? ""
-       // (sourceID:"\(obj.sLanguageID!)", targetID: "\(obj.languageID!)", roomId: roomID, targetName: obj.languageName ?? "", sourceName: obj.sLanguageName ?? "", patientName: "",patientNo: "", toUserId: "\(obj.interpreterID!)")
-        self.hitApiCheckMeetingStatus(roomNo: obj.authCode ?? "")
+        
+        // self.hitApiCheckMeetingStatus(roomNo: obj.authCode ?? "")
     }
     func addAppCall(para: [String:Any],roomid:String,sID:String,tID:String,sName:String,tName:String){
         DispatchQueue.main.async {
@@ -1006,10 +1039,7 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         // Convert Date to String
         let endDate = dateFormatter.string(from: maxDate)
         let calendarmonth = Calendar.current.component(.month, from: maxDate)
-        
-        
-        let dateInWeek = Date()//7th June 2017
-        
+       let dateInWeek = Date()//7th June 2017
         let calendar = Calendar.current
         let currentMonth = calendar.component(.month, from: dateInWeek)
         //let currentMonth = Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
@@ -1019,28 +1049,18 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         let userId = userDefaults.string(forKey: "userId") ?? ""
         print("userId is \(userId)")
         if currentMonth == calendarmonth {
-            
-            let tDate = Date()
+           let tDate = Date()
             let formatterTest = DateFormatter()
             formatterTest.dateFormat = "yyyy/MM/dd"
             print(formatterTest.string(from: tDate))
             let finalDate = formatterTest.string(from: tDate)
-            
             self.calendar.select(formatterTest.date(from: finalDate)!)
-            
-            
-            
-            
             self.hitApigetAllScheduleAppointment(date: endDate, customerId: userId, selectedDate: CEnumClass.share.getCurrentDates2())
         }
         else {
             self.hitApigetAllScheduleAppointment(date: endDate, customerId: userId, selectedDate: endDate)
         }
-        
-        
-        
-        
-    }
+}
     
     
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
@@ -1053,7 +1073,6 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
         for scheduleAppointment in (self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA ?? [ApiScheduleAppointmentCustomerDataModel]())! {
             let rawDate = scheduleAppointment.startDateTime ?? ""
             let newDate = convertDateFormater(rawDate)
-            
             if newDate == resultA {
                 eventCount = eventCount + 1
             }
@@ -1090,7 +1109,6 @@ extension HomeViewController :FSCalendarDataSource ,FSCalendarDelegateAppearance
                     
                     if  appointmentStatusData.code  == appointmentData.appointmentStatusType
                     {
-                        
                         let statusCode = getHexaString(status: (appointmentData.appointmentStatusType?.lowercased())!)
                         //let statusColor = appointmentStatusData.color ?? ""
                         eventColor.append(UIColor(hexString: statusCode!))

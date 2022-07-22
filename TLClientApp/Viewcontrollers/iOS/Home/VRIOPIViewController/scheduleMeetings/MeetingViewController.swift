@@ -107,7 +107,7 @@ class AddparticipentstableViewCell:UITableViewCell ,UITextFieldDelegate {
       }
 
 }
-class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswersInObject, MICountryPickerDelegate {
+class MeetingViewController: UIViewController , IndicatorInfoProvider, SaveAnswersInObject {
     func didSave(_ class: AddparticipentstableViewCell, flag: Bool, firstName: String, index: Int, lastName: String, emailID: String, phoneNumber: String , countryCode: String) {
         print("index value in did save \(index)")
                
@@ -380,63 +380,25 @@ extension MeetingViewController : UITableViewDelegate , UITableViewDataSource {
         }
     }
    @objc func openCountryCodeAction(_ sender: UIButton) {
-            self.navigationItem.setHidesBackButton(false, animated: true)
+          //  self.navigationItem.setHidesBackButton(false, animated: true)
        let cell = inviteParticipantTV.cellForRow(at: IndexPath(row: sender.tag, section: 0)) as! AddparticipentstableViewCell
-            let picker = MICountryPicker { (name, code ) -> () in
-                
-                print("picked code : ",code)
-                print("PICKED COUNTRY IS \(name)")
-                let bundle = "assets.bundle/"
-                print("IMAGE IS \(UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil))")
-            }
-            picker.delegate = self
-            // Display calling codes
-            picker.showCallingCodes = true
-            // or closure
-            picker.didSelectCountryClosure = { name, code in
-                picker.navigationController?.isNavigationBarHidden=true
-                picker.navigationController?.popViewController(animated: true)
-                print("code is ",code)
-                let bundle = "assets.bundle/"
+            let picker = MICountryPicker()
+          picker.showCallingCodes = true
+        picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
+            let bundle = "assets.bundle/"
                 
                 let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-                print("IMAGE IS \(image)")
                 
-            }
-            picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
-                picker.navigationController?.isNavigationBarHidden=true
-                //picker.navigationController?.popViewController(animated: true)
-                print("code is ",code)
-                let bundle = "assets.bundle/"
-                
-                let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-                print("IMAGE IS \(image)")
                 cell.countryCodeTF.text = dialCode
                 cell.countryCode = dialCode
                 cell.flagImg.image = image
-               // self.scheduleMeetingInvitation[sender.tag].countryCode = code
-               // self.scheduleMeetingInvitation[sender.tag].flagImage = image
-               // self.inviteParticipantTV.reloadData()
+                self.dismiss(animated: true)
+               
             }
-            navigationController?.pushViewController(picker, animated: true)
+       self.present(picker, animated: true, completion: nil)
         }
         
-    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String ) {
-                 picker.navigationController?.isNavigationBarHidden=true//?.popViewController(animated: true)
-                self.navigationController?.setNavigationBarHidden(true, animated: true)
-                self.navigationItem.setHidesBackButton(true, animated: true)
-                print("CODE IS \(code)")
-                
-                print("Dial Code ",dialCode)
-                let bundle = "assets.bundle/"
-                print("IMAGE IS \(UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil))")
-        
-                
-                //DialCode = "\(dialCode)"
-               // countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
-                //tempImageView.image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-            
-        }
+
     
 }
 

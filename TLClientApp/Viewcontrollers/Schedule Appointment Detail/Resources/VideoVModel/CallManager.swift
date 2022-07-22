@@ -54,14 +54,63 @@ class CallManagerVM {
             Handler(nil, error)
             // Error handling
         }
-        
-    }
+   }
     func conferenceParticipantReq(userid: String, roomid: String) -> [String: Any]{
       //  "<Info><ACTION>C</ACTION><ID></ID><ACTUALROOM>" + roomid + "</ACTUALROOM><USERID>" + SessionSave.getsession(AppConstants.USER_ID, activity) + "</USERID></Info>"
         let para :[String:Any] = ["strSearchString":"<Info><ACTION>C</ACTION><ID></ID><ACTUALROOM>\(roomid)</ACTUALROOM><USERID>\(userid)</USERID></Info>"]
         return para
     }
-    
+    func acceptMemberReq(roomid:String,userId: String) -> [String:Any]{
+        let parameter = ["lid": "0","Roomno":roomid,"senderid":userId,"touserid":"0","statustype":"4","Accepttype":"A","calltype":"V","callfrom":"mobile","sourceLid":"0","patientno":"","CallGetInType":""]
+        return parameter
+        
+    }
+    func acceptMemberMethods(req:[String:Any]) {
+        ApiServices.shareInstace.getDataFromApi(url: APi.acceptMember.url, para: req) { response, err in
+            
+            
+            if response != nil {
+                
+                print("success accept memeber")
+            }
+            else {
+                print("failure accept member")
+            }
+        }
+    }
+    func aconferenceParticiapntsMethods(parameter:[String: Any],completionBlock:@escaping(Bool?) ->()) {
+        var request = URLRequest(url: APi.ConferenceParticipant.url)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.addValue("Access-Control-Allow-Origin", forHTTPHeaderField: "*")
+        request.httpMethod = "POST"
+        
+        do {
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameter, options: .prettyPrinted)
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completionBlock(false)
+                }
+                guard let acceptdata = data else {return}
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        completionBlock(true)
+                    }
+                    else {
+                        completionBlock(false)
+                    }
+                }
+                print("DataAccept---->", response)
+                
+            }
+            .resume()
+        }
+        catch _ {
+            print ("Oops something happened buddy")
+        }
+    }
     func getTwilioWithCompletion(userID: String,deviceToken: Data,completionBlock: @escaping(Bool?) -> ()){
         getTwilioTokenWithCompletion(userID: userID) { accessToken, err in
             if err == nil {

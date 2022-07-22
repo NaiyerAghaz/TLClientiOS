@@ -9,10 +9,8 @@ import UIKit
 import XLPagerTabStrip
 import iOSDropDown
 import Alamofire
-class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UITextFieldDelegate, MICountryPickerDelegate {
-    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
-        print(code)
-    }
+class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UITextFieldDelegate {
+   
     
     @IBOutlet weak var btnSchedule: UIButton!
     @IBOutlet weak var selectDateTimeTF: UITextField!
@@ -48,7 +46,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
    
     @IBOutlet weak var countryCodeTF: UITextField!
     @IBOutlet weak var minTxt: iOSDropDown!
-    var picker = MICountryPicker()
+   
     var bundle = "assets.bundle/"
     var apiScheduleVRIMeetResponseModel:ApiScheduleVRIMeetResponseModel?
     var callManagerVM = CallManagerVM()
@@ -140,19 +138,15 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         }
     }
     @IBAction func openCountryCodeAction(_ sender: Any) {
+        
+             let picker = MICountryPicker()
         picker.showCallingCodes = true
-        picker.didSelectCountryClosure = { [self] name, code in
-            picker.navigationController?.isNavigationBarHidden=true
-            //picker.navigationController?.popViewController(animated: true)
-            picker.dismiss(animated: true, completion: nil)
-        }
-        picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
-            self.picker.navigationController?.isNavigationBarHidden=true
-            let image = UIImage( named: self.bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
+       picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
+           let image = UIImage( named: self.bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
             self.DialCode = "\(dialCode)"
             self.countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
             self.tempImageView.image = image
-            
+            self.dismiss(animated: true)
         }
         self.present(picker, animated: true, completion: nil)
     }
@@ -205,9 +199,7 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
                 SecondParticipantHeight.constant = 50.0
                 thirdparticipantHeight.constant = 0.0
                 showSecoundparticipants = true
-                
-                
-            }
+              }
             
         }else if (showFisrtParticipants == true) && (showSecoundparticipants == true) && (showThirdParticipants == false ){
             print("2 first participants \(showFisrtParticipants), \n scound participants \(showSecoundparticipants), \n third participants \(showThirdParticipants)")
@@ -282,11 +274,13 @@ class ScheduledVRIVIewController: UIViewController,IndicatorInfoProvider, UIText
         }else if self.lastNameTF.text!.isEmpty {
           return self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
             
-        }else if self.firstParticipantsTF.text!.isEmpty  {
-           
-            return  self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
-            
-        }else if self.confirmationEmailTF.text!.isEmpty  {
+        }
+//        else if self.firstParticipantsTF.text!.isEmpty  {
+//           
+//            return  self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
+//            
+//        }
+        else if self.confirmationEmailTF.text!.isEmpty  {
             
             return self.view.makeToast("Please fill Email Address.",duration: 1, position: .center)
             
@@ -421,7 +415,7 @@ print("url to create Meet Appointment \(urlString),\(request)")
                 let phoneSeprate = obj.PhNo.split(separator: " ")
                 if phoneSeprate.count > 1 {
                     let countryArr = scheduleViewModel.countriesArr
-                    print("countryCounts--------->",countryArr.count)
+                  
                     if let indx = countryArr.firstIndex(where: {$0.dialCode == "\(phoneSeprate[0])"}){
                         let image = UIImage( named: bundle + countryArr[indx].code.lowercased(), in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
                         tempImageView.image = image

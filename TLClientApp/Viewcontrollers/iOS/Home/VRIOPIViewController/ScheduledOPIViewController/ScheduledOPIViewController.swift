@@ -9,21 +9,15 @@ import UIKit
 import XLPagerTabStrip
 import iOSDropDown
 import Alamofire
-class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITextFieldDelegate, MICountryPickerDelegate {
-    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
-      print(code)
-    }
-    
-
-    static func createWith(navigator: Navigator, storyboard: UIStoryboard) -> ScheduledOPIViewController {
+class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITextFieldDelegate {
+ static func createWith(navigator: Navigator, storyboard: UIStoryboard) -> ScheduledOPIViewController {
         return storyboard.instantiateViewController(ofType: ScheduledOPIViewController.self).then { viewController in
             
         }
     }
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo
         {
-            
-            return IndicatorInfo(title:"Scheduled OPI")
+         return IndicatorInfo(title:"Scheduled OPI")
         }
     @IBOutlet weak var selectDateTimeTF: UITextField!
     @IBOutlet weak var selectVRIView: UIView!
@@ -63,7 +57,7 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
     var apiScheduleVRIMeetResponseModel:ApiScheduleVRIMeetResponseModel?
     var callManagerVM = CallManagerVM()
     var languageViewModel = LanguageVM()
-    var picker = MICountryPicker()
+   
     var bundle = "assets.bundle/"
     var roomId = "0"
     var DialCode = ""
@@ -156,18 +150,16 @@ class ScheduledOPIViewController: UIViewController, IndicatorInfoProvider, UITex
         }
     }
     @IBAction func openCountryCodeAction(_ sender: Any) {
+        let picker = MICountryPicker()
         picker.showCallingCodes = true
-        picker.didSelectCountryClosure = { [self] name, code in
-            picker.navigationController?.isNavigationBarHidden=true
-          
-            picker.dismiss(animated: true, completion: nil)
-      }
+       
         picker.didSelectCountryWithCallingCodeClosure = { [self] name , code , dialCode in
-            self.picker.navigationController?.isNavigationBarHidden=true
+           
          let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
           self.DialCode = "\(dialCode)"
             self.countryCodeTF.text = "\(dialCode)"
             self.tempImageView.image = image
+            self.dismiss(animated: true)
             
         }
         self.present(picker, animated: true, completion: nil)
@@ -262,19 +254,19 @@ func textFieldDidEndEditing(_ textField: UITextField) {
         
     }
     @IBAction func actionScheduleTapped(_ sender: UIButton) {
-        if let firstParticipants = self.firstParticipantsTF.text , !firstParticipants.isEmpty {
-            print("add first participants ")
-            self.participantsList.append(firstParticipants)
-        }
-        if let secoundParticipants = self.secondParticipantsTF.text , !secoundParticipants.isEmpty {
-            print("add secound participants ")
-            self.participantsList.append(secoundParticipants)
-        }
-        if let thirdParticipants = self.thirdParticipantsTF.text , !thirdParticipants.isEmpty {
-            print("add third participants ")
-            self.participantsList.append(thirdParticipants)
-        }
-        print("participants list ",participantsList)
+//        if let firstParticipants = self.firstParticipantsTF.text , !firstParticipants.isEmpty {
+//            print("add first participants ")
+//            self.participantsList.append(firstParticipants)
+//        }
+//        if let secoundParticipants = self.secondParticipantsTF.text , !secoundParticipants.isEmpty {
+//            print("add secound participants ")
+//            self.participantsList.append(secoundParticipants)
+//        }
+//        if let thirdParticipants = self.thirdParticipantsTF.text , !thirdParticipants.isEmpty {
+//            print("add third participants ")
+//            self.participantsList.append(thirdParticipants)
+//        }
+//        print("participants list ",participantsList)
         let selectedText = srcLngTF.text ?? ""
         let selectedText1 = trgtLngTF.text ?? ""
         GetPublicData.sharedInstance.apiGetAllLanguageResponse?.languageData?.forEach({ languageData in
@@ -307,11 +299,13 @@ func textFieldDidEndEditing(_ textField: UITextField) {
             
             return self.view.makeToast("Please fill Last Name.",duration: 1, position: .center)
             
-        }else if self.firstParticipantsTF.text!.isEmpty  {
-            
-            return self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
-            
-        }else if self.confirmationEmailTF.text!.isEmpty  {
+        }
+//        else if self.firstParticipantsTF.text!.isEmpty  {
+//            
+//            return self.view.makeToast("Please fill Complete Participants Detail.",duration: 1, position: .center)
+//            
+//        }
+        else if self.confirmationEmailTF.text!.isEmpty  {
             
             return self.view.makeToast("Please fill Email Address.",duration: 1, position: .center)
             

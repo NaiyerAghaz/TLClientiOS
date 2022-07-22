@@ -180,8 +180,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 self.vdoCollectionView.delegate = self
                 self.vdoCollectionView.dataSource = self
                 self.vdoCollectionView.bounces = false
-                // genarateChatTokenCreate()
-                self.genarateChatTokenJoin()
+             genarateChatTokenCreate()
+               // self.genarateChatTokenJoin()
             }//else {
             //self.topView.isHidden = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

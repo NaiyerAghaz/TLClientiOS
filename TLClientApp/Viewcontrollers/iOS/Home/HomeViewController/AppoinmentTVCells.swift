@@ -34,7 +34,8 @@ class ScheduleAppointmentTableViewCell:UITableViewCell{
     @IBOutlet var appointmentTimeLbl: UILabel!
     @IBOutlet var appointmentIDLbl: UILabel!
     @IBOutlet var btnVideoAndAudioCall : UIButton!
-    
+    @IBOutlet weak var btnCallHeight: NSLayoutConstraint!
+    @IBOutlet weak var btnCall: UIButton!
     @IBOutlet weak var lblCallWarning: UILabel!
     @IBOutlet weak var btnVideoAndAudioWidth: NSLayoutConstraint!
     override func awakeFromNib() {
