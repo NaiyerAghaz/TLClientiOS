@@ -53,12 +53,12 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
     }
     // Document Picker delegate
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        print("documentPickerWasCancelled-------1")
+       
         controller.dismiss(animated: true)
       
     }
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        print("picked url-->", urls)
+      
         let urlPath = urls.last
         let urlExt = urlPath?.pathExtension
        // let mszOption = TCHMessageOptions.init()
@@ -66,22 +66,20 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
             let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
             uploadFilesToChatTwilio(fileName: fileName, url: urlPath!, isAudio: true, isVideo: false)
          }
-        print("documentPickerWasCancelled-------2")
+        
         controller.dismiss(animated: true)
      
     }
  
     // MARK:  MPMediaPickerController Delegate methods
     func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        print("documentPickerWasCancelled-------3")
+       
         mediaPicker.dismiss(animated: true)
       
     }
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        print("you picked: \(mediaItemCollection)")//This is the picked media item.
      
-        print("documentPickerWasCancelled-------4")
         mediaPicker.dismiss(animated: true)
       
         
@@ -163,13 +161,13 @@ extension VideoCallViewController:UIDocumentPickerDelegate,MPMediaPickerControll
                 uploadFilesToChatTwilio(fileName: fileName, url: videoURL,isAudio: false,isVideo: true)
                 
                 }}
-        print("documentPickerWasCancelled-------6")
+       
        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
     {
-        print("documentPickerWasCancelled-------5")
+       
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -448,11 +446,12 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
         return true
     }
 
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         var configure = UISwipeActionsConfiguration()
+       //configure.performsFirstActionWithFullSwipe = false
         let rowData = chatListArr[indexPath.row]
         if rowData.sender == 1 {
-            let replyAction = UIContextualAction(style: .destructive, title: nil) { [self] _, _, complete in
+            let replyAction = UIContextualAction(style: .normal, title: nil) { [self] _, _, complete in
                
                 switch rowData.rowType {
                 case .txt:
@@ -513,6 +512,7 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
                     // here set your image and background color
             replyAction.image = UIImage(named: "reply")
             replyAction.backgroundColor = UIColor.clear
+          
             configure = UISwipeActionsConfiguration(actions: [replyAction])
             configure.performsFirstActionWithFullSwipe = true
                     return configure
@@ -766,6 +766,17 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             tblPrivateView.isHidden = true
         }
          }
+    @IBAction func btnDonePrivatemszTapped(_ sender: Any) {
+        tblPrivateView.isHidden = true
+        btnSelectUser.isSelected = false
+    }
+    
+    @IBAction func btnCancelledPrivateMszTapped(_ sender: Any) {
+        self.privateChatArr.removeAll()
+        tblPrivateView.isHidden = true
+        btnSelectUser.isSelected = false
+        self.lblPrivateChatCounts.text = "\(privateChatArr.count)"
+    }
     
 }
 

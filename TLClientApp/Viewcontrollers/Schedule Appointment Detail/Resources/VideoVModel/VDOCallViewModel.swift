@@ -161,10 +161,10 @@ class VDOCallViewModel {
                         guard let acceptdata = data else {return}
                         if let httpResponse = response as? HTTPURLResponse {
                             if httpResponse.statusCode == 200 {
-                                self.conferrenceDetail = ConferenceInfoResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
-                                
-                              //  let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
-                             
+                               
+                                    self.conferrenceDetail = ConferenceInfoResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
+                                print("totalParticiapnts--->", self.conferrenceDetail.CONFERENCEInfo?.count)
+                           
                                 if isfromHostcontrol {
                                     DispatchQueue.global(qos: .background).async {
                                         self.participantRuleMethod(participantsArr: self.conferrenceDetail.CONFERENCEInfo!, lid: lid, roomID: roomID, participantSID: partSID)
@@ -178,22 +178,7 @@ class VDOCallViewModel {
                                 print("err particiapnt rule:")
                                 completionHandler(false, error as? Error)
                             }
-                      //  }
-                     
-//             let items :ConferenceInfoModels = (self.conferrenceDetail.CONFERENCEInfo![0] as? ConferenceInfoModels)!
-//                        print("itmesmute-->\(items.MUTE) req: \(self.addParticipantReqApi(Lsid: lid, roomID: roomID)) response---Host: \(response)")
-//                        DispatchQueue.global(qos: .background).async {
-//                            self.participantRuleMethod(participantsArr: self.conferrenceDetail.CONFERENCEInfo!, lid: lid, roomID: roomID, participantSID: partSID)
-//                        }
-//
-//
-//
-//                        completionHandler(true, nil)
-//                    }
-//                    else {
-//
-//
-//                    }
+                
                     
                         }}
                 }

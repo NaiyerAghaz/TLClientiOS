@@ -88,21 +88,21 @@ extension VideoCallViewController:RoomDelegate{
    
     //THis method will call who is speaking
     func dominantSpeakerDidChange(room: Room, participant: RemoteParticipant?) {
-        if room.localParticipant != nil {
-            self.localParticipant = room.localParticipant
-        }
-        if participant?.sid != nil {
-            if remoteParticipantArr.count != vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count {
-                self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: (participant?.sid!)!, isfromHostcontrol: false) { success, err in
-                       
-                    DispatchQueue.main.async {
-                        self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0)"
-                    }
-                    
-                    }
-            }
-        }
-       
+//        if room.localParticipant != nil {
+//            self.localParticipant = room.localParticipant
+//        }
+//        if participant?.sid != nil {
+//            if remoteParticipantArr.count != vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count {
+//                self.vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!, partSID: (participant?.sid!)!, isfromHostcontrol: false) { success, err in
+//
+//                    DispatchQueue.main.async {
+//                        self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0)"
+//                    }
+//
+//                    }
+//            }
+//        }
+//       
         if participant != nil {
             if isChangeView {
                 if currentSpeakerParticipant != nil && participant != currentSpeakerParticipant{

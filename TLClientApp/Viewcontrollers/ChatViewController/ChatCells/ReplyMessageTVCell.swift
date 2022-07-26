@@ -20,7 +20,7 @@ class ReplyMessageTVCell: UITableViewCell {
     @IBOutlet weak var customerView: UIView!
     @IBOutlet weak var lblCustomerChar: UILabel!
     @IBOutlet weak var imgCustomer: UIImageView!
-    @IBOutlet weak var lblCustomerChat: UILabel!
+    @IBOutlet weak var lblCustomerChat: ActiveLabel!
     @IBOutlet weak var lblCustomerTime: UILabel!
     @IBOutlet weak var lblCustomerName: UILabel!
     @IBOutlet weak var vendorReplyMessage: UILabel!
@@ -32,7 +32,7 @@ class ReplyMessageTVCell: UITableViewCell {
     @IBOutlet weak var vendorView: UIView!
     @IBOutlet weak var lblVendorChar: UILabel!
     @IBOutlet weak var ImgVendor: UIImageView!
-    @IBOutlet weak var lblVendorChat: UILabel!
+    @IBOutlet weak var lblVendorChat: ActiveLabel!
     @IBOutlet weak var lblVendorTime: UILabel!
     @IBOutlet weak var lblVendorName: UILabel!
 
@@ -67,6 +67,14 @@ class ReplyMessageTVCell: UITableViewCell {
             text.append(NSAttributedString(string: obj.txt ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             //lblPrivateCustomerName.text = obj.privatechatUser
             lblCustomerChat.attributedText = text
+            lblCustomerChat.handleURLTap { url in
+                
+                CEnumClass.share.activeLinkCall(activeURL: url)
+            }
+            lblCustomerChat.handleEmailTap { txt in
+                let appURL = URL(string: "mailto:\(txt)")!
+                CEnumClass.share.activeLinkCall(activeURL: appURL)
+            }
             lblCustomerTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblCustomerName.text = obj.name
          
@@ -93,6 +101,16 @@ class ReplyMessageTVCell: UITableViewCell {
             text.append(NSAttributedString(string: obj.txt ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.black]))
             //lblPrivateVendorName.text = obj.privatechatUser
             lblVendorChat.attributedText = text
+           
+            lblVendorChat.handleURLTap { url in
+                
+                CEnumClass.share.activeLinkCall(activeURL: url)
+            }
+            lblVendorChat.handleEmailTap { txt in
+                let appURL = URL(string: "mailto:\(txt)")!
+                CEnumClass.share.activeLinkCall(activeURL: appURL)
+            }
+           
             lblVendorTime.text = CEnumClass.share.getChatTime(dateString: obj.time!)
             lblVendorName.text = obj.name
          }}

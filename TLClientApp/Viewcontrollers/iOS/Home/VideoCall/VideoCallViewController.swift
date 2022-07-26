@@ -111,6 +111,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     
     // @IBOutlet weak var txtMessage: UITextField!
     
+    @IBOutlet weak var btnSelectUser: UIButton!
     @IBOutlet weak var txtMessageHeight: NSLayoutConstraint!
     @IBOutlet weak var txtMessage: UITextView!
     @IBOutlet weak var tblPrivateView: UITableView!
@@ -294,14 +295,15 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         
         if gesture.state == .ended {
             if self.mainPreview.frame.midX >= self.view.layer.frame.width / 2 {
-                
+                print("location--1>", location.y)
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
                     self.mainPreview.center.x = self.view.layer.frame.width - 60
-                    if location.y < 20 {
-                        self.mainPreview.center.y = 60
+                    if location.y < 60{
+                        self.mainPreview.center.y = 137
                     }
-                    else if location.y > self.view.frame.size.height - 20 {
-                        self.mainPreview.center.y = self.view.frame.size.height - 60
+                    else if location.y > self.view.frame.size.height - 60 {
+                        print("location--3>", location.y,"height:",self.view.frame.size.height )
+                        self.mainPreview.center.y = self.view.frame.size.height - 128
                     }
                 }, completion: nil)
             }
@@ -309,12 +311,14 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             else{
                 
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+                    print("location--2>", location.y)
                     self.mainPreview.center.x = 60
-                    if location.y < 20 {
-                        self.mainPreview.center.y = 60
+                    if location.y < 60 {
+                        self.mainPreview.center.y = 137
                     }
-                    else if location.y > self.view.frame.size.height - 20 {
-                        self.mainPreview.center.y = self.view.frame.size.height - 60
+                    else if location.y > self.view.frame.size.height - 60 {
+                        print("location--4>", location.y,"height:",self.view.frame.size.height )
+                        self.mainPreview.center.y = self.view.frame.size.height - 128
                     }
                     // self.mainPreview.center.y = 40
                 }, completion: nil)
@@ -355,7 +359,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             let imageData = try? Data(contentsOf: Bundle.main.url(forResource: "call", withExtension: "gif")!)
             let advTimeGif = UIImage.gifImageWithData(imageData!)
             callingImageView = UIImageView(image: advTimeGif)
-            callingImageView.frame = CGRect(x: userRemoteView.frame.size.width / 2 - 70, y: userRemoteView.frame.size.height / 2 - 100, width: 140, height: 140.0)
+            callingImageView.frame = CGRect(x: userRemoteView.frame.size.width / 2 - 90, y: userRemoteView.frame.size.height / 2 - 160, width: 140, height: 140.0)
             
             self.userRemoteView.addSubview(callingImageView)
         }
@@ -965,7 +969,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     
     // MARK:- Private
     func startPreview(localView: VideoView) {
-        
+        print("flip-----------------1>")
         if PlatformUtils.isSimulator {
             return
         }
@@ -1037,68 +1041,13 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     }
     //MARK: GetFlip Changeview
     @objc func getFlipLocalView(gesture:UITapGestureRecognizer){
-        
+        print("flip-----------------2>")
         isSwitchToRemote = !isSwitchToRemote
         fullFlashViewChangesMethod(isFlip:false)
     }
     func fullFlashViewChangesMethod(isFlip:Bool){
-        if isFlip {
-            if isSwitchToRemote {
-                //speakerView.removeFromSuperview()
-                btnPinLocal.isHidden = true
-                btnMic.isHidden = false
-                lblParticipantName.text = "You"
-                btnSpeakerMic.isHidden = true
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(preview)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(speakerView)
-                    }
-                }
-                let videoPublications = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.addRenderer(self.preview)
-                    }
-                }
-                localVideoTrack!.addRenderer(speakerView)
-                
-            }
-            else {
-                
-                lblParticipantName.text = remoteParticiapntName
-                btnSpeakerMic.isHidden = false
-                btnMic.isHidden = true
-                btnPinLocal.isHidden = false
-                let locTrack = localVideoTrack
-                localVideoTrack?.removeRenderer(speakerView)
-                localVideoTrack = locTrack
-                let videoPublications2 = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications2 {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        subscribedVideoTrack.removeRenderer(preview)
-                    }
-                }
-                
-                let videoPublications = self.remoteParticipant!.remoteVideoTracks
-                for publication in videoPublications {
-                    if let subscribedVideoTrack = publication.remoteTrack,
-                       publication.isTrackSubscribed {
-                        
-                        subscribedVideoTrack.addRenderer(speakerView)
-                    }
-                }
-                if localVideoTrack != nil {
-                    localVideoTrack!.addRenderer(preview)
-                }
-            }}
-        else {
+       
+        if !isFlip {
             previewOriginal.removeAllSubViews()
             speakerViewOriginal.removeAllSubViews()
             if isSwitchToRemote {
@@ -1136,6 +1085,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                     
                     if let audio = audioPub.audioTrack {
                         audio.isEnabled == true ? (btnMic.isSelected = false) : (btnMic.isSelected = true)
+                        audio.isEnabled == true ? (btnMic.tintColor = UIColor.white) : (btnMic.tintColor = UIColor.red)
                     }
                 }
                 
@@ -1179,6 +1129,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                     
                     if let audio = audioPub.audioTrack {
                         audio.isEnabled == true ? (btnSpeakerMic.isSelected = false) : (btnSpeakerMic.isSelected = true)
+                        audio.isEnabled == true ? (btnSpeakerMic.tintColor = UIColor.white) : (btnSpeakerMic.tintColor = UIColor.red)
                     }
                     
                 }
@@ -1233,6 +1184,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
           }
         }}
     public func previewTapped(nView:VideoView){
+        print("flip-----------------3>")
         let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
         nView.addGestureRecognizer(tap)
     }
@@ -1339,7 +1291,6 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     
     @IBAction func btnSendMszTapped(_ sender: Any) {
         
-        //@Test #Narendra2##hi#/ProfileImages/Profiles/2022-Mar-30-0313541648624430629.png#SneakyBobbySaintPaul
         let trimmed = txtMessage.text.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmed.isEmpty && trimmed != "Type a message here.."{
             mszCounts = mszCounts + 1
@@ -1393,6 +1344,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         }
     }
     
+   
     @IBAction func btnCloseReplyTapped(_ sender: Any) {
         lblNameReplyUser.text = ""
         lblReplyMsz.text = ""

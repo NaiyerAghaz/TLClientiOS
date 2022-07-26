@@ -171,9 +171,7 @@ extension VideoCallViewController:VideoViewDelegate {
         cell.btnPinVideo.addTarget(self, action: #selector(pinVideoMethods(sender:)), for: .touchUpInside)
         cell.btnPinVideo.layer.cornerRadius = 5
         cell.btnPinVideo.clipsToBounds = true
-        
-        
-        if remoteParticipantArr.count > 1{
+       if remoteParticipantArr.count > 1{
             if indexPath.row == 0 {
                 
                 cell.btnMic.isHidden = true
@@ -231,6 +229,7 @@ extension VideoCallViewController:VideoViewDelegate {
                         print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
                         if let audio = audioPub.audioTrack {
                             audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
+                            audio.isEnabled == true ? (cell.btnMic.tintColor = UIColor.white) : (cell.btnMic.tintColor = UIColor.red)
                         }
                         
                     }
@@ -253,8 +252,7 @@ extension VideoCallViewController:VideoViewDelegate {
                                     cell.remoteView.layer.borderColor = UIColor.clear.cgColor
                                     cell.remoteView.layer.borderWidth = 0
                                 }
-                                
-                            }
+                                 }
                         }
                     }
                     
@@ -339,6 +337,7 @@ extension VideoCallViewController:VideoViewDelegate {
                             print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
                             if let audio = audioPub.audioTrack {
                                 audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
+                                audio.isEnabled == true ? (cell.btnMic.tintColor = UIColor.white) : (cell.btnMic.tintColor = UIColor.red)
                             }
                             
                         }
@@ -417,6 +416,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     print("audioTrackSid2:", audioPub.trackSid, audioPub.trackName)
                     if let audio = audioPub.audioTrack {
                         audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
+                        audio.isEnabled == true ? (cell.btnMic.tintColor = UIColor.white) : (cell.btnMic.tintColor = UIColor.red)
                     }
                 }
                 if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
