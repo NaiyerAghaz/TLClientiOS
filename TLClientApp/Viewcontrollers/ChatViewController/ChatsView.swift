@@ -378,14 +378,18 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
                 audioCell.vendorBtnPlay.tag = indexPath.row
                 audioCell.customerBtnPlay.addTarget(self, action: #selector(displayAudio(sender:)), for: .touchUpInside)
                 audioCell.vendorBtnPlay.addTarget(self, action: #selector(displayAudio(sender:)), for: .touchUpInside)
-                audioCell.vendorDocImg.tag = indexPath.row
-                audioCell.customerDocImg.tag = indexPath.row
-                let vdocTap2 = UITapGestureRecognizer(target: self, action: #selector(displayDocs(gesture:)))
-                audioCell.vendorDocImg.isUserInteractionEnabled = true
-                audioCell.vendorDocImg.addGestureRecognizer(vdocTap2)
-                let docTap = UITapGestureRecognizer(target: self, action: #selector(displayDocs2(gesture:)))
-                audioCell.customerDocImg.isUserInteractionEnabled = true
-                audioCell.customerDocImg.addGestureRecognizer(docTap)
+               // audioCell.vendorDocImg.tag = indexPath.row
+               // audioCell.customerDocImg.tag = indexPath.row
+               /// let vdocTap2 = UITapGestureRecognizer(target: self, action: #selector(displayDocs(gesture:)))
+              //  audioCell.vendorDocImg.isUserInteractionEnabled = true
+               // audioCell.vendorDocImg.addGestureRecognizer(vdocTap2)
+               // let docTap = UITapGestureRecognizer(target: self, action: #selector(displayDocs2(gesture:)))
+               // audioCell.customerDocImg.isUserInteractionEnabled = true
+               // audioCell.customerDocImg.addGestureRecognizer(docTap)
+                audioCell.btnCustomerDoc.tag = indexPath.row
+                audioCell.btnCustomerDoc.addTarget(self, action: #selector(displayDocs(sender:)), for: .touchUpInside)
+                audioCell.btnVendorDoc.tag = indexPath.row
+                audioCell.btnVendorDoc.addTarget(self, action: #selector(displayDocs(sender:)), for: .touchUpInside)
                 audioCell.configureAudio(obj: rowData)
                 return audioCell
             case .audioReply:
@@ -397,15 +401,18 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
                 audioCell.vendorBtnPlay.tag = indexPath.row
                 audioCell.customerBtnPlay.addTarget(self, action: #selector(displayAudio(sender:)), for: .touchUpInside)
                 audioCell.vendorBtnPlay.addTarget(self, action: #selector(displayAudio(sender:)), for: .touchUpInside)
-                audioCell.vendorDocImg.tag = indexPath.row
-                audioCell.customerDocImg.tag = indexPath.row
-                let vdocTap2 = UITapGestureRecognizer(target: self, action: #selector(displayDocs(gesture:)))
-                audioCell.vendorDocImg.isUserInteractionEnabled = true
-                audioCell.vendorDocImg.addGestureRecognizer(vdocTap2)
-                let docTap = UITapGestureRecognizer(target: self, action: #selector(displayDocs2(gesture:)))
-                audioCell.customerDocImg.isUserInteractionEnabled = true
-                audioCell.customerDocImg.addGestureRecognizer(docTap)
-                audioCell.configureAudio(obj: rowData)
+                audioCell.btnVendorDoc.tag = indexPath.row
+                audioCell.btnCustomerDoc.tag = indexPath.row
+                audioCell.btnCustomerDoc.addTarget(self, action: #selector(displayDocs(sender:)), for: .touchUpInside)
+            
+                audioCell.btnVendorDoc.addTarget(self, action: #selector(displayDocs(sender:)), for: .touchUpInside)
+              //  let vdocTap2 = UITapGestureRecognizer(target: self, action: #selector(displayDocs(gesture:)))
+                //audioCell.vendorDocImg.isUserInteractionEnabled = true
+               // audioCell.vendorDocImg.addGestureRecognizer(vdocTap2)
+               // let docTap = UITapGestureRecognizer(target: self, action: #selector(displayDocs2(gesture:)))
+              //  audioCell.customerDocImg.isUserInteractionEnabled = true
+              //  audioCell.customerDocImg.addGestureRecognizer(docTap)
+              audioCell.configureAudio(obj: rowData)
                 return audioCell
            }
         }
@@ -508,13 +515,13 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 complete(true)
                     }
-                    
+            replyAction.backgroundColor = UIColor(white: 1, alpha: 0)
                     // here set your image and background color
             replyAction.image = UIImage(named: "reply")
-            replyAction.backgroundColor = UIColor.clear
+            
           
             configure = UISwipeActionsConfiguration(actions: [replyAction])
-            configure.performsFirstActionWithFullSwipe = true
+           // configure.performsFirstActionWithFullSwipe = true
                     return configure
         }
         else {
@@ -642,8 +649,23 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(vc, animated: true, completion: nil)
             }
 }
-    @objc func displayDocs(gesture: UITapGestureRecognizer){
-        let imgData = chatListArr[gesture.view!.tag]
+//    @objc func displayDocs(gesture: UITapGestureRecognizer){
+//        let imgData = chatListArr[gesture.view!.tag]
+//        let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
+//        let vc = sB.instantiateViewController(withIdentifier: Control_Name.imgPopup) as! ImagePopupViewController
+//        let imgFullurl = (imgData.txt)!.replacingOccurrences(of: " ", with: "%20")
+//        let urlPath = URL(string: imgFullurl)
+//        let urlExt = urlPath?.pathExtension
+//
+//        if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
+//            vc.fileName = imgData.imgUrl
+//            vc.isImage = false
+//            vc.modalPresentationStyle = .overFullScreen
+//            self.present(vc, animated: true, completion: nil)
+//        }
+//}
+    @objc func displayDocs(sender: UIButton){
+        let imgData = chatListArr[sender.tag]
         let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
         let vc = sB.instantiateViewController(withIdentifier: Control_Name.imgPopup) as! ImagePopupViewController
         let imgFullurl = (imgData.txt)!.replacingOccurrences(of: " ", with: "%20")
@@ -657,6 +679,7 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             self.present(vc, animated: true, completion: nil)
         }
 }
+    
     @objc func displayDocs2(gesture: UITapGestureRecognizer){
         let imgData = chatListArr[gesture.view!.tag]
         let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
@@ -672,36 +695,36 @@ extension VideoCallViewController: UITableViewDelegate, UITableViewDataSource {
             self.present(vc, animated: true, completion: nil)
         }
 }
-    @objc func replyDisplayDocs(gesture: UITapGestureRecognizer){
-        let imgData = chatListArr[gesture.view!.tag]
-        let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
-        let vc = sB.instantiateViewController(withIdentifier: Control_Name.imgPopup) as! ImagePopupViewController
-        let imgFullurl = (imgData.txt)!.replacingOccurrences(of: " ", with: "%20")
-        let urlPath = URL(string: imgFullurl)
-        let urlExt = urlPath?.pathExtension
-       
-        if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
-            vc.fileName = imgData.imgUrl
-            vc.isImage = false
-            vc.modalPresentationStyle = .overFullScreen
-            self.present(vc, animated: true, completion: nil)
-        }
-}
-    @objc func replyDisplayDocs2(gesture: UITapGestureRecognizer){
-        let imgData = chatListArr[gesture.view!.tag]
-        let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
-        let vc = sB.instantiateViewController(withIdentifier: Control_Name.imgPopup) as! ImagePopupViewController
-        let imgFullurl = (imgData.txt)!.replacingOccurrences(of: " ", with: "%20")
-        let urlPath = URL(string: imgFullurl)
-        let urlExt = urlPath?.pathExtension
-       
-        if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
-            vc.fileName = imgData.imgUrl
-            vc.isImage = false
-            vc.modalPresentationStyle = .overFullScreen
-            self.present(vc, animated: true, completion: nil)
-        }
-}
+//    @objc func replyDisplayDocs(gesture: UITapGestureRecognizer){
+//        let imgData = chatListArr[gesture.view!.tag]
+//        let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
+//        let vc = sB.instantiateViewController(withIdentifier: Control_Name.imgPopup) as! ImagePopupViewController
+//        let imgFullurl = (imgData.txt)!.replacingOccurrences(of: " ", with: "%20")
+//        let urlPath = URL(string: imgFullurl)
+//        let urlExt = urlPath?.pathExtension
+//
+//        if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
+//            vc.fileName = imgData.imgUrl
+//            vc.isImage = false
+//            vc.modalPresentationStyle = .overFullScreen
+//            self.present(vc, animated: true, completion: nil)
+//        }
+//}
+//    @objc func replyDisplayDocs2(gesture: UITapGestureRecognizer){
+//        let imgData = chatListArr[gesture.view!.tag]
+//        let sB = UIStoryboard(name: Storyboard_name.chat, bundle: nil)
+//        let vc = sB.instantiateViewController(withIdentifier: Control_Name.imgPopup) as! ImagePopupViewController
+//        let imgFullurl = (imgData.txt)!.replacingOccurrences(of: " ", with: "%20")
+//        let urlPath = URL(string: imgFullurl)
+//        let urlExt = urlPath?.pathExtension
+//       
+//        if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 4 {
+//            vc.fileName = imgData.imgUrl
+//            vc.isImage = false
+//            vc.modalPresentationStyle = .overFullScreen
+//            self.present(vc, animated: true, completion: nil)
+//        }
+//}
     @objc func getCheckUpdate(sender: UIButton){
         sender.isSelected = !sender.isSelected
       

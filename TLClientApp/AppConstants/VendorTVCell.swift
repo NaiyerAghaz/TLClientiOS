@@ -58,8 +58,10 @@ class VDOCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var participantName: PaddingLabel!
     @IBOutlet weak var btnPinVideo: UIButton!
     @IBOutlet weak var isSpeakingLbl: PaddingLabel!
+    
+    @IBOutlet weak var imgRemotePrivacyView: UIView!
     func configure(obj: ConferenceInfoModels){
-    print("obj.VIDEO---->",obj.VIDEO, ":obj.MUTE ==",obj.MUTE)
+   // print("obj.VIDEO---->",obj.VIDEO, ":obj.MUTE ==",obj.MUTE)
         audioLbl.adjustsFontSizeToFitWidth = true
         lblVideo.adjustsFontSizeToFitWidth = true
         if obj.VIDEO == "0" {

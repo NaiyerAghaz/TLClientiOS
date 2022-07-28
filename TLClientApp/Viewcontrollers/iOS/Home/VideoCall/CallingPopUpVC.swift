@@ -265,7 +265,7 @@ func configureUI(){
         }else {
             let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let odoCall = sB.instantiateViewController(identifier: "AudioCallViewController") as! AudioCallViewController
-            print("allPara--->",roomId, "sourceID:",sourceID, "targetID:",targetID, "ccid:",ccid,"sourceName::",sourceName,"targetName:",targetName,"vendorID:",vendorID,"vendorName:",vendorName,"vendorImgUrl:",vendorImgUrl)
+         //   print("allPara--->",roomId, "sourceID:",sourceID, "targetID:",targetID, "ccid:",ccid,"sourceName::",sourceName,"targetName:",targetName,"vendorID:",vendorID,"vendorName:",vendorName,"vendorImgUrl:",vendorImgUrl)
             odoCall.roomID = roomId
             odoCall.sourceLangID = sourceID
             odoCall.targetLangID = targetID

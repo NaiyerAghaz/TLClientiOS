@@ -11,6 +11,7 @@ import TwilioVoice
 import CallKit
 import SteppableSlider
 import AVFoundation
+
 class AddParticipantsCollectionsViewCell : UICollectionViewCell {
     
     @IBOutlet weak var participatsNumberLbl: UILabel!
@@ -283,6 +284,8 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     }
     @objc func vendorAnswered(notification: Notification){
         print("vendor answer")
+        self.ringToneTimer.invalidate()
+        self.notLifttimerDuration.invalidate()
         self.timerDuration = nil
         self.isCallReceivedNotify = true
         //self.addParticipantsBtn.isHidden = true
@@ -294,8 +297,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.callStartDate = startDate
         self.callDurationLbl.isHidden = false
         self.callTimeTitleLbl.isHidden = false
-        self.ringToneTimer.invalidate()
-        self.notLifttimerDuration.invalidate()
+        
         self.addParticipantsBtn.isUserInteractionEnabled = true
         //getfeedbackDatils()
         getOPIDetailsByRoomID()
@@ -1023,7 +1025,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         print("performVoiceCall function called")
         
         getTwillioToken { (completion, token, error) in
-            print("twillio token is",self.twilioToken)
+          //  print("twillio token is",self.twilioToken)
             // self.startPreview()
             // myAudio.stop()
             // self.timer.invalidate()
@@ -1038,7 +1040,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                     "clientid":GetPublicData.sharedInstance.userID,
                     "calltopropio":"directtoVendor"
                 ]
-                print("param for audio call in performVoiceCall",twimlParamTo , self.twilioToken)
+               // print("param for audio call in performVoiceCall",twimlParamTo , self.twilioToken)
                 let connectOptions = ConnectOptions(accessToken: self.twilioToken ?? "") { builder in
                     builder.params = twimlParamTo
                     builder.uuid = uuid

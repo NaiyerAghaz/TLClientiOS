@@ -176,16 +176,17 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GJD-bQ-1WU">
-                                <rect key="frame" x="374" y="44" width="40" height="40"/>
+                                <rect key="frame" x="354" y="44" width="60" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="23A-d4-5bK"/>
-                                    <constraint firstAttribute="width" constant="40" id="CZn-A0-vU7"/>
+                                    <constraint firstAttribute="height" constant="60" id="23A-d4-5bK"/>
+                                    <constraint firstAttribute="width" constant="60" id="CZn-A0-vU7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="29"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal">
-                                    <imageReference key="image" image="multiply.circle.fill" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="multiply.circle.fill" catalog="system" symbolScale="large" renderingMode="original"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="26" scale="large" weight="bold"/>
                                 </state>
                                 <connections>
                                     <action selector="btnCloseTapped:" destination="jSw-YS-10K" eventType="touchUpInside" id="dce-p1-iMm"/>

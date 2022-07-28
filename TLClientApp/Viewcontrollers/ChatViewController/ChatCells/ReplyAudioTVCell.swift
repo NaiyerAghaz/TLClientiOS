@@ -8,6 +8,8 @@
 import UIKit
 
 class ReplyAudioTVCell: UITableViewCell {
+    
+    @IBOutlet weak var btnVendorDoc: UIButton!
     @IBOutlet weak var vendorView: UIView!
     @IBOutlet weak var vendorTime: UILabel!
     @IBOutlet weak var vendorName: UILabel!
@@ -23,6 +25,8 @@ class ReplyAudioTVCell: UITableViewCell {
     @IBOutlet weak var vendorReplyName: UILabel!
     @IBOutlet weak var vendorReplyImgWidth: NSLayoutConstraint!
     
+    
+    @IBOutlet weak var btnCustomerDoc: UIButton!
     @IBOutlet weak var customerReplyImgWidth: NSLayoutConstraint!
     @IBOutlet weak var customerReplyImg: UIImageView!
     @IBOutlet weak var customerReplyMessage: UILabel!
@@ -66,6 +70,7 @@ class ReplyAudioTVCell: UITableViewCell {
             let urlPath = URL(string: obj.imgUrl!)
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
+                btnCustomerDoc.isHidden = true
                 customerBtnPlay.isHidden = false
                 customerBtnPlayWidth.constant = 40.0
                 let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
@@ -74,6 +79,7 @@ class ReplyAudioTVCell: UITableViewCell {
                 customerDocImg.image = largeBoldDoc
             }
             else {
+                btnCustomerDoc.isHidden = false
                 customerBtnPlay.isHidden = true
                 customerBtnPlayWidth.constant = 0.0
                 
@@ -105,6 +111,7 @@ class ReplyAudioTVCell: UITableViewCell {
             let urlPath = URL(string: obj.imgUrl!)
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
+                btnVendorDoc.isHidden = true
                 vendorBtnPlay.isHidden = false
                 vendorBtnPlayWidth.constant = 40.0
                 let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
@@ -113,6 +120,7 @@ class ReplyAudioTVCell: UITableViewCell {
                 vendorDocImg.image = largeBoldDoc
               }
             else {
+                btnVendorDoc.isHidden = false
                 vendorBtnPlay.isHidden = true
                 vendorBtnPlayWidth.constant = 0.0
                 
@@ -127,7 +135,7 @@ class ReplyAudioTVCell: UITableViewCell {
         }
     }
     public func replyUpdates(obj: RowData,send:Int){
-        print("replyImg--->name:\(obj.name),txt:\(obj.txt),img:\(obj.imgUrl)")
+        //print("replyImg--->name:\(obj.name),txt:\(obj.txt),img:\(obj.imgUrl)")
         let urlPath = URL(string: obj.imgUrl!)
         let urlExt = urlPath?.pathExtension
         if send == 0 {

@@ -506,15 +506,50 @@ class VDOCallViewModel {
        
         return para
     }
-    public func videoTrackEnableOrDisable(isenable:Bool, img: UIImageView){
+    public func videoTrackEnableOrDisable(isenable:Bool, img: UIView){
         if isenable {
+            
+           
             img.isHidden = true
            }
         else {
+           
+            
             img.isHidden = false
             
             
         }
+    }
+    public func videoTrackEnableOrDisableSpeaker(isenable:Bool, img: UIImageView,isSpeaker:Bool){
+        if isSpeaker {
+            if isenable {
+              
+                img.backgroundColor = UIColor.clear
+                img.isHidden = true
+               }
+            else {
+                img.backgroundColor = UIColor.black
+                
+                img.isHidden = false
+                
+                
+            }
+        }
+        else {
+            if isenable {
+                
+                img.backgroundColor = UIColor.clear
+                img.isHidden = true
+               }
+            else {
+                img.backgroundColor = UIColor.black
+                
+                img.isHidden = false
+                
+                
+            }
+        }
+        
     }
     //MARK: Switch To Audio call
     func getReqVRICallClient(roomID: String,clientID: String,sourceId: String,targetID: String) -> [String: Any]{
@@ -579,59 +614,7 @@ class VDOCallViewModel {
             print(err)
         }
         
-          /*  print("Para and url vendorList", param , urlString)
-            AF.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: nil)
-                .validate()
-                .responseData(completionHandler: { (response) in
-                    SwiftLoader.hide()
-                    switch(response.result){
-                    
-                    case .success(_):
-                        guard let daata = response.data else { return }
-                        do {
-                            let jsonDecoder = JSONDecoder()
-                            self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata)
-                            print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
-                            let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
-                            
-                            print("STRING DATA IS \(str)")
-                            let data = str.data(using: .utf8)!
-                            do {
-                                //
-                                print("DATAAA ISSS \(data)")
-                                if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
-                                {
-                                    
-                                    let newjson = jsonArray.first
-                                    let userInfo = newjson?["UserInfo"] as? [[String:Any]]
-                                    let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
-                                    let userIfo = userInfo?.first
-                                    let vendorId = userIfo?["UserId"] as? Int
-                                    let vendorName = userIfo?["CustomerDisplayName"] as? String
-                                    let vendorimg = userIfo?["CustomerImage"] as? String
-                                    self.vendorID = String(vendorId ?? 0)
-                                    self.vendorName = vendorName ?? ""
-                                    self.vendorImgUrl = vendorimg ?? ""
-                                    print("vendor ID ", vendorId , userIfo ,vendorimg  )
-                                } else {
-                                    print("bad json")
-                                }
-                            } catch let error as NSError {
-                                print(error)
-                            }
-                            self.twilioVoiceView()
-                            
-                            
-                        } catch{
-                            
-                            print("error block getVendorIDs Data  " ,error)
-                        }
-                    case .failure(_):
-                        print("Respose Failure getVendorIDs ")
-                        
-                    }
-                })*/
-        
+          
     }
     
     //END--

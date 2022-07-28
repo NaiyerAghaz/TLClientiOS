@@ -78,6 +78,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     @IBOutlet weak var imgLocalPrivacy: UIImageView!
     //Speakers Outlets
     @IBOutlet weak var speakerImgPrivacy: UIImageView!
+    
+    @IBOutlet weak var speakerImgPrivacyView: UIView!
     @IBOutlet weak var speakerViewOriginal: UIView!
     var speakerView = VideoView()
     @IBOutlet weak var parentSpeakerView: UIView!
@@ -162,6 +164,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     var primarylocalParticiapnt: LocalParticipant?
     var secondaryRemoteVdoTrack: RemoteParticipant?
     var isSwitchToRemote = false
+    let options = CameraSourceOptions { (builder) in
+        // Stripping rotation tags using hardware acceleration
+        builder.rotationTags = .remove
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -348,7 +354,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         btnMic.isHidden = true
         if ishide == true {
             
-            speakerImgPrivacy.isHidden = ishide
+            //speakerImgPrivacy.isHidden = ishide
+            speakerImgPrivacyView.isHidden = ishide
             parentSpeakerView.isHidden = ishide
             lblParticipant.frame = CGRect(x: 0, y: 0, width: topView.frame.size.width, height: topView.frame.size.height)
             lblParticipant.text = "Searching Interpreters.."
@@ -438,6 +445,18 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                     moreDropDown.dataSource = moreArr
                     if self.isChangeView {
                         self.vdoCollectionView.reloadData()
+                    }
+                    else {
+                        //new added on 27july22
+                        DispatchQueue.main.async {
+                            self.previewOriginal.removeAllSubViews()
+                            self.speakerViewOriginal.removeAllSubViews()
+                            self.vdoCollectionView.isHidden = false
+                            self.mainPreview.isHidden = true
+                            self.isChangeView = true
+                            self.parentSpeakerView.isHidden = true
+                            self.vdoCollectionView.reloadData()
+                        }
                     }
                 }
                 else {
@@ -775,14 +794,41 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             }
             else {
                 if isSwitchToRemote {
-                    vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: speakerImgPrivacy)
+                    //vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: speakerImgPrivacy)
+                    videoTrackEnableOrDisableSpeaker(isenable: localVideoTrack!.isEnabled, img: speakerImgPrivacy, isSpeaker: true)
                 }
                 else {
-                    vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: imgLocalPrivacy)
+                    videoTrackEnableOrDisableSpeaker(isenable: localVideoTrack!.isEnabled, img: imgLocalPrivacy, isSpeaker: false)
+                   // vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: imgLocalPrivacy)
                 }
                 
             }
         }}
+     func videoTrackEnableOrDisableSpeaker(isenable:Bool, img: UIImageView,isSpeaker:Bool){
+        if isSpeaker {
+            if isenable {
+                speakerImgPrivacyView.isHidden = true
+               }
+            else {
+                speakerImgPrivacyView.isHidden = false
+                 }
+        }
+        else {
+            if isenable {
+                
+                img.backgroundColor = UIColor.clear
+                img.isHidden = true
+               }
+            else {
+                img.backgroundColor = UIColor.black
+                
+                img.isHidden = false
+                
+                
+            }
+        }
+        
+    }
     @IBAction func btnEndCallTapped(_ sender: Any) {
         UIAlertController.showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Cancel", distrutiveButton: "End Call", otherButtons: nil) { [self] index, _ in
             if index == 0 {
@@ -913,34 +959,43 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     }
     
     //================Twilio connect================
-    
+  //  var clinetVideoCodec : VideoCodec?
     func doConnectTwilio(twilioToken: String){
         prepareLocalMedia()
         let connectionOption = ConnectOptions.init(token: twilioToken) { builder in
             
-            // builder.preferredVideoCodecs =   [TVIVideoCodec.H264.rawValue]
+          // builder.preferredVideoCodecs =   [TVIVideoCodec.H264.rawValue]
             //new added code
-            builder.isNetworkQualityEnabled = true
-            builder.networkQualityConfiguration =
-            NetworkQualityConfiguration(localVerbosity: .minimal, remoteVerbosity: .minimal)
-            builder.encodingParameters = EncodingParameters(audioBitrate:16, videoBitrate:0)
-            // Enable recommended Collaboration mode Bandwidth Profile Options
-            let videoBandwidthProfileOptions = VideoBandwidthProfileOptions { builder in
-                builder.mode = .grid
-                builder.dominantSpeakerPriority = .high
-                
-            }
-            builder.bandwidthProfileOptions = BandwidthProfileOptions(videoOptions: videoBandwidthProfileOptions)
-            builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
-            //end
-            builder.isDominantSpeakerEnabled = true
-            builder.roomName = self.roomID
+            
             if let audioTrack = self.localAudioTrack {
                 builder.audioTracks = [audioTrack]
             }
             if let videoTrack = self.localVideoTrack {
                 builder.videoTracks = [videoTrack]
             }
+            builder.isNetworkQualityEnabled = true
+            builder.isDominantSpeakerEnabled = true
+            builder.roomName = self.roomID
+            
+            builder.networkQualityConfiguration =
+            NetworkQualityConfiguration(localVerbosity: .minimal, remoteVerbosity: .minimal)
+          builder.encodingParameters = EncodingParameters(audioBitrate:16, videoBitrate:1800)
+            builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
+            
+           // builder.encodingParameters = EncodingParameters(audioBitrate:0, videoBitrate:1600)
+            // Enable recommended Collaboration mode Bandwidth Profile Options
+            /*let videoBandwidthProfileOptions = VideoBandwidthProfileOptions { builder in
+                builder.dominantSpeakerPriority = .high
+                builder.maxSubscriptionBitrate = 6000
+                builder.mode = .presentation
+                builder.trackSwitchOffMode = .predicted
+                
+            }
+            builder.bandwidthProfileOptions = BandwidthProfileOptions(videoOptions: videoBandwidthProfileOptions)
+            builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
+           */
+            //end
+            
         }
         self.room = TwilioVideoSDK.connect(options: connectionOption, delegate: self)
         
@@ -969,37 +1024,56 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     
     // MARK:- Private
     func startPreview(localView: VideoView) {
-        print("flip-----------------1>")
+        
         if PlatformUtils.isSimulator {
             return
         }
         let frontCamera = CameraSource.captureDevice(position: .front)
         let backCamera = CameraSource.captureDevice(position: .back)
         localAudioTrack = LocalAudioTrack()
+        
         if (frontCamera != nil || backCamera != nil) {
             // Preview our local camera track in the local video preview view.
-            camera = CameraSource(delegate: self)
-            localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
+            camera = CameraSource(options:options,delegate: self)
             
-            // Add renderer to video track for local preview
-            localVideoTrack!.addRenderer(localView)
-            // logMessage(messageText: "Video track created")
-            
-            if (frontCamera != nil && backCamera != nil) {
-                // We will flip camera on tap.
-                let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
-                localView.addGestureRecognizer(tap)
-            }
-            
-            camera!.startCapture(device: frontCamera != nil ? frontCamera! : backCamera!) { (captureDevice, videoFormat, error) in
-                if let error = error {
-                    
-                    
-                } else {
-                    
-                    localView.shouldMirror = (captureDevice.position == .front)
+            if let camera = camera {
+                localVideoTrack = LocalVideoTrack(source: camera, enabled: true, name: "Camera")
+
+                    // Discover a simulcast format for the front camera
+                    let format = CaptureDeviceUtils.selectFormatBySize(device: frontCamera!,
+                                                                       targetSize: CaptureDeviceUtils.kSimulcastVideoDimensions)
+
+                    // Lower the frame rate to reduce CPU load, but still produce 3 temporal layers (f, f/2, f/4)
+                    format.frameRate = CaptureDeviceUtils.kSimulcastVideoFrameRate
+
+                    // Apply slight cropping to reduce CPU load, and provide square-ish video
+                    let croppedFormat = VideoFormat.init()
+                    croppedFormat.dimensions = CaptureDeviceUtils.kSimulcastVideoDimensions
+                    camera.requestOutputFormat(croppedFormat)
+                localVideoTrack!.addRenderer(localView)
+                if (frontCamera != nil && backCamera != nil) {
+                    // We will flip camera on tap.
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(VideoCallViewController.getFlipLocalView(gesture:)))
+                    localView.addGestureRecognizer(tap)
+                }
+                
+                camera.startCapture(device: frontCamera != nil ? frontCamera! : backCamera!) { (captureDevice, videoFormat, error) in
+                    if let error = error {
+                        
+                        
+                    } else {
+                        
+                        localView.shouldMirror = (captureDevice.position == .front)
+                    }
                 }
             }
+           // localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
+            
+            // Add renderer to video track for local preview
+           // localVideoTrack!.addRenderer(localView)
+            // logMessage(messageText: "Video track created")
+            
+           
         }
         else {
             self.view.makeToast("No front or back capture device found!")
@@ -1096,12 +1170,16 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 
                 if localVideoTrack!.isEnabled {
                     //local come to speaker
-                    speakerImgPrivacy.isHidden = true
-                    speakerImgPrivacy.backgroundColor = UIColor.clear
+                   // speakerImgPrivacy.backgroundColor = UIColor.clear
+                   // speakerImgPrivacy.isHidden = true
+                    speakerImgPrivacyView.isHidden = true
+                    
                 }
                 else {
-                    speakerImgPrivacy.isHidden = false
-                    speakerImgPrivacy.backgroundColor = UIColor.black
+                    speakerImgPrivacyView.isHidden = false
+                  //  speakerImgPrivacy.backgroundColor = UIColor.black
+                   // speakerImgPrivacy.isHidden = false
+                   
                 }
                 self.speakerViewOriginal.addSubview(self.speakerView)
                 localVideoTrack!.addRenderer(self.speakerView)
@@ -1135,7 +1213,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                 }
                 btnSpeakerMic.isHidden = false
                 btnMic.isHidden = true
-                btnPinLocal.isHidden = false
+                (remoteParticipantArr.count > 1) ? (btnPinLocal.isHidden = false) : (btnPinLocal.isHidden = true)
+                    
+            
+               // btnPinLocal.isHidden = false
                 self.preview = VideoView(frame: CGRect(x: 0, y: 0, width: 100, height: 110))
                 preview.contentMode = .scaleAspectFill
                 preview.layer.cornerRadius = 0
@@ -1154,12 +1235,16 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                        publication.isTrackSubscribed {
                         
                         if subscribedVideoTrack.isEnabled == true {
-                            speakerImgPrivacy.isHidden = true
-                            speakerImgPrivacy.backgroundColor = UIColor.clear
+                           // speakerImgPrivacy.backgroundColor = UIColor.clear
+                           // speakerImgPrivacy.isHidden = true
+                            speakerImgPrivacyView.isHidden = true
+                            
                         }
                         else {
-                            speakerImgPrivacy.isHidden = false
-                            speakerImgPrivacy.backgroundColor = UIColor.black
+                            speakerImgPrivacyView.isHidden = false
+//                            speakerImgPrivacy.backgroundColor = UIColor.black
+//                            speakerImgPrivacy.isHidden = false
+                           
                         }
                         subscribedVideoTrack.addRenderer(speakerView)
                     }

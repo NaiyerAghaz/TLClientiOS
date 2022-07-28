@@ -76,6 +76,7 @@
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowshape.turn.up.left.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="LtF-X8-ZnW">
                                 <rect key="frame" x="38" y="19" width="20" height="9.5"/>
+                                <color key="backgroundColor" red="0.098039215690000001" green="0.61568627450000002" blue="0.85098039219999999" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="tintColor" red="0.72941176470000002" green="0.95686274510000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="12" id="3Cr-Ks-XAs"/>

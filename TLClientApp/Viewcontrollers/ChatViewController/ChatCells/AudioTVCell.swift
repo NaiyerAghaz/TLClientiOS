@@ -9,6 +9,7 @@ import UIKit
 
 class AudioTVCell: UITableViewCell {
     
+    @IBOutlet weak var btnVendorDoc: UIButton!
     @IBOutlet weak var vendorView: UIView!
     @IBOutlet weak var vendorTime: UILabel!
     @IBOutlet weak var vendorName: UILabel!
@@ -21,6 +22,7 @@ class AudioTVCell: UITableViewCell {
     @IBOutlet weak var vendorPrivateName: UILabel!
     
     
+    @IBOutlet weak var btnCustomerDoc: UIButton!
     @IBOutlet weak var customerPrivateName: UILabel!
     @IBOutlet weak var customerView: UIView!
     @IBOutlet weak var customerNameChar: UILabel!
@@ -61,6 +63,7 @@ class AudioTVCell: UITableViewCell {
             let urlPath = URL(string: obj.imgUrl!)
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
+                btnCustomerDoc.isHidden = true
                 customerBtnPlay.isHidden = false
                 customerBtnPlayWidth.constant = 40.0
                 let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
@@ -72,6 +75,7 @@ class AudioTVCell: UITableViewCell {
             }
             else {
                 customerBtnPlay.isHidden = true
+                btnCustomerDoc.isHidden = false
                 customerBtnPlayWidth.constant = 0.0
                 
                 customerDocImg.image = chatDetails.share.getImageFromExt(file: urlExt!)
@@ -104,6 +108,7 @@ class AudioTVCell: UITableViewCell {
             let urlPath = URL(string: obj.imgUrl!)
             let urlExt = urlPath?.pathExtension
             if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 3 {
+                btnVendorDoc.isHidden = true
                 vendorBtnPlay.isHidden = false
                 vendorBtnPlayWidth.constant = 40.0
                 let largeConfig = UIImage.SymbolConfiguration(pointSize: 36, weight: .bold, scale: .large)
@@ -112,6 +117,7 @@ class AudioTVCell: UITableViewCell {
                 vendorDocImg.image = largeBoldDoc
               }
             else {
+                btnVendorDoc.isHidden = false
                 vendorBtnPlay.isHidden = true
                 vendorBtnPlayWidth.constant = 0.0
                 

@@ -15,12 +15,9 @@ pod 'FSCalendar'
 #https://github.com/WenchaoD/FSCalendar
 pod 'XLPagerTabStrip', '~> 9.0'
 #https://github.com/xmartlabs/XLPagerTabStrip
-pod 'TwilioVideo', '~> 5.1'
+pod 'TwilioVideo'
 pod 'TwilioVoice', '~> 6.3.0'
-#pod 'TwilioVideo', '~> 4.4'
-#pod 'TwilioVoice'
-#pod 'TwilioVoice', '~> 6.3.0'
-#pod 'TwilioChatClient'
+
 pod 'TwilioChatClient', '~> 5.0.1'
 #'https://www.twilio.com/docs/chat/ios/changelog
 pod 'Charts'

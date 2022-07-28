@@ -357,7 +357,44 @@ class CallManagerVM {
             })
     }
 }
+struct CaptureDeviceUtils {
 
+    // Produce 3 spatial layers ~ {960x768, 480x384, 240x192}. 1024x768 is captured on most phones
+    // Produce 3 spatial layers ~ {900x720, 450x360, 225x180}, 1280x720 is captured on on iPhone X
+    static let kSimulcastVideoDimensions = CMVideoDimensions(width: 900, height: 720)
+    static let kSimulcastVideoFrameRate = UInt(24)
+    static let kSimulcastVideoBitrate = UInt(1800)
+
+     /*
+     * @brief Finds the smallest format that is suitably close to the ratio requested.
+     *
+     * @param device The AVCaptureDevice to query.
+     * @param targetRatio The ratio that is preferred.
+     *
+     * @return A format that satisfies the request.
+     */
+    static func selectFormatBySize(device: AVCaptureDevice,
+                                   targetSize: CMVideoDimensions) -> VideoFormat {
+        // Arranged from smallest to largest.
+        let formats = CameraSource.supportedFormats(captureDevice: device)
+        var selectedFormat = formats.firstObject as? VideoFormat
+        for format in formats {
+            guard let videoFormat = format as? VideoFormat else {
+                continue
+            }
+            if videoFormat.pixelFormat != PixelFormat.formatYUV420BiPlanarFullRange {
+                continue
+            }
+            let dimensions = videoFormat.dimensions
+            // Cropping might be used if there is not an exact match.
+            if (dimensions.width >= targetSize.width && dimensions.height >= targetSize.height) {
+                selectedFormat = videoFormat
+                break
+            }
+        }
+        return selectedFormat!
+}
+}
 // MARK:- RemoteParticipantDelegate
 
 extension VideoCallViewController : RemoteParticipantDelegate {
@@ -396,7 +433,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             _ = renderRemoteParticipant(participant: participant)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {[self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {[self] in
           
             self.vdoCallVM.getParticipantList2(lid: self.roomlocalParticipantSIDrule!, roomID: self.roomID!,partSID: participant.sid!, isfromHostcontrol: false) { [self] success, err in
                 if self.remoteParticipantArr.count > 1 {
@@ -435,13 +472,14 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             }
             isParticipanthasAdded = true
         }
+        (remoteParticipantArr.count > 1) ? (btnPinLocal.isHidden = false) : (btnPinLocal.isHidden = true)
         
     }
     
     func didUnsubscribeFromVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
         // We are unsubscribed from the remote Participant's video Track. We will no longer receive the
         // remote Participant's video.
-        print("cleanup remote participant----------------------:","remove->",participant, "existing:",self.remoteParticipant)
+       // print("cleanup remote participant----------------------:","remove->",participant, "existing:",self.remoteParticipant)
         // self.view.makeToast("Unsubscribed from \(publication.trackName) video track for Participant \(participant.identity)")
         /* if self.remoteParticipant == participant {
          // cleanupRemoteParticipant()
@@ -463,18 +501,18 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                 }
             }
             if remoteParticipant == participant {
-                print("exchange participants-----", remoteParticipant, "::", participant)
+              ////  print("exchange participants-----", remoteParticipant, "::", participant)
                 remoteParticipant = remoteParticipantArr[0]
             }
             lblTotalParticipant.text = "\(remoteParticipantArr.count)"
-            print("totalparticipants-3--->",remoteParticipantArr.count)
+        //    print("totalparticipants-3--->",remoteParticipantArr.count)
             DispatchQueue.global(qos: .background).async { [self] in
                 vdoCallVM.getParticipantList2(lid: roomlocalParticipantSIDrule!, roomID: roomID!,partSID: participant.sid!, isfromHostcontrol: false) { success, err in
-                    print("getParticipantList2 --->3:")
+                   // print("getParticipantList2 --->3:")
                     if success == true && self.vdoCallVM.conferrenceDetail.TOTALRECORDS != "0" &&  self.customerEndCall == false{
                         if self.remoteParticipantArr.count == 1 {
                             DispatchQueue.main.async {
-                                print("flip------------------4")
+                               // print("flip------------------4")
                                 self.lblTotalParticipant.text = "\(self.vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 1)"
                                 self.remoteParticipant = self.remoteParticipantArr[0]
                                 if self.isChangeView == true {
@@ -491,7 +529,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                     self.parentSpeakerView.isHidden = false
                                     self.vdoCollectionView.isHidden = true
                                 }
-                                print("totalparticipants-4--->",remoteParticipantArr.count)
+                               // print("totalparticipants-4--->",remoteParticipantArr.count)
                                 
                                 
                             }
@@ -503,7 +541,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                                
                                 if self.room != nil && self.localVideoTrack != nil {
                                     if self.isChangeView == true {
-                                        print("getParticipantList2 --->4:")
+                                       // print("getParticipantList2 --->4:")
                                         self.vdoCollectionView.reloadData()
                                     }
                                     else {
@@ -519,7 +557,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         }
                     }
                     else {
-                        print("backtomain---------->5")
+                      //  print("backtomain---------->5")
                         isFeedback = true
                         if self.customerEndCall == false {
                             self.backToMainController()
@@ -528,16 +566,16 @@ extension VideoCallViewController : RemoteParticipantDelegate {
         else {
             
             if customerEndCall == false {
-                print("backtomain---------->4")
+               // print("backtomain---------->4")
                 backToMainController()
             }
             
         }
-        
+        (remoteParticipantArr.count > 1) ? (btnPinLocal.isHidden = false) : (btnPinLocal.isHidden = true)
     }
     func backToMainController(){
         chatClosed()
-        print("backtomain---------->1")
+       // print("backtomain---------->1")
         if remoteParticipantArr.count > 0 {
             remoteParticipantArr.removeAll()
         }
@@ -704,6 +742,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         }
                         else {
                             speakerImgPrivacy.isHidden = true
+                            speakerImgPrivacyView.isHidden = true
                         }
                     }
                 } }
@@ -711,7 +750,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func remoteParticipantDidDisableVideoTrack(participant: RemoteParticipant, publication: RemoteVideoTrackPublication) {
-        print("DisableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
+     //   print("DisableVideoTrack:Particiapnt", participant.sid, remoteParticipantArr.count)
         if isParticipanthasAdded {
             if remoteParticipantArr.count > 1 {
                 for vdo in remoteParticipantArr {
@@ -748,6 +787,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                             imgLocalPrivacy.isHidden = false
                         }
                         else {
+                            speakerImgPrivacyView.isHidden = false
                             speakerImgPrivacy.isHidden = false
                         }
                         

@@ -46,7 +46,7 @@ extension VideoCallViewController:VideoViewDelegate {
             
             let ndict = message.attributes()?.dictionary
             let mszStr = ndict![AnyHashable("attributes")] as! String
-            print("mszSTR---->", mszStr)
+         //   print("mszSTR---->", mszStr)
             let cusIndetity = userDefaults.string(forKey: "twilioIdentity")
             if !mszStr.contains(cusIndetity!){
                 message.getMediaContentTemporaryUrl { result, imgurl in
@@ -178,7 +178,7 @@ extension VideoCallViewController:VideoViewDelegate {
                 mainPreview.isHidden = true
                
                 localVideoTrack!.addRenderer(cRemoteView)
-                vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
+                vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacyView)
                 cell.audioLbl.isHidden = true
                 cell.lblVideo.isHidden = true
                
@@ -206,19 +206,19 @@ extension VideoCallViewController:VideoViewDelegate {
                     cell.btnMic.isHidden = false
                     
                     let videoPublications = remoteParticipantArr[indexPath.row - 1].remoteVideoTracks
-                    let objSID = remoteParticipantArr[indexPath.row - 1].sid
+                    
                     for publication in videoPublications {
-                        print("vdoTrackSid:", publication.trackSid, publication.trackName)
+                        //print("vdoTrackSid:", publication.trackSid, publication.trackName)
                         if let subscribedVideoTrack = publication.remoteTrack,
                            publication.isTrackSubscribed {
-                            print("vdosubscribedVideoTrack2-------------->:", subscribedVideoTrack.sid)
+                           // print("vdosubscribedVideoTrack2-------------->:", subscribedVideoTrack.sid)
                             if subscribedVideoTrack.isEnabled {
-                                cell.imgRemotePrivacy.isHidden = true
+                                cell.imgRemotePrivacyView.isHidden = true
                              subscribedVideoTrack.addRenderer(cRemoteView)
                                 
                             }
                             else {
-                                cell.imgRemotePrivacy.isHidden = false
+                                cell.imgRemotePrivacyView.isHidden = false
                                
                                 cell.remoteView.addSubview(cRemoteView)
                             }
@@ -226,13 +226,12 @@ extension VideoCallViewController:VideoViewDelegate {
                         }}
                     let audioPublications = remoteParticipantArr[indexPath.row - 1].audioTracks
                     for audioPub in audioPublications {
-                        print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
+                       // print("audioTrackSid:", audioPub.trackSid, audioPub.trackName)
                         if let audio = audioPub.audioTrack {
                             audio.isEnabled == true ? (cell.btnMic.isSelected = false) : (cell.btnMic.isSelected = true)
                             audio.isEnabled == true ? (cell.btnMic.tintColor = UIColor.white) : (cell.btnMic.tintColor = UIColor.red)
                         }
-                        
-                    }
+                   }
                     if vdoCallVM.conferrenceDetail.CONFERENCEInfo?.count ?? 0 > 0 {
                         let pSID = remoteParticipantArr[indexPath.row - 1].sid
                         
@@ -246,7 +245,7 @@ extension VideoCallViewController:VideoViewDelegate {
                                 cell.participantName.isHidden = false
                                 if currentSpeakerParticipant?.sid == pSID {
                                     cell.remoteView.layer.borderColor = UIColor.green.cgColor
-                                    cell.remoteView.layer.borderWidth = 2
+                                    cell.remoteView.layer.borderWidth = 1
                                 }
                                 else {
                                     cell.remoteView.layer.borderColor = UIColor.clear.cgColor
@@ -287,7 +286,7 @@ extension VideoCallViewController:VideoViewDelegate {
                     mainPreview.isHidden = true
                    
                     localVideoTrack!.addRenderer(cRemoteView)
-                    vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacy)
+                    vdoCallVM.videoTrackEnableOrDisable(isenable: localVideoTrack!.isEnabled, img: cell.imgRemotePrivacyView)
                     cell.audioLbl.isHidden = true
                     cell.lblVideo.isHidden = true
                     
@@ -319,13 +318,13 @@ extension VideoCallViewController:VideoViewDelegate {
                                publication.isTrackSubscribed {
                                 print("vdosubscribedVideoTrack2-------------->222:", subscribedVideoTrack.sid)
                                 if subscribedVideoTrack.isEnabled {
-                                    cell.imgRemotePrivacy.isHidden = true
+                                    cell.imgRemotePrivacyView.isHidden = true
                                     
                                     subscribedVideoTrack.addRenderer(cRemoteView)
                                     
                                 }
                                 else {
-                                    cell.imgRemotePrivacy.isHidden = false
+                                    cell.imgRemotePrivacyView.isHidden = false
                                    
                                     cRemoteView.backgroundColor = UIColor.black
                                     
@@ -355,7 +354,7 @@ extension VideoCallViewController:VideoViewDelegate {
                                     cell.participantName.isHidden = false
                                     if currentSpeakerParticipant?.sid == pSID {
                                         cell.remoteView.layer.borderColor = UIColor.green.cgColor
-                                        cell.remoteView.layer.borderWidth = 2
+                                        cell.remoteView.layer.borderWidth = 1
                                     }
                                     else {
                                         cell.remoteView.layer.borderColor = UIColor.clear.cgColor
@@ -398,13 +397,13 @@ extension VideoCallViewController:VideoViewDelegate {
                        publication.isTrackSubscribed {
                         print("vdosubscribedVideoTrack1-------------->33:", subscribedVideoTrack.sid)
                         if subscribedVideoTrack.isEnabled {
-                            vdoCallVM.videoTrackEnableOrDisable(isenable: subscribedVideoTrack.isEnabled, img: cell.imgRemotePrivacy)
+                            vdoCallVM.videoTrackEnableOrDisable(isenable: subscribedVideoTrack.isEnabled, img: cell.imgRemotePrivacyView)
                           
                             subscribedVideoTrack.addRenderer(cRemoteView)
                             
                         }
                         else {
-                            vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacy)
+                            vdoCallVM.videoTrackEnableOrDisable(isenable: false, img: cell.imgRemotePrivacyView)
                          
                             cRemoteView.backgroundColor = UIColor.black
                            
