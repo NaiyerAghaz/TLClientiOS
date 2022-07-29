@@ -97,6 +97,7 @@ class TotalParticipantVC: BottomPopupViewController {
         present(vcontrol, animated: true, completion: nil)
     }
     @IBAction func btnCloseTapped(_ sender: Any) {
+        self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
         dismiss(animated: true, completion: nil)
     }
     override var popupHeight: CGFloat { height ?? 500.0 }
@@ -218,7 +219,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                         self.vdoCallVM.getParticipantList2(lid: self.roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!,partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
                             
-                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                             //   self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
                                 DispatchQueue.main.async {
                                     SwiftLoader.hide()
                                     self.tblView.reloadData()
@@ -245,7 +246,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                         self.vdoCallVM.getParticipantList2(lid: self.roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!,partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 print("success----------Participant list")
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                               // self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
                                 DispatchQueue.main.async {
                                     SwiftLoader.hide()
                                     self.tblView.reloadData()
@@ -288,7 +289,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                         self.vdoCallVM.getParticipantList2(lid: self.roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!,partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                               // self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
                                 DispatchQueue.main.async {
                                     SwiftLoader.hide()
                                     self.tblView.reloadData()
@@ -314,7 +315,7 @@ extension TotalParticipantVC: UITableViewDelegate, UITableViewDataSource{
                       //  DispatchQueue.global(qos: .background).async {[self] in
                         self.vdoCallVM.getParticipantList2(lid: self.roomlocalParticipantSIDrule!, roomID: vdoIndex.ACTUALROOM!, partSID: vdoIndex.PARTSID!, isfromHostcontrol: true) { success, err in
                                 self.conferrenceInfoArr = self.vdoCallVM.conferrenceDetail.CONFERENCEInfo
-                                self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
+                              //  self.acceptAndRejectDelegate?.getHostControl(obj: self.vdoCallVM.conferrenceDetail)
                                 
                                 DispatchQueue.main.async {
                                     SwiftLoader.hide()

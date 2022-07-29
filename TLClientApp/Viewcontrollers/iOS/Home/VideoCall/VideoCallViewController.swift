@@ -807,9 +807,11 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
      func videoTrackEnableOrDisableSpeaker(isenable:Bool, img: UIImageView,isSpeaker:Bool){
         if isSpeaker {
             if isenable {
+                img.isHidden = true
                 speakerImgPrivacyView.isHidden = true
                }
             else {
+                img.isHidden = false
                 speakerImgPrivacyView.isHidden = false
                  }
         }
@@ -976,11 +978,26 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             builder.isNetworkQualityEnabled = true
             builder.isDominantSpeakerEnabled = true
             builder.roomName = self.roomID
-            
+            builder.networkPrivacyPolicy = .allowAll
+           
+            builder.preferredVideoCodecs = [Vp8Codec(simulcast: true),H264Codec(),Vp9Codec(),Vp8Codec()]
+            builder.preferredAudioCodecs = [IsacCodec(),OpusCodec(),PcmaCodec(),PcmuCodec(),G722Codec()]
             builder.networkQualityConfiguration =
             NetworkQualityConfiguration(localVerbosity: .minimal, remoteVerbosity: .minimal)
-          builder.encodingParameters = EncodingParameters(audioBitrate:16, videoBitrate:1800)
-            builder.preferredVideoCodecs = [Vp8Codec(simulcast: true)]
+       builder.encodingParameters = EncodingParameters(audioBitrate:0, videoBitrate:30)
+            let videoBandwidthProfileOptions = VideoBandwidthProfileOptions { builder in
+           //  builder.dominantSpeakerPriority = .high
+               builder.maxSubscriptionBitrate = 6000
+//                builder.maxTracks = 50
+                builder.contentPreferencesMode = .manual
+                builder.mode = .presentation
+            builder.trackSwitchOffMode = .predicted
+               
+                
+                
+            }
+           
+            builder.bandwidthProfileOptions = BandwidthProfileOptions(videoOptions: videoBandwidthProfileOptions)
             
            // builder.encodingParameters = EncodingParameters(audioBitrate:0, videoBitrate:1600)
             // Enable recommended Collaboration mode Bandwidth Profile Options
@@ -1000,6 +1017,43 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         self.room = TwilioVideoSDK.connect(options: connectionOption, delegate: self)
         
     }
+  /*  func checkVideoSenderSettings(room: Room) {
+           guard let localParticipant = room.localParticipant else {
+               return
+           }
+           guard let camera = camera else {
+               return
+           }
+
+           /*
+            * Update the CameraCapturer's format and the LocalParticipant's EncodingParameters based upon the size of the Room.
+            * When simulcast is not used, it is preferrable for the Participant to send a smaller video stream that may be
+            * easily consumed by all subscribers. If simulcast is enabled, then the source should produce frames that are
+            * large enough for the encoder to create 3 spatial layers.
+            *
+            * A lower frame rate is used in multi-party to reduce the cumulative receiving / decoding / rendering cost for
+            * subscribed video.
+            */
+          // let isMultiparty = room.remoteParticipants.count > 1
+        
+        let bitrate = CaptureDeviceUtils.kSimulcastVideoBitrate
+        localParticipant.setEncodingParameters(EncodingParameters(audioBitrate: 0,
+                                                                     videoBitrate: bitrate))
+           
+        let frontCamera = CameraSource.captureDevice(position: .front)
+        let backCamera = CameraSource.captureDevice(position: .back)
+
+        let device = frontCamera != nil ? frontCamera! : backCamera!
+       // let form = CaptureDeviceUtils.sele
+        let format = CaptureDeviceUtils.selectVideoFormat(multiparty: true, device:device)
+        
+            camera.selectCaptureDevice(device, format: format, completion: { (device, format, error) in
+                if let error = error {
+                    self.logMessage(messageText: "Failed to select format \(format), error = \(String(describing: error))")
+                }
+            })
+
+       }*/
     func prepareLocalMedia() {
         if (localAudioTrack == nil) {
             localAudioTrack = LocalAudioTrack()

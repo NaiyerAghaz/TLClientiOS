@@ -208,6 +208,7 @@ extension VideoCallViewController:RoomDelegate{
 //            print("getParticipantList2 --->6:")
 //            print(success)
 //        }
+        
         if !recordTime.isValid {
             callStartTime = cEnum.instance.getCurrentDateAndTime()
             recordTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(recordTimer), userInfo: nil, repeats: true)

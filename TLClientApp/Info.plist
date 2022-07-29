@@ -58,6 +58,8 @@
 	<string>$(EXECUTABLE_NAME) would like to access your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app need to access your photo library.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>This app need to accecss you local network</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Regular.ttf</string>

@@ -361,9 +361,9 @@ struct CaptureDeviceUtils {
 
     // Produce 3 spatial layers ~ {960x768, 480x384, 240x192}. 1024x768 is captured on most phones
     // Produce 3 spatial layers ~ {900x720, 450x360, 225x180}, 1280x720 is captured on on iPhone X
-    static let kSimulcastVideoDimensions = CMVideoDimensions(width: 900, height: 720)
-    static let kSimulcastVideoFrameRate = UInt(24)
-    static let kSimulcastVideoBitrate = UInt(1800)
+    static let kSimulcastVideoDimensions = CMVideoDimensions(width: 680, height: 480)// before 900x720
+    static let kSimulcastVideoFrameRate = UInt(10)//before 24
+    static let kSimulcastVideoBitrate = UInt(30)
 
      /*
      * @brief Finds the smallest format that is suitably close to the ratio requested.
@@ -427,7 +427,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
-        
+        videoTrack.setContentPreferences(VideoContentPreferences{ builders in
+            builders.renderDimensions = VideoDimensions(width: 320, height: 240)
+        })
         if (self.remoteParticipant == nil) {
             
             _ = renderRemoteParticipant(participant: participant)
