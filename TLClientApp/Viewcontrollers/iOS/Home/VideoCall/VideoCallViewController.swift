@@ -242,11 +242,12 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         vdoCallVM.getTwilioToken { model, err in
             if err == nil {
                 self.twilioToken = model?.token
-                // self.startPreview()
+                
                 // myAudio.stop()
                 // self.timer.invalidate()
                 print("twiliotoken----->",model?.token)
-                self.doConnectTwilio(twilioToken: (model?.token)!)
+               // self.doConnectTwilio(twilioToken: (model?.token)!)
+                self.connect(roomName: self.roomID ?? "", accessToken: self.twilioToken ?? "")
             }
         }
         CEnumClass.share.playSounds(audioName: "incoming")
@@ -962,7 +963,20 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
     
     //================Twilio connect================
   //  var clinetVideoCodec : VideoCodec?
-    func doConnectTwilio(twilioToken: String){
+    
+    
+    func connect(roomName: String, accessToken: String) {
+        prepareLocalMedia()
+        let options = ConnectOptionsFactory().makeConnectOptions(
+            accessToken: accessToken,
+            roomName: roomName,
+            audioTracks: [self.localAudioTrack].compactMap { $0 },
+            videoTracks: [self.localVideoTrack].compactMap { $0 }
+        )
+
+        room = TwilioVideoSDK.connect(options: options, delegate: self)
+    }
+  /*  func doConnectTwilio(twilioToken: String){
         prepareLocalMedia()
         let connectionOption = ConnectOptions.init(token: twilioToken) { builder in
             
@@ -1016,44 +1030,8 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         }
         self.room = TwilioVideoSDK.connect(options: connectionOption, delegate: self)
         
-    }
-  /*  func checkVideoSenderSettings(room: Room) {
-           guard let localParticipant = room.localParticipant else {
-               return
-           }
-           guard let camera = camera else {
-               return
-           }
-
-           /*
-            * Update the CameraCapturer's format and the LocalParticipant's EncodingParameters based upon the size of the Room.
-            * When simulcast is not used, it is preferrable for the Participant to send a smaller video stream that may be
-            * easily consumed by all subscribers. If simulcast is enabled, then the source should produce frames that are
-            * large enough for the encoder to create 3 spatial layers.
-            *
-            * A lower frame rate is used in multi-party to reduce the cumulative receiving / decoding / rendering cost for
-            * subscribed video.
-            */
-          // let isMultiparty = room.remoteParticipants.count > 1
-        
-        let bitrate = CaptureDeviceUtils.kSimulcastVideoBitrate
-        localParticipant.setEncodingParameters(EncodingParameters(audioBitrate: 0,
-                                                                     videoBitrate: bitrate))
-           
-        let frontCamera = CameraSource.captureDevice(position: .front)
-        let backCamera = CameraSource.captureDevice(position: .back)
-
-        let device = frontCamera != nil ? frontCamera! : backCamera!
-       // let form = CaptureDeviceUtils.sele
-        let format = CaptureDeviceUtils.selectVideoFormat(multiparty: true, device:device)
-        
-            camera.selectCaptureDevice(device, format: format, completion: { (device, format, error) in
-                if let error = error {
-                    self.logMessage(messageText: "Failed to select format \(format), error = \(String(describing: error))")
-                }
-            })
-
-       }*/
+    }*/
+  
     func prepareLocalMedia() {
         if (localAudioTrack == nil) {
             localAudioTrack = LocalAudioTrack()
@@ -1075,7 +1053,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
         CEnumClass.share.playSounds(audioName: "incoming")
         
     }
-    
+    private let configFactory = CameraConfigFactory()
     // MARK:- Private
     func startPreview(localView: VideoView) {
         
@@ -1092,7 +1070,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
             
             if let camera = camera {
                 localVideoTrack = LocalVideoTrack(source: camera, enabled: true, name: "Camera")
-
+/*
                     // Discover a simulcast format for the front camera
                     let format = CaptureDeviceUtils.selectFormatBySize(device: frontCamera!,
                                                                        targetSize: CaptureDeviceUtils.kSimulcastVideoDimensions)
@@ -1103,7 +1081,10 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                     // Apply slight cropping to reduce CPU load, and provide square-ish video
                     let croppedFormat = VideoFormat.init()
                     croppedFormat.dimensions = CaptureDeviceUtils.kSimulcastVideoDimensions
-                    camera.requestOutputFormat(croppedFormat)
+                    camera.requestOutputFormat(croppedFormat)*/
+                let config = configFactory.makeCameraConfigFactory(captureDevice: frontCamera != nil ? frontCamera! : backCamera!)
+                camera.requestOutputFormat(config.outputFormat)
+                print("codec---------------2>")
                 localVideoTrack!.addRenderer(localView)
                 if (frontCamera != nil && backCamera != nil) {
                     // We will flip camera on tap.
@@ -1111,7 +1092,7 @@ class VideoCallViewController: UIViewController, LocalParticipantDelegate, Twili
                     localView.addGestureRecognizer(tap)
                 }
                 
-                camera.startCapture(device: frontCamera != nil ? frontCamera! : backCamera!) { (captureDevice, videoFormat, error) in
+                camera.startCapture(device: frontCamera != nil ? frontCamera! : backCamera!,format: config.inputFormat) { (captureDevice, videoFormat, error) in
                     if let error = error {
                         
                         

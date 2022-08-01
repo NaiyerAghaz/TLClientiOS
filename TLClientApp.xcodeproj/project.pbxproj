@@ -218,6 +218,15 @@
 		73CE641227F1883400A82685 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */; };
 		73CE641427F189D300A82685 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73BAF2E327DF75A600AAF30C /* OpenSans-Regular.ttf */; };
 		73DFFC7527BB896C007EE602 /* ConstantString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFFC7427BB896C007EE602 /* ConstantString.swift */; };
+		73E5BB1A2893B428002E28BB /* CameraConfigureFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB192893B428002E28BB /* CameraConfigureFactory.swift */; };
+		73E5BB1D2893B806002E28BB /* ConnectionOptionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB1C2893B806002E28BB /* ConnectionOptionFactory.swift */; };
+		73E5BB1F2893B853002E28BB /* AppSettingStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB1E2893B853002E28BB /* AppSettingStores.swift */; };
+		73E5BB222893B9F9002E28BB /* TrackPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB212893B9F9002E28BB /* TrackPriority.swift */; };
+		73E5BB242893BA5D002E28BB /* RemoteConfigStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB232893BA5D002E28BB /* RemoteConfigStore.swift */; };
+		73E5BB282893BF6C002E28BB /* VideoCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB272893BF6C002E28BB /* VideoCodec.swift */; };
+		73E5BB2A2893BF9A002E28BB /* VideoSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB292893BF9A002E28BB /* VideoSize.swift */; };
+		73E5BB2C2893C009002E28BB /* TwilioEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB2B2893C009002E28BB /* TwilioEnvironment.swift */; };
+		73E5BB2E2893C0CC002E28BB /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E5BB2D2893C0CC002E28BB /* Store.swift */; };
 		9ABD7A93C40EAE3BDAD474E3 /* Pods_TLClientApp_TLClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E017EDF65D0A85A35A2AAC0 /* Pods_TLClientApp_TLClientAppUITests.framework */; };
 		C4E82F412754BF4100BE5227 /* InviteWithEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */; };
 		C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E82F422754BF6600BE5227 /* InviteViewModel.swift */; };
@@ -513,6 +522,15 @@
 		73C95E5A2862EE6B00D19AD2 /* AudioTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioTVCell.xib; sourceTree = "<group>"; };
 		73CB308227D9C90D006A17DE /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
 		73DFFC7427BB896C007EE602 /* ConstantString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantString.swift; sourceTree = "<group>"; };
+		73E5BB192893B428002E28BB /* CameraConfigureFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraConfigureFactory.swift; sourceTree = "<group>"; };
+		73E5BB1C2893B806002E28BB /* ConnectionOptionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionOptionFactory.swift; sourceTree = "<group>"; };
+		73E5BB1E2893B853002E28BB /* AppSettingStores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingStores.swift; sourceTree = "<group>"; };
+		73E5BB212893B9F9002E28BB /* TrackPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackPriority.swift; sourceTree = "<group>"; };
+		73E5BB232893BA5D002E28BB /* RemoteConfigStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigStore.swift; sourceTree = "<group>"; };
+		73E5BB272893BF6C002E28BB /* VideoCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCodec.swift; sourceTree = "<group>"; };
+		73E5BB292893BF9A002E28BB /* VideoSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSize.swift; sourceTree = "<group>"; };
+		73E5BB2B2893C009002E28BB /* TwilioEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioEnvironment.swift; sourceTree = "<group>"; };
+		73E5BB2D2893C0CC002E28BB /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		995973D502D15496C7C4676B /* Pods-TLClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TLClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-TLClientAppTests/Pods-TLClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ACAB39D3EC8693F5006DBCE7 /* Pods_TLClientAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TLClientAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4E82F402754BF4100BE5227 /* InviteWithEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWithEmailVC.swift; sourceTree = "<group>"; };
@@ -1037,6 +1055,8 @@
 		73165B6D27D793EB008FCCC2 /* VideoCall */ = {
 			isa = PBXGroup;
 			children = (
+				73E5BB202893B9CD002E28BB /* VideoSettings */,
+				73E5BB1B2893B5F6002E28BB /* Camera */,
 				73BAF2E727E1E2B900AAF30C /* SwitchToAudioVC */,
 				738878F027D8AE0D00C7614B /* Feedback */,
 				29F8CFE7274E76BA006243EC /* CallingPopUpVC.swift */,
@@ -1189,6 +1209,29 @@
 				042367882718325B003BC021 /* OnsiteInterpretationHistoryVC.swift */,
 			);
 			path = "OnsiteInterpretation ";
+			sourceTree = "<group>";
+		};
+		73E5BB1B2893B5F6002E28BB /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				73E5BB192893B428002E28BB /* CameraConfigureFactory.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		73E5BB202893B9CD002E28BB /* VideoSettings */ = {
+			isa = PBXGroup;
+			children = (
+				73E5BB1E2893B853002E28BB /* AppSettingStores.swift */,
+				73E5BB1C2893B806002E28BB /* ConnectionOptionFactory.swift */,
+				73E5BB212893B9F9002E28BB /* TrackPriority.swift */,
+				73E5BB232893BA5D002E28BB /* RemoteConfigStore.swift */,
+				73E5BB272893BF6C002E28BB /* VideoCodec.swift */,
+				73E5BB292893BF9A002E28BB /* VideoSize.swift */,
+				73E5BB2B2893C009002E28BB /* TwilioEnvironment.swift */,
+				73E5BB2D2893C0CC002E28BB /* Store.swift */,
+			);
+			path = VideoSettings;
 			sourceTree = "<group>";
 		};
 		73EB63FF288572EC00D3ED9F /* scheduleMeetings */ = {
@@ -2062,6 +2105,7 @@
 				73165B6F27D7946A008FCCC2 /* videoViewDelegates.swift in Sources */,
 				04CE547E2716BC7F002B7288 /* Extention UIView.swift in Sources */,
 				C4E82F432754BF6600BE5227 /* InviteViewModel.swift in Sources */,
+				73E5BB242893BA5D002E28BB /* RemoteConfigStore.swift in Sources */,
 				73A1A76627C36921007281DC /* FeedbackVC.swift in Sources */,
 				29981FE527721486003DF75E /* ApiPostTableData.swift in Sources */,
 				736EFB2B28658B1A0075277A /* ImagePopupViewController.swift in Sources */,
@@ -2089,6 +2133,7 @@
 				04E701872732782D00C57A8E /* ApiCancelAppointmentResponseModel.swift in Sources */,
 				730E258727E9C9E600CAEE8D /* RadiantColor.swift in Sources */,
 				04B225C626EF137F0063129C /* MembberListM.swift in Sources */,
+				73E5BB1A2893B428002E28BB /* CameraConfigureFactory.swift in Sources */,
 				29981FDB27721419003DF75E /* ApiGetMemberResponseModel.swift in Sources */,
 				04C07812274243A7000750C1 /* ApiSelectedAppointmentDetailResponse.swift in Sources */,
 				CE74B2CD26BE7DB5008BBA8C /* Storyboard+.swift in Sources */,
@@ -2129,20 +2174,25 @@
 				C62D0BE927D5EB490083C337 /* VirtualMeetingNewRegularApointmentVC.swift in Sources */,
 				7341BD3E284E2CF000BA8E29 /* ChatUtils.swift in Sources */,
 				048AE7FF26D63A1700FB9309 /* AddParticipantController.swift in Sources */,
+				73E5BB282893BF6C002E28BB /* VideoCodec.swift in Sources */,
+				73E5BB2E2893C0CC002E28BB /* Store.swift in Sources */,
 				0423678B271832CF003BC021 /* DocumentTransaltionHistoryVC.swift in Sources */,
 				29981FDC27721419003DF75E /* ApiGetMemberInRoomDetailDataModel.swift in Sources */,
 				73C059FB27BA5BCB00BCA88F /* OnsiteAppointmentTableWork.swift in Sources */,
 				CE0DDFF526D13AFC003D4FC7 /* LanguageModel.swift in Sources */,
 				CE74B2D726BEFA1D008BBA8C /* ACFloatingTextfield.swift in Sources */,
+				73E5BB1F2893B853002E28BB /* AppSettingStores.swift in Sources */,
 				0439C798271008FE00DA3D61 /* UIColor.swift in Sources */,
 				7362A7EF281BB56000BBEFB8 /* StringTrimExtension.swift in Sources */,
 				C6EAE8C927D217EF009F7261 /* TelephonicBlockedNewVC.swift in Sources */,
 				04B225C926EF68820063129C /* SharedManager.swift in Sources */,
+				73E5BB2A2893BF9A002E28BB /* VideoSize.swift in Sources */,
 				738364DD285760E8004C2B15 /* ImageChatCell.swift in Sources */,
 				049AB17326E743E3001D5766 /* CallingModel.swift in Sources */,
 				04CE54802716C511002B7288 /* TabViewController.swift in Sources */,
 				04C28C19272974A800C971C6 /* DocumentTranslationViewController.swift in Sources */,
 				04C2F494272FD62B007C0ED9 /* ApiGetAllLanguageResponse.swift in Sources */,
+				73E5BB2C2893C009002E28BB /* TwilioEnvironment.swift in Sources */,
 				04CBAD84271D4A7200055797 /* AddVenuDetailViewController.swift in Sources */,
 				04C07811274243A7000750C1 /* ApiCancelRequestDataModel.swift in Sources */,
 				293282062769BDBD00698592 /* ApiScheduleVRIDataModel.swift in Sources */,
@@ -2156,9 +2206,11 @@
 				04C17E64273154A800297528 /* AppointmentStatusDataModel.swift in Sources */,
 				04D867BC271EB4C2004DB0C4 /* ApiAllStateDataResponse.swift in Sources */,
 				C6FDDFED278C34BC00B5F177 /* ApiOPiCallRoomDetailsModel.swift in Sources */,
+				73E5BB222893B9F9002E28BB /* TrackPriority.swift in Sources */,
 				04CC968727479A0F001D4A65 /* MIBadgeButton.swift in Sources */,
 				7362A7EC281BB56000BBEFB8 /* RegexParser.swift in Sources */,
 				C6EAE8C727D217B5009F7261 /* TelephonicNewRegularVC.swift in Sources */,
+				73E5BB1D2893B806002E28BB /* ConnectionOptionFactory.swift in Sources */,
 				04C91A55273534F30029FE90 /* ApiProviderDetail.swift in Sources */,
 				04CC968C2747B131001D4A65 /* ApiVRIOPICallLogDataModel.swift in Sources */,
 				73751203282B7CF200619EA7 /* EditRecurrenceStatusVC.swift in Sources */,
@@ -2353,7 +2405,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.82;
+				MARKETING_VERSION = 1.83;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
@@ -2380,7 +2432,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.82;
+				MARKETING_VERSION = 1.83;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;

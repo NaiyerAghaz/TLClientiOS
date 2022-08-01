@@ -427,9 +427,9 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     
     func didSubscribeToVideoTrack(videoTrack: RemoteVideoTrack, publication: RemoteVideoTrackPublication, participant: RemoteParticipant) {
-        videoTrack.setContentPreferences(VideoContentPreferences{ builders in
-            builders.renderDimensions = VideoDimensions(width: 320, height: 240)
-        })
+       // videoTrack.setContentPreferences(VideoContentPreferences{ builders in
+         //   builders.renderDimensions = VideoDimensions(width: 320, height: 240)
+       // })
         if (self.remoteParticipant == nil) {
             
             _ = renderRemoteParticipant(participant: participant)
