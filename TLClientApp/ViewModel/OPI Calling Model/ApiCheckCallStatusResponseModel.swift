@@ -26,3 +26,47 @@ struct ApiCheckCallStatusResponseModel : Codable {
 	}
 
 }
+struct APIResultUsers : Codable {
+    let uSERID : Int?
+    let cNAME : String?
+    let cLOGO : String?
+    let fULLNAME : String?
+    let pARTCOUNT : Int?
+    let sHAREACCESS : Bool?
+    let eMAILFA : Bool?
+    let mOBILEFA : Bool?
+    let nOFA : Bool?
+    let uSERIMAGE : String?
+    let rECORDING : Bool?
+
+    enum CodingKeys: String, CodingKey {
+
+        case uSERID = "USERID"
+        case cNAME = "CNAME"
+        case cLOGO = "CLOGO"
+        case fULLNAME = "FULLNAME"
+        case pARTCOUNT = "PARTCOUNT"
+        case sHAREACCESS = "SHAREACCESS"
+        case eMAILFA = "EMAILFA"
+        case mOBILEFA = "MOBILEFA"
+        case nOFA = "NOFA"
+        case uSERIMAGE = "USERIMAGE"
+        case rECORDING = "RECORDING"
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        uSERID = try values.decodeIfPresent(Int.self, forKey: .uSERID)
+        cNAME = try values.decodeIfPresent(String.self, forKey: .cNAME)
+        cLOGO = try values.decodeIfPresent(String.self, forKey: .cLOGO)
+        fULLNAME = try values.decodeIfPresent(String.self, forKey: .fULLNAME)
+        pARTCOUNT = try values.decodeIfPresent(Int.self, forKey: .pARTCOUNT)
+        sHAREACCESS = try values.decodeIfPresent(Bool.self, forKey: .sHAREACCESS)
+        eMAILFA = try values.decodeIfPresent(Bool.self, forKey: .eMAILFA)
+        mOBILEFA = try values.decodeIfPresent(Bool.self, forKey: .mOBILEFA)
+        nOFA = try values.decodeIfPresent(Bool.self, forKey: .nOFA)
+        uSERIMAGE = try values.decodeIfPresent(String.self, forKey: .uSERIMAGE)
+        rECORDING = try values.decodeIfPresent(Bool.self, forKey: .rECORDING)
+    }
+
+}

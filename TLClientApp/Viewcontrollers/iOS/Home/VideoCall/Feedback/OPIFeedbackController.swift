@@ -35,7 +35,7 @@ class VRIOPIFeedbackController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
             .withAlphaComponent(0.7)
-        print("feedback----------->")
+       
        
         
     }

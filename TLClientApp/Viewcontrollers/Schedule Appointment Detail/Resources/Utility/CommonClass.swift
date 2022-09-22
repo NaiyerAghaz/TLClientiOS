@@ -214,7 +214,7 @@ class CEnumClass: NSObject {
         let dateF = DateFormatter()
         dateF.dateFormat =  "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         let newDate = dateF.date(from: dateString)
-        dateF.dateFormat = "HH:mm:ss a"
+        dateF.dateFormat = "HH:mm a"
         return dateF.string(from: newDate!)
         
     }

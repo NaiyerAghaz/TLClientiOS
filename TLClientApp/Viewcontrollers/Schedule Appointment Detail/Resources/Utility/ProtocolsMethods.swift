@@ -15,3 +15,6 @@ import Foundation
 protocol chatDelegateMethods{
     func chatRefreshed(chats:[RowData]?)
 }
+protocol DownloadQRCodeDelegate{
+    func downloadMethod()
+}

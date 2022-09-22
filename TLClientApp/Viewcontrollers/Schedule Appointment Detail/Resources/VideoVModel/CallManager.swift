@@ -97,6 +97,7 @@ class CallManagerVM {
                 if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 200 {
                         completionBlock(true)
+                        
                     }
                     else {
                         completionBlock(false)
@@ -356,6 +357,68 @@ class CallManagerVM {
                 }
             })
     }
+    func callStatusReq(userID:String,sourceID:String,targetID:String,ccid:String) -> [String: Any]{
+        let srchString = "<Info><CUSTOMERID>\(userID)</CUSTOMERID><TYPE>O</TYPE><SOURCE>\(sourceID)</SOURCE><TARGET>\(targetID)</TARGET><CC_ID>\(ccid)</CC_ID></Info>"
+        let param = ["strSearchString" :srchString]
+        return param
+    }
+    func GetVRICallVendorWithCheckCallStatus(req:[String:Any], completionHandler:@escaping(CallStatusResultModel?, Error?) -> ()){
+       
+       
+        var request = URLRequest(url: APi.getCheckCallStatus.url)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-type")
+        request.httpMethod = "POST"
+        
+        do {
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: req, options: .prettyPrinted)
+            URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    completionHandler(nil, error)
+                }
+                guard let pdata = data else {return}
+                do {
+                    let Json = try JSONSerialization.jsonObject(with: pdata, options: []) as? NSArray
+                   
+                    let newArrDict = Json![0] as! NSDictionary
+                    let result = newArrDict.object(forKey: "result") as! String
+                    print("check call status--------->",result)
+                    let jsonData = result.data(using: .utf8)
+                    if jsonData != nil {
+                        let rJson = try JSONSerialization.jsonObject(with: jsonData!, options: []) as? NSArray
+                        guard let acceptdata = data else {return}
+                        if let httpResponse = response as? HTTPURLResponse {
+                            if httpResponse.statusCode == 200 {
+                                var callStatusResultModel = CallStatusResultModel()
+                                callStatusResultModel = CallStatusResultModel.getDetails(dicts: rJson![0] as! NSDictionary)
+                                print("userInfoCount--->", callStatusResultModel.UserInfo?.count)
+                           
+                               
+                              completionHandler(callStatusResultModel, nil)
+                            }
+                            else {
+                                print("err particiapnt rule:")
+                                completionHandler(nil, error as? Error)
+                            }
+                
+                    
+                        }}
+                }
+                
+                catch let error {
+                    SwiftLoader.hide()
+                    print(error.localizedDescription)
+                }
+            }
+            .resume()
+        }
+        catch _ {
+            print ("Oops something happened buddy")
+            SwiftLoader.hide()
+        }
+                }
 }
 struct CaptureDeviceUtils {
 
@@ -577,6 +640,7 @@ extension VideoCallViewController : RemoteParticipantDelegate {
     }
     func backToMainController(){
         chatClosed()
+        
        // print("backtomain---------->1")
         if remoteParticipantArr.count > 0 {
             remoteParticipantArr.removeAll()
@@ -588,9 +652,13 @@ extension VideoCallViewController : RemoteParticipantDelegate {
             camera = nil
         }
         if (localVideoTrack != nil){
+            print("unpublishvideo------>")
+            localParticipant?.unpublishVideoTrack(localVideoTrack!)
             localVideoTrack = nil
         }
         if localAudioTrack != nil {
+            print("unpublishAudio------>")
+            localParticipant?.unpublishAudioTrack(localAudioTrack!)
             localAudioTrack = nil
         }
         updateYourFeedback()
@@ -794,16 +862,13 @@ extension VideoCallViewController : RemoteParticipantDelegate {
                         }
                         
                     }
-                }
-                
-            }}
+                } }}
         
     }
     
     func remoteParticipantDidEnableAudioTrack(participant: RemoteParticipant, publication: RemoteAudioTrackPublication) {
         
-        
-        if isParticipanthasAdded {
+       if isParticipanthasAdded {
             if remoteParticipantArr.count > 1 {
                 for audio in remoteParticipantArr {
                     if audio == participant {

@@ -73,16 +73,16 @@ class chatViewModels {
             let ndict = message.attributes()?.dictionary
             
             let mszStr = ndict![AnyHashable("attributes")] as! String
-            print("mszStr--------------->",mszStr)
+           // print("mszStr--------------->",mszStr)
             if mszStr.contains(":") && mszStr.contains("#") {
                 let nMsz = mszStr.replacingOccurrences(of: "\n", with: "")
                 let arr = nMsz.split(separator: ":")
                 let senderName = arr.first
                 let tags = "\(arr.last!)"
-                print("tags--------->",tags)
+              //  print("tags--------->",tags)
                 if tags.contains("@") {
                     let privateMSZ = "@" + "\(userDefaults.string(forKey: "firstName") ?? "")"
-                    print("privateMSZ:",privateMSZ)
+                  //  print("privateMSZ:",privateMSZ)
                     if tags.contains(privateMSZ){
                         let tagsArr = tags.split(separator: "#",omittingEmptySubsequences: false)
                         let privateUser = tagsArr.first
@@ -93,7 +93,7 @@ class chatViewModels {
                         let imgName = msz.replacingOccurrences(of: " ", with: "%20")
                         let urlPath = URL(string: String(imgName))
                         let urlExt = urlPath?.pathExtension
-                        print("private---->\(tagsArr.first!), msz:\(msz),sImage:\(sImage)")
+                       // print("private---->\(tagsArr.first!), msz:\(msz),sImage:\(sImage)")
                         if chatDetails.share.getUploadedFileExtension(file: urlExt!) == 1 {
                             let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".\(urlExt!)").replacingOccurrences(of: " ", with: "")
                             chatDetails.share.downloadImage(from: URL(string: url)!) { img, err in
@@ -488,248 +488,6 @@ class chatViewModels {
     }
 }
 
-extension ChatViewController : TCHChannelDelegate {
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
-        if isOpenChat {
-            if message.hasMedia(){
-                let ndict = message.attributes()?.dictionary
-                let mszStr = ndict![AnyHashable("attributes")] as! String
-                let cusIndetity = userDefaults.string(forKey: "twilioIdentity")
-                if !mszStr.contains(cusIndetity!){
-                    message.getMediaContentTemporaryUrl { result, imgurl in
-                        self.chatVModel.getChatMessage(message: message, istypeImg: true, url: imgurl ?? "") { data, err in
-                            self.arrChatSection.append(data!)
-                            DispatchQueue.main.async {
-                                
-                                self.tblView.reloadData()
-                                self.view.layoutIfNeeded()
-                                self.tblView.scrollToBottomRow()
-                                
-                            } } }
-                    
-                }else {
-                    DispatchQueue.main.async {
-                        if self.arrChatSection.count > 0 {
-                            self.tblView.reloadData()
-                            self.view.layoutIfNeeded()
-                            self.tblView.scrollToBottomRow()
-                        }
-                    }
-                }
-                
-                
-            }
-            else {
-                
-                chatVModel.getChatMessage(message: message, istypeImg: false, url: "") { data, err in
-                    self.arrChatSection.append(data!)
-                    DispatchQueue.main.async {
-                        if self.arrChatSection.count > 0 {
-                            self.tblView.reloadData()
-                            self.view.layoutIfNeeded()
-                            self.tblView.scrollToBottomRow()
-                        }
-                    }
-                }
-            }
-            
-        }
-        
-    }
-    
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember) {
-        print("channel member-->", member)
-        // addMessages(newMessages: [StatusMessage(statusMember:member, status:.Joined)])
-    }
-    
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberLeft member: TCHMember) {
-        print("channel member left-->", member)
-        //addMessages(newMessages: [StatusMessage(statusMember:member, status:.Left)])
-    }
-    
-    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
-        print("channel  deleted-->", channel)
-        
-    }
-}
-extension ChatViewController:UIDocumentPickerDelegate,MPMediaPickerControllerDelegate {
-    func showPhotoGallery() {
-        
-        // show picker to select image form gallery
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.savedPhotosAlbum) {
-            
-            //            let imagePicker = UIImagePickerController()
-            //            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            imagePicker.mediaTypes = [kUTTypeImage as String]
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-            
-        }
-    }
-    func showVideo() {
-        
-        // show picker to select image form gallery
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.savedPhotosAlbum) {
-            
-            //            let imagePicker = UIImagePickerController()
-            //            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            imagePicker.mediaTypes = ["public.movie"] // [kUTTypeImage as String]
-            imagePicker.allowsEditing = false
-            imagePicker.videoQuality = .typeMedium
-            self.present(imagePicker, animated: true, completion: nil)
-            
-        }
-    }
-    func showAudio() {
-        
-        // fetch audio from MPMedia
-        let mediaPicker: MPMediaPickerController = MPMediaPickerController.self(mediaTypes:MPMediaType.anyAudio)
-        mediaPicker.delegate = self
-        mediaPicker.prompt = "Select song (Icloud songs must be downloaded to use)"
-        mediaPicker.allowsPickingMultipleItems = false
-        mediaPicker.showsCloudItems = true
-        self.present(mediaPicker, animated: true, completion: nil)
-        
-        
-    }
-    func showDocuments() {
-        let importMenu = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
-        importMenu.delegate = self
-        importMenu.modalPresentationStyle = .formSheet
-        self.present(importMenu, animated: true, completion: nil)
-        
-    }
-    // Document Picker delegate
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        self.dismiss(animated: true)
-    }
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        print("picked url-->", urls)
-    }
-    
-    // MARK:  MPMediaPickerController Delegate methods
-    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        print("you picked: \(mediaItemCollection)")//This is the picked media item.
-        self.dismiss(animated: true, completion: nil)
-        
-        //  If you allow picking multiple media, then mediaItemCollection.items will return array of picked media items(MPMediaItem)
-    }
-    
-    // MARK: image picker delegate function
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
-    {
-        if picker.sourceType == .photoLibrary
-        {
-            let mszOption = TCHMessageOptions.init()
-            print("picker vdo ->")
-            if  let newImage = info[.originalImage] as? UIImage
-                    
-            {
-                mszCounts = mszCounts + 1
-                let fileName = (CEnumClass.share.getcurrentdateAndTimeForChat() + ".jpg").replacingOccurrences(of: " ", with: "")
-                let imgData = newImage.jpegData(compressionQuality: 1)
-                let imgStream : InputStream = InputStream(data: imgData!)
-                
-                
-                //  let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
-                let jsonObj2 = chatDetails.share.getchatPrivateString(filename: fileName, mszCount: mszCounts, replyID: "")
-                var privateMSz = ""
-                //                for pChat in privateChatArr {
-                //                    privateMSz = privateMSz + "@\(pChat)"
-                //                    print("pchat--->",pChat)
-                //
-                //                }
-                let fullMsz = "\(userDefaults.string(forKey: "firstName") ?? ""):\(privateMSz)\(jsonObj2)"
-                let jsonObj3:[AnyHashable:Any] = ["attributes": fullMsz]
-                
-                
-                // \(userDefaults.string(forKey: "firstName") ?? ""):
-                
-                //let jsonData = try? JSONSerialization.data(withJSONObject: jsonObj, options: [])
-                //  let jsonString = String(data: jsonData!, encoding: .utf8)!
-                
-                //save url photo from picked photo
-                chatDetails.share.saveImageLocally(image: newImage, fileName: fileName)
-                
-                var imgdata = RowData.init()
-                imgdata.rowType = .img
-                imgdata.cellIdentifier = .imgCell
-                // print("imgrowdata----->", data.imgUrl)
-                imgdata.sender = 0
-                imgdata.sid = ""
-                imgdata.imgUrl = fileName
-                imgdata.txt = fileName
-                imgdata.privatechatUser = privateMSz
-                let pImage = ((userDefaults.string(forKey: "ImageData") != "" ) && (userDefaults.string(forKey: "ImageData") != nil)) ? (userDefaults.string(forKey: "ImageData")) : "/images/noprofile.jpg"
-                imgdata.profileImg = pImage //(userDefaults.string(forKey: "ImageData") ?? "/images/noprofile.jpg")
-                imgdata.name = (userDefaults.string(forKey: "firstName") ?? "")
-                
-                imgdata.time = CEnumClass.share.createDateAndTimeChat()
-                self.arrChatSection.append(imgdata)
-                
-                
-                let jsonAtrr = TCHJsonAttributes(dictionary: jsonObj3)
-                mszOption.withMediaStream(imgStream, contentType: "image/jpg", defaultFilename: fileName) {
-                    print("start--upload", fileName)
-                    SwiftLoader.show(title: "Uploading..", animated: true)
-                } onProgress: { pro in
-                    print("onprogress--upload", fileName)
-                } onCompleted: { img in
-                    print("complete--upload", fileName, "img:",img)
-                    SwiftLoader.hide()
-                    
-                }.withAttributes(jsonAtrr!)
-                
-                chatChannel?.messages?.sendMessage(with: mszOption, completion: { result, msz in
-                    print("message--->", msz, result)
-                })
-                //UIImagePickerControllerMediaURL
-            }
-            else if  let videoURL = info[.mediaURL] as? NSURL {
-                do {
-                    mszCounts = mszCounts + 1
-                    print("uploadVideoUrl----->", videoURL)
-                    let vData = try Data(contentsOf: videoURL as URL)
-                    let vStream : InputStream = InputStream(data: vData)
-                    let fileName = CEnumClass.share.getcurrentdateAndTimeForChat() + ".mp4"
-                    let jsonObj = chatDetails.share.getchatString(filename: fileName, mszCount: mszCounts)
-                    let jsonData = try? JSONSerialization.data(withJSONObject: jsonObj, options: [])
-                    let jsonString = String(data: jsonData!, encoding: .utf8)!
-                    // let imageData = try Data(contentsOf: theProfileImageUrl as URL)
-                    //  profileImageView.image = UIImage(data: imageData)
-                    let jsonAtrr = TCHJsonAttributes(dictionary: jsonObj)
-                    mszOption.withMediaStream(vStream, contentType: "video", defaultFilename: fileName) {
-                        print("start--upload", fileName)
-                        SwiftLoader.show(title: "Uploading..", animated: true)
-                    } onProgress: { pro in
-                        print("onprogress--video", fileName)
-                    } onCompleted: { img in
-                        print("complete--video", fileName, "vdo:",img)
-                        SwiftLoader.hide()
-                        
-                    }.withAttributes(jsonAtrr!)
-                    
-                    chatChannel?.messages?.sendMessage(with: mszOption, completion: { result, msz in
-                        print("message vdooo--->", msz, result)
-                    })
-                } catch {
-                    print("Unable to load data: \(error)")
-                }}}
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
-    {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-}
 
 //Important points doucments types access
 /*

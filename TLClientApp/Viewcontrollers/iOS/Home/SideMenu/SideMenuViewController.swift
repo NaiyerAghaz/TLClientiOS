@@ -14,13 +14,16 @@ class sideMenuTableViewCell :UITableViewCell{
     
     @IBOutlet var downOptionView: UIView!
     @IBOutlet var downArrowBtn: UIButton!
-    @IBOutlet var downArrowImg: UIImageView!
+   
     @IBOutlet var titleLbl: UILabel!
     override func awakeFromNib() {
         self.downOptionView.visibility = .gone
     }
 }
 class SideMenuViewController: UIViewController {
+    
+    @IBOutlet weak var lblCompanyName: UILabel!
+    @IBOutlet weak var imgCompany: UIImageView!
     var delegateScanner: delegateScanner?
     @IBOutlet var userNameLbl: UILabel!
     @IBOutlet var userImg: UIImageView!
@@ -30,16 +33,17 @@ class SideMenuViewController: UIViewController {
     var isRow4open = false
    
     var apiGetProfileResponseModel:ApiGetProfileResponseModel?
-//open var leftMenuNavigationController: SideMenuNavigationController?
-   //let titleSectionArr = ["Dash Board","Controls","VPI and OPI Logs","Support" , "userName"]
-    // let titleArr = [[""],["Customer Details", "Venues"],[""],[""],["Logout"]]
+
     let titleSectionArr = ["Dashboard","Controls", "userName"]
     let titleArr = [[""],["Customer Details", "Venues"],["Logout"]]
   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        
+        lblCompanyName.text = userDefaults.string(forKey: "companyName")
+        let cLogo = userDefaults.string(forKey: "CompanyLogo") ?? ""
+        let logoUrl = nBaseUrl + cLogo
+        imgCompany.sd_setImage(with: URL(string: logoUrl), placeholderImage:UIImage(named: "logo-placeholder"))
         // Do any additional setup after loading the view.
         sideMenuTv.delegate = self
         sideMenuTv.dataSource = self
@@ -183,9 +187,14 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
                 returnedView.tag = section
         print("view for section ",view.frame.size.width)
         let image = UIImageView(frame: CGRect(x: view.frame.size.width - 30, y: 20, width: 20, height: 20))
-        image.image = UIImage(named: "ic_downarrow")
+        image.image = UIImage(systemName: "chevron.up")//UIImage(named: "chevron.up")
+        image.contentMode = .scaleAspectFit
         
-             let label = UILabel(frame: CGRect(x: 20, y: 20, width: view.frame.size.width - 60, height:25))
+        image.tintColor = UIColor.black
+        
+        
+        
+             let label = UILabel(frame: CGRect(x: 15, y: 20, width: view.frame.size.width - 60, height:25))
         let firstName = userDefaults.string(forKey: "firstName") ?? ""
                 let lastName = userDefaults.string(forKey: "lastName") ?? ""
                 let username   = "\(String(describing: firstName)) \(lastName)"
@@ -196,10 +205,10 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
                 else {
                            label.text =  self.titleSectionArr[section]
                      }
-                       label.textColor = .white
-                 label.font =  UIFont.boldSystemFont(ofSize: 22.0)
+                       label.textColor = .black
+                 label.font =  UIFont.boldSystemFont(ofSize: 20.0)
                let label2 = UILabel(frame: CGRect(x: 0, y: 50, width: view.frame.size.width, height:1))
-               label2.backgroundColor = .white
+               label2.backgroundColor = .lightGray
                  returnedView.addSubview(label)
                returnedView.addSubview(label2)
         
@@ -250,11 +259,16 @@ extension SideMenuViewController : UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sideMenuTableViewCell") as! sideMenuTableViewCell
         cell.titleLbl.text = titleArr[indexPath.section][indexPath.row]
-        if indexPath.row == 1 || indexPath.row == 2 {
-            cell.downArrowImg.isHidden = true
-        }else{
-            cell.downArrowImg.isHidden = true
-        }
+        cell.titleLbl.font = UIFont.systemFont(ofSize: 18)
+//        if indexPath.section == 1 || indexPath.section == 2 {
+//            cell.downArrowBtn.isHidden = false
+//
+//
+//        }else{
+//            cell.downArrowBtn.isHidden = true
+//
+//
+//        }
         return cell
     }
     

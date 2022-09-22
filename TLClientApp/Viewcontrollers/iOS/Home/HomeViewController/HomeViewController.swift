@@ -14,7 +14,7 @@ import SwiftPullToRefresh
 import SideMenu
 
 
-class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerDelegate{
+class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerDelegate,DownloadQRCodeDelegate{
     @IBOutlet weak var tblCalenderView: UITableView!
     var navigator = Navigator()
     var loginVM = DetailsModal()
@@ -25,7 +25,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
     var apiGoogleTimeZoneresponse:ApiGoogleTimeZoneresponse?
     var apiUpdateDeviceTokenRespose : ApiUpdateDeviceTokenRespose?
     var apiLogoutResponseModel : ApiLogoutResponseModel?
-    @IBOutlet var dashBoardTitleLbl: UILabel!
+   
     var apiGetSpecialityDataModel :ApiGetSpecialityDataModel?
     var apiNotificationResponseModel:ApiNotificationResponseModel?
     var apiCheckCallStatusResponseModel = [ApiCheckCallStatusResponseModel]()
@@ -57,7 +57,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         //checkSingleSignin()
         getServiceType()
         getallweekDate()
-        self.dashBoardTitleLbl.text = userDefaults.string(forKey: "companyName") ?? ""
+      
         GetPublicData.sharedInstance.getAllLanguage()
         NotificationCenter.default.addObserver(self, selector: #selector(self.moveToUploadImg(notification:)), name: Notification.Name("UpdateProfilePic"), object: nil)
         
@@ -83,12 +83,37 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         let vc = storyboard.instantiateViewController(identifier: "VirtualMeetingParentNewVC" ) as! VirtualMeetingParentNewVC
         self.navigationController?.pushViewController(vc, animated: true)
         
-        
-        //let vc = storyboard?.instantiateViewController(identifier: "VirtualMeetingViewController" ) as! VirtualMeetingViewController
-        //self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func btnGetQRCodeTapped(_ sender: Any) {
+        SwiftLoader.show(animated: true)
+        QRCodeViewModel().qrCodeGetMethod { qrModel, err in
+            if qrModel != nil {
+                SwiftLoader.hide()
+                let imgBase64 = qrModel?.QrUri?.replacingOccurrences(of: "data:image/png;base64,", with: "")
+               let img = QRCodeViewModel().convertBase64StringToImage(imageBase64String: imgBase64!)
+                let callVC = UIStoryboard(name: Storyboard_name.home, bundle: nil)
+                let vc = callVC.instantiateViewController(identifier: Control_Name.qrVC) as! QRCodeViewController
+                vc.height = 480
+                vc.topCornerRadius = 20
+                vc.presentDuration = 0.5
+                vc.dismissDuration = 0.5
+                vc.shouldDismissInteractivelty = false
+                vc.popupDismisAlphaVal = 0.4
+                vc.qrCodeImage = img
+                vc.QrUIDStr = qrModel?.QrUID ?? ""
+                vc.delegate = self
+                self.present(vc, animated: true, completion: nil)
+            }
+            else{
+                SwiftLoader.hide()
+            }}}
+    
+    func downloadMethod() {
+        self.view.makeToast("QRCode has been Saved", position: .center)
     }
     @objc func actionLogout(notification: Notification) {
-        // updateDeviceToken()
+        
         
         userLogout(userGuid: userDefaults.string(forKey: "userGUID") ?? "")
     }
@@ -101,7 +126,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
             let urlPostFix = "UserID=\(userId)&methodType=NotificationsCounts&CompanyId=\(companyID)"
             let urlPrefix = "\(APi.getData.url)"
             let urlString = urlPrefix + urlPostFix
-            print("url to get notificationCount  \(urlString)")
+       
             AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -139,7 +164,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
         }
     }
     func action() {
-        print("Data reload ")
+      
         
         hitApiGetNotificationCount()
         appointmentScheduling()
@@ -496,7 +521,7 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                 SwiftLoader.show(animated: true)
             }
             let urlString = "https://lsp.totallanguage.com/Appointment/GetFormData?methodType=GETCUSTOMERSCHEDULEDATA&Customer=\(customerId)&UType=Customer&Date=\(date)"
-            print("url to get schedule \(urlString)")
+           
             callingScheduleArr.removeAll()
             AF.request(urlString, method: .get , parameters: nil, encoding: JSONEncoding.default, headers: nil)
                 .validate()
@@ -505,12 +530,12 @@ class HomeViewController: UIViewController,FSCalendarDelegate,CLLocationManagerD
                     switch(response.result){
                         
                     case .success(_):
-                        print("Respose Appointment data--> ",response.result)
+                      
                         guard let daata97 = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
                             self.apiScheduleAppointmentResponseModel = try jsonDecoder.decode(ApiScheduleAppointmentResponseModel.self, from: daata97)
-                            print("Success")
+                         
                             self.showAppointmentArr.removeAll()
                             
                             self.apiScheduleAppointmentResponseModel?.gETCUSTOMERSCHEDULEDATA?.forEach({ appointmentData in

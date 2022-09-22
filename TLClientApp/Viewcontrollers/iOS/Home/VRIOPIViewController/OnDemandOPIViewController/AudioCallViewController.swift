@@ -18,11 +18,10 @@ class AddParticipantsCollectionsViewCell : UICollectionViewCell {
     @IBOutlet weak var endCallBtn: UIButton!
     @IBOutlet weak var participatsImg: UIImageView!
 }
-class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountryPickerDelegate  {
+class AudioCallViewController: UIViewController, AVAudioPlayerDelegate  {
     
     @IBOutlet weak var participentListView: UIView!
     @IBOutlet weak var showParticipantsListCV: UICollectionView!
-    
     @IBOutlet weak var translationlbl: UILabel!
     
     @IBOutlet weak var callTypeLbl: UILabel!
@@ -45,8 +44,8 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     var roomID,sourceLangID,targetLangID,sourceLangName,targetLangName,patientname,patientno: String?
     var apiCheckCallStatusResponseModel = [ApiCheckCallStatusResponseModel]()
     var apiGetProfileResponseModel:ApiGetProfileResponseModel?
-    var timer = Timer()
-    var ringToneTimer = Timer()
+   
+    var ringToneTimer : Timer?
     var ringingTime = 60
     var isToThirdPartyCall = false
     var ccid = ""
@@ -90,7 +89,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     var isVoiceConnected = false
     var timerDuration : Timer?
     var isNewVendor = false
-    var notLifttimerDuration = Timer()
+    var notLifttimerDuration : Timer?
     var seconds = 0, CountNumber = 0
     var countryCode = ""
     var phoneCallsList  = [String]()
@@ -99,16 +98,22 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     var participantsList = [ParticipantsList]()
     var callKitCallController = CXCallController()
     var toUserID = "0"
+    var newCallUUID : UUID?
     @IBOutlet weak var addParticipantsBtn: UIButton!
     var apiAddparticipantsOPIResponseModle:ApiAddparticipantsOPIResponseModle?
+    deinit {
+        ringToneTimer?.invalidate()
+        timerDuration?.invalidate()
+        notLifttimerDuration?.invalidate()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        addParticipantsBtn.isHidden = true
+        
         //self.vendorIMG.layer.cornerRadius = self.vendorIMG.bounds.height / 2
         let bundle = "assets.bundle/"
         let image = UIImage( named: bundle + "us.png")
         countryCodeImg.image = image
-        createVRICallVendor()
+        createVRICallVendor(callingCount: 1)
         self.addParticipantsBtn.isUserInteractionEnabled = false
         self.showParticipantsListCV.delegate = self
         self.showParticipantsListCV.dataSource = self
@@ -150,6 +155,11 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.countryCodeTF.setLeftPaddingPoints(60)
         
         setFlagAndPhoneNumberCodeLeftViewIcon(icon: UIImage(named: "down button arrow")!)
+        CEnumClass.share.playSounds(audioName: "incoming")
+      
+        self.ringToneTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.ringingCalls(_:)), userInfo: nil, repeats: true)
+        self.notLifttimerDuration = Timer.scheduledTimer(timeInterval: 18, target: self, selector: #selector(self.recallVendor(_:)), userInfo: nil, repeats: true)
+       
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -185,37 +195,41 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.countryCodeTF.rightView = btnView
     }
     //MARK:recallVendor
-    @objc func recallVendor(){
+    @objc private func recallVendor(_ time:Timer){
+        print("call-----------------5")
         if self.isVoiceConnected {
-            self.notLifttimerDuration.invalidate()
+            
+            DispatchQueue.main.async {
+                self.notLifttimerDuration?.invalidate()
+//                if self.notLifttimerDuration != nil {
+//                    self.notLifttimerDuration?.invalidate()
+//                    self.notLifttimerDuration = nil
+           // }
+              
+            }
+            
+            
         }else {
-            if self.isNewVendor {
-                //show alert here
-                let refreshAlert = UIAlertController(title: "Alert", message: "We couldn't find any vendors at this moment, Please try again.", preferredStyle: UIAlertController.Style.alert)
-                
-                refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-                    print("Handle Ok logic here")
-                    self.notLifttimerDuration.invalidate()
-                    //                      self.ringToneTimer.invalidate()
-                    //                    if self.activeCall != nil {
-                    //                        print("active call not empty ")
-                    //                        let uuid = self.activeCall?.uuid ?? UUID()
-                    //                        self.performEndCallAction(uuid: uuid)
-                    //                    }
-                    DispatchQueue.main.async {
-                        self.callDisconnetedByVendorAndCustomerEnd()
+            if isClientDisconnectCall == false {
+                let req = callManagerVM.callStatusReq(userID: GetPublicData.sharedInstance.userID, sourceID: self.sourceLangID ?? "", targetID: self.targetLangID ?? "", ccid: self.ccid)
+
+                self.getVendorIDs(request: req) { (completion, error) in
+                    if completion == true {
+                        self.activeCall?.disconnect()
+                   
+                        
+                        self.createVRICallVendor(callingCount: 2)
+                    }else {
+                        self.createVRICallVendor(callingCount: 2)
                     }
-                }))
-                self.present(refreshAlert, animated: true, completion: nil)
-            }else {
-                if isClientDisconnectCall == false {
-                    getVendorID()
                 }
+            }
+        }
+         
                 
                 
             }
-        }
-    }
+  
     @objc func sliderValueChanged(_ sender: SteppableSlider) {
         print(sender.value) // 0 ~ 4
         sender.value = round(sender.value)
@@ -284,8 +298,16 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     }
     @objc func vendorAnswered(notification: Notification){
         print("vendor answer")
-        self.ringToneTimer.invalidate()
-        self.notLifttimerDuration.invalidate()
+        DispatchQueue.main.async {
+          
+            if self.notLifttimerDuration != nil {
+                self.notLifttimerDuration!.invalidate()
+                self.notLifttimerDuration = nil
+            }
+            self.ringToneTimer?.invalidate()
+          
+        }
+      
         self.timerDuration = nil
         self.isCallReceivedNotify = true
         //self.addParticipantsBtn.isHidden = true
@@ -323,27 +345,11 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     }
     
     @IBAction func actionCountryCode(_ sender: UIButton) {
-        print("action country code ")
-        self.navigationItem.setHidesBackButton(false, animated: true)
-        
-        let picker = MICountryPicker { (name, code ) -> () in
-            
-        }
-        picker.delegate = self
-        // Display calling codes
+        let picker = MICountryPicker()
         picker.showCallingCodes = true
-        // or closure
-        picker.didSelectCountryClosure = { name, code in
-            picker.navigationController?.isNavigationBarHidden=true
-            //picker.navigationController?.popViewController(animated: true)
-            picker.dismiss(animated: true, completion: nil)
-            
-            
-        }
+        
         picker.didSelectCountryWithCallingCodeClosure = { name , code , dialCode in
-            picker.navigationController?.isNavigationBarHidden=true
-            //picker.navigationController?.popViewController(animated: true)
-            print("code is ",code)
+           
             let bundle = "assets.bundle/"
             
             let image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
@@ -351,27 +357,11 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             self.countryCodeTF.text = dialCode
             self.countryCode = dialCode
             self.countryCodeImg.image = image
-            
+            self.dismiss(animated: true)
         }
         self.present(picker, animated: true, completion: nil)
-        //navigationController?.pushViewController(picker, animated: true)
     }
-    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String ) {
-        picker.navigationController?.isNavigationBarHidden=true //?.popViewController(animated: true)
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-        self.navigationItem.setHidesBackButton(true, animated: true)
-        //                print("CODE IS \(code)")
-        //
-        //                print("Dial Code ",dialCode)
-        //                let bundle = "assets.bundle/"
-        //                print("IMAGE IS \(UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil))")
-        
-        
-        //DialCode = "\(dialCode)"
-        // countryCodeTF.text = "\(dialCode)"//"Selected Country: \(name) , \(code)"
-        //tempImageView.image = UIImage( named: bundle + code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
-        
-    }
+   
     @IBAction func cancelConferenceCallView(_ sender: UIButton) {
         self.conferenceCallView.isHidden = true
     }
@@ -415,12 +405,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     @IBAction func actionSpeakerBtn(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if (sender.isSelected) {
-            // setImage here volume
-            // sender.setImage(UIImage(named: "speaker.slash.fill"), for: .normal)
-            toggleAudioRoute(toSpeaker: true)
+           
+            toggleAudioRoute(toSpeaker: false)
         }else {
-            //setImage for volume muted
-            //  sender.setImage(UIImage(named: "speaker.wave.2"), for: .normal)
+           
             toggleAudioRoute(toSpeaker: true)
         }
         
@@ -431,87 +419,43 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         self.conferenceCallView.isHidden = false
     }
     func getVendorIDs(request : [String : Any], completionHandler : @escaping(Bool?, Error?) -> ()){
-        self.apiCheckCallStatusResponseModel.removeAll()
-        
-        let urlString = APi.getCheckCallStatus.url
-        print("url and parameter are getVendorIDs", request , urlString)
-        AF.request(urlString, method: .post, parameters: request, encoding: JSONEncoding.default, headers: nil)
-            .validate()
-            .responseData(completionHandler: { [self] (response) in
-                SwiftLoader.hide()
-                switch(response.result){
-                    
-                case .success(_):
-                    guard let daata86 = response.data else { return }
-                    do {
-                        let jsonDecoder = JSONDecoder()
-                        self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata86)
-                        print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
-                        let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
-                        
-                        print("STRING DATA IS \(str)")
-                        let data = str.data(using: .utf8)!
-                        do {
-                            //
-                            print("DATAAA ISSS \(data)")
-                            if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
-                            {
-                                
-                                let newjson = jsonArray.first
-                                let userInfo = newjson?["UserInfo"] as? [[String:Any]]
-                                let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
-                                let userIfo = userInfo?.first
-                                let vendorId = userIfo?["UserId"] as? Int
-                                let vendorName = userIfo?["CustomerDisplayName"] as? String
-                                let vendorimg = userIfo?["CustomerImage"] as? String
-                                self.vendorID = String(vendorId ?? 0)
-                                self.vendorName = vendorName ?? ""
-                                self.vendorImg = (vendorimg ?? "")
-                                self.vendorNameLbl.text = ""// self.vendorName
-                                // let baseUrl = "https://lsp.totallanguage.com/"
-                                
-                                // print("vendorImg--------->\(vendorImg)")
-                                let vendorImgUrl = nBaseUrl + self.vendorImg
-                                //vendorImgUrl = vendorImgUrl.replacingOccurrences(of:" ", with: "%20")
-                                
-                                // print("vendorImgUrl--->\(vendorImgUrl)")
-                                // self.vendorIMG.sd_setImage(with: URL(string: vendorImgUrl), placeholderImage: UIImage(named: "person.circle.fill"))
-                                
-                                completionHandler(true , nil)
-                                
-                            } else {
-                                print("bad json")
-                            }
-                        } catch let error as NSError {
-                            print(error)
-                        }
-                        
-                    } catch{
-                        
-                        print("error block getVendorIDs Data  " ,error)
-                    }
-                case .failure(_):
-                    print("Respose Failure getVendorIDs ")
-                    
+        callManagerVM.GetVRICallVendorWithCheckCallStatus(req: request) { obj, err in
+            if obj?.UserInfo?.count != 0 && obj != nil {
+                var updatedVid = ""
+               
+                for newObj in (obj?.UserInfo)! {
+                    let new = newObj as! UserInfoModel
+                   // let vendorId = (arr as AnyObject).value(forKey: "UserId") as? Int
+                    updatedVid = updatedVid + "\(new.UserId ?? "0"),"
+                    self.vendorName = new.CustomerDisplayName
+                    self.vendorImg = new.CustomerImage ?? ""
                 }
-            })
-    }
-    func getVendorID(){
-        let userID = GetPublicData.sharedInstance.userID
-        let sourceID = self.sourceLangID ?? ""
-        let targetID = self.targetLangID ?? ""
-        let ccid = self.ccid
-        let srchString = "<Info><CUSTOMERID>\(userID)</CUSTOMERID><TYPE>O</TYPE><SOURCE>\(sourceID)</SOURCE><TARGET>\(targetID)</TARGET><CC_ID>\(ccid)</CC_ID></Info>"
-        let param = ["strSearchString" :srchString]
-        self.getVendorIDs(request: param) { (completion, error) in
-            if completion ?? false {
-                self.isNewVendor = true
-                self.createVRICallVendor()
-            }else {
-                
+                self.vendorID = String(updatedVid.dropLast())
+                print("vendorId---------------2>",self.vendorID)
+                completionHandler(true , nil)
             }
+            else {
+                self.vendorID = "0"
+                completionHandler(false , nil)
+            }
+            
         }
+      
     }
+//    func getVendorID(){
+//        let req = callManagerVM.callStatusReq(userID: GetPublicData.sharedInstance.userID, sourceID: self.sourceLangID ?? "", targetID: self.targetLangID ?? "", ccid: self.ccid)
+//
+//        self.getVendorIDs(request: req) { (completion, error) in
+//            if completion == true {
+//                self.activeCall?.disconnect()
+//
+//
+//                self.createVRICallVendor()
+//            }else {
+//
+//            }
+//        }
+//    }
     func getfeedbackDatils(){
         //new changes
         let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
@@ -529,6 +473,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     }
     
     func endVRICallOPI(){
+        print("dismiss------------------------2>")
         let roomID = self.roomID ?? ""
         let srchString = "<VRIHANGUP><ACTION>C</ACTION><ROOMID>\(roomID)</ROOMID></VRIHANGUP>"
         let param = ["strSearchString":srchString]
@@ -656,21 +601,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         let refreshAlert = UIAlertController(title: "OPI call END", message: "Are you sure you want to Discoonect?", preferredStyle: UIAlertController.Style.alert)
         // showAlert(title: "", message: "Are you sure you want to hangup this call?", style: .alert, cancelButton: "Delete", distrutiveButton: "End Call", otherButtons: nil)
         refreshAlert.addAction(UIAlertAction(title: "End Call", style: .default, handler: { (action: UIAlertAction!) in
-            //            let uuid = self.activeCall?.uuid ?? UUID()
-            //            self.performEndCallAction(uuid: uuid)
-            //          print("Handle Ok logic here")
-            //               self.endVRICallOPI()
-            //               self.opiEndCall()
-            //               self.ringToneTimer.invalidate()
-            //            self.timerDuration.invalidate()
-            //               self.isClientDisconnectCall = true
-            //            DispatchQueue.main.async {
-            //                if (self.callKitProvider != nil) {
-            //                    self.callKitProvider?.invalidate()
-            //                }
-            //                self.audioDevice.isEnabled = false
-            //
-            //            }
+            
             DispatchQueue.main.async {
                 self.callDisconnetedByVendorAndCustomerEnd()
             }
@@ -686,9 +617,11 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
     public func callDisconnetedByVendorAndCustomerEnd(){
         TwilioVoiceSDK.audioDevice.stopCapturing()
         let uuid = self.activeCall?.uuid ?? UUID()
+        print("uuid------------------>",uuid)
         self.performEndCallAction(uuid: uuid)
         DispatchQueue.main.async {
-            self.ringToneTimer.invalidate()
+            
+            self.ringToneTimer?.invalidate()
             if self.timerDuration != nil {
                 self.timerDuration!.invalidate()
                 self.timerDuration = nil
@@ -700,7 +633,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 self.callKitProvider?.invalidate()
             }
             if self.activeCall != nil && self.activeCall?.state == .connected  {
-                
+                print("self.activeCall?.state------->",self.activeCall?.state)
                 self.activeCall?.disconnect()
             }
             self.endVRICallOPI()
@@ -710,21 +643,28 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         // self.audioDevice.isEnabled = true
         
     }
-    func createVRICallVendor(){
+    func createVRICallVendor(callingCount:Int){
         print("vendorId is ",self.vendorID)
         if self.vendorID == "" || self.vendorID == "0" {
-            print("alertShow")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
+          
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                 let refreshAlert = UIAlertController(title: "Alert", message: "We couldn't find any vendors at this moment, Please try again.", preferredStyle: UIAlertController.Style.alert)
-                
+               
                 refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-                    print("Handle Ok logic here")
+                    print("Handle Ok logic here222222")
+                    
                     
                     DispatchQueue.main.async {
+                       
                         self.callDisconnetedByVendorAndCustomerEnd()
                     }
                     
                 }))
+                DispatchQueue.main.async {
+                    if self.notLifttimerDuration != nil {
+                    self.notLifttimerDuration!.invalidate()
+                        self.notLifttimerDuration = nil}
+                }
                 self.present(refreshAlert, animated: true, completion: nil)
             }
             
@@ -734,11 +674,16 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             let vendorID = self.vendorID//"218925"
             let searchStr = "<VRIVENDOR><ACTION>R</ACTION><ID>0</ID><CCID>\(ccid)</CCID><VENDORIDS>\(vendorID)</VENDORIDS></VRIVENDOR>"
             let parameter = ["strSearchString":searchStr]
+            print("CreateVRICallVendorReq-------------------->",parameter)
             self.getCreateVRICallVendor(req: parameter) { (completion, error) in
                 if completion ?? false {
-                    print("getCreateVRICallVendor ")
-                    // call get vendor id here
+                    print("getCreateVRICallVendor")
+                    if callingCount != 1 {
+                        self.connectTwilioVoice(token: self.twilioToken!)
+                    }
                     self.callOption()
+                  
+                   
                 }else {
                     print("getVRICallClient false ")
                 }
@@ -811,6 +756,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         
     }
     func callOption(){
+        print("call----------------------2>")
         // self.outgoingValue = "211683"
         let uuid = UUID()
         let handle = "Voice Call"
@@ -940,6 +886,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         }
     }
     func performStartCallAction(uuid: UUID, handle: String) {
+        print("call----------------------1>")
         guard let provider1 = callKitProvider else {
             NSLog("CallKit provider not available")
             return
@@ -1025,31 +972,10 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
         print("performVoiceCall function called")
         
         getTwillioToken { (completion, token, error) in
-          //  print("twillio token is",self.twilioToken)
-            // self.startPreview()
-            // myAudio.stop()
-            // self.timer.invalidate()
-            //self.doConnectTwilio(twilioToken: (model?.token)!)
+         
             self.twilioToken = token ?? ""
             if self.twilioToken != nil {
-                let roomId = self.roomID ?? ""
-                let vendorId = self.vendorID//self.vendorID
-                let twimlParamTo = [
-                    "vendorids" :vendorId,
-                    "roomno":roomId,
-                    "clientid":GetPublicData.sharedInstance.userID,
-                    "calltopropio":"directtoVendor"
-                ]
-               // print("param for audio call in performVoiceCall",twimlParamTo , self.twilioToken)
-                let connectOptions = ConnectOptions(accessToken: self.twilioToken ?? "") { builder in
-                    builder.params = twimlParamTo
-                    builder.uuid = uuid
-                }
-                
-                let call = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
-                
-                self.activeCall = call
-                self.activeCalls[call.uuid!.uuidString] = call
+                self.connectTwilioVoice(token: self.twilioToken!)
                 self.callKitCompletionCallback = completionHandler
                 completionHandler(true)
             }else {
@@ -1057,6 +983,26 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
                 print("call Failed kf;lklns")
             }
         }
+    }
+    public func connectTwilioVoice(token: String){
+        let roomId = self.roomID ?? ""
+        let vendorId = self.vendorID//self.vendorID
+        let twimlParamTo = [
+            "vendorids" :vendorId,
+            "roomno":roomId,
+            "clientid":GetPublicData.sharedInstance.userID,
+            "calltopropio":"directtoVendor"
+        ]
+      print("param for audio call in performVoiceCall",twimlParamTo , self.twilioToken)
+        let connectOptions = ConnectOptions(accessToken: self.twilioToken ?? "") { builder in
+            builder.params = twimlParamTo
+            builder.uuid = self.newCallUUID
+        }
+        
+        let call = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
+        
+        self.activeCall = call
+        self.activeCalls[call.uuid!.uuidString] = call
     }
     
     func performAnswerVoiceCall(uuid: UUID, completionHandler: @escaping (Bool) -> Void) {
@@ -1081,6 +1027,7 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
             incomingPushHandled()
             return
         }
+        
     }
     func incomingPushHandled() {
         guard let completion = incomingPushCompletionCallback else { return }
@@ -1133,14 +1080,13 @@ class AudioCallViewController: UIViewController, AVAudioPlayerDelegate, MICountr
 extension AudioCallViewController : CallDelegate{
     func callDidConnect(call: Call) {
         print("callDidConnect")
-        if playCustomRingback {
-            
-        }
+        
         if let callKitCompletionCallback = callKitCompletionCallback {
             
             callKitCompletionCallback(true)
             stopRingback()
         }
+        toggleAudioRoute(toSpeaker: true)
         
     }
     
@@ -1156,10 +1102,11 @@ extension AudioCallViewController : CallDelegate{
             provider.reportCall(with: call.uuid!, endedAt: Date(), reason: CXCallEndedReason.failed)
         }
         
-        callDisconnecteds(call: call)
+        callDisconnected(call: call)
     }
     
     func callDidDisconnect(call: Call, error: Error?) {
+        print("call----------------------3>")
         print("without answer call disconnect")
         if let error = error {
             NSLog("Call failed: \(error.localizedDescription)")
@@ -1167,47 +1114,45 @@ extension AudioCallViewController : CallDelegate{
             NSLog("Call disconnected")
         }
         
-        if !userInitiatedDisconnect {
-            var reason = CXCallEndedReason.remoteEnded
-            
-            if error != nil {
-                reason = .failed
+        
+        if activeCall != nil && isCallReceivedNotify == true {
+            if !userInitiatedDisconnect {
+                var reason = CXCallEndedReason.remoteEnded
+                
+                if error != nil {
+                    reason = .failed
+                }
+                
+                if let provider = callKitProvider {
+                    provider.reportCall(with: call.uuid!, endedAt: Date(), reason: reason)
+                }
             }
-            
-            if let provider = callKitProvider {
-                provider.reportCall(with: call.uuid!, endedAt: Date(), reason: reason)
-            }
+            callDisconnected(call: call)
         }
         
-        callDisconnecteds(call: call)
         
-        //        self.endVRICallOPI()
-        //        self.opiEndCall()
-        //        self.ringToneTimer.invalidate()
-        //        self.isClientDisconnectCall = true
-        
-        // let uuid = self.activeCall?.uuid ?? UUID()
-        //  self.performEndCallAction(uuid: uuid)
         
     }
     func callDidStartRinging(call: Call) {
         print("callDidStartRinging")
-        if playCustomRingback {
-            CEnumClass.share.playSounds(audioName: "incoming")
-            self.ringToneTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: { timer in
-                CEnumClass.share.playSounds(audioName: "incoming")
-            })
-            self.notLifttimerDuration = Timer.scheduledTimer(timeInterval: 18.0, target: self, selector: #selector(recallVendor), userInfo: nil, repeats: true)
-            //            DispatchQueue.main.async {
-            //                self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.ringingCallStart), userInfo: nil, repeats: true)
-            //            }
-            
-            
-        }
+//        if playCustomRingback {
+//            DispatchQueue.main.async {
+//
+//
+//                self.notLifttimerDuration = Timer.scheduledTimer(timeInterval: 18, target: self, selector: #selector(self.recallVendor(_:)), userInfo: nil, repeats: true)
+//            }
+//
+//
+//
+//        }
         
     }
+    @objc private func ringingCalls(_ time:Timer) {
+       print("ringin call----------------")
+        CEnumClass.share.playSounds(audioName: "incoming")
+    }
     
-    func callDisconnecteds(call: Call) {
+    func callDisconnected(call: Call) {
         if call == activeCall {
             activeCall = nil
         }
@@ -1219,23 +1164,23 @@ extension AudioCallViewController : CallDelegate{
         if playCustomRingback {
             stopRingback()
         }
-        self.callDisconnetedByVendorAndCustomerEnd()
+       self.callDisconnetedByVendorAndCustomerEnd() //comment on 3august22
         //stopSpin()
         // toggleUIState(isEnabled: true, showCallControl: false)
         // placeCallButton.setTitle("Call", for: .normal)
     }
-    @objc  func ringingCallStart(){
-        
-        // CEnumClass.share.playSounds(audioName: "incoming")
-        ringingTime -= 1
-        if ringingTime <= 0 {
-            myAudio!.stop()
-            timer.invalidate()
-            ringToneTimer.invalidate()
-            dismissViewControllers()
-        }
-        
-    }
+//    @objc  func ringingCallStart(){
+//        print("dismiss------------------------1>")
+//        // CEnumClass.share.playSounds(audioName: "incoming")
+//        ringingTime -= 1
+//        if ringingTime <= 0 {
+//            myAudio!.stop()
+//            timer.invalidate()
+//            ringToneTimer.invalidate()
+//            dismissViewControllers()
+//        }
+//
+//    }
 }
 //MARK: - CXProviderDelegate
 
@@ -1261,16 +1206,14 @@ extension AudioCallViewController : CXProviderDelegate {
     }
     func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
         NSLog("provider:performStartCallAction:")
-        
-        //toggleUIState(isEnabled: false, showCallControl: false)
-        //startSpin()
+        print("call----------------------4>")
         
         self.callKitProvider?.reportOutgoingCall(with: action.callUUID, startedConnectingAt: Date())
         print("provider start call run ")
-        
+        self.newCallUUID = action.callUUID
         performVoiceCall(uuid: action.callUUID, client: "") { success in
             if success {
-                NSLog("performVoiceCall() successful")
+                print("performVoiceCall() successful", "start call uuid:", action.callUUID)
                 self.callKitProvider?.reportOutgoingCall(with: action.callUUID, connectedAt: Date())
             } else {
                 NSLog("performVoiceCall() failed")
@@ -1301,7 +1244,7 @@ extension AudioCallViewController : CXProviderDelegate {
             invite.reject()
             activeCallInvites.removeValue(forKey: action.callUUID.uuidString)
         } else if let call = activeCalls[action.callUUID.uuidString] {
-            NSLog("call.disconnect() provider:performEndCallAction:")
+            print("call.disconnect() provider:performEndCallAction:",action.callUUID.uuidString)
             call.disconnect()
         } else {
             NSLog("Unknown UUID to perform end-call action with")

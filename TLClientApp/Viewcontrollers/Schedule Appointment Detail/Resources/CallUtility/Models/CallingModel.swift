@@ -182,3 +182,81 @@ class ConferenceInfoModels: NSObject {
         return item
     }
 }
+
+
+class CallStatusResultModel: NSObject {
+    var UserInfo: NSMutableArray?
+    
+    override init() {
+        UserInfo = NSMutableArray()
+        
+    }
+    class func getDetails(dicts: NSDictionary) -> CallStatusResultModel {
+        let item = CallStatusResultModel()
+        let confArr = dicts["UserInfo"] as! NSArray
+        for obj in confArr {
+            let nObject :UserInfoModel = UserInfoModel.getDetails(dicts: obj as! NSDictionary)
+            item.UserInfo?.add(nObject)
+        }
+        return item
+        
+    }
+    
+}
+class UserInfoModel: NSObject {
+    var UserId: String?
+    var username: String?
+    var CustomerDisplayName: String
+    var SLangID: String?
+    var TLangID: String?
+    var SLangName: String?
+    var TLangName: String?
+    var VendorDeviceType: String?
+    var VendorTokenID: String?
+    var VendorVOIPTokenID: String?
+    var CustDeviceType: String?
+    var CustTokenID: String?
+    var Address: String?
+    var City: String?
+    var Zipcode: String?
+    var CustomerImage: String?
+    override init() {
+        UserId = ""
+        username = ""
+        CustomerDisplayName = ""
+        SLangID = ""
+        TLangID = ""
+        SLangName = ""
+        TLangName = ""
+        VendorDeviceType = ""
+        VendorTokenID = ""
+        VendorVOIPTokenID = ""
+        CustDeviceType = ""
+        CustTokenID = ""
+        Address = ""
+        City = ""
+        Zipcode = ""
+        CustomerImage = ""
+    }
+    class func getDetails(dicts: NSDictionary) -> UserInfoModel {
+        let item = UserInfoModel()
+        item.UserId = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "UserId") ?? "") as String
+        item.username = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "username") ?? "") as String
+        item.CustomerDisplayName = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CustomerDisplayName") ?? "") as String
+        item.SLangID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "SLangID") ?? "") as String
+        item.TLangID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "TLangID") ?? "") as String
+        item.SLangName = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "SLangName") ?? "") as String
+        item.VendorDeviceType = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "VendorDeviceType") ?? "") as String
+        item.VendorTokenID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "VendorTokenID") ?? "") as String
+        item.VendorVOIPTokenID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "VendorVOIPTokenID") ?? "") as String
+        item.CustDeviceType = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CustDeviceType") ?? "") as String
+        item.CustTokenID = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CustTokenID") ?? "") as String
+        item.Address = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Address") ?? "") as String
+        item.City = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "City") ?? "") as String
+        item.Zipcode = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "Zipcode") ?? "") as String
+        item.CustomerImage = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "CustomerImage") ?? "") as String
+        item.TLangName = CEnumClass.share.parseValueFromkey(anyObj: dicts.value(forKey: "TLangName") ?? "") as String
+        
+        return item
+    }
+}

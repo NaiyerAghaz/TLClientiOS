@@ -31,7 +31,6 @@
 		049AB16E26E73E95001D5766 /* VDOCallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB16C26E73E95001D5766 /* VDOCallViewModel.swift */; };
 		049AB17226E743E3001D5766 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB17026E743E3001D5766 /* Models.swift */; };
 		049AB17326E743E3001D5766 /* CallingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AB17126E743E3001D5766 /* CallingModel.swift */; };
-		049AB17526E74D4C001D5766 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 049AB17426E74D4C001D5766 /* GoogleService-Info.plist */; };
 		04B225C226E9E40E0063129C /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B225C126E9E40E0063129C /* AppConstants.swift */; };
 		04B225C426E9E8C60063129C /* AppCommonFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B225C326E9E8C60063129C /* AppCommonFunc.swift */; };
 		04B225C626EF137F0063129C /* MembberListM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B225C526EF137F0063129C /* MembberListM.swift */; };
@@ -162,13 +161,15 @@
 		73393958286EF06100E1ABD2 /* ReplyMessageTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */; };
 		73393959286EF06100E1ABD2 /* ReplyMessageTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */; };
 		7341BD33284DD19400BA8E29 /* TLCChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7341BD32284DD19400BA8E29 /* TLCChat.storyboard */; };
-		7341BD35284DD1B200BA8E29 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD34284DD1B200BA8E29 /* ChatViewController.swift */; };
 		7341BD39284DDADD00BA8E29 /* ChatTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */; };
 		7341BD3A284DDADD00BA8E29 /* ChatTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */; };
 		7341BD3C284E03D300BA8E29 /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD3B284E03D300BA8E29 /* ChatModels.swift */; };
 		7341BD3E284E2CF000BA8E29 /* ChatUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */; };
 		73446FD3287573B6006EFA6F /* ReplyImgTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73446FD1287573B6006EFA6F /* ReplyImgTVCell.swift */; };
 		73446FD4287573B6006EFA6F /* ReplyImgTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73446FD2287573B6006EFA6F /* ReplyImgTVCell.xib */; };
+		73562F7E289A543500D14CF2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 73562F7D289A543500D14CF2 /* GoogleService-Info.plist */; };
+		73564B2428D1E421007AC14F /* QRCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73564B2328D1E421007AC14F /* QRCodeViewModel.swift */; };
+		73564B2728D1F0B5007AC14F /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73564B2628D1F0B5007AC14F /* QRCodeViewController.swift */; };
 		735BE0522876F7FD00C94358 /* ReplyAudioTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735BE0502876F7FD00C94358 /* ReplyAudioTVCell.swift */; };
 		735BE0532876F7FD00C94358 /* ReplyAudioTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 735BE0512876F7FD00C94358 /* ReplyAudioTVCell.xib */; };
 		7362A7EB281BB56000BBEFB8 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7362A7E6281BB56000BBEFB8 /* ActiveType.swift */; };
@@ -339,7 +340,6 @@
 		049AB16C26E73E95001D5766 /* VDOCallViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDOCallViewModel.swift; sourceTree = "<group>"; };
 		049AB17026E743E3001D5766 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		049AB17126E743E3001D5766 /* CallingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallingModel.swift; sourceTree = "<group>"; };
-		049AB17426E74D4C001D5766 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04B225C126E9E40E0063129C /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		04B225C326E9E8C60063129C /* AppCommonFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommonFunc.swift; sourceTree = "<group>"; };
 		04B225C526EF137F0063129C /* MembberListM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembberListM.swift; sourceTree = "<group>"; };
@@ -472,13 +472,15 @@
 		73393956286EF06100E1ABD2 /* ReplyMessageTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyMessageTVCell.swift; sourceTree = "<group>"; };
 		73393957286EF06100E1ABD2 /* ReplyMessageTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyMessageTVCell.xib; sourceTree = "<group>"; };
 		7341BD32284DD19400BA8E29 /* TLCChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TLCChat.storyboard; sourceTree = "<group>"; };
-		7341BD34284DD1B200BA8E29 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		7341BD37284DDADD00BA8E29 /* ChatTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTVCell.swift; sourceTree = "<group>"; };
 		7341BD38284DDADD00BA8E29 /* ChatTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTVCell.xib; sourceTree = "<group>"; };
 		7341BD3B284E03D300BA8E29 /* ChatModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModels.swift; sourceTree = "<group>"; };
 		7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUtils.swift; sourceTree = "<group>"; };
 		73446FD1287573B6006EFA6F /* ReplyImgTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyImgTVCell.swift; sourceTree = "<group>"; };
 		73446FD2287573B6006EFA6F /* ReplyImgTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyImgTVCell.xib; sourceTree = "<group>"; };
+		73562F7D289A543500D14CF2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		73564B2328D1E421007AC14F /* QRCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewModel.swift; sourceTree = "<group>"; };
+		73564B2628D1F0B5007AC14F /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		735BE0502876F7FD00C94358 /* ReplyAudioTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyAudioTVCell.swift; sourceTree = "<group>"; };
 		735BE0512876F7FD00C94358 /* ReplyAudioTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReplyAudioTVCell.xib; sourceTree = "<group>"; };
 		7362A7E6281BB56000BBEFB8 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
@@ -1088,7 +1090,6 @@
 			children = (
 				7341BD36284DDA2F00BA8E29 /* ChatCells */,
 				7341BD32284DD19400BA8E29 /* TLCChat.storyboard */,
-				7341BD34284DD1B200BA8E29 /* ChatViewController.swift */,
 				7341BD3B284E03D300BA8E29 /* ChatModels.swift */,
 				7338E1C428607BAE00740336 /* ChatsView.swift */,
 				7341BD3D284E2CF000BA8E29 /* ChatUtils.swift */,
@@ -1122,6 +1123,15 @@
 				0439C79A2710333200DA3D61 /* ScheduleAppointmentDetailVC.swift */,
 			);
 			path = ScheduleAppointmentDetailVC;
+			sourceTree = "<group>";
+		};
+		73564B2528D1F084007AC14F /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				73564B2328D1E421007AC14F /* QRCodeViewModel.swift */,
+				73564B2628D1F0B5007AC14F /* QRCodeViewController.swift */,
+			);
+			path = QRCode;
 			sourceTree = "<group>";
 		};
 		7362A7E5281BB53C00BBEFB8 /* ActiveLink */ = {
@@ -1374,6 +1384,7 @@
 		CE27049926BCE7BE00009E77 = {
 			isa = PBXGroup;
 			children = (
+				73562F7D289A543500D14CF2 /* GoogleService-Info.plist */,
 				CE2704A426BCE7BE00009E77 /* TLClientApp */,
 				CE2704BE26BCE7C100009E77 /* TLClientAppTests */,
 				CE2704C926BCE7C100009E77 /* TLClientAppUITests */,
@@ -1401,7 +1412,6 @@
 				29B3C752274CF23F006345E0 /* Audio */,
 				29B3C74C274CD605006345E0 /* image */,
 				046334DB27280BC30079CFCB /* API */,
-				049AB17426E74D4C001D5766 /* GoogleService-Info.plist */,
 				CE04F7CA26CE10650028B991 /* TLClientApp.entitlements */,
 				73BAF2E127DF759500AAF30C /* OpenSans-Bold.ttf */,
 				73BAF2E527DF75B600AAF30C /* OpenSans-Medium.ttf */,
@@ -1482,6 +1492,7 @@
 		CE3FE08926C90196000BD19F /* HomeViewController */ = {
 			isa = PBXGroup;
 			children = (
+				73564B2528D1F084007AC14F /* QRCode */,
 				CE3FE08726C8FF30000BD19F /* CalenderVCell.xib */,
 				CE3FE08526C80A6F000BD19F /* HomeViewController.swift */,
 				04CBAD83271D4A7200055797 /* AddVenuDetailViewController.swift */,
@@ -1775,12 +1786,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73562F7E289A543500D14CF2 /* GoogleService-Info.plist in Resources */,
 				73ACC5DA2806A9AC00128217 /* SchedulingAppointments.storyboard in Resources */,
 				29D1D2F1275F89F000573E58 /* assets.bundle in Resources */,
 				73393959286EF06100E1ABD2 /* ReplyMessageTVCell.xib in Resources */,
 				29D1D2F3275F89F000573E58 /* CallingCodes.plist in Resources */,
 				29F8D006274E7D2D006243EC /* MoreCell.xib in Resources */,
-				049AB17526E74D4C001D5766 /* GoogleService-Info.plist in Resources */,
 				CE2704DC26BCEDA300009E77 /* Auth.storyboard in Resources */,
 				73ACC5D42805538700128217 /* OpenSans-Bold.ttf in Resources */,
 				04BDA09F27450EF700A40B84 /* Home.storyboard in Resources */,
@@ -1972,6 +1983,7 @@
 				29F8CFF2274E7831006243EC /* TotalParticipantVC.swift in Sources */,
 				046334E92728186C0079CFCB /* ApiGetGroupDataModel.swift in Sources */,
 				04C17E62273154A800297528 /* AuthenticationCodeDataModel.swift in Sources */,
+				73564B2728D1F0B5007AC14F /* QRCodeViewController.swift in Sources */,
 				739BD3F6287EF7720062B61D /* ScheduleVModel.swift in Sources */,
 				737511FD282A371200619EA7 /* RecurrenceCalendarView.swift in Sources */,
 				048AE80626DF434A00FB9309 /* OnDemandOPIVM.swift in Sources */,
@@ -2083,7 +2095,6 @@
 				049AB16D26E73E95001D5766 /* CallManager.swift in Sources */,
 				04C91A4A27352CD90029FE90 /* ApiAddProviderDataresponse.swift in Sources */,
 				04B225CC26F477730063129C /* TLTimer.swift in Sources */,
-				7341BD35284DD1B200BA8E29 /* ChatViewController.swift in Sources */,
 				73ACC5DC2806D29900128217 /* EditUpdateAnDeleteVC.swift in Sources */,
 				CE951DB826C6385700EC1BCA /* ForgotViewModel.swift in Sources */,
 				7362A7EE281BB56000BBEFB8 /* ActiveBuilder.swift in Sources */,
@@ -2216,6 +2227,7 @@
 				73751203282B7CF200619EA7 /* EditRecurrenceStatusVC.swift in Sources */,
 				C4FF3C0B2754A75400C27D44 /* ApiNotificationResponseModel.swift in Sources */,
 				04C997DB272C09270039FBBA /* TelephoneConfrenceServiceViewController.swift in Sources */,
+				73564B2428D1E421007AC14F /* QRCodeViewModel.swift in Sources */,
 				C6EAE8D927D21CF2009F7261 /* BlockedAppointmentDetailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2396,6 +2408,7 @@
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6Z22496273;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2405,10 +2418,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.83;
-				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
+				MARKETING_VERSION = 2.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
+				PROVISIONING_PROFILE_SPECIFIER = ClientDev2Aug22;
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2424,6 +2437,7 @@
 				CODE_SIGN_ENTITLEMENTS = TLClientApp/TLClientApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6Z22496273;
 				INFOPLIST_FILE = TLClientApp/Info.plist;
@@ -2432,10 +2446,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.83;
-				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client.dev;
+				MARKETING_VERSION = 2.8;
+				PRODUCT_BUNDLE_IDENTIFIER = com.TotalLanguage.Client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = TLCDev05;
+				PROVISIONING_PROFILE_SPECIFIER = ClientDev2Aug22;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_VERSION = 5.0;

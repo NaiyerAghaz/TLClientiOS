@@ -465,8 +465,8 @@ extension VideoCallViewController:VideoViewDelegate {
                 print("first index local")
                 moreArr[2] = "Unpin video"
                 moreDropDown.dataSource = moreArr
-                self.localAudioTrack = LocalAudioTrack()
-                self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
+               // self.localAudioTrack = LocalAudioTrack()
+               // self.localVideoTrack = LocalVideoTrack(source: camera!, enabled: true, name: "Camera")
                 self.isSwitchToRemote = true
                 self.pinVideoArr = [pinModels(isRemotePin: false, isLocalPin: true, lp: localParticipant, rp: remoteParticipant)]
                 self.vdoCollectionView.isHidden = true

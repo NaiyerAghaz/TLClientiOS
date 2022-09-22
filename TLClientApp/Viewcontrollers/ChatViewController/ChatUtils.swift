@@ -87,56 +87,17 @@ class chatDetails: NSObject {
     func getUploadedFileExtension(file:String) -> Int {
         
         switch file {
-        case "jpg":
+        case "jpg","gif","jpeg","png":
             return 1
-        case "png":
-            return 1
-        case "jpeg":
-            return 1
-        case "gif":
-            return 1
-        case "MOV":
+        
+        case "MOV","mov","mp4","3gp","flv","avi","wmv":
             return 2
-        case "mov":
-            return 2
-        case "mp4":
-            return 2
-        case "3gp":
-            return 2
-        case "flv":
-            return 2
-        case "avi":
-            return 2
-        case "wmv":
-            return 2
-        case "mp3":
+        
+        case "mp3","wav","aac","amr","ogg","m4a":
             return 3
-        case "wav":
-            return 3
-        case "aac":
-            return 3
-        case "amr":
-            return 3
-        case "ogg":
-            return 3
-        case "doc":
+        case "doc","docx","pdf","xls","xlsx","ppt","pptx","txt","zip":
            return 4
-        case "docx":
-            return 4
-        case "pdf":
-            return 4
-        case "xls":
-            return 4
-        case "xlsx":
-            return 4
-        case "ppt":
-            return 4
-        case "pptx":
-            return 4
-        case "txt":
-            return 4
-        case "zip":
-            return 4
+        
         default:
             return 0
         }

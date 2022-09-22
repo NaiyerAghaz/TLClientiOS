@@ -115,7 +115,7 @@ class BlockedAppointmentDetailVC: UIViewController {
                             let jsonDecoder = JSONDecoder()
                             self.apiCancelRequestResponseModel = try jsonDecoder.decode(ApiCancelRequestResponseModel.self, from: daata4)
                             let status = self.apiCancelRequestResponseModel?.cancelledData?.first?.success ?? 0
-                            print(self.apiCancelRequestResponseModel?.cancelledData)
+                           // print(self.apiCancelRequestResponseModel?.cancelledData)
                             if status == 1 {
                                 print("Success")
                                 self.navigationController?.popViewController(animated: true)

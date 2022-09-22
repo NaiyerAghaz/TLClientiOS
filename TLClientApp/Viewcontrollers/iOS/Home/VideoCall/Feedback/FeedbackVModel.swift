@@ -34,7 +34,7 @@ class FeedbackVModel {
     }
     func getFeedbackDetails(parameter:[String:Any], completionHandler:@escaping(APIGetfeedbackDetail?, Error?) ->()){
         WebServices.postJson(url: APi.getFeedbackDetails.url, jsonObject: parameter) { response, err in
-            print("getFeedbackDetails----------->",response)
+           
             
             guard let daata6 = cEnum.instance.jsonToData(json: response) else { return }
             do {

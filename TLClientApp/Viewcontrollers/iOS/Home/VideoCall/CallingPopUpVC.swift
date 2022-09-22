@@ -87,7 +87,7 @@ func configureUI(){
             if self.calltype == "VRI" {
                 
                 if roomId != nil {
-                    
+                    SwiftLoader.show(animated: true)
                    self.getCallPriorityVideoWithCompletion()
                     self.addAppCall()
                     }
@@ -97,7 +97,7 @@ func configureUI(){
             }else if self.calltype == "OPI" {
                 
                 if roomId != nil {
-                    
+                    SwiftLoader.show(animated: true)
                     let req = callManagerVM.normalCallClientReq( ccid: "0", clientID: GetPublicData.sharedInstance.userID, roomID: self.roomId ?? "", sourceId: self.sourceID ?? "", targetID: self.targetID ?? "")
                     print("getVRICallClientreq------->",req)
                     getVRICallClient(req: req)
@@ -185,79 +185,108 @@ func configureUI(){
         print("acceptCallPara:",parameter)
         self.postOPIAcceptCallWithCompletion(req: parameter) { (completion, error) in
             if completion ?? false {
-                SwiftLoader.hide()
+               // SwiftLoader.hide()
                 print("postOPIAcceptCall true ")
                 
             }else {
-                SwiftLoader.hide()
+               // SwiftLoader.hide()
                 print("postOPIAcceptCall false ")
             }
         }
     }
     func getVendorIDs(){
-        self.apiCheckCallStatusResponseModel.removeAll()
-        let userID = GetPublicData.sharedInstance.userID
-        let sourceID = self.sourceID ?? ""
-        let targetID = self.targetID ?? ""
-        let ccid = self.ccid
-        let srchString = "<Info><CUSTOMERID>\(userID)</CUSTOMERID><TYPE>O</TYPE><SOURCE>\(sourceID)</SOURCE><TARGET>\(targetID)</TARGET><CC_ID>\(ccid)</CC_ID></Info>"
-        let param = ["strSearchString" :srchString]
-        let urlString = APi.getCheckCallStatus.url
-        print("url and parameter are getVendorIDs", param , urlString)
-        AF.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: nil)
-            .validate()
-            .responseData(completionHandler: { (response) in
-                SwiftLoader.hide()
-                switch(response.result){
-                
-                case .success(_):
-                    guard let daata7 = response.data else { return }
-                    do {
-                        let jsonDecoder = JSONDecoder()
-                        self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata7)
-                        print("Success getVendorIDs Model ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
-                        let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
-                        
-                        print("STRING DATA IS \(str)")
-                        let data = str.data(using: .utf8)!
-                        do {
-                            //
-                            print("DATAAA ISSS \(data)")
-                            if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
-                            {
-                                
-                                let newjson = jsonArray.first
-                                let userInfo = newjson?["UserInfo"] as? [[String:Any]]
-                                let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
-                                let userIfo = userInfo?.first
-                                let vendorId = userIfo?["UserId"] as? Int
-                                let vendorName = userIfo?["CustomerDisplayName"] as? String
-                                let vendorimg = userIfo?["CustomerImage"] as? String
-                                self.vendorID = String(vendorId ?? 0)
-                                self.vendorName = vendorName ?? ""
-                                self.vendorImgUrl = vendorimg ?? ""
-                                print("vendor ID ", vendorId , userIfo ,vendorimg  )
-                            } else {
-                                print("bad json")
-                            }
-                        } catch let error as NSError {
-                            print(error)
-                        }
-                        DispatchQueue.main.async {
-                            self.twilioVoiceView()
-                        }
-                      
-                        
-                        
-                    } catch{
-                        
-                        print("error block getVendorIDs Data  " ,error)
-                    }
-                case .failure(_):
-                    print("Respose Failure getVendorIDs ")
-                    
+
+        let parameter = callManagerVM.callStatusReq(userID: GetPublicData.sharedInstance.userID, sourceID: self.sourceID ?? "", targetID: self.targetID ?? "", ccid: self.ccid)
+        
+        callManagerVM.GetVRICallVendorWithCheckCallStatus(req: parameter) { obj, err in
+            if obj?.UserInfo?.count != 0 && obj != nil {
+                var updatedVid = ""
+               
+                for newObj in (obj?.UserInfo)! {
+                    let new = newObj as! UserInfoModel
+                   // let vendorId = (arr as AnyObject).value(forKey: "UserId") as? Int
+                    updatedVid = updatedVid + "\(new.UserId ?? "0"),"
+                    self.vendorName = new.CustomerDisplayName
+                    self.vendorImgUrl = new.CustomerImage ?? ""
                 }
-            })
+                self.vendorID = String(updatedVid.dropLast())
+                print("vendorId---------------1>",self.vendorID)
+            }
+            else {
+                self.vendorID = "0"
+            }
+            DispatchQueue.main.async {
+                SwiftLoader.hide()
+                                        self.twilioVoiceView()
+                                    }
+        }
+        
+//        let srchString = "<Info><CUSTOMERID>\(userID)</CUSTOMERID><TYPE>O</TYPE><SOURCE>\(sourceID)</SOURCE><TARGET>\(targetID)</TARGET><CC_ID>\(ccid)</CC_ID></Info>"
+//        let param = ["strSearchString" :srchString]
+//        let urlString = APi.getCheckCallStatus.url
+//        print("url and parameter are getVendorIDs22", param , urlString)
+//        AF.request(urlString, method: .post, parameters: param, encoding: JSONEncoding.default, headers: nil)
+//            .validate()
+//            .responseData(completionHandler: { (response) in
+//                SwiftLoader.hide()
+//                switch(response.result){
+//
+//                case .success(_):
+//                    guard let daata7 = response.data else { return }
+//                    do {
+//                      let jsonDecoder = JSONDecoder()
+//                       self.apiCheckCallStatusResponseModel = try jsonDecoder.decode([ApiCheckCallStatusResponseModel].self, from: daata7)
+//                      print("Success getVendorIDs Model3333 ",self.apiCheckCallStatusResponseModel.first?.result ?? "")
+//                      let str = self.apiCheckCallStatusResponseModel.first?.result ?? ""
+//
+//                        print("STRING DATA IS \(str)")
+//                        let data = str.data(using: .utf8)!
+//                        do {
+//                            //
+//                            print("DATAAA ISSS \(data)")
+//                            if let jsonArray = try JSONSerialization.jsonObject(with: data, options : .allowFragments) as? [Dictionary<String,Any>]
+//                            {
+//
+//                                let newjson = jsonArray.first
+//                                let fulluserInfo = newjson?["UserInfo"] as? NSArray//[[String:Any]]
+//                                let statusInfo = newjson?["StatusInfo"] as? [[String:Any]] // use the json here
+//                                let userIfo = fulluserInfo?.first
+//                                var updatedVid = ""
+//                                print("fulluserInfo----->",fulluserInfo?.count)
+//                                for index in 0...fulluserInfo!.count {
+//                                    let arr = fulluserInfo![index]
+//                                    let vendorId = (arr as AnyObject).value(forKey: "UserId") as? Int
+//                                    updatedVid = updatedVid + "\(vendorId ?? 0),"
+//                                }
+//                                self.vendorID = String(updatedVid.dropLast())
+//
+//                                let vendorName = (userIfo as AnyObject).value(forKey: "CustomerDisplayName") as? String
+//                                let vendorimg = (userIfo as AnyObject).value(forKey: "CustomerImage") as? String
+//                              //  self.vendorID = String(vendorId ?? 0)
+//                                self.vendorName = vendorName ?? ""
+//                                self.vendorImgUrl = vendorimg ?? ""
+//                                print("vendor ID ", self.vendorID , userIfo ,vendorimg,updatedVid,"fulluserInfo:",fulluserInfo)
+//                            } else {
+//                                print("bad json")
+//                            }
+//                        } catch let error as NSError {
+//                            print(error)
+//                        }
+//                        DispatchQueue.main.async {
+//                            self.twilioVoiceView()
+//                        }
+//
+//
+//
+//                    } catch{
+//
+//                        print("error block getVendorIDs Data  " ,error)
+//                    }
+//                case .failure(_):
+//                    print("Respose Failure getVendorIDs ")
+//
+//                }
+//            })
     }
     func twilioVoiceView(){
         if (self.isToThirdPartyCall) {
@@ -265,7 +294,7 @@ func configureUI(){
         }else {
             let sB = UIStoryboard(name: Storyboard_name.home, bundle: nil)
             let odoCall = sB.instantiateViewController(identifier: "AudioCallViewController") as! AudioCallViewController
-         //   print("allPara--->",roomId, "sourceID:",sourceID, "targetID:",targetID, "ccid:",ccid,"sourceName::",sourceName,"targetName:",targetName,"vendorID:",vendorID,"vendorName:",vendorName,"vendorImgUrl:",vendorImgUrl)
+        print("allPara--->",roomId, "sourceID:",sourceID, "targetID:",targetID, "ccid:",ccid,"sourceName::",sourceName,"targetName:",targetName,"vendorID:",vendorID,"vendorName:",vendorName,"vendorImgUrl:",vendorImgUrl)
             odoCall.roomID = roomId
             odoCall.sourceLangID = sourceID
             odoCall.targetLangID = targetID

@@ -707,11 +707,7 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
                 self.showAlertwithmessage(message: "Please Select any Department.")
             }
         }
-        
-        
-        
-        
-    }
+   }
     //MARK:  UPDATE Department and contact ONETIME
     
     @IBAction func actionEditDepartment(_ sender: UIButton) {
@@ -816,11 +812,7 @@ class OnsiteRegularAppointmentVC: UIViewController ,UITextFieldDelegate, UpdateO
                 self.showAlertwithmessage(message: "Please Select any Department.")
             }
         }
-        
-        
-        
-        //}
-        
+    
     }
     
     //MARK: ADD DEPARTMENT
@@ -1072,7 +1064,7 @@ extension OnsiteRegularAppointmentVC{
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
-            print("url and parameter are for department ", urlString, parameter)
+           // print("url and parameter are for department ", urlString, parameter)
             AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -1216,7 +1208,7 @@ extension OnsiteRegularAppointmentVC{
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
-            print("url and parameter for subcutomer Detail are ", urlString, parameter)
+          //  print("url and parameter for subcutomer Detail are ", urlString, parameter)
             AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -1320,7 +1312,7 @@ extension OnsiteRegularAppointmentVC{
                     switch(response.result){
                         
                     case .success(_):
-                        print("Respose Success getCustomerDetail ")
+                       // print("Respose Success getCustomerDetail ")
                         guard let daata = response.data else { return }
                         do {
                             let jsonDecoder = JSONDecoder()
@@ -1411,7 +1403,7 @@ extension OnsiteRegularAppointmentVC{
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
-            print("url and parameter for venue ", urlString, parameter)
+           // print("url and parameter for venue ", urlString, parameter)
             AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -1518,7 +1510,7 @@ extension OnsiteRegularAppointmentVC{
             let parameter = [
                 "strSearchString" : searchString
             ] as [String : String]
-            print("url and parameter getCommonDetail ", urlString, parameter)
+          //  print("url and parameter getCommonDetail ", urlString, parameter)
             AF.request(urlString, method: .post , parameters: parameter, encoding: JSONEncoding.default, headers: nil)
                 .validate()
                 .responseData(completionHandler: { [self] (response) in
@@ -1542,7 +1534,7 @@ extension OnsiteRegularAppointmentVC{
                                     
                                     let newjson = jsonArray.first
                                     let getAuthCode = newjson?["GetAuthCode"] as? [[String:Any]]
-                                    print("Auth code is \(getAuthCode)")
+                                    //print("Auth code is \(getAuthCode)")
                                     let SpecialityList = newjson?["SpecialityList"] as? [[String:Any]]// use the json here ServiceTypeList
                                     let serviceTypeList = newjson?["ServiceTypeList"] as? [[String:Any]]
                                     let languageList = newjson?["LanguageList"] as? [[String:Any]]
@@ -1557,7 +1549,7 @@ extension OnsiteRegularAppointmentVC{
                                     let authcode = getAuthCodeDetail?["authcode"] as? String
                                     let appointmentid = getAuthCodeDetail?["appointmentid"] as? String
                                     
-                                    print("get AuthCode Detail Info ", SpecialityList,serviceTypeList ,languageList,AppointmentStatus , stateList , vendorRanking , travelMiles, companyData)
+                                   // print("get AuthCode Detail Info ", SpecialityList,serviceTypeList ,languageList,AppointmentStatus , stateList , vendorRanking , travelMiles, companyData)
                                     
                                     
                                     

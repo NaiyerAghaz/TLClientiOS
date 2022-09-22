@@ -78,6 +78,7 @@ enum APi{
     case getCompanydetails
     case participantRule
     case acceptMember
+    case getqrcode
     
     var url: URL{
         switch self {
@@ -203,6 +204,8 @@ enum APi{
             return URL(string: chatURL + "/ParticipantRule")!
         case .acceptMember:
             return URL(string: nBaseUrl + "/Appointment/AcceptMember")!
+        case .getqrcode:
+            return URL(string: baseUrl + "/getqrcode")!
             
         }
     }

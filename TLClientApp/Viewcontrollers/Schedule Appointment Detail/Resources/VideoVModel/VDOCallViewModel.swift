@@ -129,7 +129,7 @@ class VDOCallViewModel {
     func addParticipantReqApi(Lsid:String,roomID: String) -> [String: Any]{
         
         let req: [String: Any] = ["strSearchString":"<Info><ID>0</ID><ACTUALROOM>\(roomID)</ACTUALROOM><ROOMSID></ROOMSID><INCALL>1</INCALL><SEARCH></SEARCH><PAGEINDEX>0</PAGEINDEX><PAGESIZE>10</PAGESIZE><EXCLUDEPARTSID>\(Lsid)</EXCLUDEPARTSID></Info>"]
-        
+        print("getParticipantList2Req-------------------->",req)
         return req
     }
     func getParticipantList2(lid: String, roomID: String,partSID: String, isfromHostcontrol:Bool, completionHandler:@escaping(Bool?, Error?) -> ()){
@@ -170,9 +170,7 @@ class VDOCallViewModel {
                                         self.participantRuleMethod(participantsArr: self.conferrenceDetail.CONFERENCEInfo!, lid: lid, roomID: roomID, participantSID: partSID)
                                     }
                                 }
-                              
-                             
-                                completionHandler(true, nil)
+                              completionHandler(true, nil)
                             }
                             else {
                                 print("err particiapnt rule:")

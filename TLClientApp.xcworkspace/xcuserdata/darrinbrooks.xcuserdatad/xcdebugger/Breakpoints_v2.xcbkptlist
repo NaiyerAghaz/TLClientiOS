@@ -266,8 +266,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1099"
-            endingLineNumber = "1099"
+            startingLineNumber = "1046"
+            endingLineNumber = "1046"
             landmarkName = "performEndCallAction(uuid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,8 +282,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "935"
-            endingLineNumber = "935"
+            startingLineNumber = "881"
+            endingLineNumber = "881"
             landmarkName = "provider(_:perform:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,8 +298,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "938"
-            endingLineNumber = "938"
+            startingLineNumber = "884"
+            endingLineNumber = "884"
             landmarkName = "provider(_:perform:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,8 +314,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1097"
-            endingLineNumber = "1097"
+            startingLineNumber = "1044"
+            endingLineNumber = "1044"
             landmarkName = "performEndCallAction(uuid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,8 +330,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1096"
-            endingLineNumber = "1096"
+            startingLineNumber = "1043"
+            endingLineNumber = "1043"
             landmarkName = "performEndCallAction(uuid:)"
             landmarkType = "7">
             <Locations>
@@ -378,8 +378,8 @@
             filePath = "TLClientApp/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "userNotificationCenter(_:willPresent:withCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -403,22 +403,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C624F6ED-A8D5-4572-8F0A-3D2336E83717"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "onTimerStart()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "70A6A749-3A52-46A2-8BDC-91ECCEBD4D29"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -426,24 +410,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
-            landmarkName = "onTimerStart()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "3998D399-8A66-44B6-93B1-F79DB399D04A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "onTimerStart()"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,8 +506,8 @@
             filePath = "TLClientApp/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
             landmarkName = "handleNotification(userInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -548,6 +516,38 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "93AE43A8-98B0-4A22-99B9-1A5F65303AB9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "handleNotification(userInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0BF9656F-564E-495C-9ED3-4C756E360AA8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "handleNotification(userInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4A105BF0-A238-4FC2-9531-E89E573DD3C9"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -563,38 +563,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0BF9656F-564E-495C-9ED3-4C756E360AA8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "handleNotification(userInfo:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4A105BF0-A238-4FC2-9531-E89E573DD3C9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "294"
-            endingLineNumber = "294"
-            landmarkName = "handleNotification(userInfo:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "06504EBA-6A6C-4A0B-97AA-15938AF15D47"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -602,8 +570,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/Onsite Interpreation  new/OnsiteRegularAppointmentVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "770"
-            endingLineNumber = "770"
+            startingLineNumber = "766"
+            endingLineNumber = "766"
             landmarkName = "actionEditDepartment(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -698,8 +666,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
             landmarkName = "action()"
             landmarkType = "7">
          </BreakpointContent>
@@ -714,8 +682,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
             landmarkName = "action()"
             landmarkType = "7">
          </BreakpointContent>
@@ -730,8 +698,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "354"
-            endingLineNumber = "354"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
             landmarkName = "btnSideMenu(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1018,8 +986,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1033"
-            endingLineNumber = "1033"
+            startingLineNumber = "1058"
+            endingLineNumber = "1058"
             landmarkName = "calendarCurrentPageDidChange(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1034,8 +1002,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1110"
-            endingLineNumber = "1110"
+            startingLineNumber = "1135"
+            endingLineNumber = "1135"
             landmarkName = "calendar(_:appearance:eventDefaultColorsFor:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1354,8 +1322,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "732"
-            endingLineNumber = "732"
+            startingLineNumber = "742"
+            endingLineNumber = "742"
             landmarkName = "refresh(isaccept:pid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1370,8 +1338,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "730"
-            endingLineNumber = "730"
+            startingLineNumber = "740"
+            endingLineNumber = "740"
             landmarkName = "refresh(isaccept:pid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1386,8 +1354,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "781"
-            endingLineNumber = "781"
+            startingLineNumber = "791"
+            endingLineNumber = "791"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1402,8 +1370,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "780"
-            endingLineNumber = "780"
+            startingLineNumber = "790"
+            endingLineNumber = "790"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1498,8 +1466,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "750"
-            endingLineNumber = "750"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
             landmarkName = "getHostControl(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1514,8 +1482,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "753"
-            endingLineNumber = "753"
+            startingLineNumber = "763"
+            endingLineNumber = "763"
             landmarkName = "getHostControl(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1546,9 +1514,9 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1163"
-            endingLineNumber = "1163"
-            landmarkName = "flipCamera()"
+            startingLineNumber = "1197"
+            endingLineNumber = "1197"
+            landmarkName = "fullFlashViewChangesMethod(isFlip:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1562,8 +1530,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1219"
-            endingLineNumber = "1219"
+            startingLineNumber = "1258"
+            endingLineNumber = "1258"
             landmarkName = "fullFlashViewChangesMethod(isFlip:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1578,8 +1546,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "777"
-            endingLineNumber = "777"
+            startingLineNumber = "787"
+            endingLineNumber = "787"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1594,8 +1562,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "778"
-            endingLineNumber = "778"
+            startingLineNumber = "788"
+            endingLineNumber = "788"
             landmarkName = "btnMicTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1661,22 +1629,6 @@
             startingLineNumber = "236"
             endingLineNumber = "236"
             landmarkName = "participantDidDisconnect(room:participant:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C8CF0E14-AC17-4BDA-A096-32C43C8633C4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/ChatViewController/ChatModels.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "496"
-            endingLineNumber = "496"
-            landmarkName = "chatClient(_:channel:messageAdded:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1788,7 +1740,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "371"
                   endingLineNumber = "371"
-                  offsetFromSymbolStart = "22896">
+                  offsetFromSymbolStart = "21624">
                </Location>
                <Location
                   uuid = "23175AC6-AA1B-491D-B5EC-F40877DB346C - 9fba42fcf3b056ca"
@@ -1803,7 +1755,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "371"
                   endingLineNumber = "371"
-                  offsetFromSymbolStart = "22944">
+                  offsetFromSymbolStart = "21672">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1836,7 +1788,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "380"
                   endingLineNumber = "380"
-                  offsetFromSymbolStart = "24340">
+                  offsetFromSymbolStart = "23068">
                </Location>
                <Location
                   uuid = "1DA41EFA-DC56-40F6-B94F-C2FDACADCE17 - 9fba42fcf3b05523"
@@ -1851,7 +1803,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "380"
                   endingLineNumber = "380"
-                  offsetFromSymbolStart = "24388">
+                  offsetFromSymbolStart = "23116">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1907,54 +1859,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F2A9E16C-7EC1-4332-BF75-FCACAB7FC5DF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "recallVendor()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C6792FF2-B8F5-4D0D-896F-A16E3F031A1C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "722"
-            endingLineNumber = "722"
-            landmarkName = "createVRICallVendor()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2544BE76-41BE-4312-AB22-56072C9925EA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "721"
-            endingLineNumber = "721"
-            landmarkName = "createVRICallVendor()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "07EE4797-3C89-46E7-A237-3E968F39366E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1978,8 +1882,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "464"
-            endingLineNumber = "464"
+            startingLineNumber = "474"
+            endingLineNumber = "474"
             landmarkName = "setupChooseDropDown()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1994,8 +1898,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "480"
-            endingLineNumber = "480"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "setupChooseDropDown()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2010,8 +1914,8 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
+            startingLineNumber = "489"
+            endingLineNumber = "489"
             landmarkName = "setupChooseDropDown()"
             landmarkType = "7">
          </BreakpointContent>
@@ -2026,9 +1930,201 @@
             filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "481"
-            endingLineNumber = "481"
+            startingLineNumber = "491"
+            endingLineNumber = "491"
             landmarkName = "setupChooseDropDown()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "739CA047-BD85-4228-B710-782A8F5D5E63"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1339"
+            endingLineNumber = "1339"
+            landmarkName = "fullFlashViewChangesMethod(isFlip:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "56681971-C7AF-4310-A942-3DDB8A5209AF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1340"
+            endingLineNumber = "1340"
+            landmarkName = "fullFlashViewChangesMethod(isFlip:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "51FC28D2-1020-4937-94C9-32E4674F6F44"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1241"
+            endingLineNumber = "1241"
+            landmarkName = "fullFlashViewChangesMethod(isFlip:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9E0AD541-28EE-46E7-866E-10FA0E562DDC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VideoCall/VideoCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1245"
+            endingLineNumber = "1245"
+            landmarkName = "fullFlashViewChangesMethod(isFlip:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "505A34C8-0015-4D5D-9FD7-46B5F8B24112"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1094"
+            endingLineNumber = "1094"
+            landmarkName = "callDidFailToConnect(call:error:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BD359CBB-C43E-447E-AD5E-71068E5D82CD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1097"
+            endingLineNumber = "1097"
+            landmarkName = "callDidFailToConnect(call:error:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BD359CBB-C43E-447E-AD5E-71068E5D82CD - 255ab433017913e9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TLClientApp.AudioCallViewController.callDidFailToConnect(call: __C.TVOCall, error: Swift.Error) -&gt; ()"
+                  moduleName = "TLClientApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/darrinbrooks/Desktop/Naiyer/TLClientiOS/TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1097"
+                  endingLineNumber = "1097"
+                  offsetFromSymbolStart = "1400">
+               </Location>
+               <Location
+                  uuid = "BD359CBB-C43E-447E-AD5E-71068E5D82CD - 255ab433017913e9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TLClientApp.AudioCallViewController.callDidFailToConnect(call: __C.TVOCall, error: Swift.Error) -&gt; ()"
+                  moduleName = "TLClientApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/darrinbrooks/Desktop/Naiyer/TLClientiOS/TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1097"
+                  endingLineNumber = "1097"
+                  offsetFromSymbolStart = "1472">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2305404B-8395-4768-8DA6-1F70036E1A16"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1137"
+            endingLineNumber = "1137"
+            landmarkName = "callDidStartRinging(call:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CBE9B3C1-68CE-415B-B67C-802913925BEF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/VRIOPIViewController/OnDemandOPIViewController/AudioCallViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "recallVendor(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CFEF401F-1FB4-4AD3-B7A5-9F4F1D9E25F3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "btnGetQRCodeTapped(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B22D3ADA-B55F-47D8-A2B0-F90F63C39641"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TLClientApp/Viewcontrollers/iOS/Home/HomeViewController/HomeViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "btnGetQRCodeTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

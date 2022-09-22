@@ -32,9 +32,7 @@ class ForgotUser: NSObject {
         
         return item
     }
-    
-    
-}
+ }
 class ErrorModel: NSObject {
     var Status: String?
     var Message: String?

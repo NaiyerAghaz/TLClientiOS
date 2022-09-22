@@ -97,6 +97,7 @@ class LoginVC: UIViewController {
                                 userDefaults.set(self.passwordTF.text!, forKey: "password" )
                                 userDefaults.set(item.UserID, forKey: .kUSER_ID)
                                 userDefaults.set(item.companyName, forKey: "companyName")
+                                userDefaults.set(item.companyLogo, forKey: "CompanyLogo")
                                 userDefaults.set(item.userTypeID, forKey: "userTypeID")
                                 userDefaults.set(item.customerID, forKey: "CustomerID")
                                 userDefaults.set(item.timeZone, forKey: "TimeZone")

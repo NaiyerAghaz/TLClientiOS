@@ -24,6 +24,7 @@ struct Control_Name {
     static let imgPopup = "ImagePopupViewController"
     static let vdoCall = "VideoCallViewController"
     static let audioCall = "AudioCallViewController"
+    static let qrVC = "QRCodeViewController"
 }
 struct nibNamed {
     static let calendarTVCell = "CalenderVCell"
